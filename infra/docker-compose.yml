@@ -45,7 +45,28 @@ services:
       retries: 10
       start_period: 120s
 
+  nominatim:
+    image: mediagis/nominatim:4.4
+    container_name: masariya-nominatim
+    environment:
+      PBF_URL: https://download.geofabrik.de/asia/sri-lanka-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/asia/sri-lanka-updates/
+      NOMINATIM_PASSWORD: masariya
+      IMPORT_STYLE: full
+    ports:
+      - "8080:8080"
+    volumes:
+      - nominatim_data:/var/lib/postgresql/14/main
+    shm_size: 1g
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 600s
+
 volumes:
   pgdata:
   redisdata:
   valhalla_tiles:
+  nominatim_data:

@@ -2,10 +2,18 @@
 
 # Infrastructure
 infra-up:
+	docker compose -f infra/docker-compose.yml up -d postgres redis
+
+infra-up-all:
 	docker compose -f infra/docker-compose.yml up -d
 
 infra-down:
 	docker compose -f infra/docker-compose.yml down
+
+# Self-hosted Nominatim (first run downloads ~120MB Sri Lanka data, takes ~5-10 min)
+nominatim-up:
+	docker compose -f infra/docker-compose.yml up -d nominatim
+	@echo "Nominatim importing Sri Lanka data... Check: curl http://localhost:8080/status"
 
 # Backend
 backend-dev:
@@ -26,9 +34,9 @@ migrate-down:
 	cd backend && go run -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest \
 		-path migrations -database "$${DATABASE_URL}" down 1
 
-# Bootstrap route data
+# Bootstrap route data (uses self-hosted Nominatim at localhost:8080 — no rate limit)
 bootstrap:
-	cd backend && go run ./cmd/bootstrap -data ../data/routes.json -db "$${DATABASE_URL}"
+	cd backend && go run ./cmd/bootstrap -data ../data/routes.json -db "$${DATABASE_URL}" -nominatim http://localhost:8080
 
 # GPS Simulator — mimics real devices pushing GPS data
 simulate:
