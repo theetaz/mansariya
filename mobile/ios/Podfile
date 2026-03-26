@@ -9,7 +9,8 @@ platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
 # MapLibre native SDK version (must be set before pod install)
-$MLRN_NATIVE_VERSION = '6.10.0'
+# MapLibre native SDK — use the version the RN package expects
+$MLRN_NATIVE_VERSION = '6.17.1'
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
