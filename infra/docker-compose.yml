@@ -29,6 +29,23 @@ services:
       timeout: 5s
       retries: 5
 
+  valhalla:
+    build:
+      context: .
+      dockerfile: Dockerfile.valhalla
+    container_name: masariya-valhalla
+    ports:
+      - "8002:8002"
+    volumes:
+      - valhalla_tiles:/custom_files
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8002/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+
 volumes:
   pgdata:
   redisdata:
+  valhalla_tiles:

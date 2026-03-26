@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -7,6 +7,7 @@ import RootNavigator from './navigation/RootNavigator';
 import SplashScreen from './screens/SplashScreen';
 import OnboardingScreen from './screens/onboarding/OnboardingScreen';
 import {useSettingsStore} from './stores/useSettingsStore';
+import {syncRoutesIfNeeded} from './services/routeSync';
 import './i18n';
 
 type AppPhase = 'splash' | 'onboarding' | 'main';
@@ -20,6 +21,11 @@ export default function App() {
   const [phase, setPhase] = useState<AppPhase>(
     hasCompletedOnboarding ? 'splash' : 'onboarding',
   );
+
+  // Sync route data on app launch (non-blocking)
+  useEffect(() => {
+    syncRoutesIfNeeded().catch(() => {});
+  }, []);
 
   const handleSplashReady = useCallback(() => {
     setPhase('main');

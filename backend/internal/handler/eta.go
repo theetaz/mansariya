@@ -1,37 +1,44 @@
 package handler
 
 import (
+	"context"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/masariya/backend/internal/model"
 )
 
-type ETAHandler struct {
-	// Will depend on trip store, route store, and active vehicle data from Redis
+// ETACalculator abstracts ETA computation (implemented by service.ETAService).
+type ETACalculator interface {
+	Calculate(ctx context.Context, routeID string, stopLat, stopLng float64) (*model.ETAResponse, error)
 }
 
-func NewETAHandler() *ETAHandler {
-	return &ETAHandler{}
+type ETAHandler struct {
+	calculator ETACalculator
+}
+
+func NewETAHandler(calculator ETACalculator) *ETAHandler {
+	return &ETAHandler{calculator: calculator}
 }
 
 // Handle returns ETA estimates for buses arriving at a stop on a route.
+// GET /api/v1/routes/{routeID}/eta?lat=6.9271&lng=79.8612
 func (h *ETAHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	routeID := chi.URLParam(r, "routeID")
-	stopID := r.URL.Query().Get("stop_id")
+	lat, _ := strconv.ParseFloat(r.URL.Query().Get("lat"), 64)
+	lng, _ := strconv.ParseFloat(r.URL.Query().Get("lng"), 64)
 
-	if routeID == "" || stopID == "" {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "route_id and stop_id required"})
+	if routeID == "" || (lat == 0 && lng == 0) {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "route_id and lat/lng are required"})
 		return
 	}
 
-	// TODO: Implement ETA calculation
-	// 1. Get active buses on this route from Redis
-	// 2. For each bus, compute distance remaining to target stop along route polyline
-	// 3. Use historical speed data (or current speed) to estimate time
-	writeJSON(w, http.StatusOK, map[string]interface{}{
-		"route_id": routeID,
-		"stop_id":  stopID,
-		"buses":    []interface{}{},
-		"message":  "ETA calculation not yet implemented",
-	})
+	result, err := h.calculator.Calculate(r.Context(), routeID, lat, lng)
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "ETA calculation failed"})
+		return
+	}
+
+	writeJSON(w, http.StatusOK, result)
 }

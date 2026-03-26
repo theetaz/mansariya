@@ -1,0 +1,19 @@
+# Valhalla routing engine with Sri Lanka OSM data
+# Provides map-matching (trace_route) and routing (route) endpoints
+
+FROM ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+
+# Copy custom Valhalla config
+COPY valhalla/valhalla.json /custom_files/valhalla.json
+
+# Set the tile URL to download Sri Lanka extract on first run
+ENV tile_urls=https://download.geofabrik.de/asia/sri-lanka-latest.osm.pbf
+ENV use_tiles_ignore_pbf=True
+ENV build_elevation=False
+ENV build_admins=False
+ENV build_time_zones=False
+ENV force_rebuild=False
+
+EXPOSE 8002
+
+# The base image handles downloading OSM data, building tiles, and starting the server

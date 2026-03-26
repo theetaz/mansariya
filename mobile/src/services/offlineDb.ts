@@ -58,6 +58,13 @@ function initSchema() {
     )`,
   );
 
+  d.execute(
+    `CREATE TABLE IF NOT EXISTS app_meta (
+      key TEXT PRIMARY KEY,
+      value TEXT
+    )`,
+  );
+
   // FTS5 for trilingual search
   d.execute(
     `CREATE VIRTUAL TABLE IF NOT EXISTS routes_fts USING fts5(

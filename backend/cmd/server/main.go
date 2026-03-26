@@ -17,6 +17,7 @@ import (
 	"github.com/masariya/backend/internal/pipeline"
 	redisclient "github.com/masariya/backend/internal/redis"
 	"github.com/masariya/backend/internal/server"
+	"github.com/masariya/backend/internal/service"
 	"github.com/masariya/backend/internal/spatial"
 	"github.com/masariya/backend/internal/store"
 	"github.com/masariya/backend/internal/valhalla"
@@ -110,8 +111,8 @@ func run() error {
 		Routes: handler.NewRoutesHandler(routeStore, stopStore),
 		Search: handler.NewSearchHandler(routeStore),
 		Stops:  handler.NewStopsHandler(stopStore),
-		ETA:    handler.NewETAHandler(),
-		WS:     handler.NewWSHandler(wsHub, rdb),
+		ETA:    handler.NewETAHandler(service.NewETAService(rdb, routeIndex)),
+		WS:     handler.NewWSHandler(wsHub),
 		Sync:   handler.NewSyncHandler(routeStore),
 	}
 
