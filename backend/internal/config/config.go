@@ -24,6 +24,9 @@ type Config struct {
 
 	// Nominatim
 	NominatimURL string
+
+	// Admin
+	AdminAPIKey string
 }
 
 func Load() (*Config, error) {
@@ -36,6 +39,7 @@ func Load() (*Config, error) {
 		RedisDB:      getEnvInt("REDIS_DB", 0),
 		ValhallaURL:  getEnv("VALHALLA_URL", "http://localhost:8002"),
 		NominatimURL: getEnv("NOMINATIM_URL", "http://localhost:8080"),
+		AdminAPIKey:  getEnv("ADMIN_API_KEY", "mansariya-dev-key"),
 	}
 
 	if cfg.DatabaseURL == "" {

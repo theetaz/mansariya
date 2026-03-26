@@ -17,7 +17,10 @@ import BottomSheet, {SHEET_HEIGHT} from '../components/common/BottomSheet';
 import RouteCard from '../components/route/RouteCard';
 import MapView from '../components/map/MapView';
 import BusMarkers from '../components/map/BusMarker';
+import RoutePolyline from '../components/map/RoutePolyline';
+import StopMarkers from '../components/map/StopMarkers';
 import ConfidenceDots from '../components/common/ConfidenceDots';
+import {useRouteOnMap} from '../hooks/useRouteOnMap';
 import {useLiveBuses} from '../hooks/useLiveBuses';
 import {useActiveRoutes} from '../hooks/useActiveRoutes';
 
@@ -32,6 +35,18 @@ export default function MapScreen() {
   // Fetch active routes and subscribe to their WebSocket channels
   const activeRouteIds = useActiveRoutes();
   useLiveBuses(activeRouteIds);
+
+  // Selected route — shows polyline + stops on map
+  const [selectedRouteId, setSelectedRouteId] = React.useState<string | null>(null);
+  const {stops: routeStops, polylineCoords} = useRouteOnMap(selectedRouteId);
+
+  // Convert enriched stops to Stop format for StopMarkers
+  const stopMarkersData = routeStops.map((s) => ({
+    id: s.stop_id,
+    name_en: s.stop_name_en,
+    name_si: s.stop_name_si,
+    location: [s.stop_lng, s.stop_lat] as [number, number],
+  }));
 
   const handleTrackingToggle = useCallback(() => {
     if (isTracking) {
@@ -66,11 +81,26 @@ export default function MapScreen() {
       {/* MapLibre map with live bus markers */}
       <View style={styles.mapArea}>
         <MapView>
+          {/* Selected route polyline + stops */}
+          {selectedRouteId && polylineCoords.length >= 2 && (
+            <RoutePolyline
+              coordinates={polylineCoords}
+              routeId={selectedRouteId}
+            />
+          )}
+          {selectedRouteId && stopMarkersData.length > 0 && (
+            <StopMarkers
+              stops={stopMarkersData}
+              routeId={selectedRouteId}
+            />
+          )}
+
+          {/* Live bus markers */}
           <BusMarkers
             buses={busEntries}
-            onBusPress={(bus) =>
-              navigation.navigate('RouteDetail', {routeId: bus.route_id})
-            }
+            onBusPress={(bus) => {
+              setSelectedRouteId(bus.route_id);
+            }}
           />
         </MapView>
 
@@ -120,9 +150,14 @@ export default function MapScreen() {
             <TouchableOpacity
               key={item.routeId}
               style={styles.liveRouteCard}
-              onPress={() =>
-                navigation.navigate('RouteDetail', {routeId: item.routeId})
-              }
+              onPress={() => {
+                // First tap: show route on map. Second tap: open detail.
+                if (selectedRouteId === item.routeId) {
+                  navigation.navigate('RouteDetail', {routeId: item.routeId});
+                } else {
+                  setSelectedRouteId(item.routeId);
+                }
+              }}
               activeOpacity={0.7}>
               <View style={styles.routeBadge}>
                 <Text style={styles.routeBadgeText}>{item.routeId}</Text>

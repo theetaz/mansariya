@@ -9,6 +9,7 @@ import SearchScreen from '../screens/SearchScreen';
 import SavedScreen from '../screens/SavedScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
+import JourneySearchScreen from '../screens/JourneySearchScreen';
 import {colors} from '../constants/theme';
 
 import type {RootStackParamList, TabParamList} from './types';
@@ -81,6 +82,11 @@ export default function RootNavigator() {
         name="RouteDetail"
         component={RouteDetailScreen}
         options={{title: 'Route'}}
+      />
+      <Stack.Screen
+        name="JourneySearch"
+        component={JourneySearchScreen}
+        options={{title: 'Plan Journey'}}
       />
     </Stack.Navigator>
   );

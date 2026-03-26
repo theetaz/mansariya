@@ -63,6 +63,7 @@ func run() error {
 	routeStore := store.NewRouteStore(pool)
 	stopStore := store.NewStopStore(pool)
 	journeyStore := store.NewJourneyStore(pool)
+	adminStore := store.NewAdminStore(pool)
 	_ = store.NewTripStore(pool) // used later for ETA
 
 	// Load route spatial index
@@ -116,6 +117,7 @@ func run() error {
 		WS:      handler.NewWSHandler(wsHub),
 		Sync:    handler.NewSyncHandler(routeStore),
 		Journey: handler.NewJourneyHandler(journeyStore),
+		Admin:   handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
 	}
 
 	router := server.NewRouter(deps)

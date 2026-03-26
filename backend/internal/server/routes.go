@@ -19,6 +19,7 @@ type Deps struct {
 	WS      *handler.WSHandler
 	Sync    *handler.SyncHandler
 	Journey *handler.JourneyHandler
+	Admin   *handler.AdminHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -60,6 +61,23 @@ func NewRouter(deps *Deps) *chi.Mux {
 
 	// WebSocket
 	r.Get("/ws/track/{routeID}", deps.WS.HandleTrack)
+
+	// Admin API (API key protected)
+	r.Route("/api/v1/admin", func(r chi.Router) {
+		r.Use(deps.Admin.AuthMiddleware)
+
+		// Routes
+		r.Post("/routes", deps.Admin.CreateRoute)
+		r.Put("/routes/{routeID}", deps.Admin.UpdateRoute)
+		r.Delete("/routes/{routeID}", deps.Admin.DeleteRoute)
+		r.Post("/routes/{routeID}/validate", deps.Admin.ValidateRoute)
+		r.Put("/routes/{routeID}/stops", deps.Admin.SetRouteStops)
+		r.Put("/routes/{routeID}/timetable", deps.Admin.SetTimetable)
+
+		// Stops
+		r.Post("/stops", deps.Admin.CreateStop)
+		r.Put("/stops/{stopID}", deps.Admin.UpdateStop)
+	})
 
 	return r
 }

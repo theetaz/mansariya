@@ -41,6 +41,19 @@ export default function SearchScreen() {
 
   return (
     <View style={[styles.container, {paddingTop: insets.top}]}>
+      {/* Journey planner button */}
+      <TouchableOpacity
+        style={styles.journeyButton}
+        onPress={() => navigation.navigate('JourneySearch' as any)}
+        activeOpacity={0.7}>
+        <Text style={styles.journeyIcon}>🗺️</Text>
+        <View style={styles.journeyTextContainer}>
+          <Text style={styles.journeyTitle}>Plan your journey</Text>
+          <Text style={styles.journeySubtitle}>From → To with route suggestions</Text>
+        </View>
+        <Text style={styles.journeyArrow}>›</Text>
+      </TouchableOpacity>
+
       {/* Search bar */}
       <View style={styles.searchBarContainer}>
         <View style={styles.searchBar}>
@@ -121,6 +134,22 @@ export default function SearchScreen() {
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colors.background},
+  journeyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: spacing.lg,
+    marginTop: spacing.md,
+    padding: spacing.lg,
+    backgroundColor: colors.greenLight,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: colors.green + '30',
+  },
+  journeyIcon: {fontSize: 24, marginRight: spacing.md},
+  journeyTextContainer: {flex: 1},
+  journeyTitle: {fontSize: 15, fontWeight: '600', color: colors.greenDark},
+  journeySubtitle: {fontSize: 12, color: colors.neutral500, marginTop: 2},
+  journeyArrow: {fontSize: 24, color: colors.green, fontWeight: '300'},
   searchBarContainer: {
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
