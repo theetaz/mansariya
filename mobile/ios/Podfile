@@ -33,5 +33,8 @@ target 'MasariyaApp' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # MapLibre: add SPM dependency for the native iOS SDK
+    $MLRN.post_install(installer)
   end
 end
