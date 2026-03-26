@@ -53,6 +53,24 @@
     "trip_complete": "Trip complete!",
     "helped": "You helped {{count}} people track this bus"
   },
+  "onboarding": {
+    "next": "Next",
+    "skip": "Skip",
+    "welcome_title": "Know when your bus arrives",
+    "welcome_body": "Real-time bus tracking powered by passengers like you. No hardware needed — just your phone.",
+    "step_ride": "Ride a bus",
+    "step_gps": "GPS shares",
+    "step_others": "Others see it",
+    "how_title": "Tracked by everyone",
+    "how_body": "When you ride with the app open, your anonymous GPS helps everyone see where buses are. The more people use it, the better it gets.",
+    "privacy": "Your location is anonymous and never stored",
+    "lang_title": "Choose your language",
+    "lang_subtitle": "You can change this anytime in settings",
+    "location_title": "See buses near you",
+    "location_body": "Allow location access to show nearby buses and track your ride.",
+    "allow_location": "Allow location",
+    "not_now": "Not now"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Something went wrong",
