@@ -47,6 +47,33 @@ func (s *RouteStore) GetAll(ctx context.Context) (map[string]orb.LineString, err
 	return routes, rows.Err()
 }
 
+// GetAllForSync returns all active routes for mobile offline sync (no geometry — too large).
+func (s *RouteStore) GetAllForSync(ctx context.Context) ([]model.Route, error) {
+	rows, err := s.pool.Query(ctx,
+		`SELECT id, name_en, name_si, name_ta, operator, service_type,
+		        fare_lkr, frequency_minutes, operating_hours, is_active
+		 FROM routes WHERE is_active = true
+		 ORDER BY id`)
+	if err != nil {
+		return nil, fmt.Errorf("get all for sync: %w", err)
+	}
+	defer rows.Close()
+
+	var routes []model.Route
+	for rows.Next() {
+		var r model.Route
+		if err := rows.Scan(
+			&r.ID, &r.NameEN, &r.NameSI, &r.NameTA,
+			&r.Operator, &r.ServiceType, &r.FareLKR,
+			&r.FrequencyMinutes, &r.OperatingHours, &r.IsActive,
+		); err != nil {
+			return nil, fmt.Errorf("scan sync route: %w", err)
+		}
+		routes = append(routes, r)
+	}
+	return routes, rows.Err()
+}
+
 // GetByID returns a single route with full details.
 func (s *RouteStore) GetByID(ctx context.Context, id string) (*model.Route, error) {
 	route := &model.Route{}

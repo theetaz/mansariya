@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name_en": "Colombo - Kandy",
+    "name_si": "කොළඹ - මහනුවර",
+    "name_ta": "கொழும்பு - கண்டி",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 350,
+    "frequency_minutes": 15,
+    "operating_hours": "04:30-22:00",
+    "stops": ["Colombo Fort", "Peliyagoda", "Kiribathgoda", "Kadawatha", "Nittambuwa", "Warakapola", "Kegalle", "Mawanella", "Kadugannawa", "Peradeniya", "Kandy"]
+  },
+  {
+    "id": "2",
+    "name_en": "Colombo - Galle",
+    "name_si": "කොළඹ - ගාල්ල",
+    "name_ta": "கொழும்பு - காலி",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 320,
+    "frequency_minutes": 20,
+    "operating_hours": "04:30-21:00",
+    "stops": ["Colombo Fort", "Bambalapitiya", "Wellawatte", "Dehiwala", "Mount Lavinia", "Moratuwa", "Panadura", "Kalutara", "Beruwala", "Aluthgama", "Ambalangoda", "Hikkaduwa", "Galle"]
+  },
+  {
+    "id": "138",
+    "name_en": "Colombo - Kurunegala",
+    "name_si": "කොළඹ - කුරුණෑගල",
+    "name_ta": "கொழும்பு - குருநாகல்",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 280,
+    "frequency_minutes": 30,
+    "operating_hours": "05:00-20:00",
+    "stops": ["Colombo Fort", "Peliyagoda", "Kadawatha", "Kirillawala", "Nittambuwa", "Alawwa", "Polgahawela", "Kurunegala"]
+  },
+  {
+    "id": "48",
+    "name_en": "Colombo - Ratnapura",
+    "name_si": "කොළඹ - රත්නපුර",
+    "name_ta": "கொழும்பு - இரத்தினபுரி",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 260,
+    "frequency_minutes": 30,
+    "operating_hours": "05:00-19:00",
+    "stops": ["Colombo Fort", "Nugegoda", "Maharagama", "Kottawa", "Horana", "Ingiriya", "Ratnapura"]
+  },
+  {
+    "id": "100",
+    "name_en": "Colombo Fort - Kaduwela",
+    "name_si": "කොළඹ කොටුව - කඩුවෙල",
+    "name_ta": "கொழும்பு கோட்டை - கடுவெல",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 50,
+    "frequency_minutes": 5,
+    "operating_hours": "05:00-22:00",
+    "stops": ["Colombo Fort", "Pettah", "Borella", "Rajagiriya", "Battaramulla", "Kaduwela"]
+  }
+]

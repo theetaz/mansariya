@@ -17,6 +17,9 @@ import {useTrackingStore} from '../stores/useTrackingStore';
 import {startTracking, stopTracking} from '../services/locationTracker';
 import BottomSheet from '../components/common/BottomSheet';
 import RouteCard from '../components/route/RouteCard';
+import MapView from '../components/map/MapView';
+import BusMarkers from '../components/map/BusMarker';
+import {useBusPositions} from '../hooks/useBusPositions';
 
 const SHEET_COLLAPSED_PX = Dimensions.get('window').height * 0.15;
 
@@ -25,8 +28,12 @@ export default function MapScreen() {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const buses = useMapStore((s) => s.buses);
+  const selectedRouteId = useMapStore((s) => s.selectedRouteId);
   const isTracking = useTrackingStore((s) => s.isTracking);
   const detectedRouteName = useTrackingStore((s) => s.detectedRouteName);
+
+  // Subscribe to live bus positions for the selected route
+  useBusPositions(selectedRouteId);
 
   const handleTrackingToggle = useCallback(() => {
     if (isTracking) {
@@ -42,15 +49,16 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Map area — MapLibre will replace this placeholder */}
+      {/* MapLibre map with live bus markers */}
       <View style={styles.mapArea}>
-        {busEntries.length > 0 && (
-          <View style={styles.busCountPill}>
-            <Text style={styles.busCountText}>
-              {busEntries.length} live bus{busEntries.length > 1 ? 'es' : ''}
-            </Text>
-          </View>
-        )}
+        <MapView>
+          <BusMarkers
+            buses={busEntries}
+            onBusPress={(bus) =>
+              navigation.navigate('RouteDetail', {routeId: bus.route_id})
+            }
+          />
+        </MapView>
       </View>
 
       {/* Tracking banner */}
@@ -105,22 +113,7 @@ const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colors.surface},
   mapArea: {
     flex: 1,
-    backgroundColor: '#E8E8E8',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  busCountPill: {
-    backgroundColor: colors.background,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  busCountText: {fontSize: 13, fontWeight: '500', color: colors.green},
   trackingBanner: {
     position: 'absolute',
     top: 50,

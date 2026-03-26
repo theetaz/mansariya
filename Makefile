@@ -26,6 +26,10 @@ migrate-down:
 	cd backend && go run -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest \
 		-path migrations -database "$${DATABASE_URL}" down 1
 
+# Bootstrap route data
+bootstrap:
+	cd backend && go run ./cmd/bootstrap -data ../data/sample-routes.json -db "$${DATABASE_URL}"
+
 # Mobile
 mobile-android:
 	cd mobile && npx react-native run-android

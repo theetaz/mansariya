@@ -17,6 +17,7 @@ type Deps struct {
 	Stops  *handler.StopsHandler
 	ETA    *handler.ETAHandler
 	WS     *handler.WSHandler
+	Sync   *handler.SyncHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -40,6 +41,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 
 		// Routes
 		r.Get("/routes", deps.Routes.List)
+		r.Get("/routes/sync", deps.Sync.HandleSync)
 		r.Get("/routes/{routeID}", deps.Routes.Get)
 		r.Get("/routes/{routeID}/eta", deps.ETA.Handle)
 

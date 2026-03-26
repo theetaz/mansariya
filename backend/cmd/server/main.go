@@ -112,6 +112,7 @@ func run() error {
 		Stops:  handler.NewStopsHandler(stopStore),
 		ETA:    handler.NewETAHandler(),
 		WS:     handler.NewWSHandler(wsHub, rdb),
+		Sync:   handler.NewSyncHandler(routeStore),
 	}
 
 	router := server.NewRouter(deps)

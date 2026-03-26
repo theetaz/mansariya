@@ -1,0 +1,41 @@
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import MapLibreGL from '@maplibre/maplibre-react-native';
+import {MAP_STYLE_URL, DEFAULT_CENTER, DEFAULT_ZOOM} from '../../constants/map';
+
+// Initialize MapLibre (required before any map usage)
+MapLibreGL.setAccessToken(null);
+
+interface MapViewWrapperProps {
+  children?: React.ReactNode;
+  onPress?: (event: any) => void;
+}
+
+export default function MapViewWrapper({children, onPress}: MapViewWrapperProps) {
+  return (
+    <MapLibreGL.MapView
+      style={styles.map}
+      mapStyle={MAP_STYLE_URL}
+      compassEnabled
+      rotateEnabled={false}
+      onPress={onPress}>
+      <MapLibreGL.Camera
+        defaultSettings={{
+          centerCoordinate: DEFAULT_CENTER,
+          zoomLevel: DEFAULT_ZOOM,
+        }}
+      />
+
+      {/* User location puck */}
+      <MapLibreGL.UserLocation visible animated />
+
+      {children}
+    </MapLibreGL.MapView>
+  );
+}
+
+const styles = StyleSheet.create({
+  map: {
+    flex: 1,
+  },
+});
