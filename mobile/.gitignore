@@ -61,9 +61,6 @@ yarn-error.log
 /vendor/bundle/
 .bundle/
 
-# iOS — not targeting iOS for MVP
-ios/
-
 # Default RN readme (we have root README.md)
 README.md
 

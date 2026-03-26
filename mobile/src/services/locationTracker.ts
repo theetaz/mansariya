@@ -1,7 +1,9 @@
 // Location tracking service
-// Uses react-native-background-geolocation (install separately — requires license for production)
-// This is the scaffold — actual BG geolocation integration requires native setup
+// Uses react-native-geolocation-service for foreground GPS collection.
+// Production will add react-native-background-geolocation for background mode.
 
+import Geolocation from 'react-native-geolocation-service';
+import {Platform} from 'react-native';
 import {sendGPSBatch, GPSPing} from './api';
 
 let isTracking = false;
@@ -9,8 +11,8 @@ let sessionId: string | null = null;
 let deviceHash: string | null = null;
 let pingBuffer: GPSPing[] = [];
 let uploadInterval: ReturnType<typeof setInterval> | null = null;
+let watchId: number | null = null;
 
-// Generate a random device hash (rotated daily in production)
 function generateDeviceHash(): string {
   const chars = 'abcdef0123456789';
   let hash = '';
@@ -32,20 +34,56 @@ export function startTracking() {
   sessionId = generateSessionId();
   pingBuffer = [];
 
-  // Start batched upload every 10 seconds
+  // Start GPS watching
+  watchId = Geolocation.watchPosition(
+    (position) => {
+      if (!isTracking) return;
+
+      const ping: GPSPing = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        ts: Math.floor(position.timestamp / 1000),
+        acc: position.coords.accuracy ?? 10,
+        spd: position.coords.speed ?? 0,
+        brg: position.coords.heading ?? 0,
+      };
+
+      pingBuffer.push(ping);
+      console.log(
+        `[GPS] ${ping.lat.toFixed(5)}, ${ping.lng.toFixed(5)} acc=${ping.acc.toFixed(0)}m`,
+      );
+    },
+    (error) => {
+      console.warn('[GPS] Error:', error.code, error.message);
+    },
+    {
+      enableHighAccuracy: true,
+      distanceFilter: 20, // minimum 20m between updates
+      interval: 5000, // 5 second intervals (Android)
+      fastestInterval: 3000,
+      ...(Platform.OS === 'ios' ? {showsBackgroundLocationIndicator: true} : {}),
+    },
+  );
+
+  // Batch upload every 10 seconds
   uploadInterval = setInterval(flushBuffer, 10000);
 
-  console.log('[Tracking] Started', {deviceHash: deviceHash.slice(0, 8), sessionId});
-
-  // TODO: Integrate react-native-background-geolocation here
-  // BackgroundGeolocation.ready({...config}).then(() => BackgroundGeolocation.start())
-  // For now, this is a placeholder. The actual GPS collection would push to pingBuffer.
+  console.log('[Tracking] Started', {
+    deviceHash: deviceHash.slice(0, 8),
+    sessionId,
+  });
 }
 
 export function stopTracking() {
   if (!isTracking) return;
 
   isTracking = false;
+
+  // Stop GPS watching
+  if (watchId !== null) {
+    Geolocation.clearWatch(watchId);
+    watchId = null;
+  }
 
   // Flush remaining pings
   flushBuffer();
