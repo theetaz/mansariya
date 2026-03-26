@@ -31,8 +31,17 @@ bootstrap:
 	cd backend && go run ./cmd/bootstrap -data ../data/sample-routes.json -db "$${DATABASE_URL}"
 
 # Mobile
+mobile-ios:
+	cd mobile && npx react-native run-ios
+
 mobile-android:
 	cd mobile && npx react-native run-android
 
 mobile-install:
 	cd mobile && npm install
+
+mobile-pods:
+	cd mobile/ios && bundle exec pod install
+
+mobile-ts-check:
+	cd mobile && npx tsc --noEmit
