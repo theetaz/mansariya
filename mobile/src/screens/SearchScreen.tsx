@@ -4,21 +4,27 @@ import {
   TextInput,
   FlatList,
   Text,
+  ScrollView,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {useRouteSearch} from '../hooks/useRouteSearch';
-import {Route} from '../services/api';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '../navigation/types';
+import {colors, spacing, typography, radii} from '../constants/theme';
+import {useRouteSearch} from '../hooks/useRouteSearch';
+import {Route} from '../services/api';
+import RouteCard from '../components/route/RouteCard';
+
+const FILTERS = ['All', 'SLTB', 'NTC', 'Private'] as const;
 
 export default function SearchScreen() {
   const {t} = useTranslation();
   const {results, loading, search} = useRouteSearch();
   const [query, setQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState<string>('All');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -27,48 +33,83 @@ export default function SearchScreen() {
     search(text);
   };
 
-  const handleRoutePress = (route: Route) => {
-    navigation.navigate('RouteDetail', {routeId: route.id});
-  };
+  const filteredResults = activeFilter === 'All'
+    ? results
+    : results.filter((r) => r.operator === activeFilter);
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <TextInput
-          style={styles.input}
-          placeholder={t('search.placeholder')}
-          value={query}
-          onChangeText={handleSearch}
-          autoFocus
-        />
+      {/* Search bar */}
+      <View style={styles.searchBarContainer}>
+        <View style={styles.searchBar}>
+          <Text style={styles.searchIcon}>🔍</Text>
+          <TextInput
+            style={styles.searchInput}
+            placeholder={t('search.placeholder')}
+            placeholderTextColor={colors.neutral500}
+            value={query}
+            onChangeText={handleSearch}
+            returnKeyType="search"
+          />
+          {query.length > 0 && (
+            <TouchableOpacity onPress={() => handleSearch('')}>
+              <Text style={styles.clearIcon}>✕</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
-      {loading && <ActivityIndicator style={styles.loader} />}
+      {/* Filter chips */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.filtersContainer}
+        contentContainerStyle={styles.filtersContent}>
+        {FILTERS.map((filter) => (
+          <TouchableOpacity
+            key={filter}
+            style={[
+              styles.chip,
+              activeFilter === filter && styles.chipActive,
+            ]}
+            onPress={() => setActiveFilter(filter)}>
+            <Text
+              style={[
+                styles.chipText,
+                activeFilter === filter && styles.chipTextActive,
+              ]}>
+              {filter}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
+      {/* Loading */}
+      {loading && <ActivityIndicator style={styles.loader} color={colors.green} />}
+
+      {/* Results */}
       <FlatList
-        data={results}
+        data={filteredResults}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => (
-          <TouchableOpacity
-            style={styles.resultItem}
-            onPress={() => handleRoutePress(item)}>
-            <View style={styles.routeNumber}>
-              <Text style={styles.routeNumberText}>{item.id}</Text>
-            </View>
-            <View style={styles.routeInfo}>
-              <Text style={styles.routeName}>{item.name_en}</Text>
-              {item.name_si && (
-                <Text style={styles.routeNameLocal}>{item.name_si}</Text>
-              )}
-              {item.operator && (
-                <Text style={styles.operator}>{item.operator}</Text>
-              )}
-            </View>
-          </TouchableOpacity>
+          <RouteCard
+            routeNumber={item.id}
+            destination={item.name_en}
+            operator={item.operator}
+            serviceType={item.service_type as any}
+            isLive={false}
+            onPress={() =>
+              navigation.navigate('RouteDetail', {routeId: item.id})
+            }
+          />
         )}
+        contentContainerStyle={styles.resultsList}
         ListEmptyComponent={
           query.length > 0 && !loading ? (
-            <Text style={styles.empty}>{t('search.no_results')}</Text>
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyIcon}>🔍</Text>
+              <Text style={styles.emptyText}>{t('search.no_results')}</Text>
+            </View>
           ) : null
         }
       />
@@ -77,38 +118,59 @@ export default function SearchScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: '#fff'},
-  searchBar: {padding: 16, backgroundColor: '#f5f5f5'},
-  input: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
+  container: {flex: 1, backgroundColor: colors.background},
+  searchBarContainer: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.sm,
   },
-  loader: {padding: 20},
-  resultItem: {
+  searchBar: {
     flexDirection: 'row',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: radii.lg,
+    paddingHorizontal: spacing.lg,
+    height: 48,
+    borderWidth: 1,
+    borderColor: colors.neutral200,
+  },
+  searchIcon: {fontSize: 16, marginRight: spacing.sm},
+  searchInput: {
+    flex: 1,
+    fontSize: 15,
+    color: colors.neutral900,
+    paddingVertical: 0,
+  },
+  clearIcon: {fontSize: 16, color: colors.neutral500, padding: spacing.xs},
+  filtersContainer: {
+    maxHeight: 44,
+    paddingLeft: spacing.lg,
+  },
+  filtersContent: {
+    gap: spacing.sm,
+    paddingRight: spacing.lg,
     alignItems: 'center',
   },
-  routeNumber: {
-    backgroundColor: '#2563EB',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginRight: 12,
-    minWidth: 50,
+  chip: {
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: radii.full,
+    backgroundColor: colors.neutral100,
+    borderWidth: 1,
+    borderColor: colors.neutral200,
+  },
+  chipActive: {
+    backgroundColor: colors.greenLight,
+    borderColor: colors.green,
+  },
+  chipText: {fontSize: 13, fontWeight: '500', color: colors.neutral500},
+  chipTextActive: {color: colors.greenDark},
+  loader: {padding: spacing.xl},
+  resultsList: {paddingHorizontal: spacing.lg},
+  emptyState: {
+    paddingVertical: 60,
     alignItems: 'center',
   },
-  routeNumberText: {color: '#fff', fontSize: 18, fontWeight: '700'},
-  routeInfo: {flex: 1},
-  routeName: {fontSize: 16, fontWeight: '600', color: '#333'},
-  routeNameLocal: {fontSize: 14, color: '#666', marginTop: 2},
-  operator: {fontSize: 12, color: '#999', marginTop: 2},
-  empty: {textAlign: 'center', padding: 40, color: '#999', fontSize: 16},
+  emptyIcon: {fontSize: 40, marginBottom: spacing.lg},
+  emptyText: {...typography.body, color: colors.neutral500},
 });
