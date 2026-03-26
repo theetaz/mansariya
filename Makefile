@@ -28,7 +28,11 @@ migrate-down:
 
 # Bootstrap route data
 bootstrap:
-	cd backend && go run ./cmd/bootstrap -data ../data/sample-routes.json -db "$${DATABASE_URL}"
+	cd backend && go run ./cmd/bootstrap -data ../data/routes.json -db "$${DATABASE_URL}"
+
+# GPS Simulator — mimics real devices pushing GPS data
+simulate:
+	cd backend && go run ./cmd/simulator -api http://localhost:8000 -buses 3 -routes 1,2,138,100,120
 
 # Mobile
 mobile-ios:
