@@ -18,19 +18,21 @@ import BottomSheet, {SHEET_HEIGHT} from '../components/common/BottomSheet';
 import RouteCard from '../components/route/RouteCard';
 import MapView from '../components/map/MapView';
 import BusMarkers from '../components/map/BusMarker';
-import {useBusPositions} from '../hooks/useBusPositions';
+import ConfidenceDots from '../components/common/ConfidenceDots';
+import {useLiveBuses} from '../hooks/useLiveBuses';
+import {useActiveRoutes} from '../hooks/useActiveRoutes';
 
 export default function MapScreen() {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const buses = useMapStore((s) => s.buses);
-  const selectedRouteId = useMapStore((s) => s.selectedRouteId);
   const isTracking = useTrackingStore((s) => s.isTracking);
   const detectedRouteName = useTrackingStore((s) => s.detectedRouteName);
 
-  // Subscribe to live bus positions for the selected route
-  useBusPositions(selectedRouteId);
+  // Fetch active routes and subscribe to their WebSocket channels
+  const activeRouteIds = useActiveRoutes();
+  useLiveBuses(activeRouteIds);
 
   const handleTrackingToggle = useCallback(() => {
     if (isTracking) {
@@ -44,6 +46,22 @@ export default function MapScreen() {
 
   const busEntries = Object.values(buses);
 
+  // Group buses by route for the bottom sheet
+  const busByRoute = new Map<string, typeof busEntries>();
+  busEntries.forEach((bus) => {
+    const list = busByRoute.get(bus.route_id) || [];
+    list.push(bus);
+    busByRoute.set(bus.route_id, list);
+  });
+
+  const routeSummaries = Array.from(busByRoute.entries()).map(
+    ([routeId, routeBuses]) => ({
+      routeId,
+      busCount: routeBuses.length,
+      nearestBus: routeBuses[0],
+    }),
+  );
+
   return (
     <View style={styles.container}>
       {/* MapLibre map with live bus markers */}
@@ -56,6 +74,16 @@ export default function MapScreen() {
             }
           />
         </MapView>
+
+        {/* Live bus count overlay */}
+        {busEntries.length > 0 && (
+          <View style={styles.busCountOverlay}>
+            <View style={styles.liveDot} />
+            <Text style={styles.busCountText}>
+              {busEntries.length} live bus{busEntries.length > 1 ? 'es' : ''}
+            </Text>
+          </View>
+        )}
       </View>
 
       {/* Tracking banner */}
@@ -78,25 +106,44 @@ export default function MapScreen() {
         <Text style={styles.fabIcon}>{isTracking ? '■' : '🚌'}</Text>
       </TouchableOpacity>
 
-      {/* Bottom sheet — nearby buses */}
+      {/* Bottom sheet — nearby buses grouped by route */}
       <BottomSheet>
         <Text style={styles.sheetTitle}>{t('map.nearby_routes')}</Text>
         <FlatList
-          data={busEntries.slice(0, 10)}
-          keyExtractor={(item) => item.virtual_id}
+          data={routeSummaries}
+          keyExtractor={(item) => item.routeId}
           renderItem={({item}) => (
-            <RouteCard
-              routeNumber={item.route_id}
-              destination={`Route ${item.route_id}`}
-              isLive
+            <TouchableOpacity
+              style={styles.liveRouteCard}
               onPress={() =>
-                navigation.navigate('RouteDetail', {routeId: item.route_id})
+                navigation.navigate('RouteDetail', {routeId: item.routeId})
               }
-            />
+              activeOpacity={0.7}>
+              <View style={styles.routeBadge}>
+                <Text style={styles.routeBadgeText}>{item.routeId}</Text>
+              </View>
+              <View style={styles.routeInfo}>
+                <Text style={styles.routeName}>
+                  Route {item.routeId}
+                </Text>
+                <Text style={styles.routeMeta}>
+                  {item.busCount} bus{item.busCount > 1 ? 'es' : ''} ·{' '}
+                  {item.nearestBus.speed_kmh.toFixed(0)} km/h
+                </Text>
+              </View>
+              <ConfidenceDots
+                level={item.nearestBus.confidence}
+                showLabel={false}
+              />
+            </TouchableOpacity>
           )}
           ListEmptyComponent={
             <View style={styles.emptySheet}>
+              <Text style={styles.emptyIcon}>🚌</Text>
               <Text style={styles.emptyText}>{t('map.no_buses')}</Text>
+              <Text style={styles.emptyHint}>
+                Waiting for live data...
+              </Text>
             </View>
           }
           scrollEnabled={false}
@@ -108,12 +155,38 @@ export default function MapScreen() {
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colors.surface},
-  mapArea: {
-    flex: 1,
+  mapArea: {flex: 1},
+  busCountOverlay: {
+    position: 'absolute',
+    top: 60,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  liveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.green,
+    marginRight: 8,
+  },
+  busCountText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.neutral900,
   },
   trackingBanner: {
     position: 'absolute',
-    top: 50,
+    top: 110,
     left: spacing.lg,
     right: spacing.lg,
     backgroundColor: colors.greenLight,
@@ -161,6 +234,33 @@ const styles = StyleSheet.create({
     color: colors.neutral900,
     marginBottom: spacing.sm,
   },
-  emptySheet: {paddingVertical: spacing.xxl, alignItems: 'center'},
+  liveRouteCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 0.5,
+    borderBottomColor: colors.neutral200,
+  },
+  routeBadge: {
+    minWidth: 44,
+    height: 28,
+    borderRadius: 6,
+    backgroundColor: colors.greenLight,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    marginRight: 12,
+  },
+  routeBadgeText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.greenDark,
+  },
+  routeInfo: {flex: 1},
+  routeName: {fontSize: 15, fontWeight: '600', color: colors.neutral900},
+  routeMeta: {fontSize: 12, color: colors.neutral500, marginTop: 2},
+  emptySheet: {paddingVertical: 20, alignItems: 'center'},
+  emptyIcon: {fontSize: 32, marginBottom: 8},
   emptyText: {...typography.body, color: colors.neutral500},
+  emptyHint: {fontSize: 12, color: colors.neutral300, marginTop: 4},
 });
