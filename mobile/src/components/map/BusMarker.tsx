@@ -79,14 +79,13 @@ export default function BusMarkers({buses, onBusPress}: BusMarkersProps) {
           circleOpacity: circleOpacity,
         }}
       />
-      {/* Route number label */}
+      {/* Route number label — no custom font (uses map default) */}
       <MapLibreGL.SymbolLayer
         id="bus-label"
         style={{
           textField: ['get', 'routeId'],
           textSize: 10,
           textColor: '#FFFFFF',
-          textFont: ['Open Sans Bold'],
           textAllowOverlap: true,
           textIgnorePlacement: true,
         }}

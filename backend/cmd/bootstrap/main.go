@@ -107,13 +107,8 @@ func main() {
 			continue
 		}
 
-		// Build polyline from geocoded stop coordinates
-		// For now, create a simple LineString from the geocoded points
-		// In production, this would route through Valhalla for road-snapped polylines
-		coords := make([][2]float64, len(geocoded))
-		for j, s := range geocoded {
-			coords[j] = [2]float64{s.Lng, s.Lat}
-		}
+		// Build road-snapped polyline using OSRM routing service
+		coords := buildRoadSnappedPolyline(geocoded)
 
 		err := insertRoute(ctx, pool, route, geocoded, coords)
 		if err != nil {
@@ -129,6 +124,75 @@ func main() {
 		"skipped", skipped,
 		"total", len(routes),
 	)
+}
+
+// buildRoadSnappedPolyline uses OSRM to get a road-following route between stops.
+// Falls back to straight lines if OSRM is unavailable.
+func buildRoadSnappedPolyline(stops []GeocodedStop) [][2]float64 {
+	if len(stops) < 2 {
+		coords := make([][2]float64, len(stops))
+		for i, s := range stops {
+			coords[i] = [2]float64{s.Lng, s.Lat}
+		}
+		return coords
+	}
+
+	// Build OSRM coordinates string: lng,lat;lng,lat;...
+	coordParts := make([]string, len(stops))
+	for i, s := range stops {
+		coordParts[i] = fmt.Sprintf("%f,%f", s.Lng, s.Lat)
+	}
+	coordStr := strings.Join(coordParts, ";")
+
+	// Call OSRM route API
+	osrmURL := fmt.Sprintf("https://router.project-osrm.org/route/v1/driving/%s?overview=full&geometries=geojson", coordStr)
+
+	client := &http.Client{Timeout: 15 * time.Second}
+	resp, err := client.Get(osrmURL)
+	if err != nil {
+		slog.Warn("OSRM routing failed, using straight lines", "error", err)
+		return straightLineCoords(stops)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		slog.Warn("OSRM returned non-200", "status", resp.StatusCode)
+		return straightLineCoords(stops)
+	}
+
+	var osrmResp struct {
+		Routes []struct {
+			Geometry struct {
+				Coordinates [][]float64 `json:"coordinates"`
+			} `json:"geometry"`
+		} `json:"routes"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&osrmResp); err != nil {
+		slog.Warn("OSRM decode failed", "error", err)
+		return straightLineCoords(stops)
+	}
+
+	if len(osrmResp.Routes) == 0 || len(osrmResp.Routes[0].Geometry.Coordinates) < 2 {
+		return straightLineCoords(stops)
+	}
+
+	// Convert [lng, lat] to [2]float64
+	osrmCoords := osrmResp.Routes[0].Geometry.Coordinates
+	result := make([][2]float64, len(osrmCoords))
+	for i, c := range osrmCoords {
+		result[i] = [2]float64{c[0], c[1]} // [lng, lat]
+	}
+
+	slog.Debug("road-snapped route", "stops", len(stops), "points", len(result))
+	return result
+}
+
+func straightLineCoords(stops []GeocodedStop) [][2]float64 {
+	coords := make([][2]float64, len(stops))
+	for i, s := range stops {
+		coords[i] = [2]float64{s.Lng, s.Lat}
+	}
+	return coords
 }
 
 func geocodeStops(stopNames []string, nominatimURL string) []GeocodedStop {
