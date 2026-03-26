@@ -26,8 +26,8 @@ export default function MapViewWrapper({children, onPress}: MapViewWrapperProps)
         }}
       />
 
-      {/* User location puck */}
-      <MapLibreGL.UserLocation visible animated />
+      {/* User location — disabled animated to avoid AnimatedNode crash on RN 0.84 */}
+      <MapLibreGL.UserLocation visible animated={false} />
 
       {children}
     </MapLibreGL.MapView>
