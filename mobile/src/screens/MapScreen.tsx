@@ -5,7 +5,6 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
@@ -15,13 +14,11 @@ import {colors, spacing, typography} from '../constants/theme';
 import {useMapStore} from '../stores/useMapStore';
 import {useTrackingStore} from '../stores/useTrackingStore';
 import {startTracking, stopTracking} from '../services/locationTracker';
-import BottomSheet from '../components/common/BottomSheet';
+import BottomSheet, {SHEET_HEIGHT} from '../components/common/BottomSheet';
 import RouteCard from '../components/route/RouteCard';
 import MapView from '../components/map/MapView';
 import BusMarkers from '../components/map/BusMarker';
 import {useBusPositions} from '../hooks/useBusPositions';
-
-const SHEET_COLLAPSED_PX = Dimensions.get('window').height * 0.15;
 
 export default function MapScreen() {
   const {t} = useTranslation();
@@ -143,7 +140,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    bottom: SHEET_COLLAPSED_PX + spacing.lg,
+    bottom: SHEET_HEIGHT + spacing.lg,
     right: spacing.lg,
     width: 52,
     height: 52,
