@@ -30,7 +30,7 @@ func Load() (*Config, error) {
 	cfg := &Config{
 		Port:         getEnv("PORT", "8000"),
 		Host:         getEnv("HOST", "0.0.0.0"),
-		DatabaseURL:  getEnv("DATABASE_URL", "postgres://masariya:masariya@localhost:5432/masariya?sslmode=disable"),
+		DatabaseURL:  getEnv("DATABASE_URL", "postgres://masariya:masariya@localhost:5433/masariya?sslmode=disable"),
 		RedisAddr:    getEnv("REDIS_ADDR", "localhost:6379"),
 		RedisPassword: getEnv("REDIS_PASSWORD", ""),
 		RedisDB:      getEnvInt("REDIS_DB", 0),
