@@ -1,44 +1,74 @@
-import React, {useMemo, useRef} from 'react';
-import {StyleSheet} from 'react-native';
-import GorhomBottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import React, {useState} from 'react';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import {colors} from '../../constants/theme';
+
+const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 interface BottomSheetProps {
   children: React.ReactNode;
 }
 
 /**
- * Expandable bottom sheet using @gorhom/bottom-sheet.
- * 3 snap points: collapsed (~18%), half (~45%), full (~85%).
- * Swipe up to expand, swipe down to collapse.
+ * Simple expandable bottom sheet.
+ * Tap the handle area to toggle between collapsed and expanded.
+ * Scrollable content when expanded.
  */
 export default function BottomSheet({children}: BottomSheetProps) {
-  const bottomSheetRef = useRef<GorhomBottomSheet>(null);
-  const snapPoints = useMemo(() => ['18%', '45%', '85%'], []);
+  const [expanded, setExpanded] = useState(false);
+  const sheetHeight = expanded ? SCREEN_HEIGHT * 0.6 : COLLAPSED_HEIGHT;
 
   return (
-    <GorhomBottomSheet
-      ref={bottomSheetRef}
-      index={0}
-      snapPoints={snapPoints}
-      handleIndicatorStyle={styles.handle}
-      backgroundStyle={styles.background}
-      style={styles.shadow}>
-      <BottomSheetScrollView style={styles.content}>
+    <View style={[styles.container, {height: sheetHeight}]}>
+      {/* Pull handle — tap to toggle */}
+      <TouchableOpacity
+        style={styles.handleArea}
+        onPress={() => setExpanded(!expanded)}
+        activeOpacity={0.8}>
+        <View style={styles.handle} />
+        {expanded && (
+          <Text style={styles.collapseHint}>Tap to collapse</Text>
+        )}
+      </TouchableOpacity>
+
+      {/* Content */}
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={expanded}>
         {children}
-      </BottomSheetScrollView>
-    </GorhomBottomSheet>
+      </ScrollView>
+    </View>
   );
 }
 
-// Approximate collapsed height for FAB positioning
-export const SHEET_HEIGHT = 140;
+const COLLAPSED_HEIGHT = SCREEN_HEIGHT * 0.22;
+export const SHEET_HEIGHT = COLLAPSED_HEIGHT;
 
 const styles = StyleSheet.create({
-  background: {
+  container: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: colors.background,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: -3},
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+  handleArea: {
+    alignItems: 'center',
+    paddingVertical: 10,
   },
   handle: {
     width: 36,
@@ -46,15 +76,13 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: colors.neutral300,
   },
+  collapseHint: {
+    fontSize: 10,
+    color: colors.neutral300,
+    marginTop: 4,
+  },
   content: {
     flex: 1,
     paddingHorizontal: 16,
-  },
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: -3},
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 10,
   },
 });
