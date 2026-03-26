@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Switch, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {colors, spacing, typography} from '../constants/theme';
 import {useSettingsStore} from '../stores/useSettingsStore';
@@ -14,6 +15,7 @@ const LANGUAGES: {code: 'si' | 'ta' | 'en'; label: string}[] = [
 
 export default function SettingsScreen() {
   const {t} = useTranslation();
+  const insets = useSafeAreaInsets();
   const language = useSettingsStore((s) => s.language);
   const setLanguage = useSettingsStore((s) => s.setLanguage);
   const trackingConsent = useSettingsStore((s) => s.trackingConsent);
@@ -29,7 +31,7 @@ export default function SettingsScreen() {
     LANGUAGES.find((l) => l.code === language)?.label ?? 'English';
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, {paddingTop: insets.top}]}>
       <Text style={styles.screenTitle}>{t('settings.title')}</Text>
 
       {/* GENERAL */}

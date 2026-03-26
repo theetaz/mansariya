@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, FlatList, Text, StyleSheet} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -10,12 +11,13 @@ import RouteCard from '../components/route/RouteCard';
 
 export default function SavedScreen() {
   const {t} = useTranslation();
+  const insets = useSafeAreaInsets();
   const savedRoutes = useSavedStore((s) => s.savedRoutes);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingTop: insets.top}]}>
       <Text style={styles.screenTitle}>{t('saved.title')}</Text>
 
       <FlatList

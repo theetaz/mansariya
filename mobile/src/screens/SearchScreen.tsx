@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -22,6 +23,7 @@ const FILTERS = ['All', 'SLTB', 'NTC', 'Private'] as const;
 
 export default function SearchScreen() {
   const {t} = useTranslation();
+  const insets = useSafeAreaInsets();
   const {results, loading, search} = useRouteSearch();
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<string>('All');
@@ -38,7 +40,7 @@ export default function SearchScreen() {
     : results.filter((r) => r.operator === activeFilter);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingTop: insets.top}]}>
       {/* Search bar */}
       <View style={styles.searchBarContainer}>
         <View style={styles.searchBar}>
