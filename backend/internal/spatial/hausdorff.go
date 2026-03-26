@@ -6,14 +6,16 @@ import (
 	"github.com/paulmach/orb"
 )
 
-// Hausdorff computes the Hausdorff distance between two LineStrings in degrees.
+// Hausdorff computes the symmetric Hausdorff distance between two LineStrings in degrees.
 // This measures how far the two curves are from each other.
 func Hausdorff(a, b orb.LineString) float64 {
-	return math.Max(directedHausdorff(a, b), directedHausdorff(b, a))
+	return math.Max(DirectedHausdorff(a, b), DirectedHausdorff(b, a))
 }
 
-// directedHausdorff computes max(min distance from each point in a to any point in b).
-func directedHausdorff(a, b orb.LineString) float64 {
+// DirectedHausdorff computes max(min distance from each point in a to any segment in b).
+// Use this when a is a trace (subset) and b is a route (full line) — it measures
+// how far the trace deviates from the route, ignoring uncovered route portions.
+func DirectedHausdorff(a, b orb.LineString) float64 {
 	maxDist := 0.0
 	for _, pa := range a {
 		minDist := math.MaxFloat64

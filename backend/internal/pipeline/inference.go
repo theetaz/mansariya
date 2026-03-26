@@ -57,8 +57,9 @@ func (ie *InferenceEngine) Infer(trace model.MatchedTrace) *InferResult {
 			continue
 		}
 
-		// 1. Hausdorff distance — how far does the trace deviate from the route?
-		hausdorff := spatial.Hausdorff(line, routeLine)
+		// 1. Directed Hausdorff (trace → route) — how far does the trace deviate?
+		// Use directed, not symmetric: the trace is a subset of the route.
+		hausdorff := spatial.DirectedHausdorff(line, routeLine)
 		if hausdorff > maxHausdorffDeg {
 			continue
 		}
