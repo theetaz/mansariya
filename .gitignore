@@ -1,0 +1,61 @@
+# Go
+backend/bin/
+backend/server
+backend/tmp/
+*.exe
+*.test
+*.out
+
+# React Native
+mobile/node_modules/
+mobile/android/app/build/
+mobile/android/.gradle/
+mobile/android/build/
+mobile/ios/Pods/
+mobile/.metro-health-check*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# AI tools — do not commit
+.claude/
+.cursorrules
+.cursorignore
+.cursor/
+.copilot/
+.github/copilot/
+.aider*
+.codeium/
+.continue/
+.windsurf/
+.tabnine/
+CLAUDE.md
+AGENTS.md
+skills-lock.json
+plans/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Docker
+infra/valhalla/tiles/
+infra/valhalla/*.pbf
+
+# Data
+data/*.pbf
+data/*.csv
+data/raw/
+
+# Misc
+*.log
+tmp/

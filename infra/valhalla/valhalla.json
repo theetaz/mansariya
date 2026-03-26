@@ -1,0 +1,46 @@
+{
+  "mjolnir": {
+    "tile_dir": "/data/valhalla/tiles",
+    "concurrency": 2
+  },
+  "meili": {
+    "default": {
+      "search_radius": 50,
+      "gps_accuracy": 15,
+      "turn_penalty_factor": 50,
+      "breakage_distance": 2000,
+      "interpolation_distance": 200,
+      "sigma_z": 4.07,
+      "beta": 3
+    },
+    "bus": {
+      "search_radius": 50,
+      "gps_accuracy": 20,
+      "turn_penalty_factor": 100
+    }
+  },
+  "service_limits": {
+    "trace": {
+      "max_distance": 200000,
+      "max_shape": 16000,
+      "max_best_paths": 4
+    },
+    "route": {
+      "max_distance": 500000,
+      "max_locations": 50
+    }
+  },
+  "httpd": {
+    "service": {
+      "listen": "tcp://0.0.0.0:8002"
+    }
+  },
+  "loki": {
+    "actions": ["route", "trace_route", "trace_attributes"],
+    "logging": {
+      "type": "std_out",
+      "color": true,
+      "long_request": 100.0
+    }
+  }
+}

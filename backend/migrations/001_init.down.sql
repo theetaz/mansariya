@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS discovered_stops;
+DROP TABLE IF EXISTS gps_traces;
+DROP TABLE IF EXISTS trip_segments;
+DROP TABLE IF EXISTS active_vehicles;
+DROP TABLE IF EXISTS route_stops;
+DROP TABLE IF EXISTS stops;
+DROP TABLE IF EXISTS routes;
+DROP EXTENSION IF EXISTS pg_trgm;
+DROP EXTENSION IF EXISTS postgis;

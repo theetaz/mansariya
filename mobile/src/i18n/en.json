@@ -1,0 +1,63 @@
+{
+  "app_name": "Mansariya",
+  "tabs": {
+    "map": "Map",
+    "search": "Search",
+    "saved": "Saved",
+    "settings": "Settings"
+  },
+  "map": {
+    "im_on_bus": "I'm on a bus",
+    "tracking": "Tracking...",
+    "stop_tracking": "Stop tracking",
+    "nearby_routes": "Nearby Routes",
+    "no_buses": "No live buses nearby",
+    "confidence": {
+      "low": "~Approximate",
+      "good": "Spotted",
+      "verified": "Verified"
+    }
+  },
+  "search": {
+    "placeholder": "Search routes or stops...",
+    "no_results": "No results found",
+    "route": "Route",
+    "stop": "Stop"
+  },
+  "route": {
+    "stops": "Stops",
+    "fare": "Fare",
+    "frequency": "Every {{minutes}} min",
+    "eta": "ETA: {{minutes}} min",
+    "no_eta": "No ETA available",
+    "track": "Track this route"
+  },
+  "saved": {
+    "title": "Saved Routes",
+    "empty": "No saved routes yet",
+    "add_hint": "Search and save routes for quick access"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "tracking": "Tracking",
+    "tracking_desc": "Allow background GPS when on a bus",
+    "about": "About Mansariya",
+    "contribute": "Contribute",
+    "trips_shared": "{{count}} trips shared",
+    "version": "Version {{version}}"
+  },
+  "tracking": {
+    "detecting": "Detecting route...",
+    "detected": "You're on Route {{route}}",
+    "trip_complete": "Trip complete!",
+    "helped": "You helped {{count}} people track this bus"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "offline": "You're offline",
+    "offline_hint": "Live tracking requires internet"
+  }
+}

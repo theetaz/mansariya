@@ -1,0 +1,183 @@
+package pipeline
+
+import (
+	"context"
+	"encoding/json"
+	"log/slog"
+	"sync"
+	"time"
+
+	"github.com/masariya/backend/internal/model"
+	"github.com/redis/go-redis/v9"
+)
+
+const ConsumerProcessor = "processor"
+
+// Processor is the second pipeline stage: reads map-matched GPS data,
+// infers routes, clusters devices into vehicles, and broadcasts positions.
+type Processor struct {
+	rdb         *redis.Client
+	inference   *InferenceEngine
+	broadcaster *Broadcaster
+
+	mu      sync.RWMutex
+	devices map[string]*DeviceState // device_hash → latest state
+}
+
+func NewProcessor(rdb *redis.Client, inference *InferenceEngine, broadcaster *Broadcaster) *Processor {
+	return &Processor{
+		rdb:         rdb,
+		inference:   inference,
+		broadcaster: broadcaster,
+		devices:     make(map[string]*DeviceState),
+	}
+}
+
+// Run starts the processor consumer loop. Blocks until context is cancelled.
+func (p *Processor) Run(ctx context.Context) error {
+	slog.Info("processor worker started")
+
+	// Background: periodically cluster and broadcast
+	go p.clusterLoop(ctx)
+
+	// Background: periodically clean stale devices
+	go p.cleanLoop(ctx)
+
+	for {
+		select {
+		case <-ctx.Done():
+			slog.Info("processor worker stopped")
+			return ctx.Err()
+		default:
+		}
+
+		streams, err := p.rdb.XReadGroup(ctx, &redis.XReadGroupArgs{
+			Group:    ConsumerGroup,
+			Consumer: ConsumerProcessor,
+			Streams:  []string{StreamMatchedGPS, ">"},
+			Count:    20,
+			Block:    2 * time.Second,
+		}).Result()
+		if err != nil {
+			if err == redis.Nil || ctx.Err() != nil {
+				continue
+			}
+			slog.Error("processor xreadgroup", "error", err)
+			time.Sleep(time.Second)
+			continue
+		}
+
+		for _, stream := range streams {
+			for _, msg := range stream.Messages {
+				p.processMessage(ctx, msg)
+				p.rdb.XAck(ctx, StreamMatchedGPS, ConsumerGroup, msg.ID)
+			}
+		}
+	}
+}
+
+func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
+	data, ok := msg.Values["data"].(string)
+	if !ok {
+		return
+	}
+
+	var trace model.MatchedTrace
+	if err := json.Unmarshal([]byte(data), &trace); err != nil {
+		slog.Error("processor unmarshal", "error", err)
+		return
+	}
+
+	// Infer which route this trace belongs to
+	result := p.inference.Infer(trace)
+	if result == nil {
+		slog.Debug("no route inferred", "device", trace.DeviceHash[:8])
+		return
+	}
+
+	// Compute position from matched points (use last point as current position)
+	if len(trace.Points) == 0 {
+		return
+	}
+	lastPoint := trace.Points[len(trace.Points)-1]
+
+	// Update device state
+	p.mu.Lock()
+	p.devices[trace.DeviceHash] = &DeviceState{
+		DeviceHash: trace.DeviceHash,
+		RouteID:    result.RouteID,
+		Lat:        lastPoint.Lat,
+		Lng:        lastPoint.Lng,
+		SpeedKMH:   trace.AvgSpeed,
+		Bearing:    trace.AvgBearing,
+		Accuracy:   10.0, // default, could come from original pings
+		LastSeen:   time.Now(),
+	}
+	p.mu.Unlock()
+
+	slog.Debug("device updated",
+		"device", trace.DeviceHash[:8],
+		"route", result.RouteID,
+		"confidence", result.Confidence,
+	)
+}
+
+// clusterLoop periodically clusters all active devices and broadcasts vehicle positions.
+func (p *Processor) clusterLoop(ctx context.Context) {
+	ticker := time.NewTicker(3 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			p.clusterAndBroadcast(ctx)
+		}
+	}
+}
+
+func (p *Processor) clusterAndBroadcast(ctx context.Context) {
+	p.mu.RLock()
+	devices := make([]DeviceState, 0, len(p.devices))
+	for _, d := range p.devices {
+		devices = append(devices, *d)
+	}
+	p.mu.RUnlock()
+
+	if len(devices) == 0 {
+		return
+	}
+
+	vehicles := ClusterVehicles(devices)
+
+	for _, v := range vehicles {
+		if err := p.broadcaster.Publish(ctx, v); err != nil {
+			slog.Error("broadcast failed", "vehicle", v.VirtualID, "error", err)
+		}
+	}
+}
+
+// cleanLoop removes stale devices (no update for 5 minutes).
+func (p *Processor) cleanLoop(ctx context.Context) {
+	ticker := time.NewTicker(30 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			cutoff := time.Now().Add(-5 * time.Minute)
+			p.mu.Lock()
+			for hash, d := range p.devices {
+				if d.LastSeen.Before(cutoff) {
+					delete(p.devices, hash)
+				}
+			}
+			p.mu.Unlock()
+
+			p.broadcaster.CleanStale(ctx)
+		}
+	}
+}

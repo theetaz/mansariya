@@ -1,0 +1,62 @@
+package handler
+
+import (
+	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/masariya/backend/internal/store"
+)
+
+type RoutesHandler struct {
+	routeStore *store.RouteStore
+	stopStore  *store.StopStore
+}
+
+func NewRoutesHandler(routeStore *store.RouteStore, stopStore *store.StopStore) *RoutesHandler {
+	return &RoutesHandler{routeStore: routeStore, stopStore: stopStore}
+}
+
+// List returns routes near a location.
+func (h *RoutesHandler) List(w http.ResponseWriter, r *http.Request) {
+	lat, _ := strconv.ParseFloat(r.URL.Query().Get("lat"), 64)
+	lng, _ := strconv.ParseFloat(r.URL.Query().Get("lng"), 64)
+	radiusKM, _ := strconv.ParseFloat(r.URL.Query().Get("radius_km"), 64)
+
+	if lat == 0 || lng == 0 {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "lat and lng are required"})
+		return
+	}
+	if radiusKM == 0 {
+		radiusKM = 5
+	}
+
+	routes, err := h.routeStore.ListNearby(r.Context(), lat, lng, radiusKM)
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "query failed"})
+		return
+	}
+
+	writeJSON(w, http.StatusOK, routes)
+}
+
+// Get returns a single route with its stops.
+func (h *RoutesHandler) Get(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+
+	route, err := h.routeStore.GetByID(r.Context(), routeID)
+	if err != nil {
+		writeJSON(w, http.StatusNotFound, map[string]string{"error": "route not found"})
+		return
+	}
+
+	stops, err := h.stopStore.GetByRoute(r.Context(), routeID)
+	if err != nil {
+		stops = nil // non-fatal
+	}
+
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"route": route,
+		"stops": stops,
+	})
+}
