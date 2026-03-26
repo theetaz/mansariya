@@ -108,19 +108,24 @@ func (mm *MapMatcher) processMessage(ctx context.Context, msg redis.XMessage) er
 		}
 	}
 
-	// Call Valhalla trace_route
+	// Call Valhalla trace_route (fallback to raw GPS if Valhalla unavailable)
 	result, err := mm.valhalla.TraceRoute(ctx, shape)
-	if err != nil {
-		return fmt.Errorf("valhalla trace_route: %w", err)
-	}
 
-	// Build matched trace
 	matched := model.MatchedTrace{
 		DeviceHash: batch.DeviceHash,
 		SessionID:  batch.SessionID,
 	}
 
-	if len(result.Trip.MatchedPoints) > 0 {
+	if err != nil {
+		// Valhalla unavailable — use raw GPS points as fallback
+		slog.Debug("valhalla unavailable, using raw GPS", "error", err)
+		for _, p := range batch.Pings {
+			matched.Points = append(matched.Points, model.MatchedPoint{
+				Lat: p.Lat,
+				Lng: p.Lng,
+			})
+		}
+	} else if len(result.Trip.MatchedPoints) > 0 {
 		for _, mp := range result.Trip.MatchedPoints {
 			matched.Points = append(matched.Points, model.MatchedPoint{
 				Lat:    mp.Lat,
