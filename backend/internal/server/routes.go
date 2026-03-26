@@ -20,6 +20,7 @@ type Deps struct {
 	Sync    *handler.SyncHandler
 	Journey *handler.JourneyHandler
 	Admin   *handler.AdminHandler
+	Buses   *handler.BusesHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -57,6 +58,10 @@ func NewRouter(deps *Deps) *chi.Mux {
 		// Stops
 		r.Get("/stops/nearby", deps.Stops.Nearby)
 		r.Get("/stops/search", deps.Journey.HandleStopSearch)
+
+		// Live buses
+		r.Get("/buses/active", deps.Buses.Active)
+		r.Get("/buses/nearby", deps.Buses.Nearby)
 	})
 
 	// WebSocket

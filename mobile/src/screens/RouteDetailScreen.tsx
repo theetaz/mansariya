@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   ActivityIndicator,
+  Share,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useRoute} from '@react-navigation/native';
@@ -142,6 +143,29 @@ export default function RouteDetailScreen() {
         </View>
       </View>
 
+      {/* Action buttons */}
+      <View style={styles.actionRow}>
+        <TouchableOpacity
+          style={styles.shareButton}
+          onPress={() => {
+            const busInfo = activeBuses.length > 0
+              ? ` ${activeBuses.length} bus${activeBuses.length > 1 ? 'es' : ''} active now!`
+              : '';
+            Share.share({
+              message: `Route ${routeData.id}: ${routeData.name_en}${busInfo} — Track live on Mansariya https://masariya.lk`,
+            });
+          }}>
+          <Text style={styles.shareIcon}>📤</Text>
+          <Text style={styles.shareText}>Share</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.saveActionButton, isSaved && styles.saveActionButtonActive]}
+          onPress={toggleSaved}>
+          <Text style={styles.saveActionIcon}>{isSaved ? '★' : '☆'}</Text>
+          <Text style={styles.saveActionText}>{isSaved ? 'Saved' : 'Save'}</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Live buses */}
       {activeBuses.length > 0 && (
         <View style={styles.liveBusSection}>
@@ -249,6 +273,25 @@ const styles = StyleSheet.create({
   },
   statValue: {fontSize: 18, fontWeight: '700', color: colors.neutral900},
   statLabel: {fontSize: 11, color: colors.neutral500, marginTop: 2},
+  actionRow: {
+    flexDirection: 'row', gap: spacing.sm,
+    paddingHorizontal: spacing.lg, paddingBottom: spacing.md,
+  },
+  shareButton: {
+    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: spacing.sm, backgroundColor: colors.green, borderRadius: radii.md,
+    paddingVertical: spacing.md,
+  },
+  shareIcon: {fontSize: 16},
+  shareText: {color: '#fff', fontWeight: '600', fontSize: 14},
+  saveActionButton: {
+    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: spacing.sm, borderWidth: 1.5, borderColor: colors.neutral200,
+    borderRadius: radii.md, paddingVertical: spacing.md,
+  },
+  saveActionButtonActive: {borderColor: colors.amber, backgroundColor: colors.amberLight},
+  saveActionIcon: {fontSize: 18, color: colors.amber},
+  saveActionText: {fontWeight: '600', fontSize: 14, color: colors.neutral700},
   liveBusSection: {paddingHorizontal: spacing.lg, paddingBottom: spacing.md},
   sectionTitle: {
     fontSize: 13, fontWeight: '600', color: colors.neutral500,

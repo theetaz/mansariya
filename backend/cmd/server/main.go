@@ -118,6 +118,7 @@ func run() error {
 		Sync:    handler.NewSyncHandler(routeStore),
 		Journey: handler.NewJourneyHandler(journeyStore),
 		Admin:   handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
+		Buses:   handler.NewBusesHandler(rdb),
 	}
 
 	router := server.NewRouter(deps)

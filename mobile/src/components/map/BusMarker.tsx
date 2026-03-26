@@ -9,8 +9,8 @@ interface BusMarkersProps {
 }
 
 /**
- * Renders all live bus positions as circle markers on the map.
- * Uses a single ShapeSource + CircleLayer for performance.
+ * Renders all live bus positions as circle markers with route number labels.
+ * Uses ShapeSource + CircleLayer + SymbolLayer for performance.
  */
 export default function BusMarkers({buses, onBusPress}: BusMarkersProps) {
   if (buses.length === 0) return null;
@@ -34,13 +34,12 @@ export default function BusMarkers({buses, onBusPress}: BusMarkersProps) {
     })),
   };
 
-  // Color based on confidence
   const circleColor: any = [
     'match',
     ['get', 'confidence'],
     'verified', colors.confidenceVerified,
     'good', colors.confidenceGood,
-    colors.confidenceApproximate, // default (low/stale)
+    colors.confidenceApproximate,
   ];
 
   const circleOpacity: any = [
@@ -48,7 +47,7 @@ export default function BusMarkers({buses, onBusPress}: BusMarkersProps) {
     ['get', 'confidence'],
     'verified', 1.0,
     'good', 0.85,
-    0.6, // default (low)
+    0.6,
   ];
 
   return (
@@ -62,22 +61,34 @@ export default function BusMarkers({buses, onBusPress}: BusMarkersProps) {
           if (bus) onBusPress(bus);
         }
       }}>
-      {/* White border */}
+      {/* White border circle */}
       <MapLibreGL.CircleLayer
         id="bus-border"
         style={{
-          circleRadius: 14,
+          circleRadius: 16,
           circleColor: '#FFFFFF',
           circleOpacity: circleOpacity,
         }}
       />
-      {/* Colored fill */}
+      {/* Colored fill circle */}
       <MapLibreGL.CircleLayer
         id="bus-fill"
         style={{
-          circleRadius: 12,
+          circleRadius: 14,
           circleColor: circleColor,
           circleOpacity: circleOpacity,
+        }}
+      />
+      {/* Route number label */}
+      <MapLibreGL.SymbolLayer
+        id="bus-label"
+        style={{
+          textField: ['get', 'routeId'],
+          textSize: 10,
+          textColor: '#FFFFFF',
+          textFont: ['Open Sans Bold'],
+          textAllowOverlap: true,
+          textIgnorePlacement: true,
         }}
       />
     </MapLibreGL.ShapeSource>
