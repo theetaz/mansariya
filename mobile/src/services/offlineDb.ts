@@ -65,12 +65,6 @@ function initSchema() {
     )`,
   );
 
-  // FTS5 for trilingual search
-  d.execute(
-    `CREATE VIRTUAL TABLE IF NOT EXISTS routes_fts USING fts5(
-      id, name_en, name_si, name_ta
-    )`,
-  );
 }
 
 // Search routes offline
