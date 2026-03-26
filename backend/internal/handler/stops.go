@@ -3,15 +3,13 @@ package handler
 import (
 	"net/http"
 	"strconv"
-
-	"github.com/masariya/backend/internal/store"
 )
 
 type StopsHandler struct {
-	stopStore *store.StopStore
+	stopStore StopQuerier
 }
 
-func NewStopsHandler(stopStore *store.StopStore) *StopsHandler {
+func NewStopsHandler(stopStore StopQuerier) *StopsHandler {
 	return &StopsHandler{stopStore: stopStore}
 }
 

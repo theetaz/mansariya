@@ -5,15 +5,14 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/masariya/backend/internal/store"
 )
 
 type RoutesHandler struct {
-	routeStore *store.RouteStore
-	stopStore  *store.StopStore
+	routeStore RouteQuerier
+	stopStore  StopQuerier
 }
 
-func NewRoutesHandler(routeStore *store.RouteStore, stopStore *store.StopStore) *RoutesHandler {
+func NewRoutesHandler(routeStore RouteQuerier, stopStore StopQuerier) *RoutesHandler {
 	return &RoutesHandler{routeStore: routeStore, stopStore: stopStore}
 }
 

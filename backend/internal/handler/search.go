@@ -3,15 +3,13 @@ package handler
 import (
 	"net/http"
 	"strconv"
-
-	"github.com/masariya/backend/internal/store"
 )
 
 type SearchHandler struct {
-	routeStore *store.RouteStore
+	routeStore RouteQuerier
 }
 
-func NewSearchHandler(routeStore *store.RouteStore) *SearchHandler {
+func NewSearchHandler(routeStore RouteQuerier) *SearchHandler {
 	return &SearchHandler{routeStore: routeStore}
 }
 

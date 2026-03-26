@@ -6,14 +6,13 @@ import (
 	"net/http"
 
 	"github.com/masariya/backend/internal/model"
-	"github.com/masariya/backend/internal/pipeline"
 )
 
 type GPSHandler struct {
-	ingester *pipeline.Ingester
+	ingester GPSIngester
 }
 
-func NewGPSHandler(ingester *pipeline.Ingester) *GPSHandler {
+func NewGPSHandler(ingester GPSIngester) *GPSHandler {
 	return &GPSHandler{ingester: ingester}
 }
 
