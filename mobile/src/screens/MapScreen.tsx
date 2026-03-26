@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {
   View,
   Text,
-  FlatList,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -109,11 +108,17 @@ export default function MapScreen() {
       {/* Bottom sheet — nearby buses grouped by route */}
       <BottomSheet>
         <Text style={styles.sheetTitle}>{t('map.nearby_routes')}</Text>
-        <FlatList
-          data={routeSummaries}
-          keyExtractor={(item) => item.routeId}
-          renderItem={({item}) => (
+
+        {routeSummaries.length === 0 ? (
+          <View style={styles.emptySheet}>
+            <Text style={styles.emptyIcon}>🚌</Text>
+            <Text style={styles.emptyText}>{t('map.no_buses')}</Text>
+            <Text style={styles.emptyHint}>Waiting for live data...</Text>
+          </View>
+        ) : (
+          routeSummaries.map((item) => (
             <TouchableOpacity
+              key={item.routeId}
               style={styles.liveRouteCard}
               onPress={() =>
                 navigation.navigate('RouteDetail', {routeId: item.routeId})
@@ -123,9 +128,7 @@ export default function MapScreen() {
                 <Text style={styles.routeBadgeText}>{item.routeId}</Text>
               </View>
               <View style={styles.routeInfo}>
-                <Text style={styles.routeName}>
-                  Route {item.routeId}
-                </Text>
+                <Text style={styles.routeName}>Route {item.routeId}</Text>
                 <Text style={styles.routeMeta}>
                   {item.busCount} bus{item.busCount > 1 ? 'es' : ''} ·{' '}
                   {item.nearestBus.speed_kmh.toFixed(0)} km/h
@@ -136,18 +139,8 @@ export default function MapScreen() {
                 showLabel={false}
               />
             </TouchableOpacity>
-          )}
-          ListEmptyComponent={
-            <View style={styles.emptySheet}>
-              <Text style={styles.emptyIcon}>🚌</Text>
-              <Text style={styles.emptyText}>{t('map.no_buses')}</Text>
-              <Text style={styles.emptyHint}>
-                Waiting for live data...
-              </Text>
-            </View>
-          }
-          scrollEnabled={false}
-        />
+          ))
+        )}
       </BottomSheet>
     </View>
   );

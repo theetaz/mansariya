@@ -1,52 +1,44 @@
-import React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import React, {useMemo, useRef} from 'react';
+import {StyleSheet} from 'react-native';
+import GorhomBottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {colors} from '../../constants/theme';
-
-const {height: SCREEN_HEIGHT} = Dimensions.get('window');
-const SHEET_HEIGHT = SCREEN_HEIGHT * 0.22; // collapsed height showing ~2 items
 
 interface BottomSheetProps {
   children: React.ReactNode;
 }
 
 /**
- * Simple static bottom sheet.
- * Shows a fixed panel at the bottom of the screen with a pull handle.
- * Full gesture-based sheet will be added when react-native-reanimated is integrated.
+ * Expandable bottom sheet using @gorhom/bottom-sheet.
+ * 3 snap points: collapsed (~18%), half (~45%), full (~85%).
+ * Swipe up to expand, swipe down to collapse.
  */
 export default function BottomSheet({children}: BottomSheetProps) {
-  return (
-    <View style={styles.container}>
-      {/* Pull handle */}
-      <View style={styles.handleContainer}>
-        <View style={styles.handle} />
-      </View>
+  const bottomSheetRef = useRef<GorhomBottomSheet>(null);
+  const snapPoints = useMemo(() => ['18%', '45%', '85%'], []);
 
-      {/* Content */}
-      <View style={styles.content}>{children}</View>
-    </View>
+  return (
+    <GorhomBottomSheet
+      ref={bottomSheetRef}
+      index={0}
+      snapPoints={snapPoints}
+      handleIndicatorStyle={styles.handle}
+      backgroundStyle={styles.background}
+      style={styles.shadow}>
+      <BottomSheetScrollView style={styles.content}>
+        {children}
+      </BottomSheetScrollView>
+    </GorhomBottomSheet>
   );
 }
 
+// Approximate collapsed height for FAB positioning
+export const SHEET_HEIGHT = 140;
+
 const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: SHEET_HEIGHT,
+  background: {
     backgroundColor: colors.background,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: -3},
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  handleContainer: {
-    alignItems: 'center',
-    paddingVertical: 10,
   },
   handle: {
     width: 36,
@@ -58,6 +50,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
   },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: -3},
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 10,
+  },
 });
-
-export {SHEET_HEIGHT};

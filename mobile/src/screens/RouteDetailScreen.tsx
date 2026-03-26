@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
@@ -12,7 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {useRoute} from '@react-navigation/native';
 import type {RouteProp} from '@react-navigation/native';
 import type {RootStackParamList} from '../navigation/types';
-import {fetchRouteDetail, Route, Stop} from '../services/api';
+import {fetchRouteDetail, fetchRouteStops, Route, EnrichedRouteStop} from '../services/api';
 import {useSavedStore} from '../stores/useSavedStore';
 import {useBusPositions} from '../hooks/useBusPositions';
 import {useMapStore} from '../stores/useMapStore';
@@ -27,9 +26,8 @@ export default function RouteDetailScreen() {
   const {routeId} = route.params;
 
   const [routeData, setRouteData] = useState<Route | null>(null);
-  const [stops, setStops] = useState<Stop[]>([]);
+  const [stops, setStops] = useState<EnrichedRouteStop[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAllStops, setShowAllStops] = useState(false);
 
   const addRoute = useSavedStore((s) => s.addRoute);
   const removeRoute = useSavedStore((s) => s.removeRoute);
@@ -48,20 +46,40 @@ export default function RouteDetailScreen() {
 
   const loadRoute = async () => {
     try {
-      const data = await fetchRouteDetail(routeId);
-      setRouteData(data.route);
-      setStops(data.stops || []);
-    } catch {
-      // offline fallback would go here
-    } finally {
-      setLoading(false);
-    }
+      const [detailResp, stopsResp] = await Promise.all([
+        fetchRouteDetail(routeId),
+        fetchRouteStops(routeId),
+      ]);
+      setRouteData(detailResp.route);
+      setStops(stopsResp || []);
+    } catch {}
+    setLoading(false);
   };
 
   const toggleSaved = () => {
     if (!routeData) return;
     isSaved ? removeRoute(routeId) : addRoute(routeData);
   };
+
+  // Find which stop the bus is nearest to
+  const getBusStopIndex = (busLat: number, busLng: number): number => {
+    if (stops.length === 0) return -1;
+    let minDist = Infinity;
+    let bestIdx = 0;
+    stops.forEach((s, i) => {
+      const dist = Math.sqrt(
+        Math.pow(s.stop_lat - busLat, 2) + Math.pow(s.stop_lng - busLng, 2),
+      );
+      if (dist < minDist) {
+        minDist = dist;
+        bestIdx = i;
+      }
+    });
+    return bestIdx;
+  };
+
+  const leadBus = activeBuses[0];
+  const busAtStopIdx = leadBus ? getBusStopIndex(leadBus.lat, leadBus.lng) : -1;
 
   if (loading) {
     return (
@@ -79,9 +97,6 @@ export default function RouteDetailScreen() {
       </View>
     );
   }
-
-  const displayedStops = showAllStops ? stops : stops.slice(0, 5);
-  const hasMore = stops.length > 5 && !showAllStops;
 
   return (
     <ScrollView style={styles.container}>
@@ -109,37 +124,22 @@ export default function RouteDetailScreen() {
 
       {/* Quick stats */}
       <View style={styles.statsRow}>
-        {routeData.frequency_minutes && (
+        {routeData.frequency_minutes ? (
           <View style={styles.statCard}>
             <Text style={styles.statValue}>~{routeData.frequency_minutes}</Text>
             <Text style={styles.statLabel}>min freq</Text>
           </View>
-        )}
-        {routeData.fare_lkr && (
+        ) : null}
+        {routeData.fare_lkr ? (
           <View style={styles.statCard}>
             <Text style={styles.statValue}>Rs.{routeData.fare_lkr}</Text>
             <Text style={styles.statLabel}>{t('route.fare')}</Text>
           </View>
-        )}
+        ) : null}
         <View style={styles.statCard}>
           <Text style={styles.statValue}>{stops.length}</Text>
           <Text style={styles.statLabel}>{t('route.stops')}</Text>
         </View>
-      </View>
-
-      {/* Action buttons */}
-      <View style={styles.actions}>
-        <Button
-          title={t('route.track')}
-          onPress={() => {}}
-          style={{flex: 1}}
-        />
-        <Button
-          title={isSaved ? 'Saved' : 'Save'}
-          onPress={toggleSaved}
-          variant="secondary"
-          style={{flex: 1}}
-        />
       </View>
 
       {/* Live buses */}
@@ -150,12 +150,10 @@ export default function RouteDetailScreen() {
           </Text>
           {activeBuses.map((bus) => (
             <View key={bus.virtual_id} style={styles.busCard}>
-              <View style={styles.busInfo}>
-                <Text style={styles.busPosition}>
-                  ({bus.lat.toFixed(4)}, {bus.lng.toFixed(4)})
-                </Text>
-                <Text style={styles.busSpeed}>
-                  {bus.speed_kmh.toFixed(0)} km/h
+              <View>
+                <Text style={styles.busSpeed}>{bus.speed_kmh.toFixed(0)} km/h</Text>
+                <Text style={styles.busContrib}>
+                  {bus.contributor_count} contributor{bus.contributor_count > 1 ? 's' : ''}
                 </Text>
               </View>
               <ConfidenceDots level={bus.confidence} />
@@ -164,46 +162,66 @@ export default function RouteDetailScreen() {
         </View>
       )}
 
-      {/* Stop timeline */}
-      <Text style={styles.sectionTitle}>
-        {t('route.stops')} ({stops.length})
-      </Text>
-      {displayedStops.map((stop, index) => {
+      {/* Stop timeline with live trip progress */}
+      <Text style={styles.sectionTitle}>{t('route.stops')} ({stops.length})</Text>
+
+      {stops.map((stop, index) => {
         const isFirst = index === 0;
-        const isLast = index === stops.length - 1 && showAllStops;
+        const isLast = index === stops.length - 1;
+        const isPassed = busAtStopIdx >= 0 && index < busAtStopIdx;
+        const isCurrent = index === busAtStopIdx;
+
         return (
-          <View key={stop.id} style={styles.stopRow}>
+          <View key={stop.stop_id} style={styles.stopRow}>
             <View style={styles.timeline}>
               <View
                 style={[
                   styles.dot,
-                  isFirst && styles.dotFirst,
-                  isLast && styles.dotLast,
+                  isFirst && styles.dotOrigin,
+                  isLast && styles.dotDest,
+                  isPassed && styles.dotPassed,
+                  isCurrent && styles.dotCurrent,
                 ]}
               />
-              {index < displayedStops.length - 1 && (
-                <View style={styles.line} />
+              {!isLast && (
+                <View style={[styles.line, isPassed && styles.linePassed]} />
+              )}
+              {isCurrent && (
+                <View style={styles.busIcon}>
+                  <Text style={{fontSize: 20}}>🚌</Text>
+                </View>
               )}
             </View>
+
             <View style={styles.stopInfo}>
-              <Text style={styles.stopName}>{stop.name_en}</Text>
-              {stop.name_si && (
-                <Text style={styles.stopNameLocal}>{stop.name_si}</Text>
-              )}
+              <Text
+                style={[
+                  styles.stopName,
+                  isPassed && styles.stopPassed,
+                  isCurrent && styles.stopCurrent,
+                ]}>
+                {stop.stop_name_en}
+              </Text>
+              {stop.stop_name_si ? (
+                <Text style={styles.stopLocal}>{stop.stop_name_si}</Text>
+              ) : null}
+              <View style={styles.stopMeta}>
+                {stop.typical_duration_min > 0 && (
+                  <Text style={styles.metaText}>{stop.typical_duration_min} min</Text>
+                )}
+                {stop.fare_from_start_lkr > 0 && (
+                  <Text style={styles.metaText}>Rs.{stop.fare_from_start_lkr}</Text>
+                )}
+                {stop.is_terminal && (
+                  <View style={styles.terminalBadge}>
+                    <Text style={styles.terminalText}>Terminal</Text>
+                  </View>
+                )}
+              </View>
             </View>
           </View>
         );
       })}
-
-      {hasMore && (
-        <TouchableOpacity
-          style={styles.showMore}
-          onPress={() => setShowAllStops(true)}>
-          <Text style={styles.showMoreText}>
-            Show all {stops.length} stops
-          </Text>
-        </TouchableOpacity>
-      )}
 
       <View style={{height: 40}} />
     </ScrollView>
@@ -212,14 +230,11 @@ export default function RouteDetailScreen() {
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: colors.background},
-  centered: {flex: 1, justifyContent: 'center', alignItems: 'center', gap: spacing.lg},
-  errorText: {...typography.body, color: colors.neutral500},
+  centered: {flex: 1, justifyContent: 'center', alignItems: 'center', gap: 16},
+  errorText: {fontSize: 15, color: colors.neutral500},
   header: {
-    flexDirection: 'row',
-    padding: spacing.lg,
-    alignItems: 'center',
-    borderBottomWidth: 0.5,
-    borderBottomColor: colors.neutral200,
+    flexDirection: 'row', padding: spacing.lg, alignItems: 'center',
+    borderBottomWidth: 0.5, borderBottomColor: colors.neutral200,
   },
   headerInfo: {flex: 1, marginLeft: spacing.md},
   routeName: {fontSize: 18, fontWeight: '700', color: colors.neutral900},
@@ -227,81 +242,50 @@ const styles = StyleSheet.create({
   meta: {fontSize: 12, color: colors.neutral500, marginTop: 4},
   saveBtn: {padding: spacing.sm},
   saveIcon: {fontSize: 28, color: colors.amber},
-  statsRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
+  statsRow: {flexDirection: 'row', gap: spacing.sm, padding: spacing.lg, paddingBottom: spacing.sm},
   statCard: {
-    flex: 1,
-    backgroundColor: colors.surface,
-    borderRadius: radii.md,
-    padding: spacing.md,
-    alignItems: 'center',
+    flex: 1, backgroundColor: colors.surface, borderRadius: radii.md,
+    padding: spacing.md, alignItems: 'center',
   },
   statValue: {fontSize: 18, fontWeight: '700', color: colors.neutral900},
   statLabel: {fontSize: 11, color: colors.neutral500, marginTop: 2},
-  actions: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.lg,
-  },
-  liveBusSection: {
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.md,
-  },
+  liveBusSection: {paddingHorizontal: spacing.lg, paddingBottom: spacing.md},
   sectionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.neutral500,
-    letterSpacing: 0.3,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
+    fontSize: 13, fontWeight: '600', color: colors.neutral500,
+    letterSpacing: 0.3, paddingHorizontal: spacing.lg, paddingVertical: spacing.sm,
     textTransform: 'uppercase',
   },
   busCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.greenLight,
-    borderRadius: radii.md,
-    padding: spacing.md,
-    marginTop: spacing.sm,
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    backgroundColor: colors.greenLight, borderRadius: radii.md,
+    padding: spacing.md, marginTop: spacing.sm,
   },
-  busInfo: {},
-  busPosition: {fontSize: 13, color: colors.neutral900, fontWeight: '500'},
-  busSpeed: {fontSize: 11, color: colors.neutral500, marginTop: 2},
+  busSpeed: {fontSize: 15, fontWeight: '600', color: colors.neutral900},
+  busContrib: {fontSize: 11, color: colors.neutral500, marginTop: 2},
   stopRow: {flexDirection: 'row', paddingHorizontal: spacing.lg},
-  timeline: {width: 24, alignItems: 'center'},
+  timeline: {width: 30, alignItems: 'center'},
   dot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: colors.blue,
-    marginTop: 4,
+    width: 14, height: 14, borderRadius: 7,
+    backgroundColor: colors.neutral300, borderWidth: 2, borderColor: colors.neutral200,
+    marginTop: 4, zIndex: 2,
   },
-  dotFirst: {backgroundColor: colors.green},
-  dotLast: {backgroundColor: colors.red},
-  line: {
-    width: 2,
-    flex: 1,
-    backgroundColor: colors.neutral200,
-    marginVertical: 2,
-    minHeight: 20,
+  dotOrigin: {backgroundColor: colors.green, borderColor: colors.greenDark},
+  dotDest: {backgroundColor: colors.red, borderColor: colors.red},
+  dotPassed: {backgroundColor: colors.green, borderColor: colors.green},
+  dotCurrent: {
+    backgroundColor: colors.green, borderColor: colors.greenDark,
+    width: 18, height: 18, borderRadius: 9, borderWidth: 3, marginLeft: -2,
   },
+  line: {width: 3, flex: 1, backgroundColor: colors.neutral200, marginVertical: 2, minHeight: 30},
+  linePassed: {backgroundColor: colors.green},
+  busIcon: {position: 'absolute', left: -12, top: -2, zIndex: 3},
   stopInfo: {flex: 1, paddingBottom: spacing.lg, paddingLeft: spacing.sm},
   stopName: {fontSize: 15, fontWeight: '500', color: colors.neutral900},
-  stopNameLocal: {fontSize: 12, color: colors.neutral500, marginTop: 1},
-  showMore: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    alignItems: 'center',
-  },
-  showMoreText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: colors.green,
-  },
+  stopPassed: {color: colors.neutral500},
+  stopCurrent: {fontWeight: '700', color: colors.green},
+  stopLocal: {fontSize: 12, color: colors.neutral500, marginTop: 1},
+  stopMeta: {flexDirection: 'row', gap: spacing.sm, marginTop: 4},
+  metaText: {fontSize: 11, color: colors.neutral500},
+  terminalBadge: {backgroundColor: colors.blueLight, borderRadius: 4, paddingHorizontal: 6, paddingVertical: 1},
+  terminalText: {fontSize: 10, fontWeight: '600', color: colors.blueDark},
 });

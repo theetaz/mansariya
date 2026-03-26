@@ -62,6 +62,7 @@ func run() error {
 	// Initialize stores
 	routeStore := store.NewRouteStore(pool)
 	stopStore := store.NewStopStore(pool)
+	journeyStore := store.NewJourneyStore(pool)
 	_ = store.NewTripStore(pool) // used later for ETA
 
 	// Load route spatial index
@@ -107,13 +108,14 @@ func run() error {
 
 	// Wire up HTTP handlers
 	deps := &server.Deps{
-		GPS:    handler.NewGPSHandler(ingester),
-		Routes: handler.NewRoutesHandler(routeStore, stopStore),
-		Search: handler.NewSearchHandler(routeStore),
-		Stops:  handler.NewStopsHandler(stopStore),
-		ETA:    handler.NewETAHandler(service.NewETAService(rdb, routeIndex)),
-		WS:     handler.NewWSHandler(wsHub),
-		Sync:   handler.NewSyncHandler(routeStore),
+		GPS:     handler.NewGPSHandler(ingester),
+		Routes:  handler.NewRoutesHandler(routeStore, stopStore),
+		Search:  handler.NewSearchHandler(routeStore),
+		Stops:   handler.NewStopsHandler(stopStore),
+		ETA:     handler.NewETAHandler(service.NewETAService(rdb, routeIndex)),
+		WS:      handler.NewWSHandler(wsHub),
+		Sync:    handler.NewSyncHandler(routeStore),
+		Journey: handler.NewJourneyHandler(journeyStore),
 	}
 
 	router := server.NewRouter(deps)

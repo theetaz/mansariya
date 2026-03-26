@@ -29,6 +29,21 @@ export interface Stop {
   location: [number, number]; // [lng, lat]
 }
 
+export interface EnrichedRouteStop {
+  route_id: string;
+  stop_id: string;
+  stop_order: number;
+  distance_from_start_km: number;
+  typical_duration_min: number;
+  fare_from_start_lkr: number;
+  stop_name_en: string;
+  stop_name_si: string;
+  stop_name_ta: string;
+  stop_lat: number;
+  stop_lng: number;
+  is_terminal: boolean;
+}
+
 export interface GPSPing {
   lat: number;
   lng: number;
@@ -48,6 +63,16 @@ export interface BusPosition {
   contributor_count: number;
   confidence: 'low' | 'good' | 'verified';
   last_update: string;
+}
+
+export interface JourneyResult {
+  route: Route;
+  board_stop: EnrichedRouteStop;
+  exit_stop: EnrichedRouteStop;
+  stops_between: number;
+  estimated_duration_min: number;
+  fare_lkr: number;
+  live_bus_count: number;
 }
 
 // GPS batch upload
@@ -80,6 +105,12 @@ export async function fetchRouteDetail(routeId: string) {
   return data as {route: Route; stops: Stop[]};
 }
 
+// Enriched route stops (with timing, fares)
+export async function fetchRouteStops(routeId: string): Promise<EnrichedRouteStop[]> {
+  const {data} = await api.get(`${ENDPOINTS.ROUTES}/${routeId}/stops`);
+  return data;
+}
+
 // Search
 export async function searchRoutes(
   query: string,
@@ -87,6 +118,25 @@ export async function searchRoutes(
 ): Promise<{results: Route[]; count: number}> {
   const {data} = await api.get(ENDPOINTS.SEARCH, {
     params: {q: query, limit},
+  });
+  return data;
+}
+
+// Journey search
+export async function searchJourney(
+  from: string,
+  to: string,
+): Promise<{origin: Stop; destination: Stop; journeys: JourneyResult[]}> {
+  const {data} = await api.get('/api/v1/journey', {
+    params: {from, to},
+  });
+  return data;
+}
+
+// Stop search (autocomplete)
+export async function searchStops(query: string): Promise<Stop[]> {
+  const {data} = await api.get('/api/v1/stops/search', {
+    params: {q: query},
   });
   return data;
 }

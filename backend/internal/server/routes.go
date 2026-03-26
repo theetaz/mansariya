@@ -11,13 +11,14 @@ import (
 
 // Deps holds all handler dependencies, injected from main.
 type Deps struct {
-	GPS    *handler.GPSHandler
-	Routes *handler.RoutesHandler
-	Search *handler.SearchHandler
-	Stops  *handler.StopsHandler
-	ETA    *handler.ETAHandler
-	WS     *handler.WSHandler
-	Sync   *handler.SyncHandler
+	GPS     *handler.GPSHandler
+	Routes  *handler.RoutesHandler
+	Search  *handler.SearchHandler
+	Stops   *handler.StopsHandler
+	ETA     *handler.ETAHandler
+	WS      *handler.WSHandler
+	Sync    *handler.SyncHandler
+	Journey *handler.JourneyHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -44,12 +45,17 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Get("/routes/sync", deps.Sync.HandleSync)
 		r.Get("/routes/{routeID}", deps.Routes.Get)
 		r.Get("/routes/{routeID}/eta", deps.ETA.Handle)
+		r.Get("/routes/{routeID}/stops", deps.Journey.HandleRouteStops)
 
 		// Search
 		r.Get("/search", deps.Search.Handle)
 
+		// Journey planning
+		r.Get("/journey", deps.Journey.HandleSearch)
+
 		// Stops
 		r.Get("/stops/nearby", deps.Stops.Nearby)
+		r.Get("/stops/search", deps.Journey.HandleStopSearch)
 	})
 
 	// WebSocket
