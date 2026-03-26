@@ -1,7 +1,9 @@
-// Location tracking service using expo-location
-// Supports foreground and background GPS collection.
+// Location tracking service
+// Uses react-native-geolocation-service for foreground GPS collection.
+// Production will add react-native-background-geolocation for background mode.
 
-import * as Location from 'expo-location';
+import Geolocation from 'react-native-geolocation-service';
+import {Platform} from 'react-native';
 import {sendGPSBatch, GPSPing} from './api';
 
 let isTracking = false;
@@ -9,7 +11,7 @@ let sessionId: string | null = null;
 let deviceHash: string | null = null;
 let pingBuffer: GPSPing[] = [];
 let uploadInterval: ReturnType<typeof setInterval> | null = null;
-let locationSubscription: Location.LocationSubscription | null = null;
+let watchId: number | null = null;
 
 function generateDeviceHash(): string {
   const chars = 'abcdef0123456789';
@@ -24,58 +26,42 @@ function generateSessionId(): string {
   return `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export async function requestLocationPermissions(): Promise<boolean> {
-  const {status: foreground} =
-    await Location.requestForegroundPermissionsAsync();
-  if (foreground !== 'granted') {
-    console.warn('[Location] Foreground permission denied');
-    return false;
-  }
-
-  // Request background for tracking with screen off
-  const {status: background} =
-    await Location.requestBackgroundPermissionsAsync();
-  if (background !== 'granted') {
-    console.log('[Location] Background permission denied — foreground only');
-  }
-
-  return true;
-}
-
-export async function startTracking() {
+export function startTracking() {
   if (isTracking) return;
-
-  const hasPermission = await requestLocationPermissions();
-  if (!hasPermission) return;
 
   isTracking = true;
   deviceHash = generateDeviceHash();
   sessionId = generateSessionId();
   pingBuffer = [];
 
-  // Start watching position
-  locationSubscription = await Location.watchPositionAsync(
-    {
-      accuracy: Location.Accuracy.High,
-      distanceInterval: 20, // minimum 20m between updates
-      timeInterval: 5000, // 5 second intervals
-    },
-    (location) => {
+  // Start GPS watching
+  watchId = Geolocation.watchPosition(
+    (position) => {
       if (!isTracking) return;
 
       const ping: GPSPing = {
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
-        ts: Math.floor(location.timestamp / 1000),
-        acc: location.coords.accuracy ?? 10,
-        spd: location.coords.speed ?? 0,
-        brg: location.coords.heading ?? 0,
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        ts: Math.floor(position.timestamp / 1000),
+        acc: position.coords.accuracy ?? 10,
+        spd: position.coords.speed ?? 0,
+        brg: position.coords.heading ?? 0,
       };
 
       pingBuffer.push(ping);
       console.log(
         `[GPS] ${ping.lat.toFixed(5)}, ${ping.lng.toFixed(5)} acc=${ping.acc.toFixed(0)}m`,
       );
+    },
+    (error) => {
+      console.warn('[GPS] Error:', error.code, error.message);
+    },
+    {
+      enableHighAccuracy: true,
+      distanceFilter: 20, // minimum 20m between updates
+      interval: 5000, // 5 second intervals (Android)
+      fastestInterval: 3000,
+      ...(Platform.OS === 'ios' ? {showsBackgroundLocationIndicator: true} : {}),
     },
   );
 
@@ -93,10 +79,10 @@ export function stopTracking() {
 
   isTracking = false;
 
-  // Stop location watching
-  if (locationSubscription) {
-    locationSubscription.remove();
-    locationSubscription = null;
+  // Stop GPS watching
+  if (watchId !== null) {
+    Geolocation.clearWatch(watchId);
+    watchId = null;
   }
 
   // Flush remaining pings

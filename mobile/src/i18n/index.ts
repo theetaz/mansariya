@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import {getLocales} from 'expo-localization';
+import * as RNLocalize from 'react-native-localize';
 
 import en from './en.json';
 import si from './si.json';
@@ -13,8 +13,8 @@ const resources = {
 };
 
 // Detect device language, default to Sinhala
-const deviceLocale = getLocales()[0]?.languageCode ?? 'si';
-const bestLanguage = deviceLocale in resources ? deviceLocale : 'si';
+const bestLanguage =
+  RNLocalize.findBestLanguageTag(Object.keys(resources))?.languageTag ?? 'si';
 
 i18n.use(initReactI18next).init({
   resources,

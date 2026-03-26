@@ -1,42 +1,4 @@
 {
   "name": "MasariyaApp",
-  "displayName": "Mansariya",
-  "expo": {
-    "name": "Mansariya",
-    "slug": "mansariya",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "scheme": "mansariya",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "ios": {
-      "bundleIdentifier": "com.mansariya.app",
-      "supportsTablet": false,
-      "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Mansariya needs your location to show nearby buses and track your ride.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Mansariya needs background location to continue tracking your bus when the app is in the background.",
-        "UIBackgroundModes": ["location"]
-      }
-    },
-    "android": {
-      "package": "com.mansariya.app",
-      "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION",
-        "FOREGROUND_SERVICE",
-        "FOREGROUND_SERVICE_LOCATION"
-      ]
-    },
-    "plugins": [
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Mansariya needs background location to continue tracking your bus.",
-          "isAndroidBackgroundLocationEnabled": true
-        }
-      ],
-      "expo-localization",
-      "expo-font"
-    ]
-  }
+  "displayName": "MasariyaApp"
 }
