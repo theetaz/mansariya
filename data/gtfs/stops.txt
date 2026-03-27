@@ -1,0 +1,401 @@
+stop_id,stop_name,stop_lat,stop_lon
+177_163_170_190_bus_stop_6.902_79.9175,"177, 163, 170, 190 Bus-Stop",6.9020331,79.9175227
+177_bus_stop_6.9046_79.9533,177 bus stop,6.9045555,79.9532658
+18th_mile_post_7.1587_79.8705,18th Mile Post,7.1587327,79.8705384
+18th_mile_post_7.158_79.871,18th Mile Post,7.1580078,79.8709514
+255_6.7949_79.901,255,6.79493,79.900953
+311_badulla_6.972_80.7673,311-Badulla,6.9719849,80.7672733
+311_welimada_6.9721_80.7674,311-Welimada,6.9720775,80.7673645
+47_kandy_6.9718_80.7672,47-Kandy,6.9717976,80.7671828
+47_kandy_kurunegala_6.9719_80.7672,47-Kandy-Kurunegala,6.971949,80.7672304
+749_1_pattipola_6.972_80.7674,749/1-Pattipola,6.9719508,80.7673591
+749_meepilimana_6.9721_80.7672,749-Meepilimana,6.9720794,80.7672384
+79_colombo_6.972_80.7672,79-Colombo,6.971981,80.7671687
+79_colombo_a_c_6.9718_80.7673,79-Colombo (A/C),6.9718011,80.7672842
+abagahamula_7.079_80.6634,Abagahamula,7.0790136,80.6634111
+ac_bus_to_jaffna_6.9483_79.8607,AC bus to Jaffna,6.9482955,79.8606937
+ac_express_route_240_negombo_6.937_79.8555,AC Express Route 240 Negombo,6.9370258,79.8555055
+airport_bus_stop_6.953_79.8806,Airport Bus Stop,6.9529947,79.8806139
+airport_express_bus_187_to_aweriwatta_bus_station_6.9337_79.8558,Airport Express Bus 187 (To Aweriwatta Bus Station),6.9336647,79.855834
+airport_free_shuttle_7.1681_79.8827,Airport free shuttle,7.1681015,79.8827028
+akbar_7.2519_80.5933,Akbar,7.2519244,80.593308
+akkaraipattu_7.218_81.8499,Akkaraipattu,7.2179897,81.8498611
+alawwa_kurunegala_7.2942_80.2409,Alawwa-Kurunegala,7.2942445,80.2408757
+aluthgama_6.432_79.9984,Aluthgama,6.4320384,79.998411
+ampara_7.2902_81.6732,Ampara,7.2902022,81.6731718
+anaipanthy_junction_9.6709_80.0217,Anaipanthy Junction,9.6708958,80.0216671
+ananda_maithree_mawatha_6.8453_79.9388,Ananda Maithree Mawatha,6.8453475,79.9387849
+angunawela_7.2406_80.5933,Angunawela,7.2405699,80.5933401
+anula_vidyalaya_bus_stop_6.8722_79.8839,Anula Vidyalaya Bus Stop,6.8722089,79.8838604
+anuradhapura_8.3402_80.4145,Anuradhapura,8.3401697,80.4145011
+armour_street_6.9425_79.8645,Armour street,6.9424718,79.8644849
+arugam_bay_pick_up_6.9233_79.8694,Arugam Bay Pick Up,6.9232838,79.8694364
+athurugiriya_6.8758_79.9908,Athurugiriya,6.8758128,79.9907631
+athurugiriya_bus_stand_6.8773_79.9894,Athurugiriya Bus Stand,6.8773468,79.9893844
+avissawella_6.68_80.4064,Avissawella,6.6800057,80.4064424
+ayurwedha_bus_stop_7.0917_80.0369,Ayurwedha Bus stop,7.0917229,80.0368681
+badulla_bus_station_6.9881_81.0577,Badulla Bus Station,6.9880814,81.0576938
+bambalapitiya_cargills_bank_halt_6.8971_79.8543,Bambalapitiya Cargills Bank halt,6.8971163,79.8543228
+bambalapitiya_flats_halt_6.8841_79.8584,Bambalapitiya flats halt,6.8840616,79.8584362
+bambalapitiya_junction_6.8933_79.8556,Bambalapitiya Junction,6.893302,79.8555889
+bambalapitiya_junction_6.8947_79.8572,Bambalapitiya Junction,6.8947364,79.857241
+bambalapitiya_junction_bus_stop_6.8943_79.8574,Bambalapitiya Junction Bus Stop,6.8943178,79.8574226
+bambalapitiya_milagiriya_halt_6.8893_79.8569,Bambalapitiya Milagiriya halt,6.8892655,79.8568968
+bandarawela_6.8305_80.9888,Bandarawela,6.8304821,80.9887875
+bastian_mawatha_fort_6.9336_79.8554,Bastian Mawatha – Fort,6.9336012,79.855401
+battaramulla_6.9022_79.9181,Battaramulla,6.902175,79.9181074
+bauddhaloka_mawatha_6.9056_79.9047,Bauddhaloka Mawatha,6.9056152,79.9047419
+belek_kade_6.8145_79.879,Belek kade,6.8144994,79.8789856
+bmich_bus_stop_6.9051_79.8731,BMICH Bus Stop,6.905098,79.8731058
+bogamuwa_7.1107_80.0512,Bogamuwa,7.110688,80.051196
+boralumankada_junction_7.1542_80.58,Boralumankada Junction,7.1542095,80.5800008
+borella_6.9147_79.8778,Borella,6.9146685,79.8778045
+borella_6.9154_79.8778,Borella,6.9153814,79.8778049
+bus_187_to_colombo_7.1736_79.8875,Bus #187 to Colombo,7.17362,79.8874686
+bus_187_to_fort_colombo_7.1661_79.8844,Bus #187 to fort colombo,7.1660547,79.8843734
+bus_stop_155_6.9468_79.8628,Bus Stop #155,6.94683,79.8627971
+bus_stop_9.7198_80.0836,Bus Stop,9.7197983,80.0835733
+bus_stop_near_the_cargills_6.8883_79.8875,bus stop near the cargills,6.8883487,79.8874801
+bus_stop_polduwa_6.9029_79.9121,Bus Stop Polduwa,6.9028946,79.9121377
+bus_stop_refreshing_point_7.0752_80.6752,BUS STOP - refreshing point,7.0752334,80.6752056
+bus_stop_to_colombo_negombo_7.9783_79.8333,Bus stop (to Colombo & Negombo),7.978309,79.8333209
+bus_stop_to_mihintale_8.3561_80.4183,Bus stop to Mihintale,8.3561232,80.4182747
+bus_stop_to_polonnaruwa_7.871_80.6509,Bus stop to Polonnaruwa,7.8709713,80.6508594
+bus_stop_to_sigiriyia_7.8766_80.6508,Bus Stop to Sigiriyia,7.8765625,80.6508244
+bus_to_kandy_6.9334_79.8558,Bus to Kandy,6.933403,79.8558025
+bus_to_kandy_7.8704_80.651,Bus to Kandy,7.8704232,80.6509529
+busses_to_colombo_6.8942_79.9249,Busses to Colombo,6.8942077,79.9249272
+busstand_7.2921_79.8523,Busstand,7.2921396,79.8522598
+cargills_food_city_ratmalana_6.8277_79.8689,Cargills Food City Ratmalana,6.8276844,79.8688536
+castle_street_6.9111_79.8855,Castle Street,6.9111047,79.8855107
+children_s_park_7.2868_80.6477,Children's park,7.2868477,80.6476824
+cinnamon_lakeside_bus_stop_6.9284_79.849,Cinnamon Lakeside Bus Stop,6.9283732,79.8489897
+cinnamon_lakeside_halt_6.9286_79.8487,Cinnamon Lakeside Halt,6.9285643,79.8486542
+colombo_central_bus_stand_6.9344_79.8546,Colombo central Bus stand,6.9343891,79.8546349
+colombo_central_bus_stand_6.935_79.8529,Colombo Central Bus Stand,6.9349534,79.8528805
+colombo_city_center_halt_6.9179_79.8545,Colombo City Center Halt,6.9179082,79.8545022
+colombo_fort_6.9333_79.8567,Colombo Fort,6.9332535,79.8566929
+colombo_fort_railway_station_halt_6.934_79.8504,Colombo Fort Railway Station halt,6.9340201,79.8503843
+colombo_hanwella_low_level_rd_kaduwela_6.9353_79.984,"Colombo - Hanwella Low Level Rd,Kaduwela",6.9353102,79.9839961
+colombo_public_library_stop_6.913_79.8581,Colombo public library stop,6.9129932,79.8580808
+d_s_senanayake_college_bus_stop_6.9077_79.876,D S Senanayake College Bus Stop,6.9076893,79.8760234
+d_s_senanayake_college_bus_stop_6.9079_79.876,D S Senanayake College Bus Stop,6.907934,79.8760374
+dangolla_junction_7.2701_80.6048,Dangolla Junction,7.2700953,80.6047583
+dehiwala_6.8501_79.8794,Dehiwala,6.850136,79.8794154
+dehiwala_bus_stop_6.8513_79.865,Dehiwala Bus Stop,6.8512749,79.8650205
+dehiwala_junction_6.8518_79.8659,Dehiwala Junction,6.8518203,79.8658814
+dehiwala_main_bus_stop_6.8512_79.865,Dehiwala Main Bus Stop,6.8512387,79.8650412
+dehiyagatha_7.1078_79.884,Dehiyagatha,7.1078178,79.8839992
+delpitiya_7.1324_80.5888,Delpitiya,7.1323571,80.5888461
+demetagoda_6.9297_79.8782,Demetagoda,6.9296956,79.8781571
+dhanasiri_7.2803_80.6193,Dhanasiri,7.2802581,80.6193181
+dharmapala_mawatha_halt_6.9126_79.854,Dharmapala Mawatha Halt,6.9126109,79.8539891
+dharmarama_temple_road_halt_6.8226_79.8713,Dharmarama Temple Road halt,6.8225983,79.8713361
+digana_junction_6.8295_79.9619,Digana Junction,6.8294961,79.9618725
+dole_kanatta_bus_stop_6.8107_79.9394,Dole kanatta bus stop,6.8107042,79.9394384
+dr_lester_james_peries_mawatha_bus_stop_6.8865_79.86,Dr Lester James Peries Mawatha Bus Stop,6.8864854,79.8599725
+ekala_7.0651_79.8932,Ekala,7.0651402,79.8932426
+ekala_7.101_79.9102,Ekala,7.1009778,79.9102485
+elpitiya_6.2917_80.1631,Elpitiya,6.2916654,80.1631017
+elvitigala_mawatha_bus_stop_6.8225_79.9608,Elvitigala Mawatha Bus Stop,6.8224617,79.9608014
+express_bus_stop_6.7118_79.9076,Express Bus Stop,6.7118485,79.9076329
+fort_6.9361_79.8449,Fort,6.9360948,79.844934
+fort_airport_187_6.9345_79.8471,Fort-Airport (#187),6.934517,79.8470818
+fort_bus_stop_6.9343_79.849,Fort Bus Stop,6.9343064,79.8489576
+fort_bus_stop_6.934_79.8503,Fort Bus Stop,6.9340332,79.8502961
+galadari_hotel_halt_6.9315_79.8451,Galadari Hotel halt,6.931527,79.8451236
+galaha_junction_7.2657_80.5959,Galaha Junction,7.265722,80.595891
+galle_central_bus_station_6.0328_80.2157,Galle Central Bus Station,6.0328431,80.2156686
+galle_face_halt_1_6.9216_79.8462,Galle face halt 1,6.9216076,79.8462335
+galle_face_halt_1_6.92_79.8469,Galle face halt 1,6.9200288,79.8468512
+gampola_nuwara_eliya_rd_7.1632_80.5729,Gampola (Nuwara Eliya Rd),7.1632354,80.5729289
+gangarama_slave_island_6.919_79.8538,Gangarama – Slave Island,6.9189993,79.85384
+gangaramaya_halt_6.9159_79.8559,Gangaramaya Halt,6.9158726,79.8558682
+german_tech_halt_6.8028_79.8876,German Tech Halt,6.8028482,79.8876012
+golumadama_halt_6.808_79.8839,Golumadama halt,6.8080465,79.8839023
+golumadama_sathosa_6.8106_79.8824,Golumadama Sathosa,6.8105979,79.8824371
+goluwamulla_6.3266_80.1427,Goluwamulla,6.3265726,80.1426995
+good_shepherd_7.2913_80.6313,Good Shepherd,7.2913271,80.6313384
+goods_shed_7.2893_80.6297,Goods Shed,7.2893,80.6296878
+gorakana_6.7581_79.8985,Gorakana,6.7580877,79.8984904
+gothutuwa_new_town_6.924_79.9127,Gothutuwa New Town,6.9239776,79.9127469
+gunasinghepura_bus_stop_6.9371_79.8556,Gunasinghepura Bus Stop,6.9371283,79.8556206
+helbodagama_7.0805_80.6603,Helbodagama,7.0805056,80.6603307
+hettiyawatte_junction_6.9499_79.8575,Hettiyawatte Junction,6.9499007,79.8574676
+high_school_7.2866_80.627,High School,7.2866303,80.6270216
+hillwood_7.2902_80.6399,Hillwood,7.2902469,80.6399086
+hindu_college_bus_stop_6.8841_79.8608,Hindu College Bus Stop,6.8841489,79.860814
+hospital_junction_7.4791_80.358,Hospital Junction,7.4790767,80.3579508
+hotel_road_halt_6.842_79.8668,Hotel Road halt,6.8419713,79.8668469
+hotel_suisse_7.2894_80.6436,Hotel Suisse,7.2893593,80.6436345
+house_of_fashion_bus_stop_6.8891_79.8592,House Of Fashion Bus Stop,6.8891444,79.8591583
+house_of_fashion_bus_stop_6.9104_79.8776,House Of Fashion Bus Stop,6.9104499,79.8775794
+hyde_park_bus_stop_6.9193_79.8601,Hyde Park Bus Stop,6.9193092,79.8601494
+ibbanwala_junction_bus_stop_6.9185_79.8619,Ibbanwala Junction Bus Stop,6.918528,79.861865
+iranai_madu_junction_9.3447_80.4091,Iranai Madu Junction,9.3446952,80.4091406
+iyakachchi_junction_9.5642_80.399,Iyakachchi Junction,9.5641707,80.3990375
+ja_ela_7.049_79.8968,Ja-ela,7.0489772,79.8968475
+jaela_7.0255_79.8995,Jaela,7.0254664,79.8994654
+jawatte_bus_stop_6.9001_79.8654,Jawatte Bus Stop,6.9000654,79.8654284
+jayamangala_mawatha_bus_stop_6.8754_79.8992,"Jayamangala Mawatha, Bus Stop",6.8753711,79.8991848
+kadawatha_7.0052_79.9546,Kadawatha,7.0051597,79.9546391
+kadawatha_7.0333_79.9884,Kadawatha,7.0333034,79.9883541
+kaduruwela_7.929_81.0332,Kaduruwela,7.9290361,81.0332116
+kaduwela_new_kandy_rd_bus_stop_malabe_6.9344_79.9837,"Kaduwela New Kandy Rd Bus Stop,Malabe",6.9343681,79.9837298
+kalmunai_7.4131_81.827,Kalmunai,7.413117,81.8269749
+kalviyankadu_9.6804_80.0383,Kalviyankadu,9.6804355,80.0382838
+kandana_6.9528_79.8807,Kandana,6.9528394,79.8806879
+kandana_7.0233_79.9007,Kandana,7.0232728,79.9007099
+kandana_bus_stop_7.0488_79.8969,Kandana Bus Stop,7.048824,79.8968519
+kandy_good_shed_7.2895_80.6308,Kandy – Good Shed,7.2894673,80.6307838
+karagampitiya_6.8641_79.8807,Karagampitiya,6.8640598,79.8806942
+kataragama_6.4132_81.3322,Kataragama,6.4132462,81.3322163
+kattiya_junction_bus_stop_6.8692_79.8979,Kattiya Junction Bus Stop,6.8692248,79.8978595
+katubadda_junction_6.7966_79.8883,Katubadda Junction,6.7966146,79.8883495
+katunayake_bus_station_airport_shuttle_7.1686_79.8831,Katunayake Bus Station - Airport Shuttle,7.16856,79.883052
+kegalle_7.3355_80.2998,Kegalle,7.3355004,80.2998235
+kelani_campus_6.9719_79.9169,Kelani Campus,6.9718519,79.916883
+kelani_campus_6.9723_79.917,Kelani Campus,6.9723431,79.9170426
+kiribathgoda_7.0843_80.0317,Kiribathgoda,7.0842518,80.031707
+kiribathgoda_ymca_6.9811_79.9298,Kiribathgoda YMCA,6.9811215,79.9298451
+kirillawala_6.9946_79.9454,Kirillawala,6.9946066,79.9454066
+kirillawala_7.0347_79.9904,Kirillawala,7.0346664,79.9903809
+kirulapona_market_6.8788_79.8734,Kirulapona Market,6.878807,79.873433
+kollupitiya_acbt_halt_6.9051_79.8517,Kollupitiya ACBT halt,6.9051245,79.8517288
+kollupitiya_bus_stop_6.9111_79.8491,Kollupitiya Bus Stop,6.9111202,79.8490613
+kollupitiya_crescat_halt_6.917_79.8478,Kollupitiya Crescat halt,6.9170186,79.8477979
+kollupitiya_junction_halt_6.9102_79.8501,Kollupitiya Junction halt,6.9101524,79.8500587
+kollupitiya_marino_mall_halt_6.9006_79.8532,Kollupitiya Marino Mall halt,6.9006474,79.8532054
+kollupitiya_market_halt_6.9119_79.8505,Kollupitiya Market Halt,6.9119251,79.8505475
+kollupitiya_vogue_jewellers_halt_6.9028_79.8525,Kollupitiya Vogue Jewellers halt,6.9027987,79.8525133
+kolonnawa_6.9329_79.8937,Kolonnawa,6.9329078,79.8937044
+kotahena_bus_stop_6.9474_79.8618,Kotahena Bus Stop,6.9474309,79.8618479
+kottawa_6.8418_79.963,Kottawa,6.8417634,79.9629582
+kottawa_6.8422_79.9625,Kottawa,6.8422498,79.9624578
+kottawa_bus_stand_6.8414_79.964,Kottawa Bus Stand,6.8413708,79.9640088
+kottawa_bus_stop_6.8409_79.9661,Kottawa bus stop,6.8409315,79.9661122
+kotte_pagoda_bus_stand_6.8839_79.9016,Kotte-Pagoda Bus Stand,6.8839367,79.9015789
+kurunegala_7.488_80.3643,Kurunegala,7.4880268,80.3643116
+kurusa_junction_bus_stop_6.7804_79.8833,Kurusa Junction Bus Stop,6.7804359,79.8832732
+lake_round_7.2911_80.6377,lake round,7.291147,80.6377204
+lakeside_7.2876_80.6452,Lakeside,7.2875984,80.6451526
+liberty_plaze_6.9099_79.8522,Liberty plaze,6.9099082,79.8522311
+little_asia_bus_stop_6.8726_79.8618,Little Asia Bus Stop,6.8726109,79.8618081
+lyceum_7.1047_80.0431,Lyceum,7.104688,80.0431142
+mahalwarawa_6.8436_79.9574,Mahalwarawa,6.8435559,79.9574041
+mahamaya_7.2877_80.6458,Mahamaya,7.2876687,80.645841
+mahanama_road_6.7249_79.9067,Mahanama Road,6.7248974,79.906655
+maharagama_6.848_79.9262,Maharagama,6.8480074,79.9261907
+maharagama_bus_stand_6.8464_79.9277,Maharagama Bus Stand,6.8464147,79.9277078
+makumbara_bus_stand_6.8388_79.9766,Makumbara Bus Stand,6.8387546,79.9766195
+malabe_junction_bus_stop_kaduwela_road_6.9039_79.9543,"Malabe Junction bus stop, Kaduwela road",6.9039195,79.9542684
+malabe_junction_bus_stop_malabe_6.9037_79.9565,"Malabe Junction bus stop, Malabe",6.9037081,79.9565175
+maliban_junction_6.8195_79.8736,Maliban Junction,6.8194686,79.873627
+mallika_bekeriya_halt_6.7993_79.8884,Mallika Bekeriya halt,6.799306,79.8884318
+mangala_halt_6.8693_79.8624,Mangala halt,6.869308,79.8623526
+manning_place_halt_6.8746_79.8616,Manning Place halt,6.8746231,79.8616116
+manning_place_halt_6.8747_79.8616,Manning Place halt,6.8746635,79.8615757
+maradana_6.9545_80.2087,Maradana,6.9544795,80.2086744
+maradana_police_bus_stop_6.9278_79.8651,Maradana Police Bus Stop,6.927802,79.8651156
+matara_5.9439_80.5492,Matara,5.9438996,80.5492082
+mattakkuliya_6.9791_79.8758,Mattakkuliya,6.9790801,79.8758252
+mattegoda_junction_6.8291_79.9656,Mattegoda Junction,6.8291124,79.9656089
+mendis_lane_6.7826_79.8842,Mendis lane,6.7825662,79.8841703
+mendis_lane_halt_6.7835_79.8843,Mendis Lane Halt,6.7835178,79.8842626
+miriswatta_junction_7.0729_80.0159,Miriswatta junction,7.0728698,80.0158949
+miriswatta_junction_7.0738_80.0167,Miriswatta junction,7.0738406,80.016736
+monaragala_6.8718_81.3519,Monaragala,6.8717738,81.3518971
+moragolla_junction_7.1487_80.5802,Moragolla Junction,7.1487463,80.5802459
+moraketiya_6.8458_79.9523,Moraketiya,6.8458168,79.9523451
+moratuwa_6.7754_79.8838,Moratuwa,6.7753741,79.8838061
+moratuwa_clock_tower_to_colombo_6.7778_79.8831,Moratuwa clock tower(to Colombo),6.7778201,79.8830995
+moratuwa_clock_tower_to_panadura_6.7771_79.8833,Moratuwa clock tower(to Panadura),6.7770654,79.8832625
+moratuwa_cross_junction_halt_6.7787_79.8825,Moratuwa Cross Junction Halt,6.7787333,79.8824868
+moratuwa_express_bus_stand_6.7775_79.8822,Moratuwa Express Bus Stand,6.7775175,79.8822431
+moratuwa_police_to_panadura_6.7722_79.8851,Moratuwa police(to Panadura),6.7722459,79.8851358
+mount_lavinia_6.8335_79.8672,Mount Lavinia,6.8335379,79.8672498
+mount_lavinia_junction_6.8332_79.8674,Mount Lavinia Junction,6.8331765,79.8673693
+mount_lavinia_magistrate_court_6.8376_79.8674,Mount Lavinia Magistrate-court,6.8375622,79.867428
+mount_lavinia_police_station_halt_6.8254_79.8698,Mount Lavinia Police Station halt,6.8254423,79.8697525
+mulleriyawa_6.9241_79.9272,Mulleriyawa,6.924122,79.9272493
+muththirai_santhi_9.6745_80.0352,Muththirai Santhi,9.6744618,80.0352423
+nagas_junction_6.8162_79.9591,Nagas Junction,6.8161815,79.9591475
+nampamunuwa_bus_stop_6.8127_79.9469,Nampamunuwa Bus Stop,6.8127229,79.9469438
+nanu_oya_6.972_80.7674,Nanu Oya,6.971989,80.7673835
+narahenpita_6.8916_79.877,Narahenpita,6.8916239,79.8770305
+narahenpita_6.8916_79.8771,Narahenpita,6.891591,79.8770981
+narahenpita_6.8919_79.8769,Narahenpita,6.8918527,79.8768632
+nawakadadora_7.1002_80.6418,Nawakadadora,7.1001736,80.6417578
+nawaloka_bus_stop_6.9214_79.8529,Nawaloka Bus stop,6.9213764,79.8529387
+nawaloka_bus_stop_6.9226_79.8533,Nawaloka Bus stop,6.9225624,79.8532848
+nawaloka_bus_stop_6.9228_79.8533,Nawaloka bus stop,6.9227947,79.8533349
+ndb_dharmapala_mawatha_bus_stop_6.9134_79.8571,NDB Dharmapala Mawatha Bus Stop,6.9133637,79.8571086
+near_co_operative_shop_6.8212_79.98,Near co-operative shop,6.8212348,79.9799721
+near_kande_purana_viharaya_6.8267_79.9763,Near Kande Purana Viharaya,6.8266731,79.9762653
+near_mahanama_paint_center_6.8311_79.9625,Near Mahanama Paint Center,6.8311366,79.9624948
+nedimala_6.8722_79.8909,Nedimala,6.8721978,79.8908652
+neervely_kanthasamy_kovilady_9.7164_80.0809,Neervely Kanthasamy Kovilady,9.7163662,80.0809484
+nelum_pokuna_bus_stop_6.9103_79.8635,Nelum Pokuna Bus Stop,6.910253,79.8635484
+night_bus_to_colombo_5am_7.1659_79.8845,Night bus to Colombo 5AM,7.1658842,79.8845049
+nithyakalyani_jewellery_bus_stop_6.8671_79.8629,Nithyakalyani Jewellery Bus Stop,6.8670885,79.8628585
+nittambuwa_7.1419_80.0964,Nittambuwa,7.1418587,80.0963938
+nugegoda_6.8691_79.8901,Nugegoda,6.8690559,79.8900597
+nugegoda_6.8692_79.8901,Nugegoda,6.869201,79.8901108
+nugegoda_bus_stand_6.8729_79.8922,Nugegoda Bus Stand,6.8728552,79.8922087
+nugegoda_supermarket_6.8727_79.8919,Nugegoda Supermarket,6.8726878,79.8918737
+nuwara_eliya_6.9719_80.7671,Nuwara Eliya,6.9718572,80.7671023
+opposite_dharmasoka_primary_6.8452_79.9353,Opposite Dharmasoka Primary,6.8452071,79.9352634
+opposite_kande_purana_viharaya_6.8269_79.976,Opposite Kande Purana Viharaya,6.8268923,79.9760163
+opposite_mahanama_paint_centre_6.8309_79.9627,Opposite Mahanama Paint Centre,6.8308916,79.9626772
+opposite_nie_6.8448_79.9328,Opposite NIE,6.8447754,79.9327737
+pamankada_halt_6.8774_79.8695,Pamankada Halt,6.877401,79.8694597
+panadura_6.8625_79.8638,Panadura,6.8625193,79.8638248
+panadura_bus_stop_private_buses_6.7116_79.9079,Panadura Bus Stop (private buses),6.7116277,79.9079026
+panadura_slbt_6.7143_79.9075,Panadura SLBT,6.7143461,79.9075291
+paratta_junction_6.7547_79.8993,Paratta junction,6.7546797,79.8992517
+pasyala_7.1677_80.1238,Pasyala,7.1676632,80.1237795
+pasyala_bus_stop_7.1691_80.1241,Pasyala Bus Stop,7.1690623,80.12411
+pasyala_junction_bus_stop_7.1689_80.1238,Pasyala Junction bus stop,7.1688918,80.123843
+pattiya_junction_bus_stop_6.9627_79.8949,Pattiya Junction Bus Stop,6.9626762,79.8948687
+pelawatte_6.8905_79.9289,Pelawatte,6.8905073,79.9288928
+peradeniya_7.2634_80.593,Peradeniya,7.2633517,80.5929841
+peradeniya_hospital_7.2676_80.6001,Peradeniya Hospital,7.2676394,80.600071
+pettah_6.9042_79.9539,Pettah,6.9041933,79.95387
+pettah_6.934_79.8502,Pettah,6.9340306,79.8502395
+pettah_slt_halt_6.9341_79.846,Pettah SLT Halt,6.9340921,79.8460338
+pinhena_junction_6.8329_79.9648,Pinhena Junction,6.8328728,79.9648183
+pita_kotte_bus_stop_6.8831_79.9018,Pita Kotte Bus Stop,6.8830688,79.9018101
+pita_kotte_bus_stop_6.8832_79.9018,Pita Kotte Bus Stop,6.8832315,79.9018403
+pitawalawatta_7.2026_80.5986,Pitawalawatta,7.2025732,80.5985867
+polduwa_bus_stop_6.9032_79.9117,Polduwa Bus Stop,6.9032323,79.9117056
+polgahawela_colombo_7.3351_80.2997,Polgahawela (Colombo),7.3350975,80.2997292
+polgahawela_kurunegala_7.3355_80.3002,Polgahawela (Kurunegala),7.3355156,80.3002242
+polkotuwa_junction_bus_stop_6.8278_79.9546,Polkotuwa Junction Bus Stop,6.8277503,79.9545818
+pottuvil_6.8781_81.8287,Pottuvil,6.8781242,81.8287233
+president_s_office_halt_6.9309_79.8422,President's Office Halt,6.9309075,79.8422325
+prince_of_wales_college_moratuwa_6.7861_79.8845,Prince Of Wales College Moratuwa,6.7860987,79.8844862
+pubudu_mawatha_bus_stop_6.8131_79.9662,Pubudu Mawatha Bus Stop,6.8131244,79.9661795
+racecourse_6.9065_79.8639,Racecourse,6.9064866,79.8638841
+raddolugama_7.1303_79.8765,Raddolugama,7.1303401,79.8764842
+raddolugama_7.1387_79.9003,Raddolugama,7.138697,79.9003129
+ragala_udupessellawa_6.9718_80.7674,Ragala/Udupessellawa,6.9718033,80.767408
+rajagiriya_6.9016_79.8688,Rajagiriya,6.9016211,79.8688024
+rajagiriya_6.9109_79.8912,Rajagiriya,6.9108834,79.8911656
+rajagiriya_6.9184_79.8737,Rajagiriya,6.9183963,79.8737162
+rajagiriya_6.9335_79.8554,Rajagiriya,6.9335201,79.8553692
+rajagiriya_bus_stop_6.9101_79.8945,Rajagiriya Bus Stop,6.9100839,79.8945203
+rajagiriya_bus_stop_6.9102_79.8946,Rajagiriya Bus Stop,6.9101712,79.8945965
+rajawatta_7.268_80.6026,Rajawatta,7.268028,80.6025536
+ramboda_7.055_80.7005,Ramboda,7.0550172,80.7005079
+rathupaswala_7.0534_80.0167,Rathupaswala,7.0533692,80.0167027
+rathupaswala_junction_7.0534_80.0166,Rathupaswala Junction,7.0533845,80.0166174
+ratnapura_6.6834_80.4022,Ratnapura,6.6834476,80.4021978
+rawatawatta_6.787_79.8847,Rawatawatta,6.7869987,79.8846582
+rawathawatte_6.7863_79.8847,Rawathawatte,6.7862949,79.884694
+regal_7.2836_80.6233,Regal,7.2835522,80.6232789
+regal_cinema_bus_stop_6.9314_79.8471,Regal Cinema bus stop,6.9314341,79.847143
+regal_halt_6.9314_79.8469,Regal Halt,6.9313543,79.8469491
+richardson_6.9177_79.8477,Richardson,6.9176932,79.8477365
+route_187_airport_6.9343_79.8486,Route 187 Airport,6.9343411,79.8486168
+route_240_negombo_6.9354_79.8543,Route 240 - Negombo,6.9353666,79.8542544
+roxi_film_hall_halt_6.8652_79.8632,Roxi film hall halt,6.8651652,79.863177
+sal_gas_handiya_bus_stop_6.8112_79.9429,Sal gas handiya bus stop,6.8112474,79.9429341
+saphire_halt_6.8767_79.8662,Saphire halt,6.8767049,79.8662402
+savoy_bus_stop_6.8788_79.8601,Savoy Bus Stop,6.8788325,79.8600845
+savoy_film_hall_halt_6.8766_79.8606,Savoy film hall halt,6.8765794,79.860611
+sbc_nelum_pokuna_6.9096_79.8638,Sbc Nelum Pokuna,6.9095616,79.8637761
+seeduwa_7.0682_79.894,Seeduwa,7.0682492,79.8940155
+seeduwa_brandix_bus_stop_7.1382_79.8751,Seeduwa Brandix Bus Stop,7.1381575,79.8751221
+seeduwa_junction_bus_halt_7.1313_79.8769,Seeduwa junction bus halt,7.1313464,79.8769289
+sethsewana_7.4769_80.3562,Sethsewana,7.4769106,80.3561617
+shuttle_bus_station_7.2696_80.5971,Shuttle bus station,7.2695695,80.5971282
+siddamulla_bus_stop_6.8142_79.9574,Siddamulla Bus Stop,6.8141891,79.9574298
+sigma_6.8812_79.8702,Sigma,6.8811658,79.8701772
+sikurada_pola_junction_6.8271_79.9608,Sikurada Pola Junction,6.8270885,79.9607675
+siruppidy_school_9.7329_80.097,Siruppidy School,9.7329385,80.0970074
+soysa_flat_halt_6.8053_79.8859,Soysa Flat Halt,6.8053276,79.8858722
+sri_jayawardhanapura_kotte_6.8979_79.906,Sri Jayawardhanapura Kotte,6.8978762,79.9060001
+st_peter_s_college_6.8809_79.8618,St. Peter's college,6.8809496,79.8617823
+st_peters_collage_halt_6.8811_79.8593,St Peters Collage halt,6.8811407,79.8592743
+staple_street_bus_stop_6.9213_79.8559,Staple Street Bus Stop,6.9213384,79.8559061
+sugatadasa_bus_stop_6.9473_79.8696,Sugatadasa bus stop,6.9472639,79.86963
+suwasewana_7.281_80.6202,Suwasewana,7.2809674,80.6202185
+temple_bus_stop_kaduwela_6.909_79.9699,"Temple Bus Stop, Kaduwela",6.9089643,79.9698737
+temple_bus_stop_malabe_6.9087_79.9695,"Temple Bus Stop, Malabe",6.9086674,79.9694526
+templers_road_6.8295_79.8682,Templers Road,6.8295398,79.8682418
+thawalanthanna_7.0683_80.6862,Thawalanthanna,7.0683131,80.6861652
+thawalanthenne_7.0683_80.6854,Thawalanthenne,7.0683414,80.6853635
+thummulla_bus_stop_6.8977_79.8606,Thummulla bus stop,6.8977151,79.860622
+torington_6.9101_79.8945,Torington,6.9100886,79.8944651
+torrington_bus_stop_6.9018_79.8694,Torrington Bus Stop,6.9018326,79.8693818
+town_hall_6.9165_79.8631,Town hall,6.9164719,79.8630651
+town_hall_6.9166_79.8629,Town hall,6.9165944,79.8628895
+town_hall_6.9168_79.865,Town Hall,6.9168254,79.8649673
+townhall_bus_stop_6.9162_79.8647,Townhall Bus Stop,6.9161758,79.8647474
+trincomalee_8.5766_81.2348,Trincomalee,8.5765761,81.2348132
+udahamulla_depot_6.8651_79.912,Udahamulla Depot,6.8651121,79.911971
+uragasmanhandiya_6.3432_80.0803,Uragasmanhandiya,6.34319,80.0803006
+vijitha_film_hall_halt_6.8174_79.8751,vijitha film hall halt,6.8173828,79.8751325
+vishaka_bus_stop_6.8916_79.8584,Vishaka Bus Stop,6.8916439,79.8583644
+walana_6.7502_79.9003,Walana,6.7502344,79.9003243
+waydya_road_halt_6.8575_79.8649,Waydya Road halt,6.8575069,79.8648665
+waypoint_1_5.9681_80.7041,Waypoint 1,5.9680886,80.7041026
+waypoint_1_6.0824_80.6437,Waypoint 1,6.0823897,80.6437215
+waypoint_1_6.3098_80.1446,Waypoint 1,6.309828,80.1446266
+waypoint_1_6.3437_80.0836,Waypoint 1,6.3436633,80.0835782
+waypoint_1_6.3816_80.0099,Waypoint 1,6.3815854,80.0098745
+waypoint_1_6.6824_80.4009,Waypoint 1,6.682382,80.4008966
+waypoint_1_6.7122_79.9074,Waypoint 1,6.7121858,79.9074206
+waypoint_1_6.8794_79.86,Waypoint 1,6.8794437,79.8600392
+waypoint_1_6.9184_79.8708,Waypoint 1,6.9184292,79.8707632
+waypoint_1_6.9321_79.8579,Waypoint 1,6.9321461,79.8579327
+waypoint_1_6.9321_79.858,Waypoint 1,6.9321435,79.8579803
+waypoint_1_7.0026_79.9531,Waypoint 1,7.0025693,79.9531008
+waypoint_1_7.1499_80.1,Waypoint 1,7.1499067,80.100047
+waypoint_1_7.293_80.6374,Waypoint 1,7.2930092,80.6374467
+waypoint_1_7.2992_80.7348,Waypoint 1,7.2992348,80.7348162
+waypoint_1_7.3218_80.6237,Waypoint 1,7.3217537,80.6237042
+waypoint_2_5.9696_80.4189,Waypoint 2,5.9696218,80.4189194
+waypoint_2_6.2178_81.2128,Waypoint 2,6.2178307,81.212752
+waypoint_2_6.3642_80.108,Waypoint 2,6.3642214,80.10804
+waypoint_2_6.6505_80.7021,Waypoint 2,6.6505197,80.7021194
+waypoint_2_6.7166_80.0635,Waypoint 2,6.716649,80.0635024
+waypoint_2_6.9217_79.8736,Waypoint 2,6.9216534,79.873587
+waypoint_2_6.932_79.8577,Waypoint 2,6.9319651,79.8577295
+waypoint_2_7.2412_80.2119,Waypoint 2,7.2411926,80.2119038
+waypoint_2_7.2907_80.6466,Waypoint 2,7.2907212,80.6466398
+waypoint_2_7.3252_80.2836,Waypoint 2,7.3251601,80.2835932
+waypoint_2_7.488_80.3643,Waypoint 2,7.4880268,80.3643116
+waypoint_3_5.9743_80.4344,Waypoint 3,5.9742795,80.4343924
+waypoint_3_6.4245_80.8188,Waypoint 3,6.4244835,80.8187925
+waypoint_3_6.8758_81.0367,Waypoint 3,6.8758438,81.0367179
+waypoint_3_6.9359_79.9169,Waypoint 3,6.9358825,79.9168745
+waypoint_3_7.2573_80.5928,Waypoint 3,7.2572823,80.5927973
+waypoint_3_7.2992_80.7348,Waypoint 3,7.2991661,80.7347518
+waypoint_3_7.5611_80.4586,Waypoint 3,7.5610672,80.4586489
+waypoint_3_7.8739_80.651,Waypoint 3,7.8738608,80.651025
+waypoint_4_5.9447_80.5502,Waypoint 4,5.9447106,80.5502357
+waypoint_4_6.8491_81.8302,Waypoint 4,6.8491403,81.8302213
+waypoint_4_7.1163_80.6246,Waypoint 4,7.1162554,80.6245939
+waypoint_4_7.2789_80.8105,Waypoint 4,7.2788724,80.8104844
+waypoint_4_8.0361_80.7533,Waypoint 4,8.0361136,80.7532722
+waypoint_4_8.0413_80.5964,Waypoint 4,8.0412766,80.596426
+waypoint_5_6.1209_81.0627,Waypoint 5,6.1209373,81.0627213
+waypoint_5_6.8878_81.3015,Waypoint 5,6.8878004,81.3015223
+waypoint_5_7.9965_80.9267,Waypoint 5,7.9965073,80.926744
+waypoint_6_6.2853_81.2741,Waypoint 6,6.2852899,81.2741223
+wedamulla_7.0416_80.7069,Wedamulla,7.041604,80.7069477
+weediyawatta_7.094_80.0389,Weediyawatta,7.0940174,80.0388683
+weligalla_bus_station_7.1893_80.5922,Weligalla Bus Station,7.1893029,80.5922309
+welivita_bus_stop_malabe_6.9156_79.9724,"Welivita bus stop, Malabe",6.9155918,79.9723812
+wellawate_mosque_bus_stop_6.8771_79.8606,Wellawate Mosque Bus Stop,6.8771199,79.8605854
+wellawatte_arpico_halt_6.8683_79.8625,Wellawatte Arpico halt,6.8683204,79.8624659
+wellawatte_market_bus_stop_6.8744_79.8614,Wellawatte Market Bus Stop,6.8743826,79.8614314
+wellawaya_6.7321_81.1021,Wellawaya,6.7320788,81.1021216
+wellewatte_market_6.8741_79.8614,Wellewatte Market,6.8741109,79.8613657
+wickramasinghepura_junction_6.8803_79.9344,Wickramasinghepura Junction,6.8802702,79.9343704
+wijerama_bus_stop_6.9063_79.8742,Wijerama bus stop,6.906262,79.8741538
+william_junction_6.864_79.8636,William Junction,6.8639742,79.8635756
+willium_junction_6.8606_79.8641,Willium Junction,6.8606225,79.8641387
+wisse_kanuwa_7.1078_80.0452,Wisse Kanuwa,7.1077801,80.0452064
+yakkala_6.956_79.8881,Yakkala,6.9560451,79.8880713

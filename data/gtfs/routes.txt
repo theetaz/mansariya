@@ -1,0 +1,123 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+01,mansariya,01,Kandy - Negombo,3
+1,mansariya,1,Colombo - Kandy,3
+EX 1-1,mansariya,EX 1-1,Makumbara Bus Stand to Matara,3
+EX 1-2,mansariya,EX 1-2,Kaduwela - Matara,3
+EX 1-21,mansariya,EX 1-21,Kadawatha to Galle Central Bus Station,3
+EX 1-22,mansariya,EX 1-22,Kadawatha to Matara,3
+EX 1-23,mansariya,EX 1-23,Kaduwela to Galle Central Bus Station,3
+EX001,mansariya,EX001,Makumbara Bus Stand to Galle Central Bus Station,3
+02,mansariya,02,Central Bus Stop – Fort to Galle Central Bus Station,3
+03,mansariya,03,Bastian Mawatha – Fort to Kataragama,3
+04,mansariya,04,Bastian Mawatha – Fort to Anuradhapura CTB,3
+05,mansariya,05,Bastian Mawatha – Fort to Kurunegala,3
+06,mansariya,06,Colombo - Kurunegala,3
+07,mansariya,07,Bastian Mawatha – Fort to Kalpitiya,3
+08,mansariya,08,Bastian Mawatha – Fort to Matale (Colombo),3
+09,mansariya,09,Central Bus Stop – Fort to Teldeniya,3
+09/1,mansariya,09/1,Central Bus Stop – Fort to Wattegama,3
+09/2,mansariya,09/2,Central Bus Stop – Fort to Digana,3
+10,mansariya,10,Colombo - Hambantota,3
+11,mansariya,11,Matara - Anuradhapura,3
+13,mansariya,13,Central Bus Stop – Fort to Dayagama,3
+14,mansariya,14,Kandy - Anuradhapura,3
+15,mansariya,15,Colombo - Puttalam,3
+16,mansariya,16,Colombo - Chilaw,3
+17,mansariya,17,Panadura - Ratnapura,3
+18,mansariya,18,Fort to Hatton,3
+21,mansariya,21,Colombo - Walapane,3
+22,mansariya,22,Kandy – Good Shed to Ampara,3
+31,mansariya,31,Matara - Bandarawela,3
+32,mansariya,32,Colombo - Kurunegala,3
+32/4,mansariya,32/4,Bastian Mawatha – Fort to Tangalle,3
+38,mansariya,38,Kandy - Dehiattakandiya,3
+41,mansariya,41,Kandy – Good Shed to Kaduruwela,3
+45,mansariya,45,Kandy - Trincomalee,3
+47,mansariya,47,Kandy - Nuwara Eliya,3
+48,mansariya,48,Colombo - Vavuniya,3
+48/3,mansariya,48/3,Bastian Mawatha – Fort to Kaduruwela,3
+49,mansariya,49,Colombo - Trincomalee,3
+57,mansariya,57,Colombo - Embilipitiya,3
+60,mansariya,60,Colombo - Monaragala,3
+64,mansariya,64,Panadura - Ampara,3
+79,mansariya,79,Colombo - Nuwara Eliya,3
+87,mansariya,87,Colombo - Jaffna,3
+98,mansariya,98,Colombo - Mannar,3
+99,mansariya,99,Colombo - Badulla,3
+100,mansariya,100,Pettah - Panadura,3
+101,mansariya,101,Pettah - Moratuwa,3
+102,mansariya,102,Moratuwa to Kotahena Bus Stop,3
+103,mansariya,103,Narahenpita - Fort,3
+104,mansariya,104,Ja Ela to Bambalapitiya,3
+112,mansariya,112,Maharagama to Kotahena Bus Stop,3
+113,mansariya,113,Fort to Udahamulla,3
+117,mansariya,117,Nugegoda - Ratmalana,3
+119,mansariya,119,Dehiwala - Maharagama,3
+120,mansariya,120,Pettah - Horana,3
+122,mansariya,122,Pettah - Avissawella,3
+125,mansariya,125,Pettah - Padukka,3
+135,mansariya,135,Kohuwala - Kelaniya,3
+138,mansariya,138,Pettah - Kottawa,3
+138-E01,mansariya,138-E01,Pettah to Matara,3
+138/1,mansariya,138/1,Kirillawala to Fort,3
+138/2,mansariya,138/2,Pettah - Mattegoda,3
+138/3,mansariya,138/3,Pettah - Rukmalgama,3
+138/4,mansariya,138/4,Pettah - Athurugiriya,3
+140,mansariya,140,Kollupitiya - Wellampitiya,3
+141,mansariya,141,Narahenpita - Wellawatte,3
+143,mansariya,143,Hanwella to Pettah,3
+144,mansariya,144,Rajagiriya to Fort,3
+145,mansariya,145,Gangarama – Slave Island to Mattakkuliya,3
+152,mansariya,152,Gothatuwa - Pettah,3
+153,mansariya,153,Borella to Sri J’pura Hospital (Nawarohala),3
+154,mansariya,154,Kiribathgoda - Angulana,3
+155,mansariya,155,Soysapura - Mattakkuliya,3
+156,mansariya,156,Dehiwala Main Bus Stop to Nugegoda Supermarket,3
+163,mansariya,163,Dehiwala - Battaramulla,3
+164,mansariya,164,Town Hall Bus Stand to Salmal Uyana Bus Stand,3
+166,mansariya,166,Gangarama – Slave Island to Mulleriyawa,3
+168,mansariya,168,Kotahena Bus Stop to Nugegoda Supermarket,3
+170,mansariya,170,Athurugiriya to Pettah,3
+171,mansariya,171,Bastian Mawatha – Fort to Koswatta,3
+174,mansariya,174,Kottawa - Borella,3
+175,mansariya,175,Kollupitiya - Kohilawatte,3
+176,mansariya,176,Karagampitiya - Hettiyawatte,3
+177,mansariya,177,Kollupitiya - Kaduwela,3
+178,mansariya,178,Narahenpita to Mattakkuliya,3
+179,mansariya,179,Battaramulla to Bambalapitiya Junction,3
+180,mansariya,180,Nittambuwa to Pettah,3
+183,mansariya,183,Nugegoda Supermarket to Panadura Bus Stop (private buses),3
+187,mansariya,187,Fort - Airport,3
+187 E-03,mansariya,187 E-03,Katunayake Airport Bus Station to Central Bus Stop – Fort,3
+187/1,mansariya,187/1,Ekala to Fort,3
+188,mansariya,188,Raddolugama to Pettah,3
+190,mansariya,190,Colombo - Polonnaruwa,3
+192,mansariya,192,Moratuwa to Maharagama-Dehiwela Road,3
+193,mansariya,193,Town Hall Bus Stand to Kadawatha,3
+200,mansariya,200,Gampaha to Pettah,3
+224,mansariya,224,Pugoda to Pettah,3
+225,mansariya,225,Kirindiwala to Pettah,3
+226,mansariya,226,Balangoda - Bandarawela,3
+228/1,mansariya,228/1,Kaduwela - Gampaha,3
+234,mansariya,234,Delgoda to Pettah,3
+240,mansariya,240,Colombo - Maharagama,3
+255,mansariya,255,Colombo - Kottawa,3
+280,mansariya,280,Maharagama - Horana,3
+296,mansariya,296,Kottawa - Piliyandala,3
+342,mansariya,342,Kottawa - Piliyandala (via Kesbewa),3
+400,mansariya,400,Pettah to Aluthgama,3
+400/1,mansariya,400/1,Kaluthara to Pettah,3
+401,mansariya,401,Elpitiya - Colombo,3
+401/1,mansariya,401/1,Elpitiya to Aluthgama,3
+401/2,mansariya,401/2,Elpitiya to Goluwamulla,3
+401/3,mansariya,401/3,Aluthgama to Uragasmanhandiya,3
+401/4,mansariya,401/4,Elpitiya to Aluthgama,3
+430,mansariya,430,Mathugama to Pettah,3
+450,mansariya,450,Panadura - Rathnapura,3
+602,mansariya,602,Kandy - Kurunegala,3
+644,mansariya,644,Kandy - Pilimatalawa,3
+654,mansariya,654,Kandy - Badulla,3
+662,mansariya,662,Kandy - Kegalle,3
+750,mansariya,750,Jaffna - Point Pedro (via Nelliady),3
+751,mansariya,751,Jaffna - Point Pedro (via Valvettiturai),3
+A-Bay,mansariya,A-Bay,Maradana Police Bus Stop to Akkaraipattu,3
