@@ -17,6 +17,7 @@ import { Route as LiveMapRouteImport } from './routes/live-map'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RoutesRouteIdEditRouteImport } from './routes/routes.$routeId.edit'
 
 const TimetablesRoute = TimetablesRouteImport.update({
   id: '/timetables',
@@ -58,26 +59,33 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoutesRouteIdEditRoute = RoutesRouteIdEditRouteImport.update({
+  id: '/$routeId/edit',
+  path: '/$routeId/edit',
+  getParentRoute: () => RoutesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/crowdsource': typeof CrowdsourceRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
-  '/routes': typeof RoutesRoute
+  '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
+  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/crowdsource': typeof CrowdsourceRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
-  '/routes': typeof RoutesRoute
+  '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
+  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,10 +93,11 @@ export interface FileRoutesById {
   '/crowdsource': typeof CrowdsourceRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
-  '/routes': typeof RoutesRoute
+  '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
+  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/stops'
     | '/timetables'
+    | '/routes/$routeId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/stops'
     | '/timetables'
+    | '/routes/$routeId/edit'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/stops'
     | '/timetables'
+    | '/routes/$routeId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -128,7 +140,7 @@ export interface RootRouteChildren {
   CrowdsourceRoute: typeof CrowdsourceRoute
   DataRoute: typeof DataRoute
   LiveMapRoute: typeof LiveMapRoute
-  RoutesRoute: typeof RoutesRoute
+  RoutesRoute: typeof RoutesRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   StopsRoute: typeof StopsRoute
   TimetablesRoute: typeof TimetablesRoute
@@ -192,15 +204,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/routes/$routeId/edit': {
+      id: '/routes/$routeId/edit'
+      path: '/$routeId/edit'
+      fullPath: '/routes/$routeId/edit'
+      preLoaderRoute: typeof RoutesRouteIdEditRouteImport
+      parentRoute: typeof RoutesRoute
+    }
   }
 }
+
+interface RoutesRouteChildren {
+  RoutesRouteIdEditRoute: typeof RoutesRouteIdEditRoute
+}
+
+const RoutesRouteChildren: RoutesRouteChildren = {
+  RoutesRouteIdEditRoute: RoutesRouteIdEditRoute,
+}
+
+const RoutesRouteWithChildren =
+  RoutesRoute._addFileChildren(RoutesRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CrowdsourceRoute: CrowdsourceRoute,
   DataRoute: DataRoute,
   LiveMapRoute: LiveMapRoute,
-  RoutesRoute: RoutesRoute,
+  RoutesRoute: RoutesRouteWithChildren,
   SettingsRoute: SettingsRoute,
   StopsRoute: StopsRoute,
   TimetablesRoute: TimetablesRoute,
