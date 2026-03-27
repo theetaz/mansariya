@@ -1,0 +1,139 @@
+---
+title: Environment Variables
+description: Complete reference for all configuration
+---
+
+## Setup
+
+Each layer of the stack has its own `.env` file. Copy the examples to get started:
+
+```bash
+cp infra/.env.example infra/.env
+cp backend/.env.example backend/.env
+cp mobile/.env.example mobile/.env
+```
+
+The default values work for local development. For production, update the values as described below.
+
+## Backend Environment Variables
+
+These variables configure the Go backend server.
+
+**File:** `backend/.env`
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `9900` | HTTP server port |
+| `HOST` | No | `0.0.0.0` | Bind address |
+| `DATABASE_URL` | Yes | *(none)* | PostgreSQL connection string with PostGIS |
+| `REDIS_ADDR` | No | `localhost:6379` | Redis server address |
+| `REDIS_PASSWORD` | No | *(empty)* | Redis authentication password |
+| `REDIS_DB` | No | `0` | Redis database number |
+| `VALHALLA_URL` | No | `http://localhost:9992` | Valhalla map matching service URL |
+| `NOMINATIM_URL` | No | `http://localhost:9990` | Nominatim geocoding service URL |
+| `OSRM_URL` | No | `http://localhost:5000` | OSRM routing service URL |
+| `ADMIN_API_KEY` | Yes | *(none)* | API key for admin endpoints (X-API-Key header) |
+
+### Backend Example
+
+```bash
+# backend/.env
+PORT=9900
+HOST=0.0.0.0
+DATABASE_URL=postgres://mansariya:mansariya@localhost:5433/mansariya?sslmode=disable
+REDIS_ADDR=localhost:6379
+REDIS_PASSWORD=
+REDIS_DB=0
+VALHALLA_URL=http://localhost:9992
+NOMINATIM_URL=http://localhost:9990
+OSRM_URL=http://localhost:5000
+ADMIN_API_KEY=dev-admin-key-change-in-production
+```
+
+## Infrastructure Environment Variables
+
+These variables configure the Docker Compose services.
+
+**File:** `infra/.env`
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `POSTGRES_USER` | No | `mansariya` | PostgreSQL username |
+| `POSTGRES_PASSWORD` | No | `mansariya` | PostgreSQL password |
+| `POSTGRES_DB` | No | `mansariya` | PostgreSQL database name |
+| `POSTGRES_PORT` | No | `5433` | Exposed PostgreSQL port on host |
+| `REDIS_PORT` | No | `6379` | Exposed Redis port on host |
+| `VALHALLA_PORT` | No | `9992` | Exposed Valhalla port on host |
+| `NOMINATIM_PORT` | No | `9990` | Exposed Nominatim port on host |
+| `NOMINATIM_PASSWORD` | No | `nominatim` | Nominatim internal PostgreSQL password |
+| `PBF_URL` | No | Sri Lanka OSM extract | URL to download OpenStreetMap PBF data |
+| `REPLICATION_URL` | No | Sri Lanka replication URL | OSM replication URL for Nominatim updates |
+| `NGINX_PORT` | No | `9000` | Exposed Nginx port on host |
+| `BACKEND_PORT` | No | `9900` | Backend port (used by Nginx for proxying) |
+| `SERVER_NAME` | No | `localhost` | Server hostname for Nginx configuration |
+
+### Infrastructure Example
+
+```bash
+# infra/.env
+POSTGRES_USER=mansariya
+POSTGRES_PASSWORD=strong-password-here
+POSTGRES_DB=mansariya
+POSTGRES_PORT=5433
+REDIS_PORT=6379
+VALHALLA_PORT=9992
+NOMINATIM_PORT=9990
+NOMINATIM_PASSWORD=nominatim
+PBF_URL=https://download.geofabrik.de/asia/sri-lanka-latest.osm.pbf
+REPLICATION_URL=https://download.geofabrik.de/asia/sri-lanka-updates/
+NGINX_PORT=9000
+BACKEND_PORT=9900
+SERVER_NAME=api.masariya.lk
+```
+
+## Mobile Environment Variables
+
+These variables configure the React Native app.
+
+**File:** `mobile/.env`
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `API_URL_IOS` | No | `http://localhost:9900` | Backend URL for iOS simulator |
+| `API_URL_ANDROID` | No | `http://10.0.2.2:9900` | Backend URL for Android emulator (10.0.2.2 is the host loopback) |
+| `API_URL_PROD` | No | `https://api.masariya.lk` | Backend URL for production builds |
+| `MAP_STYLE_URL` | No | OpenFreeMap style URL | MapLibre style JSON URL for vector tiles |
+
+### Mobile Example
+
+```bash
+# mobile/.env
+API_URL_IOS=http://localhost:9900
+API_URL_ANDROID=http://10.0.2.2:9900
+API_URL_PROD=https://api.masariya.lk
+MAP_STYLE_URL=https://tiles.openfreemap.org/styles/liberty
+```
+
+## Port Reference
+
+Quick reference for all service ports used in local development:
+
+| Port | Service | Protocol | Notes |
+|------|---------|----------|-------|
+| 9900 | Go Backend | HTTP/WS | API, WebSocket, Swagger docs |
+| 5433 | PostgreSQL | TCP | Mapped from container port 5432 |
+| 6379 | Redis | TCP | Streams, Pub/Sub, Hash |
+| 9992 | Valhalla | HTTP | Map matching and routing |
+| 9990 | Nominatim | HTTP | Geocoding (bootstrap only) |
+| 9000 | Nginx | HTTP | Reverse proxy |
+
+## Production Checklist
+
+When deploying to production, ensure these variables are changed from defaults:
+
+- **`POSTGRES_PASSWORD`** -- Use a strong, unique password
+- **`ADMIN_API_KEY`** -- Use a long, random API key
+- **`REDIS_PASSWORD`** -- Set a Redis password (empty by default)
+- **`SERVER_NAME`** -- Set to your production domain
+- **`API_URL_PROD`** -- Set to your production API URL
+- **`DATABASE_URL`** -- Update to match production PostgreSQL credentials

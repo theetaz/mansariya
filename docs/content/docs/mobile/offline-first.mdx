@@ -1,0 +1,113 @@
+---
+title: Offline-First
+description: How the app works without an internet connection
+---
+
+## Design Philosophy
+
+Many Mansariya users will be on slow or intermittent mobile connections. The app is designed to be useful even without an internet connection by caching route and stop data locally and queuing GPS contributions for later upload.
+
+## What Works Offline
+
+| Feature | Offline? | How |
+|---------|----------|-----|
+| View saved routes | Yes | Route data cached in op-sqlite |
+| Search routes and stops | Yes | Full-text search on local database |
+| View route maps | Partial | Map tiles cached from recent views; unseen areas need network |
+| Live bus tracking | No | Requires active WebSocket connection |
+| Journey planning | Partial | Route matching works locally; ETA/active buses need network |
+| GPS contribution | Queued | Pings stored locally, sent when connection returns |
+| Settings and preferences | Yes | All stored on-device |
+
+## Local Database
+
+Route and stop data are stored in an **op-sqlite** database on the device. This is a lightweight SQLite wrapper optimized for React Native.
+
+### What Is Cached
+
+- All route records (route ID, number, name in 3 languages, polyline geometry)
+- All stop records (stop ID, name in 3 languages, coordinates)
+- Route-stop relationships (which stops belong to which routes, in order)
+- User's saved/favorite routes
+
+### Database Size
+
+The full Sri Lanka bus route dataset is approximately 5-10MB in SQLite format. This is small enough to cache entirely on the device.
+
+## Sync Strategy
+
+### Initial Sync
+
+On first launch (after onboarding), the app calls the sync endpoint to download all route and stop data:
+
+```
+GET /api/v1/routes/sync
+```
+
+This returns the complete dataset in a single response. The app writes it to op-sqlite in a single transaction for speed.
+
+### Incremental Refresh
+
+The app checks for updates weekly (or when the user manually triggers a refresh). The sync endpoint supports a `since` parameter:
+
+```
+GET /api/v1/routes/sync?since=2025-01-10T00:00:00Z
+```
+
+This returns only routes and stops that have been added or modified since the given timestamp, minimizing data transfer.
+
+### Sync Indicators
+
+- The app shows a "Last updated" timestamp in settings
+- If data is older than 7 days, a subtle banner suggests refreshing
+- Sync happens on Wi-Fi by default to avoid using mobile data
+
+## GPS Queue
+
+When a contributor is sharing GPS but loses their internet connection, pings are not lost.
+
+### How It Works
+
+1. GPS pings are collected every 5 seconds as normal
+2. Instead of sending immediately via HTTP, pings are written to a local queue (in-memory array backed by AsyncStorage)
+3. A background sync task checks for connectivity every 30 seconds
+4. When connectivity returns, queued pings are sent in batches to `POST /api/v1/gps/batch`
+5. Successfully sent pings are removed from the queue
+
+### Queue Limits
+
+| Parameter | Value |
+|-----------|-------|
+| Max queue size | 500 pings (~40 minutes of data) |
+| Queue overflow behavior | Oldest pings are discarded |
+| Batch size on reconnect | 50 pings per request |
+| Retry on failure | 3 attempts with exponential backoff |
+
+### What Happens to Queued Data
+
+Queued GPS data is still useful to the pipeline even if it arrives late. The pipeline processes it the same way as real-time data, though the resulting bus positions are marked with a higher latency. Pings older than 10 minutes are discarded by the server.
+
+## Local Storage
+
+All user preferences and data are stored on the device. Nothing is sent to the server.
+
+| Data | Storage | Synced to Server? |
+|------|---------|------------------|
+| Language preference | AsyncStorage | No |
+| Saved/favorite routes | op-sqlite | No |
+| Onboarding completion | AsyncStorage | No |
+| Trip counter | AsyncStorage | No |
+| GPS contribution opt-in | AsyncStorage | No |
+| Map tile cache | File system | No |
+| Route/stop data | op-sqlite | Downloaded from server, never uploaded |
+
+## No Account, No Cloud Sync
+
+Mansariya MVP has no user accounts. This means:
+
+- No cloud backup of preferences (if the user switches phones, they start fresh)
+- No cross-device sync
+- No server-side user data to protect
+- Complete privacy: the server has no idea who its users are
+
+User accounts are planned for v1.1 (leaderboard and rewards), at which point opt-in cloud sync may be added.

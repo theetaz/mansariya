@@ -1,0 +1,195 @@
+---
+title: Services
+description: All backend services and their roles
+---
+
+## Service Overview
+
+Mansariya runs six services, all orchestrated by Docker Compose. Each service has a specific role in the system.
+
+| Service | Port | Image | Role |
+|---------|------|-------|------|
+| Go Backend | 9900 | Custom (multi-stage Go build) | HTTP API, WebSocket, pipeline workers |
+| PostgreSQL + PostGIS | 5433 | `postgis/postgis:16-3.4` | Persistent data storage with spatial support |
+| Redis | 6379 | `redis:7-alpine` | Streams, Pub/Sub, caching |
+| Valhalla | 9992 | Custom Docker image | Map matching and routing |
+| Nominatim | 9990 | `mediagis/nominatim:4.4` | Geocoding (bootstrap only) |
+| Nginx | 9000 | `nginx:alpine` | Reverse proxy, WebSocket upgrade |
+
+## Go Backend
+
+**Port:** 9900
+**Image:** Custom multi-stage Docker build
+
+The Go backend is a single binary that serves three functions:
+
+### HTTP API Server
+
+- RESTful API at `/api/v1/*` for routes, stops, GPS ingestion, journey planning, and admin operations
+- Swagger UI at `/docs` for interactive API documentation
+- Health check at `/health`
+- Built with **Chi v5** router
+
+### WebSocket Server
+
+- WebSocket endpoint at `/ws/track/{routeID}` for real-time bus position updates
+- Hub manages client subscriptions per route
+- Pub/Sub Bridge forwards Redis messages to connected clients
+
+### Pipeline Workers
+
+- Long-running goroutines that consume from Redis Streams
+- **Map Matcher worker:** Reads from `gps:raw`, calls Valhalla, writes to `gps:matched`
+- **Processor worker:** Reads from `gps:matched`, runs route inference (R-tree + Hausdorff) and DBSCAN clustering
+- **Broadcaster worker:** Publishes clustered bus positions to Redis Pub/Sub
+
+**Key dependencies:** pgx v5 (PostgreSQL), go-redis v9 (Redis), paulmach/orb (geometry), tidwall/rtree (spatial index)
+
+## PostgreSQL + PostGIS
+
+**Port:** 5433 (mapped from container port 5432)
+**Image:** `postgis/postgis:16-3.4`
+
+PostgreSQL is the primary persistent data store. PostGIS adds spatial data types and functions.
+
+### What It Stores
+
+| Table | Description |
+|-------|-------------|
+| `routes` | Bus route metadata (number, name in 3 languages, polyline geometry) |
+| `stops` | Bus stop locations (name in 3 languages, coordinates) |
+| `route_stops` | Many-to-many relationship with stop ordering |
+| `spatial_ref_sys` | PostGIS coordinate reference system definitions |
+
+### Key Features Used
+
+- **GEOMETRY types** with SRID 4326 for spatial data (route polylines, stop points)
+- **ST_Distance, ST_DWithin, ST_ClosestPoint** for spatial queries
+- **pg_trgm extension** for fuzzy trilingual text search on stop/route names
+- **GIN indexes** on trigram columns for fast autocomplete
+- **GiST indexes** on geometry columns for spatial queries
+
+### Configuration
+
+- Shared buffers: 1GB (of 8GB total RAM)
+- Work memory: 64MB
+- Effective cache size: 4GB
+- Max connections: 100
+
+## Redis
+
+**Port:** 6379
+**Image:** `redis:7-alpine`
+
+Redis serves multiple roles in the real-time pipeline. No data in Redis is permanent -- everything either expires via TTL or is trimmed by stream length.
+
+### Redis Streams
+
+| Stream | Purpose | Consumer Group |
+|--------|---------|---------------|
+| `gps:raw` | Raw GPS pings from phones | `map-matcher-group` |
+| `gps:matched` | Road-snapped GPS points | `processor-group` |
+
+Streams are trimmed to keep only the last 10 minutes of data (MAXLEN approximate).
+
+### Redis Pub/Sub
+
+| Channel Pattern | Purpose |
+|----------------|---------|
+| `route:{routeID}` | Bus position updates for a specific route |
+
+The WebSocket Hub subscribes to `route:*` using pattern matching and forwards messages to connected clients.
+
+### Redis Hash
+
+| Key Pattern | Purpose | TTL |
+|-------------|---------|-----|
+| `bus:{virtual_id}:pos` | Current bus position data | 5 minutes |
+| `device:{hash}` | Device session metadata | 24 hours |
+
+### Redis Sorted Set
+
+| Key Pattern | Purpose |
+|-------------|---------|
+| `active_buses:{route_id}` | Set of active bus virtual IDs, scored by last update timestamp |
+
+Used to quickly answer "how many buses are active on this route?" and to clean up stale entries.
+
+## Valhalla
+
+**Port:** 9992
+**Image:** Custom Docker image with Sri Lanka OSM data
+
+Valhalla is a self-hosted open-source routing engine. Mansariya uses its **Meili** component for map matching (snapping GPS traces to roads).
+
+### Endpoints Used
+
+| Endpoint | Purpose |
+|----------|---------|
+| `/trace_route` | Map matching -- snap GPS points to road network |
+| `/route` | Routing -- find road path between two points (used for route polyline generation) |
+
+### Data
+
+- Uses Sri Lanka's OpenStreetMap extract (~120MB PBF file)
+- Routing tiles are built on first startup and cached in a Docker volume
+- Tile rebuild takes 2-5 minutes; subsequent starts are instant
+
+### Performance
+
+- Map matching latency: ~100ms per trace
+- No rate limits (self-hosted)
+- Memory usage: ~2GB for Sri Lanka tiles
+
+### Configuration
+
+Key parameters for map matching:
+
+| Parameter | Value |
+|-----------|-------|
+| `search_radius` | 50m |
+| `gps_accuracy` | 15m |
+| `turn_penalty_factor` | 50 |
+| `breakage_distance` | 2000m |
+
+## Nominatim
+
+**Port:** 9990
+**Image:** `mediagis/nominatim:4.4`
+
+Nominatim is a geocoding service used **only during bootstrap** to convert stop names and addresses to coordinates. It is not used at runtime.
+
+### Usage
+
+- During `make bootstrap`, the backend queries Nominatim to geocode bus stop locations
+- Once all stops have coordinates, Nominatim is not needed for normal operation
+- Can be stopped after bootstrap to save resources: `docker compose stop nominatim`
+
+### Data
+
+- Uses the same Sri Lanka OSM PBF file as Valhalla
+- Requires a PostgreSQL database internally (separate from the main Mansariya database)
+- Initial import takes 10-15 minutes
+
+## Nginx
+
+**Port:** 9000
+**Image:** `nginx:alpine`
+
+Nginx serves as the reverse proxy and entry point for all HTTP and WebSocket traffic.
+
+### Responsibilities
+
+- **Reverse proxy:** Routes all `/api/*`, `/docs`, and `/health` requests to the Go backend at port 9900
+- **WebSocket upgrade:** Handles the HTTP-to-WebSocket upgrade for `/ws/*` paths, passing the connection through to the Go backend
+- **Connection management:** Keep-alive connections, request buffering, timeout management
+- **Static files:** Serves Swagger UI assets
+
+### Configuration
+
+The Nginx configuration is in `infra/nginx/nginx.conf`. Key directives:
+
+- `proxy_pass http://backend:9900` -- forward to Go backend
+- `proxy_http_version 1.1` and `Upgrade` headers for WebSocket
+- `client_max_body_size 1m` -- GPS batches are small
+- `proxy_read_timeout 3600s` -- long timeout for WebSocket connections

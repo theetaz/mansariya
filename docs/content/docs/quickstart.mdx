@@ -1,0 +1,164 @@
+---
+title: Quickstart
+description: Run Mansariya locally in 5 minutes
+---
+
+## Prerequisites
+
+| Tool | Version | Check |
+|------|---------|-------|
+| Go | 1.23+ | `go version` |
+| Docker & Docker Compose | Latest | `docker compose version` |
+| Node.js | 22+ | `node --version` |
+| npm | 10+ | `npm --version` |
+| Make | Any | `make --version` |
+
+## 1. Clone and Configure
+
+```bash
+git clone https://github.com/your-org/mansariya.git
+cd mansariya
+```
+
+Copy the example environment files for each layer:
+
+```bash
+cp infra/.env.example infra/.env
+cp backend/.env.example backend/.env
+cp mobile/.env.example mobile/.env
+```
+
+The defaults work for local development. See the [Environment Variables](/docs/infra/environment-variables) page for full details.
+
+### Backend Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `9900` | HTTP server port |
+| `HOST` | `0.0.0.0` | Bind address |
+| `DATABASE_URL` | `postgres://mansariya:mansariya@localhost:5433/mansariya?sslmode=disable` | PostgreSQL connection string |
+| `REDIS_ADDR` | `localhost:6379` | Redis address |
+| `REDIS_PASSWORD` | *(empty)* | Redis password |
+| `VALHALLA_URL` | `http://localhost:9992` | Valhalla map matching endpoint |
+| `NOMINATIM_URL` | `http://localhost:9990` | Nominatim geocoding endpoint |
+| `ADMIN_API_KEY` | `dev-admin-key` | API key for admin endpoints |
+
+### Infrastructure Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `POSTGRES_USER` | `mansariya` | PostgreSQL username |
+| `POSTGRES_PASSWORD` | `mansariya` | PostgreSQL password |
+| `POSTGRES_DB` | `mansariya` | Database name |
+| `POSTGRES_PORT` | `5433` | Exposed PostgreSQL port |
+| `REDIS_PORT` | `6379` | Exposed Redis port |
+| `VALHALLA_PORT` | `9992` | Exposed Valhalla port |
+| `NOMINATIM_PORT` | `9990` | Exposed Nominatim port |
+| `PBF_URL` | Sri Lanka OSM extract URL | OSM data for Valhalla/Nominatim |
+
+## 2. Start Infrastructure
+
+```bash
+make infra-up-all
+```
+
+This starts PostgreSQL, Redis, Valhalla, Nominatim, and Nginx via Docker Compose.
+
+**Note:** On first run, Valhalla will download Sri Lanka's OSM extract (~120MB) and build routing tiles. This takes 2-5 minutes depending on your connection. Subsequent starts are instant.
+
+Wait for all services to be healthy:
+
+```bash
+docker compose -f infra/docker-compose.yml ps
+```
+
+All services should show `healthy` or `running`.
+
+## 3. Run Database Migrations
+
+```bash
+make migrate-up
+```
+
+This creates all tables: routes, stops, route_stops, and spatial indexes.
+
+## 4. Bootstrap Route Data
+
+```bash
+make bootstrap
+```
+
+This loads NTC route data, geocodes stop locations via Nominatim, and builds route polylines. It may take a few minutes on first run.
+
+## 5. Start the Backend
+
+```bash
+make backend-dev
+```
+
+Verify it is running:
+
+```bash
+curl http://localhost:9900/health
+```
+
+Expected response:
+
+```json
+{"status": "ok"}
+```
+
+## 6. Explore the API
+
+Open the interactive Swagger UI in your browser:
+
+```
+http://localhost:9900/docs
+```
+
+This lists all available endpoints with request/response examples.
+
+## 7. Simulate Traffic
+
+In a separate terminal, start the GPS traffic simulator:
+
+```bash
+make simulate
+```
+
+This generates fake GPS pings along known routes, so you can see the full pipeline in action without a physical phone.
+
+## 8. Run the Mobile App
+
+```bash
+cd mobile
+npm install
+npx expo run:ios
+```
+
+For Android:
+
+```bash
+npx expo run:android
+```
+
+The app will connect to `localhost:9900` by default. You should see simulated buses moving on the map.
+
+## Port Reference
+
+| Port | Service | URL |
+|------|---------|-----|
+| 9900 | Go Backend | `http://localhost:9900` |
+| 9900 | Swagger Docs | `http://localhost:9900/docs` |
+| 5433 | PostgreSQL | `postgresql://localhost:5433/mansariya` |
+| 6379 | Redis | `redis://localhost:6379` |
+| 9992 | Valhalla | `http://localhost:9992` |
+| 9990 | Nominatim | `http://localhost:9990` |
+| 9000 | Nginx | `http://localhost:9000` |
+
+## Troubleshooting
+
+- **Valhalla not ready** -- Check `docker logs valhalla`. It needs time to build tiles on first run.
+- **Port conflict** -- Change ports in `infra/.env` if 5433, 6379, or 9992 are already in use.
+- **Migration fails** -- Make sure PostgreSQL is healthy: `docker compose -f infra/docker-compose.yml ps`.
+- **Mobile can't connect** -- Check `API_URL_IOS` / `API_URL_ANDROID` in `mobile/.env` points to your machine's IP (not `localhost` for Android emulators -- use `10.0.2.2`).

@@ -1,0 +1,149 @@
+---
+title: Mobile App
+description: React Native app architecture and design
+---
+
+## Overview
+
+The Mansariya mobile app serves two roles: it is the **passenger interface** (view live buses, plan journeys, see ETAs) and the **contributor sensor** (share GPS to power the tracking system). The app is built with React Native in a bare workflow, targeting Android for production and iOS for development testing.
+
+## Tech Stack
+
+| Technology | Purpose |
+|-----------|---------|
+| React Native (bare workflow) | Cross-platform mobile framework |
+| TypeScript (strict mode) | Type-safe codebase, no `any` types |
+| Expo modules | Dev client with native module support (not Expo Go) |
+| MapLibre + @maplibre/maplibre-react-native | Map rendering with vector tiles |
+| OpenFreeMap | Free vector map tiles, no API key |
+| Zustand | State management (one store per domain) |
+| React Navigation (native-stack + bottom tabs) | Screen navigation |
+| op-sqlite | Local SQLite database for offline route data |
+| i18next + expo-localization | Trilingual support (Sinhala, Tamil, English) |
+| react-native-geolocation-service | High-accuracy GPS for contribution |
+| Axios | HTTP client for REST API |
+
+## App Flow
+
+```
+App launched
+  |
+  v
+First launch? ----Yes----> Onboarding (4 steps, skippable)
+  |                              |
+  No                             v
+  |                         Map Home
+  v
+Splash (1-2s)
+  |
+  v
+Map Home
+  |
+  |--- Search (stop/route search)
+  |--- Nearby (buses near current location)
+  |--- Route Detail (map + stops + live buses)
+  |--- Journey Planner (A to B)
+  |--- Settings (language, contribute toggle)
+```
+
+### Onboarding Steps
+
+The onboarding flow runs once on first launch and can be skipped at any point:
+
+1. **Welcome** -- Introduction to Mansariya
+2. **How it works** -- Brief explanation of crowdsource tracking
+3. **Language** -- Choose Sinhala, Tamil, or English
+4. **Location permission** -- Request GPS access for contribution
+
+No authentication is required. The device is the identity for MVP.
+
+## Project Structure
+
+```
+mobile/
+  src/
+    components/        Reusable UI components
+      MapView.tsx
+      BusMarker.tsx
+      StopMarker.tsx
+      RoutePolyline.tsx
+      SearchBar.tsx
+      BottomSheet.tsx
+      BusCard.tsx
+      ConfidenceBadge.tsx
+    screens/           Screen components
+      HomeScreen.tsx
+      SearchScreen.tsx
+      RouteDetailScreen.tsx
+      JourneyPlannerScreen.tsx
+      SettingsScreen.tsx
+      OnboardingScreen.tsx
+    stores/            Zustand state stores
+      useLocationStore.ts
+      useRouteStore.ts
+      useBusStore.ts
+      useSettingsStore.ts
+    services/          External integrations
+      api.ts           REST API client (Axios)
+      websocket.ts     WebSocket connection manager
+      location.ts      GPS tracking service
+      offlineDb.ts     op-sqlite database operations
+    i18n/              Internationalization
+      en.json          English translations
+      si.json          Sinhala translations
+      ta.json          Tamil translations
+      index.ts         i18next configuration
+    constants/         App-wide constants
+      colors.ts        Design system color tokens
+      config.ts        API URLs, intervals, thresholds
+    navigation/        Navigation configuration
+      RootNavigator.tsx
+      TabNavigator.tsx
+    utils/             Utility functions
+  assets/              Fonts, images, icons
+  __tests__/           Test files
+```
+
+## Design System
+
+### Color Tokens
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| **Mansariya Green** | `#1D9E75` | Primary brand, CTAs, verified badges |
+| **Green Light** | `#E1F5EE` | Badge backgrounds, success states |
+| **Green Dark** | `#0F6E56` | Text on green backgrounds |
+| **Road Blue** | `#378ADD` | Route polylines, location dot, active indicators |
+| **Alert Amber** | `#BA7517` | Low confidence warnings |
+| **Danger Red** | `#E24B4A` | Stop tracking button, error alerts |
+| **Neutral 900** | `#1A1A1A` | Primary text |
+| **Neutral 500** | `#6B7280` | Secondary text, placeholders |
+| **White** | `#FFFFFF` | Backgrounds, cards |
+
+### Typography
+
+- Uses system fonts with Sinhala-compatible fallbacks
+- Custom Sinhala font loaded via `expo-font` for consistent rendering
+- Font sizes follow an 8px scale: 12, 14, 16, 20, 24, 32
+
+### Component Styling
+
+All styles use `StyleSheet.create` (no CSS-in-JS libraries). Components are designed for 6-inch screens, which is the most common form factor in Sri Lanka.
+
+## Key Screens
+
+### Home Screen (Map)
+
+The default screen showing a full-screen MapLibre map centered on the user's location. Nearby bus routes are displayed as polylines. Active buses appear as animated markers. A search bar at the top opens the search screen, and a bottom sheet shows nearby routes.
+
+### Route Detail Screen
+
+Two-tab layout: **Map View** and **Stops List**. The map view shows the route polyline with stop markers and live bus positions. Tapping a bus card tracks that individual bus. The stops list shows all stops in order with distance information.
+
+### Journey Planner
+
+Origin and destination input fields with autocomplete powered by the trilingual stop search API. Results show available routes ranked by ETA, with fare, duration, and active bus count for each option.
+
+### Settings
+
+Language picker (Sinhala / Tamil / English), GPS contribution toggle, saved routes, and trip counter. All preferences are stored locally on the device.
