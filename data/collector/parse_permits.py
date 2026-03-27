@@ -79,9 +79,11 @@ def parse_pdf():
     #
     # We handle both cases.
 
-    # Service type alternation used in both patterns
+    # Service type alternation used in both patterns.
+    # Includes SEMI-LUX (truncated form of SEMI LUXURY found in the PDF).
     svc_alt = (
-        r"(?:LUXURY|SEMI LUXURY|NORMAL|EXPRESS|SUPER LUXURY|INTERCITY|HIGHWAY|SUPER)"
+        r"(?:LUXURY|SEMI LUXURY|SEMI-LUX|NORMAL|EXPRESS|"
+        r"SUPER LUXURY|INTERCITY|HIGHWAY|SUPER)"
     )
 
     # Pattern A: plate with -R<route> glued on
@@ -110,11 +112,37 @@ def parse_pdf():
         r"(.+)$"                                        # Origin + Destination
     )
 
+    # Pattern D: route numbers with "EX " prefix (space inside route no)
+    # e.g., "211 F13828 NC-0855 EX 1-18 SUPER 12/26/2026 COLOMBO MATARA"
+    pattern_d = re.compile(
+        r"^(\d[\d,]*)\s+"                              # S/N
+        r"([A-Z]?\d+)\s+"                              # Permit No
+        r"([A-Z]{2}-\d{4,5})\s+"                       # Bus plate
+        r"(EX\s+\S+)\s+"                               # Route No with EX prefix
+        r"(" + svc_alt + r")\s+"                       # Service type
+        r"(\d{1,2}/\d{1,2}/\d{4})\s+"                 # Valid Date
+        r"(.+)$"                                        # Origin + Destination
+    )
+
+    # Pattern C: HW-plates with 5-digit plates where route is glued on without -R
+    # e.g., "694 0539 HW-4469048-008 NORMAL ..." means plate HW-44690, route 48-008
+    # HW plates have 5 digits, and the route starts immediately after.
+    pattern_c = re.compile(
+        r"^(\d[\d,]*)\s+"                              # S/N
+        r"([A-Z]?\d+)\s+"                              # Permit No
+        r"(HW-\d{5})"                                  # Bus plate (HW-5D)
+        r"(\S+)\s+"                                     # Route No glued on
+        r"(" + svc_alt + r")\s+"                       # Service type
+        r"(\d{1,2}/\d{1,2}/\d{4})\s+"                 # Valid Date
+        r"(.+)$"                                        # Origin + Destination
+    )
+
     permits = []
     skipped_no_od = 0
     skipped_bad_route = 0
     matched_a = 0
     matched_b = 0
+    matched_c = 0
 
     with pdfplumber.open(PDF_PATH) as pdf:
         total_pages = len(pdf.pages)
@@ -139,8 +167,10 @@ def parse_pdf():
                     continue
 
                 # Detect section headers like "LUXURY 605" or "NORMAL 2,003"
+                # Also handle "SEMI-LUX" section headers
                 section_match = re.match(
-                    r"^(LUXURY|SEMI LUXURY|NORMAL|EXPRESS|SUPER LUXURY|INTERCITY|HIGHWAY|SUPER)\s+[\d,]+$",
+                    r"^(LUXURY|SEMI LUXURY|SEMI-LUX\w*|NORMAL|EXPRESS|"
+                    r"SUPER LUXURY|INTERCITY|HIGHWAY|SUPER)\s+[\d,]+$",
                     line,
                 )
                 if section_match:
@@ -156,25 +186,55 @@ def parse_pdf():
                         m.group(5), m.group(6), m.group(7),
                     )
                 else:
-                    # Try pattern B (separate plate and route)
-                    m = pattern_b.match(line)
+                    # Try pattern C (HW plates with glued route, no -R)
+                    m = pattern_c.match(line)
                     if m:
-                        matched_b += 1
+                        matched_c += 1
                         serial, permit_no, bus_no, route_no, service_type, valid_date, origin_dest = (
                             m.group(1), m.group(2), m.group(3), m.group(4),
                             m.group(5), m.group(6), m.group(7),
                         )
                     else:
-                        continue
+                        # Try pattern D (EX route with space)
+                        m = pattern_d.match(line)
+                        if m:
+                            matched_b += 1  # count with B for simplicity
+                            serial, permit_no, bus_no, route_no, service_type, valid_date, origin_dest = (
+                                m.group(1), m.group(2), m.group(3), m.group(4),
+                                m.group(5), m.group(6), m.group(7),
+                            )
+                        else:
+                            # Try pattern B (separate plate and route)
+                            m = pattern_b.match(line)
+                            if m:
+                                matched_b += 1
+                                serial, permit_no, bus_no, route_no, service_type, valid_date, origin_dest = (
+                                    m.group(1), m.group(2), m.group(3), m.group(4),
+                                    m.group(5), m.group(6), m.group(7),
+                                )
+                            else:
+                                continue
 
                 # Handle "SUPER" service type -> check if next line is "LUXURY"
                 if service_type == "SUPER":
-                    # Check if next line(s) say "LUXURY"
                     if line_idx + 1 < len(lines) and lines[line_idx + 1].strip() == "LUXURY":
                         service_type = "SUPER LUXURY"
 
-                # Clean route number: strip leading zeros for normalization but keep original
+                # Normalize service type abbreviations
+                if service_type.startswith("SEMI-LUX"):
+                    service_type = "SEMI LUXURY"
+
+                # Handle truncated route numbers: if route ends with / or
+                # looks incomplete, check the next line for continuation.
+                # e.g., "EX01-051/" on this line + "035" on next line = "EX01-051/035"
                 route_clean = route_no.strip()
+                if route_clean.endswith("/") or route_clean.endswith("0"):
+                    # Check if route looks truncated (EX routes commonly split)
+                    if line_idx + 1 < len(lines):
+                        next_line = lines[line_idx + 1].strip()
+                        # Continuation is a short line with digits/dashes only
+                        if next_line and re.match(r"^[\d/\-]+$", next_line) and len(next_line) <= 15:
+                            route_clean = route_clean + next_line
 
                 # Validate route number - should start with a digit or EX
                 if not re.match(r"^(\d|EX)", route_clean):
@@ -195,7 +255,7 @@ def parse_pdf():
                     "service_type": service_type,
                 })
 
-    print(f"\nMatched: {matched_a} via pattern A (plate-R-route), {matched_b} via pattern B (separate)")
+    print(f"\nMatched: {matched_a} pattern A (plate-R-route), {matched_b} pattern B (separate), {matched_c} pattern C (HW-plate)")
     print(f"Extracted {len(permits)} permit records")
     print(f"Skipped: {skipped_no_od} no origin/dest, {skipped_bad_route} bad route number")
     return permits

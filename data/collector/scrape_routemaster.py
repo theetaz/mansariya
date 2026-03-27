@@ -16,11 +16,14 @@ import json
 import re
 import sys
 import time
+import warnings
 from pathlib import Path
 from urllib.parse import unquote, urlparse, parse_qs
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 BASE_URL = "https://routemaster.lk"
 HEADERS = {
@@ -150,50 +153,81 @@ def extract_route_data(url: str, html: str) -> dict | None:
     """Extract route data from a route page HTML."""
     soup = BeautifulSoup(html, "html.parser")
 
-    # Extract route number and name from the title / heading
+    # --- Extract route number from the h1 heading ---
+    # The h1 looks like "Sri Lanka bus route number: 01" or "Sri Lanka bus route number: EX 1-1"
     route_no = ""
-    route_name = ""
-
-    # Try the main heading first
     heading = soup.find("h1", class_="entry-title") or soup.find("h1")
     if heading:
-        title_text = heading.get_text(strip=True)
-    else:
-        title_tag = soup.find("title")
-        title_text = title_tag.get_text(strip=True) if title_tag else ""
+        h1_text = heading.get_text(strip=True)
+        # Extract the route number after "route number:"
+        rn_match = re.search(r'route\s+number:\s*(.+)', h1_text, re.IGNORECASE)
+        if rn_match:
+            route_no = rn_match.group(1).strip()
+            # Clean up arrows
+            route_no = route_no.replace("↓", "").replace("↑", "").strip()
 
-    # Parse title like "Route 01 – Colombo to Kandy Intercity" or "EX 1-1 ..."
-    # Common patterns:
-    #   "Route 01 – Colombo to Kandy Intercity"
-    #   "187↓ – Airport to Colombo (Fort)"
-    #   "EX 1-1 – Makumbara Bus Stand to Matara"
-    if title_text:
-        # Remove site name suffix
-        title_text = re.sub(r'\s*[-–|]\s*RouteMaster.*$', '', title_text, flags=re.IGNORECASE)
-        title_text = title_text.strip()
-
-        # Try to split into route number and name
-        # Pattern: "Route XXX – Name" or "XXX – Name" or "XXX↓ – Name"
-        match = re.match(
-            r'(?:Route\s+)?([A-Za-z0-9\-/]+(?:\s*↓)?)\s*[-–]\s*(.+)',
-            title_text,
-            re.IGNORECASE
-        )
-        if match:
-            route_no = match.group(1).replace("↓", "").strip()
-            route_name = match.group(2).strip()
-        else:
-            # Fallback: extract from URL slug
-            slug = url.rstrip("/").split("/")[-1]
-            route_no = slug
-            route_name = title_text
-
-    # Fallback route number from URL
+    # Fallback route number from URL slug
     if not route_no:
         slug = url.rstrip("/").split("/")[-1]
         route_no = slug
 
-    # Find Google Maps direction URL
+    # --- Extract From/To and stops from the card-body div ---
+    origin_name = ""
+    dest_name = ""
+    stops = []
+
+    card_body = soup.find("div", class_="card-body")
+    if card_body:
+        # The card-body text follows the pattern:
+        #   "From: <origin>To: <destination>Also stops at:<stop1><stop2>..."
+        # Split by pipe to get structured text
+        card_text = card_body.get_text("|", strip=True)
+
+        # Extract "From: X"
+        from_match = re.search(r'From:\s*([^|]+)', card_text)
+        if from_match:
+            origin_name = from_match.group(1).strip()
+            # Clean trailing "To:" if the parser merged them
+            origin_name = re.sub(r'\s*To:.*$', '', origin_name).strip()
+
+        # Extract "To: X"
+        to_match = re.search(r'To:\s*([^|]+)', card_text)
+        if to_match:
+            dest_name = to_match.group(1).strip()
+            # Clean trailing text
+            dest_name = re.sub(r'\s*Also stops at:.*$', '', dest_name).strip()
+
+        # Extract stops: paragraphs after "Also stops at:" and before
+        # descriptive text / "Open in Google Maps"
+        also_stops_match = re.search(r'Also stops at:\|(.+?)(?:\|Open in Google Maps|$)', card_text)
+        if also_stops_match:
+            raw_stops = also_stops_match.group(1)
+            for stop in raw_stops.split("|"):
+                stop = stop.strip()
+                # Filter out non-stop text (long descriptions, links, etc.)
+                if (stop
+                        and len(stop) < 80
+                        and not stop.startswith("If you")
+                        and not stop.startswith("Alternatively")
+                        and not stop.startswith("Busses")
+                        and not stop.startswith("Buses")
+                        and not stop.startswith("(")
+                        and not stop.startswith("We have")
+                        and "click here" not in stop.lower()
+                        and "book online" not in stop.lower()
+                        and "routemaster" not in stop.lower()):
+                    stops.append(stop)
+
+    # Build the route name from origin and destination
+    route_name = ""
+    if origin_name and dest_name:
+        route_name = f"{origin_name} to {dest_name}"
+    elif origin_name:
+        route_name = origin_name
+    elif dest_name:
+        route_name = dest_name
+
+    # --- Extract GPS coordinates from Google Maps direction link ---
     maps_data = {"origin": None, "destination": None, "waypoints": []}
 
     # Search in all links
@@ -214,31 +248,10 @@ def extract_route_data(url: str, html: str) -> dict | None:
             if maps_data["origin"]:
                 break
 
-    # Build waypoints list: origin + intermediate waypoints + destination
+    # --- Build waypoints list: origin + intermediate waypoints + destination ---
     waypoints = []
 
-    # Try to extract stop names from the page content
-    # Look for text that mentions stops, typically in the content area
-    content_div = soup.find("div", class_="entry-content") or soup.find("article")
-    stop_names = []
-    if content_div:
-        # Look for lists of stops
-        for li in content_div.find_all("li"):
-            text = li.get_text(strip=True)
-            if text and len(text) < 100:  # reasonable stop name length
-                stop_names.append(text)
-
     if maps_data["origin"]:
-        # Determine origin name from route_name or stop_names
-        origin_name = ""
-        dest_name = ""
-        if route_name:
-            # Try to split "X to Y" pattern
-            to_match = re.match(r'(.+?)\s+to\s+(.+)', route_name, re.IGNORECASE)
-            if to_match:
-                origin_name = to_match.group(1).strip()
-                dest_name = to_match.group(2).strip()
-
         waypoints.append({
             "lat": maps_data["origin"]["lat"],
             "lng": maps_data["origin"]["lng"],
@@ -246,10 +259,10 @@ def extract_route_data(url: str, html: str) -> dict | None:
         })
 
         for i, wp in enumerate(maps_data["waypoints"]):
-            # Try to match with a stop name if we have them
+            # Try to match with a stop name if available
             wp_name = ""
-            if i < len(stop_names):
-                wp_name = stop_names[i]
+            if i < len(stops):
+                wp_name = stops[i]
             waypoints.append({
                 "lat": wp["lat"],
                 "lng": wp["lng"],
@@ -262,26 +275,6 @@ def extract_route_data(url: str, html: str) -> dict | None:
                 "lng": maps_data["destination"]["lng"],
                 "name": dest_name or "Destination",
             })
-
-    # Extract stops mentioned in the page (textual, may not have coordinates)
-    stops = []
-    # Look for bus stop links
-    for a_tag in soup.find_all("a", href=True):
-        href = a_tag["href"]
-        if "/bus_stops/" in href:
-            stop_name = a_tag.get_text(strip=True)
-            if stop_name:
-                stops.append(stop_name)
-
-    # Also look for structured stop lists in content
-    if not stops and content_div:
-        # Some pages list stops as text
-        text = content_div.get_text()
-        # Look for patterns like "via X, Y, Z" or stop listings
-        via_match = re.search(r'via\s+(.+?)(?:\.|$)', text, re.IGNORECASE)
-        if via_match:
-            via_text = via_match.group(1)
-            stops = [s.strip() for s in re.split(r'[,&]|\band\b', via_text) if s.strip()]
 
     return {
         "route_no": route_no,
