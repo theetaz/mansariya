@@ -6,6 +6,14 @@ import {MAP_STYLE_URL, DEFAULT_CENTER, DEFAULT_ZOOM} from '../../constants/map';
 // Initialize MapLibre (required before any map usage)
 MapLibreGL.setAccessToken(null);
 
+// Suppress non-fatal MapLibre font/style errors (OpenFreeMap doesn't serve all fonts)
+MapLibreGL.setLogLevel('warning');
+const originalError = console.error;
+console.error = (...args: any[]) => {
+  if (typeof args[0] === 'string' && args[0].includes('MapLibre error')) return;
+  originalError(...args);
+};
+
 interface MapViewWrapperProps {
   children?: React.ReactNode;
   onPress?: (event: any) => void;
