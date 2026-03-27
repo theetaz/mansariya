@@ -14,6 +14,6 @@ ENV build_admins=False
 ENV build_time_zones=False
 ENV force_rebuild=False
 
-EXPOSE 8002
+EXPOSE 9992
 
 # The base image handles downloading OSM data, building tiles, and starting the server
