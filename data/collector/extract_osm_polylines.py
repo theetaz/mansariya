@@ -26,7 +26,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROUTES_FILE = os.path.join(SCRIPT_DIR, "osm_routes.json")
 OUTPUT_FILE = os.path.join(SCRIPT_DIR, "osm_polylines.json")
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
-DELAY_SECONDS = 2
+DELAY_SECONDS = 3
 MAX_ROUTES = None  # Set to a number to limit processing, None for all
 
 
@@ -52,34 +52,48 @@ def save_cache(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-def query_overpass(relation_id):
-    """Query Overpass API for a route relation with all its members resolved."""
-    query = f"""[out:json][timeout:60];
+def query_overpass(relation_id, max_retries=3):
+    """Query Overpass API for a route relation with all its members resolved.
+
+    Uses exponential backoff for retries on 429/504/timeout errors.
+    """
+    query = f"""[out:json][timeout:120];
 relation({relation_id});
 (._;>;);
 out body;"""
 
     data = urllib.parse.urlencode({"data": query}).encode("utf-8")
-    req = urllib.request.Request(
-        OVERPASS_URL,
-        data=data,
-        headers={"User-Agent": "Mansariya-BusTracker/1.0 (research)"},
-    )
 
-    try:
-        with urllib.request.urlopen(req, timeout=90) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        if e.code == 429:
-            print(f"    Rate limited! Waiting 30 seconds...")
-            time.sleep(30)
-            # Retry once
-            with urllib.request.urlopen(req, timeout=90) as resp:
+    for attempt in range(max_retries):
+        req = urllib.request.Request(
+            OVERPASS_URL,
+            data=data,
+            headers={"User-Agent": "Mansariya-BusTracker/1.0 (research)"},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=180) as resp:
                 return json.loads(resp.read().decode("utf-8"))
-        raise
-    except urllib.error.URLError as e:
-        print(f"    Network error: {e}")
-        return None
+        except urllib.error.HTTPError as e:
+            wait = 10 * (2 ** attempt)  # 10s, 20s, 40s
+            if e.code == 429:
+                print(f"    Rate limited (attempt {attempt+1}/{max_retries}). Waiting {wait}s...")
+                time.sleep(wait)
+            elif e.code == 504:
+                print(f"    Gateway timeout (attempt {attempt+1}/{max_retries}). Waiting {wait}s...")
+                time.sleep(wait)
+            else:
+                print(f"    HTTP {e.code} error (attempt {attempt+1}/{max_retries}). Waiting {wait}s...")
+                time.sleep(wait)
+            if attempt == max_retries - 1:
+                raise
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            wait = 10 * (2 ** attempt)
+            print(f"    Network error: {e} (attempt {attempt+1}/{max_retries}). Waiting {wait}s...")
+            time.sleep(wait)
+            if attempt == max_retries - 1:
+                return None
+
+    return None
 
 
 def build_polyline_from_relation(overpass_data):
