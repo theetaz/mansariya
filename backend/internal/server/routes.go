@@ -1,6 +1,7 @@
 package server
 
 import (
+	_ "embed"
 	"encoding/json"
 	"net/http"
 
@@ -8,6 +9,9 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/masariya/backend/internal/handler"
 )
+
+//go:embed openapi.yaml
+var openapiSpec []byte
 
 // Deps holds all handler dependencies, injected from main.
 type Deps struct {
@@ -36,6 +40,10 @@ func NewRouter(deps *Deps) *chi.Mux {
 
 	// Health check
 	r.Get("/health", healthCheck)
+
+	// API Documentation
+	r.Get("/docs/openapi.yaml", serveOpenAPISpec)
+	r.Get("/docs", serveSwaggerUI)
 
 	// API v1
 	r.Route("/api/v1", func(r chi.Router) {
@@ -94,4 +102,39 @@ func healthCheck(w http.ResponseWriter, r *http.Request) {
 		"status":  "ok",
 		"service": "masariya",
 	})
+}
+
+func serveOpenAPISpec(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/yaml; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Write(openapiSpec)
+}
+
+func serveSwaggerUI(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Write([]byte(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mansariya API Documentation</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+  <style>
+    body { margin: 0; background: #fafafa; }
+    .topbar { display: none; }
+  </style>
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    SwaggerUIBundle({
+      url: '/docs/openapi.yaml',
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
+      layout: "BaseLayout"
+    });
+  </script>
+</body>
+</html>`))
 }
