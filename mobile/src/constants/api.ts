@@ -1,13 +1,13 @@
 import {Platform} from 'react-native';
+import Config from 'react-native-config';
 
-// Local dev: iOS simulator uses localhost, Android emulator uses 10.0.2.2
 const DEV_API_URL = Platform.select({
-  ios: 'http://localhost:9900',
-  android: 'http://10.0.2.2:9900',
-  default: 'http://localhost:9900',
+  ios: Config.API_URL_IOS || 'http://localhost:9900',
+  android: Config.API_URL_ANDROID || 'http://10.0.2.2:9900',
+  default: Config.API_URL_IOS || 'http://localhost:9900',
 });
 
-const PROD_API_URL = 'https://api.masariya.lk';
+const PROD_API_URL = Config.API_URL_PROD || 'https://api.masariya.lk';
 
 export const API_BASE_URL = __DEV__ ? DEV_API_URL! : PROD_API_URL;
 export const WS_BASE_URL = API_BASE_URL.replace('http', 'ws');

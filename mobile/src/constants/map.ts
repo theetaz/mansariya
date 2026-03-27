@@ -1,4 +1,7 @@
-export const MAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
+import Config from 'react-native-config';
+
+export const MAP_STYLE_URL =
+  Config.MAP_STYLE_URL || 'https://tiles.openfreemap.org/styles/liberty';
 
 // Colombo, Sri Lanka
 export const DEFAULT_CENTER: [number, number] = [79.8612, 6.9271];
