@@ -9,8 +9,50 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TimetablesRouteImport } from './routes/timetables'
+import { Route as StopsRouteImport } from './routes/stops'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as LiveMapRouteImport } from './routes/live-map'
+import { Route as DataRouteImport } from './routes/data'
+import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TimetablesRoute = TimetablesRouteImport.update({
+  id: '/timetables',
+  path: '/timetables',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StopsRoute = StopsRouteImport.update({
+  id: '/stops',
+  path: '/stops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutesRoute = RoutesRouteImport.update({
+  id: '/routes',
+  path: '/routes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveMapRoute = LiveMapRouteImport.update({
+  id: '/live-map',
+  path: '/live-map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataRoute = DataRouteImport.update({
+  id: '/data',
+  path: '/data',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrowdsourceRoute = CrowdsourceRouteImport.update({
+  id: '/crowdsource',
+  path: '/crowdsource',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +61,130 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/crowdsource': typeof CrowdsourceRoute
+  '/data': typeof DataRoute
+  '/live-map': typeof LiveMapRoute
+  '/routes': typeof RoutesRoute
+  '/settings': typeof SettingsRoute
+  '/stops': typeof StopsRoute
+  '/timetables': typeof TimetablesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/crowdsource': typeof CrowdsourceRoute
+  '/data': typeof DataRoute
+  '/live-map': typeof LiveMapRoute
+  '/routes': typeof RoutesRoute
+  '/settings': typeof SettingsRoute
+  '/stops': typeof StopsRoute
+  '/timetables': typeof TimetablesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/crowdsource': typeof CrowdsourceRoute
+  '/data': typeof DataRoute
+  '/live-map': typeof LiveMapRoute
+  '/routes': typeof RoutesRoute
+  '/settings': typeof SettingsRoute
+  '/stops': typeof StopsRoute
+  '/timetables': typeof TimetablesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/crowdsource'
+    | '/data'
+    | '/live-map'
+    | '/routes'
+    | '/settings'
+    | '/stops'
+    | '/timetables'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/crowdsource'
+    | '/data'
+    | '/live-map'
+    | '/routes'
+    | '/settings'
+    | '/stops'
+    | '/timetables'
+  id:
+    | '__root__'
+    | '/'
+    | '/crowdsource'
+    | '/data'
+    | '/live-map'
+    | '/routes'
+    | '/settings'
+    | '/stops'
+    | '/timetables'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CrowdsourceRoute: typeof CrowdsourceRoute
+  DataRoute: typeof DataRoute
+  LiveMapRoute: typeof LiveMapRoute
+  RoutesRoute: typeof RoutesRoute
+  SettingsRoute: typeof SettingsRoute
+  StopsRoute: typeof StopsRoute
+  TimetablesRoute: typeof TimetablesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/timetables': {
+      id: '/timetables'
+      path: '/timetables'
+      fullPath: '/timetables'
+      preLoaderRoute: typeof TimetablesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stops': {
+      id: '/stops'
+      path: '/stops'
+      fullPath: '/stops'
+      preLoaderRoute: typeof StopsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routes': {
+      id: '/routes'
+      path: '/routes'
+      fullPath: '/routes'
+      preLoaderRoute: typeof RoutesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-map': {
+      id: '/live-map'
+      path: '/live-map'
+      fullPath: '/live-map'
+      preLoaderRoute: typeof LiveMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data': {
+      id: '/data'
+      path: '/data'
+      fullPath: '/data'
+      preLoaderRoute: typeof DataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crowdsource': {
+      id: '/crowdsource'
+      path: '/crowdsource'
+      fullPath: '/crowdsource'
+      preLoaderRoute: typeof CrowdsourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +197,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CrowdsourceRoute: CrowdsourceRoute,
+  DataRoute: DataRoute,
+  LiveMapRoute: LiveMapRoute,
+  RoutesRoute: RoutesRoute,
+  SettingsRoute: SettingsRoute,
+  StopsRoute: StopsRoute,
+  TimetablesRoute: TimetablesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
