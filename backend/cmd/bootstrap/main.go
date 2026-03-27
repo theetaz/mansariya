@@ -30,16 +30,23 @@ import (
 )
 
 type RawRoute struct {
-	ID          string   `json:"id"`
-	NameEN      string   `json:"name_en"`
-	NameSI      string   `json:"name_si"`
-	NameTA      string   `json:"name_ta"`
-	Operator    string   `json:"operator"`
-	ServiceType string   `json:"service_type"`
-	FareLKR     int      `json:"fare_lkr"`
-	Frequency   int      `json:"frequency_minutes"`
-	Hours       string   `json:"operating_hours"`
-	Stops       []string `json:"stops"` // ordered stop names in English
+	ID          string          `json:"id"`
+	NameEN      string          `json:"name_en"`
+	NameSI      string          `json:"name_si"`
+	NameTA      string          `json:"name_ta"`
+	Operator    string          `json:"operator"`
+	ServiceType string          `json:"service_type"`
+	FareLKR     int             `json:"fare_lkr"`
+	Frequency   int             `json:"frequency_minutes"`
+	Hours       string          `json:"operating_hours"`
+	Stops       []string        `json:"stops"`       // ordered stop names in English
+	StopCoords  []StopCoordJSON `json:"stop_coords"` // pre-geocoded GPS coords (optional)
+}
+
+type StopCoordJSON struct {
+	Name string  `json:"name"`
+	Lat  float64 `json:"lat"`
+	Lng  float64 `json:"lng"`
 }
 
 type GeocodedStop struct {
@@ -112,8 +119,16 @@ func main() {
 			"stops", len(route.Stops),
 		)
 
-		// Geocode stops
-		geocoded := geocodeStops(route.Stops, *nominatimURL)
+		// Use pre-geocoded coords if available, otherwise geocode via Nominatim
+		var geocoded []GeocodedStop
+		if len(route.StopCoords) >= 2 {
+			for _, sc := range route.StopCoords {
+				geocoded = append(geocoded, GeocodedStop{Name: sc.Name, Lat: sc.Lat, Lng: sc.Lng})
+			}
+			slog.Info("using pre-geocoded stop coords", "route", route.ID, "stops", len(geocoded))
+		} else {
+			geocoded = geocodeStops(route.Stops, *nominatimURL)
+		}
 		if len(geocoded) < 2 {
 			slog.Warn("insufficient geocoded stops, skipping", "route", route.ID, "geocoded", len(geocoded))
 			skipped++
