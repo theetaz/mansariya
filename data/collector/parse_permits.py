@@ -224,15 +224,17 @@ def parse_pdf():
                 if service_type.startswith("SEMI-LUX"):
                     service_type = "SEMI LUXURY"
 
-                # Handle truncated route numbers: if route ends with / or
-                # looks incomplete, check the next line for continuation.
-                # e.g., "EX01-051/" on this line + "035" on next line = "EX01-051/035"
+                # Handle truncated route numbers: if route ends with /
+                # check the next line for continuation.
+                # e.g., "EX01-051/" on this line + "035" on next = "EX01-051/035"
+                # e.g., "EX02/EX0" on this line + "4/602" on next = "EX02/EX04/602"
                 route_clean = route_no.strip()
-                if route_clean.endswith("/") or route_clean.endswith("0"):
-                    # Check if route looks truncated (EX routes commonly split)
+                if route_clean.endswith("/") or (
+                    route_clean.startswith("EX") and re.search(r"[A-Z]$", route_clean)
+                ):
                     if line_idx + 1 < len(lines):
                         next_line = lines[line_idx + 1].strip()
-                        # Continuation is a short line with digits/dashes only
+                        # Continuation is a short line with digits/dashes/slashes
                         if next_line and re.match(r"^[\d/\-]+$", next_line) and len(next_line) <= 15:
                             route_clean = route_clean + next_line
 

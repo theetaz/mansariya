@@ -3105,7 +3105,14 @@
     "origin": "COLOMBO",
     "destination": "AMPARA",
     "service_type": "SUPER",
-    "count": 4
+    "count": 3
+  },
+  {
+    "route_no": "EX01-51/35",
+    "origin": "COLOMBO",
+    "destination": "AMPARA",
+    "service_type": "LUXURY",
+    "count": 1
   },
   {
     "route_no": "EX01-7/",
@@ -3129,7 +3136,7 @@
     "count": 2
   },
   {
-    "route_no": "EX01-81/",
+    "route_no": "EX01-81/29",
     "origin": "MAKUMBURA",
     "destination": "MADOLSIMA",
     "service_type": "LUXURY",
@@ -3185,7 +3192,7 @@
     "count": 2
   },
   {
-    "route_no": "EX01-95/",
+    "route_no": "EX01-95/31/314",
     "origin": "MAKUMBURA",
     "destination": "MEEGAHAKIULA",
     "service_type": "LUXURY",
