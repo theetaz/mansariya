@@ -19,9 +19,9 @@ func NewStopStore(pool *pgxpool.Pool) *StopStore {
 // GetByRoute returns all stops for a route, ordered by sequence.
 func (s *StopStore) GetByRoute(ctx context.Context, routeID string) ([]model.Stop, error) {
 	rows, err := s.pool.Query(ctx,
-		`SELECT s.id, s.name_en, s.name_si, s.name_ta,
+		`SELECT s.id, s.name_en, COALESCE(s.name_si, ''), COALESCE(s.name_ta, ''),
 		        ST_Y(s.location) as lat, ST_X(s.location) as lng,
-		        s.source, s.confidence, s.observation_count
+		        COALESCE(s.source, ''), COALESCE(s.confidence, 0), COALESCE(s.observation_count, 0)
 		 FROM stops s
 		 JOIN route_stops rs ON s.id = rs.stop_id
 		 WHERE rs.route_id = $1
@@ -51,9 +51,9 @@ func (s *StopStore) GetByRoute(ctx context.Context, routeID string) ([]model.Sto
 // ListNearby returns stops near a given point.
 func (s *StopStore) ListNearby(ctx context.Context, lat, lng, radiusKM float64) ([]model.Stop, error) {
 	rows, err := s.pool.Query(ctx,
-		`SELECT id, name_en, name_si, name_ta,
+		`SELECT id, name_en, COALESCE(name_si, ''), COALESCE(name_ta, ''),
 		        ST_Y(location) as lat, ST_X(location) as lng,
-		        source, confidence, observation_count
+		        COALESCE(source, ''), COALESCE(confidence, 0), COALESCE(observation_count, 0)
 		 FROM stops
 		 WHERE ST_DWithin(location::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, $3)
 		 ORDER BY ST_Distance(location::geography, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography)
