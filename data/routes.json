@@ -4274,7 +4274,86 @@
       "Katubedda Junc.",
       "Rawatawatta",
       "Moratuwa",
-      "Panadura"
+      "Panadura",
+      "Fort Bus Stop",
+      "Mount Lavinia",
+      "Templers Road",
+      "Hotel Road halt",
+      "Regal Cinema bus stop",
+      "Express Bus Stop",
+      "St. Peter's college",
+      "Route 187 Airport",
+      "Bambalapitiya Junction Bus Stop",
+      "Route 240 - Negombo",
+      "Colombo Fort Railway Station halt",
+      "Richardson",
+      "St Peters Collage halt",
+      "Mendis Lane Halt",
+      "German Tech Halt",
+      "Soysa Flat Halt",
+      "Mount Lavinia Police Station halt",
+      "Mount Lavinia Junction",
+      "Mount Lavinia Magistrate-court",
+      "Waydya Road halt",
+      "Willium Junction",
+      "Roxi film hall halt",
+      "Wellawatte Arpico halt",
+      "Wellewatte Market",
+      "Savoy film hall halt",
+      "Kollupitiya Junction halt",
+      "Bambalapitiya Cargills Bank halt",
+      "Kollupitiya Marino Mall halt",
+      "Bambalapitiya flats halt",
+      "Bambalapitiya Milagiriya halt",
+      "Bambalapitiya Junction",
+      "Galadari Hotel halt",
+      "Galle face halt 1",
+      "Kollupitiya Vogue Jewellers halt",
+      "Kollupitiya Crescat halt",
+      "Kollupitiya ACBT halt",
+      "President's Office Halt",
+      "Katubadda Junction",
+      "Golumadama halt",
+      "Belek kade",
+      "Golumadama Sathosa",
+      "Dharmarama Temple Road halt",
+      "Maliban Junction",
+      "vijitha film hall halt",
+      "Mallika Bekeriya halt",
+      "Dehiwala Junction",
+      "Liberty plaze",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Manning Place halt",
+      "Paratta junction",
+      "Gorakana",
+      "Kurusa Junction Bus Stop",
+      "Mendis lane",
+      "Rawathawatte",
+      "Mangala halt",
+      "Moratuwa clock tower(to Panadura)",
+      "Moratuwa police(to Panadura)",
+      "Mahanama Road",
+      "Moratuwa Cross Junction Halt",
+      "Prince Of Wales College Moratuwa",
+      "Cargills Food City Ratmalana",
+      "Kollupitiya Market Halt",
+      "Regal Halt",
+      "Pettah SLT Halt",
+      "Colombo Central Bus Stand",
+      "Colombo Fort",
+      "Vishaka Bus Stop",
+      "Dr Lester James Peries Mawatha Bus Stop",
+      "Hindu College Bus Stop",
+      "Savoy Bus Stop",
+      "Wellawate Mosque Bus Stop",
+      "Wellawatte Market Bus Stop",
+      "Little Asia Bus Stop",
+      "Nithyakalyani Jewellery Bus Stop",
+      "William Junction",
+      "Kollupitiya Bus Stop",
+      "Fort-Airport (#187)",
+      "Dehiwala Bus Stop",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -10875,6 +10954,561 @@
         79.8548697,
         6.9343934
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Mount Lavinia",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8335379,
+        "lng": 79.8672498
+      },
+      {
+        "name": "Templers Road",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8295398,
+        "lng": 79.8682418
+      },
+      {
+        "name": "Hotel Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8419713,
+        "lng": 79.8668469
+      },
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Express Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7118485,
+        "lng": 79.9076329
+      },
+      {
+        "name": "St. Peter's college",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8809496,
+        "lng": 79.8617823
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Bambalapitiya Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8943178,
+        "lng": 79.8574226
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Richardson",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9176932,
+        "lng": 79.8477365
+      },
+      {
+        "name": "St Peters Collage halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811407,
+        "lng": 79.8592743
+      },
+      {
+        "name": "Mendis Lane Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7835178,
+        "lng": 79.8842626
+      },
+      {
+        "name": "German Tech Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8028482,
+        "lng": 79.8876012
+      },
+      {
+        "name": "Soysa Flat Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8053276,
+        "lng": 79.8858722
+      },
+      {
+        "name": "Mount Lavinia Police Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8254423,
+        "lng": 79.8697525
+      },
+      {
+        "name": "Mount Lavinia Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8331765,
+        "lng": 79.8673693
+      },
+      {
+        "name": "Mount Lavinia Magistrate-court",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8375622,
+        "lng": 79.867428
+      },
+      {
+        "name": "Waydya Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8575069,
+        "lng": 79.8648665
+      },
+      {
+        "name": "Willium Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8606225,
+        "lng": 79.8641387
+      },
+      {
+        "name": "Roxi film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8651652,
+        "lng": 79.863177
+      },
+      {
+        "name": "Wellawatte Arpico halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8683204,
+        "lng": 79.8624659
+      },
+      {
+        "name": "Wellewatte Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8741109,
+        "lng": 79.8613657
+      },
+      {
+        "name": "Savoy film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8765794,
+        "lng": 79.860611
+      },
+      {
+        "name": "Kollupitiya Junction halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101524,
+        "lng": 79.8500587
+      },
+      {
+        "name": "Bambalapitiya Cargills Bank halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8971163,
+        "lng": 79.8543228
+      },
+      {
+        "name": "Kollupitiya Marino Mall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9006474,
+        "lng": 79.8532054
+      },
+      {
+        "name": "Bambalapitiya flats halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8840616,
+        "lng": 79.8584362
+      },
+      {
+        "name": "Bambalapitiya Milagiriya halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8892655,
+        "lng": 79.8568968
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      },
+      {
+        "name": "Galadari Hotel halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.931527,
+        "lng": 79.8451236
+      },
+      {
+        "name": "Galle face halt 1",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9216076,
+        "lng": 79.8462335
+      },
+      {
+        "name": "Kollupitiya Vogue Jewellers halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9027987,
+        "lng": 79.8525133
+      },
+      {
+        "name": "Kollupitiya Crescat halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9170186,
+        "lng": 79.8477979
+      },
+      {
+        "name": "Kollupitiya ACBT halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9051245,
+        "lng": 79.8517288
+      },
+      {
+        "name": "President's Office Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9309075,
+        "lng": 79.8422325
+      },
+      {
+        "name": "Katubadda Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7966146,
+        "lng": 79.8883495
+      },
+      {
+        "name": "Golumadama halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8080465,
+        "lng": 79.8839023
+      },
+      {
+        "name": "Belek kade",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8144994,
+        "lng": 79.8789856
+      },
+      {
+        "name": "Golumadama Sathosa",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8105979,
+        "lng": 79.8824371
+      },
+      {
+        "name": "Dharmarama Temple Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8225983,
+        "lng": 79.8713361
+      },
+      {
+        "name": "Maliban Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8194686,
+        "lng": 79.873627
+      },
+      {
+        "name": "vijitha film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8173828,
+        "lng": 79.8751325
+      },
+      {
+        "name": "Mallika Bekeriya halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.799306,
+        "lng": 79.8884318
+      },
+      {
+        "name": "Dehiwala Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8518203,
+        "lng": 79.8658814
+      },
+      {
+        "name": "Liberty plaze",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9099082,
+        "lng": 79.8522311
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Manning Place halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8746231,
+        "lng": 79.8616116
+      },
+      {
+        "name": "Paratta junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7546797,
+        "lng": 79.8992517
+      },
+      {
+        "name": "Gorakana",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7580877,
+        "lng": 79.8984904
+      },
+      {
+        "name": "Kurusa Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7804359,
+        "lng": 79.8832732
+      },
+      {
+        "name": "Mendis lane",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7825662,
+        "lng": 79.8841703
+      },
+      {
+        "name": "Rawathawatte",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7862949,
+        "lng": 79.884694
+      },
+      {
+        "name": "Mangala halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.869308,
+        "lng": 79.8623526
+      },
+      {
+        "name": "Moratuwa clock tower(to Panadura)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7770654,
+        "lng": 79.8832625
+      },
+      {
+        "name": "Moratuwa police(to Panadura)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7722459,
+        "lng": 79.8851358
+      },
+      {
+        "name": "Mahanama Road",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7248974,
+        "lng": 79.906655
+      },
+      {
+        "name": "Moratuwa Cross Junction Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7787333,
+        "lng": 79.8824868
+      },
+      {
+        "name": "Prince Of Wales College Moratuwa",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7860987,
+        "lng": 79.8844862
+      },
+      {
+        "name": "Cargills Food City Ratmalana",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8276844,
+        "lng": 79.8688536
+      },
+      {
+        "name": "Kollupitiya Market Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9119251,
+        "lng": 79.8505475
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Pettah SLT Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340921,
+        "lng": 79.8460338
+      },
+      {
+        "name": "Colombo Central Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9349534,
+        "lng": 79.8528805
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Vishaka Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8916439,
+        "lng": 79.8583644
+      },
+      {
+        "name": "Dr Lester James Peries Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8864854,
+        "lng": 79.8599725
+      },
+      {
+        "name": "Hindu College Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8841489,
+        "lng": 79.860814
+      },
+      {
+        "name": "Savoy Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8788325,
+        "lng": 79.8600845
+      },
+      {
+        "name": "Wellawate Mosque Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8771199,
+        "lng": 79.8605854
+      },
+      {
+        "name": "Wellawatte Market Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8743826,
+        "lng": 79.8614314
+      },
+      {
+        "name": "Little Asia Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8726109,
+        "lng": 79.8618081
+      },
+      {
+        "name": "Nithyakalyani Jewellery Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8670885,
+        "lng": 79.8628585
+      },
+      {
+        "name": "William Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8639742,
+        "lng": 79.8635756
+      },
+      {
+        "name": "Kollupitiya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9111202,
+        "lng": 79.8490613
+      },
+      {
+        "name": "Fort-Airport (#187)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.934517,
+        "lng": 79.8470818
+      },
+      {
+        "name": "Dehiwala Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8512749,
+        "lng": 79.8650205
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -10915,7 +11549,37 @@
       "Soysapura",
       "Katubedda Junc.",
       "Rawatawatta",
-      "Moratuwa"
+      "Moratuwa",
+      "Fort Bus Stop",
+      "Mount Lavinia",
+      "Hotel Road halt",
+      "Regal Cinema bus stop",
+      "Colombo Fort Railway Station halt",
+      "St Peters Collage halt",
+      "Soysa Flat Halt",
+      "Mount Lavinia Junction",
+      "Waydya Road halt",
+      "Willium Junction",
+      "Roxi film hall halt",
+      "Wellewatte Market",
+      "Savoy film hall halt",
+      "Kollupitiya Junction halt",
+      "Bambalapitiya Junction",
+      "Katubadda Junction",
+      "Belek kade",
+      "Maliban Junction",
+      "Dehiwala Junction",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Manning Place halt",
+      "Kollupitiya Market Halt",
+      "Colombo City Center Halt",
+      "Regal Halt",
+      "Colombo Fort",
+      "Wellawatte Market Bus Stop",
+      "Nithyakalyani Jewellery Bus Stop",
+      "Kollupitiya Bus Stop",
+      "Dehiwala Bus Stop",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -11058,6 +11722,218 @@
         "lat": 6.774494,
         "lng": 79.88245
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Mount Lavinia",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8335379,
+        "lng": 79.8672498
+      },
+      {
+        "name": "Hotel Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8419713,
+        "lng": 79.8668469
+      },
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "St Peters Collage halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811407,
+        "lng": 79.8592743
+      },
+      {
+        "name": "Soysa Flat Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8053276,
+        "lng": 79.8858722
+      },
+      {
+        "name": "Mount Lavinia Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8331765,
+        "lng": 79.8673693
+      },
+      {
+        "name": "Waydya Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8575069,
+        "lng": 79.8648665
+      },
+      {
+        "name": "Willium Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8606225,
+        "lng": 79.8641387
+      },
+      {
+        "name": "Roxi film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8651652,
+        "lng": 79.863177
+      },
+      {
+        "name": "Wellewatte Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8741109,
+        "lng": 79.8613657
+      },
+      {
+        "name": "Savoy film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8765794,
+        "lng": 79.860611
+      },
+      {
+        "name": "Kollupitiya Junction halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101524,
+        "lng": 79.8500587
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      },
+      {
+        "name": "Katubadda Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7966146,
+        "lng": 79.8883495
+      },
+      {
+        "name": "Belek kade",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8144994,
+        "lng": 79.8789856
+      },
+      {
+        "name": "Maliban Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8194686,
+        "lng": 79.873627
+      },
+      {
+        "name": "Dehiwala Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8518203,
+        "lng": 79.8658814
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Manning Place halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8746231,
+        "lng": 79.8616116
+      },
+      {
+        "name": "Kollupitiya Market Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9119251,
+        "lng": 79.8505475
+      },
+      {
+        "name": "Colombo City Center Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9179082,
+        "lng": 79.8545022
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Wellawatte Market Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8743826,
+        "lng": 79.8614314
+      },
+      {
+        "name": "Nithyakalyani Jewellery Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8670885,
+        "lng": 79.8628585
+      },
+      {
+        "name": "Kollupitiya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9111202,
+        "lng": 79.8490613
+      },
+      {
+        "name": "Dehiwala Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8512749,
+        "lng": 79.8650205
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -11078,7 +11954,14 @@
       "Ananda College",
       "Maradana",
       "Pettah",
-      "Fort Railway Station"
+      "Fort Railway Station",
+      "Fort Bus Stop",
+      "Narahenpita",
+      "Colombo Fort Railway Station halt",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "House Of Fashion Bus Stop",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -11121,6 +12004,57 @@
         "lat": 6.934085,
         "lng": 79.850221
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Narahenpita",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.891591,
+        "lng": 79.8770981
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "House Of Fashion Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9104499,
+        "lng": 79.8775794
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -11138,11 +12072,21 @@
       "Wijerama",
       "Gangodawila",
       "Dehiwala",
-      "Ratmalana"
+      "Ratmalana",
+      "Kattiya Junction Bus Stop"
     ],
     "stop_coords": [
       {
         "name": "Kattiya Junction Bus Stop",
+        "lat": 6.8692248,
+        "lng": 79.8978595
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Kattiya Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
         "lat": 6.8692248,
         "lng": 79.8978595
       }
@@ -11164,7 +12108,10 @@
       "Nandimala",
       "Bellanthota Junc.",
       "Boralesgamuwa",
-      "Maharagama"
+      "Maharagama",
+      "Maharagama Bus Stand",
+      "Dehiwala Junction",
+      "Dehiwala Bus Stop"
     ],
     "stop_coords": [
       {
@@ -11196,6 +12143,29 @@
         "name": "Maharagama",
         "lat": 6.846083,
         "lng": 79.928144
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Maharagama Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8464147,
+        "lng": 79.9277078
+      },
+      {
+        "name": "Dehiwala Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8518203,
+        "lng": 79.8658814
+      },
+      {
+        "name": "Dehiwala Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8512749,
+        "lng": 79.8650205
       }
     ]
   },
@@ -11237,7 +12207,15 @@
       "Kesbewa",
       "Polgasovita",
       "Kahathuduwa",
-      "Horana"
+      "Horana",
+      "Fort Bus Stop",
+      "Kirulapona Market",
+      "Colombo Fort Railway Station halt",
+      "Racecourse",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Sigma",
+      "Colombo Fort",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -11379,6 +12357,64 @@
         "name": "Horana",
         "lat": 6.716624,
         "lng": 80.063826
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Kirulapona Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.878807,
+        "lng": 79.873433
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Racecourse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9064866,
+        "lng": 79.8638841
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Sigma",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811658,
+        "lng": 79.8701772
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -11523,7 +12559,20 @@
       "Homagama",
       "Godagama",
       "Migoda",
-      "Padukka"
+      "Padukka",
+      "Fort Bus Stop",
+      "Maharagama Bus Stand",
+      "Kottawa Bus Stand",
+      "Kirulapona Market",
+      "Colombo public library stop",
+      "Colombo Fort Railway Station halt",
+      "Anula Vidyalaya Bus Stop",
+      "Racecourse",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Sigma",
+      "Colombo Fort",
+      "NDB Dharmapala Mawatha Bus Stop",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -11701,6 +12750,99 @@
         "lat": 6.841465,
         "lng": 80.090777
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Maharagama Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8464147,
+        "lng": 79.9277078
+      },
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Kirulapona Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.878807,
+        "lng": 79.873433
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Anula Vidyalaya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8722089,
+        "lng": 79.8838604
+      },
+      {
+        "name": "Racecourse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9064866,
+        "lng": 79.8638841
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Sigma",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811658,
+        "lng": 79.8701772
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -11755,7 +12897,11 @@
       "Narahenpita Junc.",
       "Borella Cemetery Junc.",
       "Horton Place - Baseline Junc.",
-      "Borella"
+      "Borella",
+      "Narahenpita",
+      "Pamankada Halt",
+      "Sigma",
+      "House Of Fashion Bus Stop"
     ],
     "stop_coords": [
       {
@@ -11813,6 +12959,36 @@
         "lat": 6.914743,
         "lng": 79.877601
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Narahenpita",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.891591,
+        "lng": 79.8770981
+      },
+      {
+        "name": "Pamankada Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.877401,
+        "lng": 79.8694597
+      },
+      {
+        "name": "Sigma",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811658,
+        "lng": 79.8701772
+      },
+      {
+        "name": "House Of Fashion Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9104499,
+        "lng": 79.8775794
+      }
     ]
   },
   {
@@ -11854,7 +13030,42 @@
       "Wattegedara Junc.",
       "Maharagama",
       "Pannipitiya",
-      "Kottawa"
+      "Kottawa",
+      "Fort Bus Stop",
+      "Maharagama Bus Stand",
+      "Kottawa Bus Stand",
+      "Ananda Maithree Mawatha",
+      "Kottawa bus stop",
+      "Moraketiya",
+      "Opposite NIE",
+      "Opposite Dharmasoka Primary",
+      "Regal Cinema bus stop",
+      "Sbc Nelum Pokuna",
+      "Townhall Bus Stop",
+      "Kirulapona Market",
+      "Route 187 Airport",
+      "Colombo public library stop",
+      "Nelum Pokuna Bus Stop",
+      "Hyde Park Bus Stop",
+      "Staple Street Bus Stop",
+      "Route 240 - Negombo",
+      "Colombo Fort Railway Station halt",
+      "Anula Vidyalaya Bus Stop",
+      "Racecourse",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Sigma",
+      "Dharmapala Mawatha Halt",
+      "Cinnamon Lakeside Halt",
+      "Regal Halt",
+      "Pettah SLT Halt",
+      "Colombo Central Bus Stand",
+      "Colombo Fort",
+      "Cinnamon Lakeside Bus Stop",
+      "Ibbanwala Junction Bus Stop",
+      "Thummulla bus stop",
+      "NDB Dharmapala Mawatha Bus Stop",
+      "Fort-Airport (#187)",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -16792,6 +18003,253 @@
         79.8774611,
         6.8675666
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Maharagama Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8464147,
+        "lng": 79.9277078
+      },
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Ananda Maithree Mawatha",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8453475,
+        "lng": 79.9387849
+      },
+      {
+        "name": "Kottawa bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8409315,
+        "lng": 79.9661122
+      },
+      {
+        "name": "Moraketiya",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8458168,
+        "lng": 79.9523451
+      },
+      {
+        "name": "Opposite NIE",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8447754,
+        "lng": 79.9327737
+      },
+      {
+        "name": "Opposite Dharmasoka Primary",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8452071,
+        "lng": 79.9352634
+      },
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Sbc Nelum Pokuna",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9095616,
+        "lng": 79.8637761
+      },
+      {
+        "name": "Townhall Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9161758,
+        "lng": 79.8647474
+      },
+      {
+        "name": "Kirulapona Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.878807,
+        "lng": 79.873433
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Nelum Pokuna Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.910253,
+        "lng": 79.8635484
+      },
+      {
+        "name": "Hyde Park Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9193092,
+        "lng": 79.8601494
+      },
+      {
+        "name": "Staple Street Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9213384,
+        "lng": 79.8559061
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Anula Vidyalaya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8722089,
+        "lng": 79.8838604
+      },
+      {
+        "name": "Racecourse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9064866,
+        "lng": 79.8638841
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Sigma",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811658,
+        "lng": 79.8701772
+      },
+      {
+        "name": "Dharmapala Mawatha Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9126109,
+        "lng": 79.8539891
+      },
+      {
+        "name": "Cinnamon Lakeside Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9285643,
+        "lng": 79.8486542
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Pettah SLT Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340921,
+        "lng": 79.8460338
+      },
+      {
+        "name": "Colombo Central Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9349534,
+        "lng": 79.8528805
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Cinnamon Lakeside Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9283732,
+        "lng": 79.8489897
+      },
+      {
+        "name": "Ibbanwala Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.918528,
+        "lng": 79.861865
+      },
+      {
+        "name": "Thummulla bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8977151,
+        "lng": 79.860622
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      },
+      {
+        "name": "Fort-Airport (#187)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.934517,
+        "lng": 79.8470818
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -16835,7 +18293,23 @@
       "Pannipitiya",
       "Kottawa",
       "Pinhena Junc.",
-      "Mattegoda"
+      "Mattegoda",
+      "Fort Bus Stop",
+      "Maharagama Bus Stand",
+      "Kottawa Bus Stand",
+      "Pinhena Junction",
+      "Regal Cinema bus stop",
+      "Kirulapona Market",
+      "Colombo public library stop",
+      "Colombo Fort Railway Station halt",
+      "Anula Vidyalaya Bus Stop",
+      "Racecourse",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Sigma",
+      "Regal Halt",
+      "Colombo Fort",
+      "NDB Dharmapala Mawatha Bus Stop",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -16993,6 +18467,120 @@
         "lat": 6.811579,
         "lng": 79.975083
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Maharagama Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8464147,
+        "lng": 79.9277078
+      },
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Pinhena Junction",
+        "name_si": "පිංහේන හංදිය",
+        "name_ta": "",
+        "lat": 6.8328728,
+        "lng": 79.9648183
+      },
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Kirulapona Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.878807,
+        "lng": 79.873433
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Anula Vidyalaya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8722089,
+        "lng": 79.8838604
+      },
+      {
+        "name": "Racecourse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9064866,
+        "lng": 79.8638841
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Sigma",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811658,
+        "lng": 79.8701772
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -17036,7 +18624,22 @@
       "Pannipitiya",
       "Kottawa",
       "Kottawa Railway Station",
-      "Rukmalgama"
+      "Rukmalgama",
+      "Fort Bus Stop",
+      "Maharagama Bus Stand",
+      "Kottawa Bus Stand",
+      "Regal Cinema bus stop",
+      "Kirulapona Market",
+      "Colombo public library stop",
+      "Colombo Fort Railway Station halt",
+      "Anula Vidyalaya Bus Stop",
+      "Racecourse",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Sigma",
+      "Regal Halt",
+      "Colombo Fort",
+      "NDB Dharmapala Mawatha Bus Stop",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -17194,6 +18797,113 @@
         "lat": 6.856916,
         "lng": 79.985855
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Maharagama Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8464147,
+        "lng": 79.9277078
+      },
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Kirulapona Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.878807,
+        "lng": 79.873433
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Anula Vidyalaya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8722089,
+        "lng": 79.8838604
+      },
+      {
+        "name": "Racecourse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9064866,
+        "lng": 79.8638841
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Sigma",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811658,
+        "lng": 79.8701772
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -17239,7 +18949,23 @@
       "Kottawa Railway Station",
       "Rukmalgama",
       "Walgama Junc., Athurugiriya",
-      "Athurugiriya Junc."
+      "Athurugiriya Junc.",
+      "Fort Bus Stop",
+      "Maharagama Bus Stand",
+      "Kottawa Bus Stand",
+      "Regal Cinema bus stop",
+      "Athurugiriya Bus Stand",
+      "Kirulapona Market",
+      "Colombo public library stop",
+      "Colombo Fort Railway Station halt",
+      "Anula Vidyalaya Bus Stop",
+      "Racecourse",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Sigma",
+      "Regal Halt",
+      "Colombo Fort",
+      "NDB Dharmapala Mawatha Bus Stop",
+      "Bus to Kandy"
     ],
     "stop_coords": [
       {
@@ -17407,6 +19133,120 @@
         "lat": 6.877453,
         "lng": 79.989502
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Maharagama Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8464147,
+        "lng": 79.9277078
+      },
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Athurugiriya Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8773468,
+        "lng": 79.9893844
+      },
+      {
+        "name": "Kirulapona Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.878807,
+        "lng": 79.873433
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Anula Vidyalaya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8722089,
+        "lng": 79.8838604
+      },
+      {
+        "name": "Racecourse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9064866,
+        "lng": 79.8638841
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Sigma",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811658,
+        "lng": 79.8701772
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      }
     ]
   },
   {
@@ -17424,7 +19264,13 @@
       "Alwis Place, Kollupitiya",
       "Public Library",
       "Town Hall",
-      "Maradana"
+      "Maradana",
+      "Colombo public library stop",
+      "Kollupitiya Junction halt",
+      "Kollupitiya Market Halt",
+      "Dharmapala Mawatha Halt",
+      "Kollupitiya Bus Stop",
+      "NDB Dharmapala Mawatha Bus Stop"
     ],
     "stop_coords": [
       {
@@ -17452,6 +19298,50 @@
         "lat": 6.928237,
         "lng": 79.864619
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Kollupitiya Junction halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101524,
+        "lng": 79.8500587
+      },
+      {
+        "name": "Kollupitiya Market Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9119251,
+        "lng": 79.8505475
+      },
+      {
+        "name": "Dharmapala Mawatha Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9126109,
+        "lng": 79.8539891
+      },
+      {
+        "name": "Kollupitiya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9111202,
+        "lng": 79.8490613
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      }
     ]
   },
   {
@@ -17471,7 +19361,15 @@
       "Kirulapone Junc.",
       "Pamankada",
       "Sapphire Halt",
-      "Wellawatte Junc."
+      "Wellawatte Junc.",
+      "Narahenpita",
+      "Kirulapona Market",
+      "Wellewatte Market",
+      "Savoy film hall halt",
+      "Manning Place halt",
+      "Saphire halt",
+      "Pamankada Halt",
+      "Wellawatte Market Bus Stop"
     ],
     "stop_coords": [
       {
@@ -17508,6 +19406,64 @@
         "name": "Wellawatte Junc.",
         "lat": 6.875344,
         "lng": 79.861014
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Narahenpita",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.891591,
+        "lng": 79.8770981
+      },
+      {
+        "name": "Kirulapona Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.878807,
+        "lng": 79.873433
+      },
+      {
+        "name": "Wellewatte Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8741109,
+        "lng": 79.8613657
+      },
+      {
+        "name": "Savoy film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8765794,
+        "lng": 79.860611
+      },
+      {
+        "name": "Manning Place halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8746231,
+        "lng": 79.8616116
+      },
+      {
+        "name": "Saphire halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8767049,
+        "lng": 79.8662402
+      },
+      {
+        "name": "Pamankada Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.877401,
+        "lng": 79.8694597
+      },
+      {
+        "name": "Wellawatte Market Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8743826,
+        "lng": 79.8614314
       }
     ]
   },
@@ -17581,7 +19537,27 @@
       "Maliban Junc.",
       "Belekkade Junc., Rathmalana",
       "Rathmalana Airport",
-      "Angulana"
+      "Angulana",
+      "Mount Lavinia",
+      "Hotel Road halt",
+      "St Peters Collage halt",
+      "Mount Lavinia Junction",
+      "Waydya Road halt",
+      "Willium Junction",
+      "Roxi film hall halt",
+      "Wellewatte Market",
+      "Savoy film hall halt",
+      "Bambalapitiya Junction",
+      "Belek kade",
+      "Maliban Junction",
+      "Dehiwala Junction",
+      "Manning Place halt",
+      "Wijerama bus stop",
+      "BMICH Bus Stop",
+      "Wellawatte Market Bus Stop",
+      "Nithyakalyani Jewellery Bus Stop",
+      "House Of Fashion Bus Stop",
+      "Dehiwala Bus Stop"
     ],
     "stop_coords": [
       {
@@ -17704,6 +19680,148 @@
         "lat": 6.798188,
         "lng": 79.873009
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Mount Lavinia",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8335379,
+        "lng": 79.8672498
+      },
+      {
+        "name": "Hotel Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8419713,
+        "lng": 79.8668469
+      },
+      {
+        "name": "St Peters Collage halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811407,
+        "lng": 79.8592743
+      },
+      {
+        "name": "Mount Lavinia Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8331765,
+        "lng": 79.8673693
+      },
+      {
+        "name": "Waydya Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8575069,
+        "lng": 79.8648665
+      },
+      {
+        "name": "Willium Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8606225,
+        "lng": 79.8641387
+      },
+      {
+        "name": "Roxi film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8651652,
+        "lng": 79.863177
+      },
+      {
+        "name": "Wellewatte Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8741109,
+        "lng": 79.8613657
+      },
+      {
+        "name": "Savoy film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8765794,
+        "lng": 79.860611
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      },
+      {
+        "name": "Belek kade",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8144994,
+        "lng": 79.8789856
+      },
+      {
+        "name": "Maliban Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8194686,
+        "lng": 79.873627
+      },
+      {
+        "name": "Dehiwala Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8518203,
+        "lng": 79.8658814
+      },
+      {
+        "name": "Manning Place halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8746231,
+        "lng": 79.8616116
+      },
+      {
+        "name": "Wijerama bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.906262,
+        "lng": 79.8741538
+      },
+      {
+        "name": "BMICH Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.905098,
+        "lng": 79.8731058
+      },
+      {
+        "name": "Wellawatte Market Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8743826,
+        "lng": 79.8614314
+      },
+      {
+        "name": "Nithyakalyani Jewellery Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8670885,
+        "lng": 79.8628585
+      },
+      {
+        "name": "House Of Fashion Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9104499,
+        "lng": 79.8775794
+      },
+      {
+        "name": "Dehiwala Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8512749,
+        "lng": 79.8650205
+      }
     ]
   },
   {
@@ -17737,7 +19855,25 @@
       "British Council",
       "Thunmulla",
       "Campus (near Wycherley)",
-      "Town Hall"
+      "Town Hall",
+      "Mount Lavinia",
+      "Hotel Road halt",
+      "St Peters Collage halt",
+      "Soysa Flat Halt",
+      "Mount Lavinia Junction",
+      "Waydya Road halt",
+      "Willium Junction",
+      "Roxi film hall halt",
+      "Wellewatte Market",
+      "Savoy film hall halt",
+      "Bambalapitiya Junction",
+      "Belek kade",
+      "Maliban Junction",
+      "Dehiwala Junction",
+      "Manning Place halt",
+      "Wellawatte Market Bus Stop",
+      "Nithyakalyani Jewellery Bus Stop",
+      "Dehiwala Bus Stop"
     ],
     "stop_coords": [
       {
@@ -17845,6 +19981,134 @@
         "lat": 6.916799,
         "lng": 79.863364
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Mount Lavinia",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8335379,
+        "lng": 79.8672498
+      },
+      {
+        "name": "Hotel Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8419713,
+        "lng": 79.8668469
+      },
+      {
+        "name": "St Peters Collage halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8811407,
+        "lng": 79.8592743
+      },
+      {
+        "name": "Soysa Flat Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8053276,
+        "lng": 79.8858722
+      },
+      {
+        "name": "Mount Lavinia Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8331765,
+        "lng": 79.8673693
+      },
+      {
+        "name": "Waydya Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8575069,
+        "lng": 79.8648665
+      },
+      {
+        "name": "Willium Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8606225,
+        "lng": 79.8641387
+      },
+      {
+        "name": "Roxi film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8651652,
+        "lng": 79.863177
+      },
+      {
+        "name": "Wellewatte Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8741109,
+        "lng": 79.8613657
+      },
+      {
+        "name": "Savoy film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8765794,
+        "lng": 79.860611
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      },
+      {
+        "name": "Belek kade",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8144994,
+        "lng": 79.8789856
+      },
+      {
+        "name": "Maliban Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8194686,
+        "lng": 79.873627
+      },
+      {
+        "name": "Dehiwala Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8518203,
+        "lng": 79.8658814
+      },
+      {
+        "name": "Manning Place halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8746231,
+        "lng": 79.8616116
+      },
+      {
+        "name": "Wellawatte Market Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8743826,
+        "lng": 79.8614314
+      },
+      {
+        "name": "Nithyakalyani Jewellery Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8670885,
+        "lng": 79.8628585
+      },
+      {
+        "name": "Dehiwala Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8512749,
+        "lng": 79.8650205
+      }
     ]
   },
   {
@@ -17869,7 +20133,15 @@
       "Pita Kotte",
       "Ethul Kotte Junc.",
       "Sethsiripaya",
-      "Battaramulla"
+      "Battaramulla",
+      "Kotte-Pagoda Bus Stand",
+      "177, 163, 170, 190 Bus-Stop",
+      "Pita Kotte Bus Stop",
+      "Nugegoda Bus Stand",
+      "Waydya Road halt",
+      "Willium Junction",
+      "Dehiwala Junction",
+      "Dehiwala Bus Stop"
     ],
     "stop_coords": [
       {
@@ -17932,6 +20204,64 @@
         "lat": 6.90209,
         "lng": 79.918059
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Kotte-Pagoda Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8839367,
+        "lng": 79.9015789
+      },
+      {
+        "name": "177, 163, 170, 190 Bus-Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9020331,
+        "lng": 79.9175227
+      },
+      {
+        "name": "Pita Kotte Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8832315,
+        "lng": 79.9018403
+      },
+      {
+        "name": "Nugegoda Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8728552,
+        "lng": 79.8922087
+      },
+      {
+        "name": "Waydya Road halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8575069,
+        "lng": 79.8648665
+      },
+      {
+        "name": "Willium Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8606225,
+        "lng": 79.8641387
+      },
+      {
+        "name": "Dehiwala Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8518203,
+        "lng": 79.8658814
+      },
+      {
+        "name": "Dehiwala Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8512749,
+        "lng": 79.8650205
+      }
     ]
   },
   {
@@ -17966,7 +20296,11 @@
       "Ethul Kotte Junc.",
       "Rajagiriya Junc.",
       "Impala Cinema, Rajagiriya",
-      "Borella"
+      "Borella",
+      "Pelawatte",
+      "Kottawa Bus Stand",
+      "Rajagiriya Bus Stop",
+      "177, 163, 170, 190 Bus-Stop"
     ],
     "stop_coords": [
       {
@@ -18019,6 +20353,36 @@
         "lat": 6.914743,
         "lng": 79.877601
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Pelawatte",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8905073,
+        "lng": 79.9288928
+      },
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Rajagiriya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101712,
+        "lng": 79.8945965
+      },
+      {
+        "name": "177, 163, 170, 190 Bus-Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9020331,
+        "lng": 79.9175227
+      }
     ]
   },
   {
@@ -18036,7 +20400,13 @@
       "Alwis Place, Kollupitiya",
       "Public Library",
       "Town Hall",
-      "Borella"
+      "Borella",
+      "Colombo public library stop",
+      "Kollupitiya Junction halt",
+      "Kollupitiya Market Halt",
+      "Dharmapala Mawatha Halt",
+      "Kollupitiya Bus Stop",
+      "NDB Dharmapala Mawatha Bus Stop"
     ],
     "stop_coords": [
       {
@@ -18063,6 +20433,50 @@
         "name": "Borella",
         "lat": 6.914743,
         "lng": 79.877601
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Kollupitiya Junction halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101524,
+        "lng": 79.8500587
+      },
+      {
+        "name": "Kollupitiya Market Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9119251,
+        "lng": 79.8505475
+      },
+      {
+        "name": "Dharmapala Mawatha Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9126109,
+        "lng": 79.8539891
+      },
+      {
+        "name": "Kollupitiya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9111202,
+        "lng": 79.8490613
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
       }
     ]
   },
@@ -18092,7 +20506,12 @@
       "Horton Place - Baseline Junc.",
       "Borella",
       "Ananda College",
-      "Maradana"
+      "Maradana",
+      "Rajagiriya Bus Stop",
+      "Castle Street",
+      "Nugegoda Bus Stand",
+      "House Of Fashion Bus Stop",
+      "bus stop near the cargills"
     ],
     "stop_coords": [
       {
@@ -18175,6 +20594,43 @@
         "lat": 6.928237,
         "lng": 79.864619
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Rajagiriya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101712,
+        "lng": 79.8945965
+      },
+      {
+        "name": "Castle Street",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9111047,
+        "lng": 79.8855107
+      },
+      {
+        "name": "Nugegoda Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8728552,
+        "lng": 79.8922087
+      },
+      {
+        "name": "House Of Fashion Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9104499,
+        "lng": 79.8775794
+      },
+      {
+        "name": "bus stop near the cargills",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8883487,
+        "lng": 79.8874801
+      }
     ]
   },
   {
@@ -18206,7 +20662,23 @@
       "Malabe",
       "Pittugala",
       "SLIIT, Malabe",
-      "Kaduwela"
+      "Kaduwela",
+      "177 bus stop",
+      "Rajagiriya Bus Stop",
+      "177, 163, 170, 190 Bus-Stop",
+      "Castle Street",
+      "Colombo - Hanwella Low Level Rd,Kaduwela",
+      "Malabe Junction bus stop, Kaduwela road",
+      "Temple Bus Stop, Kaduwela",
+      "Temple Bus Stop, Malabe",
+      "Welivita bus stop, Malabe",
+      "Colombo public library stop",
+      "Kollupitiya Junction halt",
+      "Kollupitiya Market Halt",
+      "Dharmapala Mawatha Halt",
+      "House Of Fashion Bus Stop",
+      "Kollupitiya Bus Stop",
+      "NDB Dharmapala Mawatha Bus Stop"
     ],
     "stop_coords": [
       {
@@ -18304,6 +20776,120 @@
         "lat": 6.935703,
         "lng": 79.984245
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "177 bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9045555,
+        "lng": 79.9532658
+      },
+      {
+        "name": "Rajagiriya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101712,
+        "lng": 79.8945965
+      },
+      {
+        "name": "177, 163, 170, 190 Bus-Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9020331,
+        "lng": 79.9175227
+      },
+      {
+        "name": "Castle Street",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9111047,
+        "lng": 79.8855107
+      },
+      {
+        "name": "Colombo - Hanwella Low Level Rd,Kaduwela",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353102,
+        "lng": 79.9839961
+      },
+      {
+        "name": "Malabe Junction bus stop, Kaduwela road",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9039195,
+        "lng": 79.9542684
+      },
+      {
+        "name": "Temple Bus Stop, Kaduwela",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9089643,
+        "lng": 79.9698737
+      },
+      {
+        "name": "Temple Bus Stop, Malabe",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9086674,
+        "lng": 79.9694526
+      },
+      {
+        "name": "Welivita bus stop, Malabe",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9155918,
+        "lng": 79.9723812
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Kollupitiya Junction halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101524,
+        "lng": 79.8500587
+      },
+      {
+        "name": "Kollupitiya Market Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9119251,
+        "lng": 79.8505475
+      },
+      {
+        "name": "Dharmapala Mawatha Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9126109,
+        "lng": 79.8539891
+      },
+      {
+        "name": "House Of Fashion Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9104499,
+        "lng": 79.8775794
+      },
+      {
+        "name": "Kollupitiya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9111202,
+        "lng": 79.8490613
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      }
     ]
   },
   {
@@ -18328,7 +20914,24 @@
       "Kandana",
       "Kapuwatta",
       "Ja-Ela",
-      "Katunayake Airport"
+      "Katunayake Airport",
+      "Fort Bus Stop",
+      "Dehiyagatha",
+      "Kandana Bus Stop",
+      "Seeduwa junction bus halt",
+      "Route 187 Airport",
+      "Sugatadasa bus stop",
+      "Colombo Fort Railway Station halt",
+      "Airport Bus Stop",
+      "Katunayake Bus Station - Airport Shuttle",
+      "Airport free shuttle",
+      "Pettah SLT Halt",
+      "Colombo central Bus stand",
+      "Fort-Airport (#187)",
+      "Night bus to Colombo 5AM",
+      "18th Mile Post",
+      "Bus #187 to fort colombo",
+      "Bus #187 to Colombo"
     ],
     "stop_coords": [
       {
@@ -24081,6 +26684,127 @@
         79.8886038,
         7.1747668
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Dehiyagatha",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1078178,
+        "lng": 79.8839992
+      },
+      {
+        "name": "Kandana Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.048824,
+        "lng": 79.8968519
+      },
+      {
+        "name": "Seeduwa junction bus halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1313464,
+        "lng": 79.8769289
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Sugatadasa bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9472639,
+        "lng": 79.86963
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Airport Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9529947,
+        "lng": 79.8806139
+      },
+      {
+        "name": "Katunayake Bus Station - Airport Shuttle",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.16856,
+        "lng": 79.883052
+      },
+      {
+        "name": "Airport free shuttle",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1681015,
+        "lng": 79.8827028
+      },
+      {
+        "name": "Pettah SLT Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340921,
+        "lng": 79.8460338
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Fort-Airport (#187)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.934517,
+        "lng": 79.8470818
+      },
+      {
+        "name": "Night bus to Colombo 5AM",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1658842,
+        "lng": 79.8845049
+      },
+      {
+        "name": "18th Mile Post",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1580078,
+        "lng": 79.8709514
+      },
+      {
+        "name": "Bus #187 to fort colombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1660547,
+        "lng": 79.8843734
+      },
+      {
+        "name": "Bus #187 to Colombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.17362,
+        "lng": 79.8874686
+      }
     ]
   },
   {
@@ -24165,7 +26889,10 @@
       "Malabe",
       "Delgoda",
       "Weliweriya",
-      "Gampaha"
+      "Gampaha",
+      "Rathupaswala Junction",
+      "Rathupaswala",
+      "Miriswatta junction"
     ],
     "osm_polyline": [
       [
@@ -27444,6 +30171,29 @@
         80.0098708,
         7.0840585
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Rathupaswala Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.0533845,
+        "lng": 80.0166174
+      },
+      {
+        "name": "Rathupaswala",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.0533692,
+        "lng": 80.0167027
+      },
+      {
+        "name": "Miriswatta junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.0738406,
+        "lng": 80.016736
+      }
     ]
   },
   {
@@ -27461,7 +30211,10 @@
       "Teldeniya",
       "Hanguranketha",
       "Rikillagaskada",
-      "Nuwara Eliya"
+      "Nuwara Eliya",
+      "Dehiyagatha",
+      "Seeduwa Brandix Bus Stop",
+      "18th Mile Post"
     ],
     "osm_polyline": [
       [
@@ -29140,6 +31893,29 @@
         79.8408343,
         7.207084
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Dehiyagatha",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1078178,
+        "lng": 79.8839992
+      },
+      {
+        "name": "Seeduwa Brandix Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1381575,
+        "lng": 79.8751221
+      },
+      {
+        "name": "18th Mile Post",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1587327,
+        "lng": 79.8705384
+      }
     ]
   },
   {
@@ -29266,7 +32042,20 @@
     "stops": [
       "Kottawa",
       "Makumbura",
-      "Piliyandala"
+      "Piliyandala",
+      "Kottawa Bus Stand",
+      "Kottawa bus stop",
+      "Pinhena Junction",
+      "Opposite Mahanama Paint Centre",
+      "Digana Junction",
+      "Sikurada Pola Junction",
+      "Nagas Junction",
+      "Nampamunuwa Bus Stop",
+      "Sal gas handiya bus stop",
+      "Dole kanatta bus stop",
+      "Polkotuwa Junction Bus Stop",
+      "Elvitigala Mawatha Bus Stop",
+      "Siddamulla Bus Stop"
     ],
     "osm_polyline": [
       [
@@ -31641,6 +34430,99 @@
         79.9395168,
         6.8110106
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Kottawa bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8409315,
+        "lng": 79.9661122
+      },
+      {
+        "name": "Pinhena Junction",
+        "name_si": "පිංහේන හංදිය",
+        "name_ta": "",
+        "lat": 6.8328728,
+        "lng": 79.9648183
+      },
+      {
+        "name": "Opposite Mahanama Paint Centre",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8308916,
+        "lng": 79.9626772
+      },
+      {
+        "name": "Digana Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8294961,
+        "lng": 79.9618725
+      },
+      {
+        "name": "Sikurada Pola Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8270885,
+        "lng": 79.9607675
+      },
+      {
+        "name": "Nagas Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8161815,
+        "lng": 79.9591475
+      },
+      {
+        "name": "Nampamunuwa Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8127229,
+        "lng": 79.9469438
+      },
+      {
+        "name": "Sal gas handiya bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8112474,
+        "lng": 79.9429341
+      },
+      {
+        "name": "Dole kanatta bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8107042,
+        "lng": 79.9394384
+      },
+      {
+        "name": "Polkotuwa Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8277503,
+        "lng": 79.9545818
+      },
+      {
+        "name": "Elvitigala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8224617,
+        "lng": 79.9608014
+      },
+      {
+        "name": "Siddamulla Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8141891,
+        "lng": 79.9574298
+      }
     ]
   },
   {
@@ -31776,7 +34658,12 @@
     "stops": [
       "Kottawa",
       "Kesbewa",
-      "Piliyandala"
+      "Piliyandala",
+      "Kottawa Bus Stand",
+      "Kottawa bus stop",
+      "Pinhena Junction",
+      "Pubudu Mawatha Bus Stop",
+      "Mattegoda Junction"
     ],
     "osm_polyline": [
       [
@@ -33135,6 +36022,43 @@
         79.9307598,
         6.797293
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Kottawa bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8409315,
+        "lng": 79.9661122
+      },
+      {
+        "name": "Pinhena Junction",
+        "name_si": "පිංහේන හංදිය",
+        "name_ta": "",
+        "lat": 6.8328728,
+        "lng": 79.9648183
+      },
+      {
+        "name": "Pubudu Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8131244,
+        "lng": 79.9661795
+      },
+      {
+        "name": "Mattegoda Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8291124,
+        "lng": 79.9656089
+      }
     ]
   },
   {
@@ -33554,7 +36478,18 @@
     "stops": [
       "Kandy",
       "Asgiriya",
-      "Pilimatalawa"
+      "Pilimatalawa",
+      "Peradeniya",
+      "Good Shepherd",
+      "Goods Shed",
+      "High School",
+      "Rajawatta",
+      "Galaha Junction",
+      "Regal",
+      "Suwasewana",
+      "Dhanasiri",
+      "Dangolla Junction",
+      "Peradeniya Hospital"
     ],
     "osm_polyline": [
       [
@@ -34605,6 +37540,85 @@
         80.6053721,
         7.2713128
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Peradeniya",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2633517,
+        "lng": 80.5929841
+      },
+      {
+        "name": "Good Shepherd",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2913271,
+        "lng": 80.6313384
+      },
+      {
+        "name": "Goods Shed",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2893,
+        "lng": 80.6296878
+      },
+      {
+        "name": "High School",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2866303,
+        "lng": 80.6270216
+      },
+      {
+        "name": "Rajawatta",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.268028,
+        "lng": 80.6025536
+      },
+      {
+        "name": "Galaha Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.265722,
+        "lng": 80.595891
+      },
+      {
+        "name": "Regal",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2835522,
+        "lng": 80.6232789
+      },
+      {
+        "name": "Suwasewana",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2809674,
+        "lng": 80.6202185
+      },
+      {
+        "name": "Dhanasiri",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2802581,
+        "lng": 80.6193181
+      },
+      {
+        "name": "Dangolla Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2700953,
+        "lng": 80.6047583
+      },
+      {
+        "name": "Peradeniya Hospital",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2676394,
+        "lng": 80.600071
+      }
     ]
   },
   {
@@ -34731,7 +37745,13 @@
       "Jaffna",
       "Kopay",
       "Nelliady",
-      "Point Pedro"
+      "Point Pedro",
+      "Siruppidy School",
+      "Muththirai Santhi",
+      "Bus Stop",
+      "Neervely Kanthasamy Kovilady",
+      "Kalviyankadu",
+      "Anaipanthy Junction"
     ],
     "osm_polyline": [
       [
@@ -36286,6 +39306,50 @@
         80.1296061,
         9.7770729
       ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Siruppidy School",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 9.7329385,
+        "lng": 80.0970074
+      },
+      {
+        "name": "Muththirai Santhi",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 9.6744618,
+        "lng": 80.0352423
+      },
+      {
+        "name": "Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 9.7197983,
+        "lng": 80.0835733
+      },
+      {
+        "name": "Neervely Kanthasamy Kovilady",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 9.7163662,
+        "lng": 80.0809484
+      },
+      {
+        "name": "Kalviyankadu",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 9.6804355,
+        "lng": 80.0382838
+      },
+      {
+        "name": "Anaipanthy Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 9.6708958,
+        "lng": 80.0216671
+      }
     ]
   },
   {
