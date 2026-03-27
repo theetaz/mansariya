@@ -117,68 +117,69 @@ SINHALA_TO_ENGLISH = {
 
 # Known correct route number → English name mappings
 # Verified from multiple sources (NTC, GitHub, OSM, local knowledge)
+# (name_en, name_si, name_ta, operator, service_type)
 KNOWN_ROUTES = {
     # Inter-provincial major routes (NTC)
-    "1": ("Colombo - Kandy", "SLTB", "Normal"),
-    "2": ("Colombo - Matara", "SLTB", "Normal"),
-    "3": ("Colombo - Badulla", "SLTB", "Normal"),
-    "4": ("Colombo - Jaffna", "SLTB", "Normal"),
-    "5": ("Colombo - Batticaloa", "SLTB", "Normal"),
-    "6": ("Colombo - Trincomalee", "SLTB", "Normal"),
-    "7": ("Colombo - Anuradhapura", "SLTB", "Normal"),
-    "8": ("Colombo - Polonnaruwa", "SLTB", "Normal"),
-    "9": ("Colombo - Ratnapura", "SLTB", "Normal"),
-    "10": ("Colombo - Hambantota", "SLTB", "Normal"),
-    "11": ("Matara - Anuradhapura", "SLTB", "Normal"),
-    "14": ("Kandy - Anuradhapura", "SLTB", "Normal"),
-    "15": ("Colombo - Puttalam", "SLTB", "Normal"),
-    "16": ("Colombo - Chilaw", "SLTB", "Normal"),
-    "17": ("Panadura - Ratnapura", "SLTB", "Normal"),
-    "19": ("Kandy - Badulla", "SLTB", "Normal"),
-    "23": ("Avissawella - Embilipitiya", "SLTB", "Normal"),
-    "25": ("Colombo - Weerawila", "SLTB", "Normal"),
-    "32": ("Colombo - Kurunegala", "SLTB", "Normal"),
-    "33": ("Colombo - Kalpitiya", "SLTB", "Normal"),
-    "48": ("Colombo - Vavuniya", "SLTB", "Normal"),
-    "57": ("Colombo - Embilipitiya", "SLTB", "Normal"),
-    "60": ("Colombo - Monaragala", "SLTB", "Normal"),
-    "64": ("Panadura - Ampara", "SLTB", "Normal"),
-    "67": ("Colombo - Ratnapura", "SLTB", "Normal"),
-    "68": ("Kataragama - Jaffna", "SLTB", "Normal"),
-    "69": ("Kandy - Ratnapura", "SLTB", "Normal"),
-    "79": ("Colombo - Nuwara Eliya", "SLTB", "Normal"),
-    "82": ("Colombo - Jaffna", "SLTB", "Normal"),
-    "86": ("Colombo - Vavuniya", "SLTB", "Normal"),
-    "87": ("Colombo - Jaffna", "SLTB", "Normal"),
-    "88": ("Colombo - Batticaloa", "SLTB", "Normal"),
-    "98": ("Colombo - Mannar", "SLTB", "Normal"),
+    "1":   ("Colombo - Kandy",          "කොළඹ - මහනුවර",          "கொழும்பு - கண்டி",          "SLTB", "Normal"),
+    "2":   ("Colombo - Matara",          "කොළඹ - මාතර",            "கொழும்பு - மாத்தறை",        "SLTB", "Normal"),
+    "3":   ("Colombo - Badulla",         "කොළඹ - බදුල්ල",          "கொழும்பு - பதுளை",          "SLTB", "Normal"),
+    "4":   ("Colombo - Jaffna",          "කොළඹ - යාපනය",           "கொழும்பு - யாழ்ப்பாணம்",    "SLTB", "Normal"),
+    "5":   ("Colombo - Batticaloa",      "කොළඹ - මඩකලපුව",         "கொழும்பு - மட்டக்களப்பு",   "SLTB", "Normal"),
+    "6":   ("Colombo - Trincomalee",     "කොළඹ - ත්‍රිකුණාමලය",   "கொழும்பு - திருகோணமலை",     "SLTB", "Normal"),
+    "7":   ("Colombo - Anuradhapura",    "කොළඹ - අනුරාධපුරය",      "கொழும்பு - அனுராதபுரம்",    "SLTB", "Normal"),
+    "8":   ("Colombo - Polonnaruwa",     "කොළඹ - පොලොන්නරුව",      "கொழும்பு - பொலநறுவை",       "SLTB", "Normal"),
+    "9":   ("Colombo - Ratnapura",       "කොළඹ - රත්නපුරය",        "கொழும்பு - இரத்தினபுரி",    "SLTB", "Normal"),
+    "10":  ("Colombo - Hambantota",      "කොළඹ - හම්බන්තොට",       "கொழும்பு - அம்பாந்தோட்டை",  "SLTB", "Normal"),
+    "11":  ("Matara - Anuradhapura",     "මාතර - අනුරාධපුරය",      "மாத்தறை - அனுராதபுரம்",     "SLTB", "Normal"),
+    "14":  ("Kandy - Anuradhapura",      "මහනුවර - අනුරාධපුරය",    "கண்டி - அனுராதபுரம்",       "SLTB", "Normal"),
+    "15":  ("Colombo - Puttalam",        "කොළඹ - පුත්තලම",         "கொழும்பு - புத்தளம்",       "SLTB", "Normal"),
+    "16":  ("Colombo - Chilaw",          "කොළඹ - හලාවත",           "கொழும்பு - சிலாபம்",        "SLTB", "Normal"),
+    "17":  ("Panadura - Ratnapura",      "පානදුර - රත්නපුරය",      "பாணந்துறை - இரத்தினபுரி",   "SLTB", "Normal"),
+    "19":  ("Kandy - Badulla",           "මහනුවර - බදුල්ල",        "கண்டி - பதுளை",             "SLTB", "Normal"),
+    "23":  ("Avissawella - Embilipitiya","අවිස්සාවේල්ල - ඇඹිලිපිටිය","அவிசாவளை - எம்பிலிப்பிட்டி","SLTB","Normal"),
+    "25":  ("Colombo - Weerawila",       "කොළඹ - වීරවිල",          "கொழும்பு - வீரவிலை",        "SLTB", "Normal"),
+    "32":  ("Colombo - Kurunegala",      "කොළඹ - කුරුණෑගල",        "கொழும்பு - குருநாகல்",      "SLTB", "Normal"),
+    "33":  ("Colombo - Kalpitiya",       "කොළඹ - කල්පිටිය",       "கொழும்பு - கல்பிட்டி",      "SLTB", "Normal"),
+    "48":  ("Colombo - Vavuniya",        "කොළඹ - වවුනියාව",        "கொழும்பு - வவுனியா",        "SLTB", "Normal"),
+    "57":  ("Colombo - Embilipitiya",    "කොළඹ - ඇඹිලිපිටිය",     "கொழும்பு - எம்பிலிப்பிட்டி","SLTB", "Normal"),
+    "60":  ("Colombo - Monaragala",      "කොළඹ - මොනරාගල",         "கொழும்பு - மொணராகலை",       "SLTB", "Normal"),
+    "64":  ("Panadura - Ampara",         "පානදුර - අම්පාර",         "பாணந்துறை - அம்பாறை",       "SLTB", "Normal"),
+    "67":  ("Colombo - Ratnapura",       "කොළඹ - රත්නපුරය",        "கொழும்பு - இரத்தினபுரி",    "SLTB", "Normal"),
+    "68":  ("Kataragama - Jaffna",       "කතරගම - යාපනය",          "கதிர்காமம் - யாழ்ப்பாணம்",  "SLTB", "Normal"),
+    "69":  ("Kandy - Ratnapura",         "මහනුවර - රත්නපුරය",      "கண்டி - இரத்தினபுரி",       "SLTB", "Normal"),
+    "79":  ("Colombo - Nuwara Eliya",    "කොළඹ - නුවරඑළිය",        "கொழும்பு - நுவரெலியா",      "SLTB", "Normal"),
+    "82":  ("Colombo - Jaffna",          "කොළඹ - යාපනය",           "கொழும்பு - யாழ்ப்பாணம்",    "SLTB", "Normal"),
+    "86":  ("Colombo - Vavuniya",        "කොළඹ - වවුනියාව",        "கொழும்பு - வவுனியா",        "SLTB", "Normal"),
+    "87":  ("Colombo - Jaffna",          "කොළඹ - යාපනය",           "கொழும்பு - யாழ்ப்பாணம்",    "SLTB", "Normal"),
+    "88":  ("Colombo - Batticaloa",      "කොළඹ - මඩකලපුව",         "கொழும்பு - மட்டக்களப்பு",   "SLTB", "Normal"),
+    "98":  ("Colombo - Mannar",          "කොළඹ - මන්නාරම",         "கொழும்பு - மன்னார்",        "SLTB", "Normal"),
 
-    # Western Province local routes (GitHub verified)
-    "100": ("Pettah - Panadura", "Private", "Normal"),
-    "101": ("Pettah - Moratuwa", "Private", "Normal"),
-    "103": ("Narahenpita - Fort", "Private", "Normal"),
-    "119": ("Dehiwala - Maharagama", "Private", "Normal"),
-    "120": ("Pettah - Horana", "Private", "Normal"),
-    "122": ("Pettah - Avissawella", "Private", "Normal"),
-    "125": ("Pettah - Padukka", "Private", "Normal"),
-    "135": ("Kohuwala - Kelaniya", "Private", "Normal"),
-    "138": ("Pettah - Kottawa", "Private", "Normal"),
-    "140": ("Kollupitiya - Wellampitiya", "Private", "Normal"),
-    "141": ("Narahenpita - Wellawatte", "Private", "Normal"),
-    "154": ("Kiribathgoda - Angulana", "Private", "Normal"),
-    "155": ("Soysapura - Mattakkuliya", "Private", "Normal"),
-    "163": ("Dehiwala - Battaramulla", "Private", "Normal"),
-    "174": ("Kottawa - Borella", "Private", "Normal"),
-    "175": ("Kollupitiya - Kohilawatte", "Private", "Normal"),
-    "176": ("Karagampitiya - Hettiyawatte", "Private", "Normal"),
-    "177": ("Kollupitiya - Kaduwela", "Private", "Normal"),
-    "187": ("Fort - Airport", "Private", "Normal"),
+    # Western Province local routes (GitHub GPS-verified)
+    "100": ("Pettah - Panadura",         "පෙත්තා - පානදුර",        "பேட்டா - பாணந்துறை",        "Private", "Normal"),
+    "101": ("Pettah - Moratuwa",         "පෙත්තා - මොරටුව",        "பேட்டா - மொரட்டுவ",         "Private", "Normal"),
+    "103": ("Narahenpita - Fort",        "නාරාහේන්පිට - කොටුව",    "நாரஹேன்பிட்ட - கோட்டை",    "Private", "Normal"),
+    "119": ("Dehiwala - Maharagama",      "දෙහිවල - මහරගම",         "தெஹிவளை - மஹரகம",          "Private", "Normal"),
+    "120": ("Pettah - Horana",           "පෙත්තා - හොරණ",          "பேட்டா - ஹொரணை",            "Private", "Normal"),
+    "122": ("Pettah - Avissawella",      "පෙත්තා - අවිස්සාවේල්ල",  "பேட்டா - அவிசாவளை",         "Private", "Normal"),
+    "125": ("Pettah - Padukka",          "පෙත්තා - පාදුක්ක",       "பேட்டா - பாதுக்கா",         "Private", "Normal"),
+    "135": ("Kohuwala - Kelaniya",       "කොහුවල - කැලණිය",        "கொஹுவளை - கெலனியா",         "Private", "Normal"),
+    "138": ("Pettah - Kottawa",          "පෙත්තා - කොට්ටාව",       "பேட்டா - கொட்டாவை",         "Private", "Normal"),
+    "140": ("Kollupitiya - Wellampitiya","කොල්ලුපිටිය - වැල්ලම්පිටිය","கொள்ளுப்பிட்டி - வெல்லம்பிட்டி","Private","Normal"),
+    "141": ("Narahenpita - Wellawatte",  "නාරාහේන්පිට - වැල්ලවත්ත","நாரஹேன்பிட்ட - வெள்ளவத்தை", "Private", "Normal"),
+    "154": ("Kiribathgoda - Angulana",   "කිරිබත්ගොඩ - අංගුලාන",   "கிரிபத்கொட - அங்குலானை",    "Private", "Normal"),
+    "155": ("Soysapura - Mattakkuliya",  "සොයිසාපුර - මට්ටක්කුලිය","சொய்சாபுர - மட்டக்குளியா",  "Private", "Normal"),
+    "163": ("Dehiwala - Battaramulla",   "දෙහිවල - බත්තරමුල්ල",    "தெஹிவளை - பத்தரமுல்லை",    "Private", "Normal"),
+    "174": ("Kottawa - Borella",         "කොට්ටාව - බොරැල්ල",      "கொட்டாவை - பொரெல்லா",       "Private", "Normal"),
+    "175": ("Kollupitiya - Kohilawatte", "කොල්ලුපිටිය - කොහිලවත්ත","கொள்ளுப்பிட்டி - கொஹிலவத்தை","Private","Normal"),
+    "176": ("Karagampitiya - Hettiyawatte","කරගම්පිටිය - හෙට්ටියාවත්ත","கரகம்பிட்டி - ஹெட்டியாவத்தை","Private","Normal"),
+    "177": ("Kollupitiya - Kaduwela",    "කොල්ලුපිටිය - කඩුවෙල",   "கொள்ளுப்பிட்டி - கடுவெலை",  "Private", "Normal"),
+    "187": ("Fort - Airport",            "කොටුව - ගුවන්තොටුපොළ",    "கோட்டை - விமானநிலையம்",     "Private", "Normal"),
 
     # Other known routes
-    "128": ("Colombo - Horana", "SLTB", "Normal"),
-    "240": ("Colombo - Maharagama", "Private", "Normal"),
-    "255": ("Colombo - Kottawa", "Private", "Normal"),
-    "333": ("Matara - Kataragama", "SLTB", "Normal"),
+    "128": ("Colombo - Horana",          "කොළඹ - හොරණ",            "கொழும்பு - ஹொரணை",          "SLTB", "Normal"),
+    "240": ("Colombo - Maharagama",      "කොළඹ - මහරගම",           "கொழும்பு - மஹரகம",          "Private", "Normal"),
+    "255": ("Colombo - Kottawa",         "කොළඹ - කොට්ටාව",         "கொழும்பு - கொட்டாவை",       "Private", "Normal"),
+    "333": ("Matara - Kataragama",       "මාතර - කතරගම",           "மாத்தறை - கதிர்காமம்",      "SLTB", "Normal"),
 }
 
 
@@ -233,24 +234,28 @@ def fix_and_enrich():
     for route in routes:
         rid = route["id"]
 
-        # ── Apply known correct names ──
+        # ── Apply known correct data (overwrite all fields) ──
         if rid in KNOWN_ROUTES:
-            name, operator, svc_type = KNOWN_ROUTES[rid]
-            if route["name_en"] != name:
-                old = route["name_en"]
-                route["name_en"] = name
-                if old and old != name:
+            name_en, name_si, name_ta, operator, svc_type = KNOWN_ROUTES[rid]
+            if route["name_en"] != name_en:
+                if route["name_en"] and route["name_en"] != name_en:
                     fixed_count += 1
-            if not route.get("operator"):
-                route["operator"] = operator
-            if not route.get("service_type") or route["service_type"] == "Normal":
-                route["service_type"] = svc_type
+                route["name_en"] = name_en
+            route["name_si"] = name_si
+            route["name_ta"] = name_ta
+            route["operator"] = operator
+            route["service_type"] = svc_type
 
-        # ── Apply GitHub stops (GPS verified) ──
+        # ── Apply GitHub stops (GPS verified) — REPLACE old stops entirely ──
         if rid in github_stops:
             gh = github_stops[rid]
             route["stops"] = gh["stops"]
             route["stop_coords"] = gh["stop_coords"]
+            # Clear fare if route was misidentified (local routes have different fares)
+            if rid in KNOWN_ROUTES and KNOWN_ROUTES[rid][3] == "Private":
+                route["fare_lkr"] = 0  # local route fares vary by distance
+                route["frequency_minutes"] = 0
+                route["operating_hours"] = ""
 
         # ── For sub-routes (e.g., 1-1, 2/48), derive name from parent ──
         if not route.get("name_en"):
