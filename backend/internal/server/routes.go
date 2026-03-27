@@ -38,7 +38,8 @@ func NewRouter(deps *Deps) *chi.Mux {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/ping"))
 
-	// Health check
+	// Root + Health check
+	r.Get("/", rootHandler)
 	r.Get("/health", healthCheck)
 
 	// API Documentation
@@ -94,6 +95,17 @@ func NewRouter(deps *Deps) *chi.Mux {
 	})
 
 	return r
+}
+
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"status":  "ok",
+		"service": "masariya",
+		"docs":    "/docs",
+		"health":  "/health",
+		"api":     "/api/v1",
+	})
 }
 
 func healthCheck(w http.ResponseWriter, r *http.Request) {
