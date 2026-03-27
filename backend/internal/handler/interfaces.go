@@ -16,6 +16,7 @@ type GPSIngester interface {
 type RouteQuerier interface {
 	GetAll(ctx context.Context) (map[string]orb.LineString, error)
 	GetByID(ctx context.Context, id string) (*model.Route, error)
+	GetPolyline(ctx context.Context, id string) ([][]float64, error)
 	ListNearby(ctx context.Context, lat, lng, radiusKM float64) ([]model.Route, error)
 	Search(ctx context.Context, query string, limit int) ([]model.Route, error)
 }

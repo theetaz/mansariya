@@ -48,6 +48,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Get("/routes/{routeID}", deps.Routes.Get)
 		r.Get("/routes/{routeID}/eta", deps.ETA.Handle)
 		r.Get("/routes/{routeID}/stops", deps.Journey.HandleRouteStops)
+		r.Get("/routes/{routeID}/polyline", deps.Routes.GetPolyline)
 
 		// Search
 		r.Get("/search", deps.Search.Handle)

@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -45,6 +46,24 @@ func (s *RouteStore) GetAll(ctx context.Context) (map[string]orb.LineString, err
 		}
 	}
 	return routes, rows.Err()
+}
+
+// GetPolyline returns the route polyline as GeoJSON coordinates [[lng,lat],...].
+func (s *RouteStore) GetPolyline(ctx context.Context, id string) ([][]float64, error) {
+	var geomJSON string
+	err := s.pool.QueryRow(ctx,
+		`SELECT ST_AsGeoJSON(polyline) FROM routes WHERE id = $1 AND polyline IS NOT NULL`, id).Scan(&geomJSON)
+	if err != nil {
+		return nil, fmt.Errorf("get polyline %s: %w", id, err)
+	}
+
+	var geojson struct {
+		Coordinates [][]float64 `json:"coordinates"`
+	}
+	if err := json.Unmarshal([]byte(geomJSON), &geojson); err != nil {
+		return nil, fmt.Errorf("parse polyline geojson: %w", err)
+	}
+	return geojson.Coordinates, nil
 }
 
 // GetAllForSync returns all active routes for mobile offline sync (no geometry — too large).

@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react';
 import {fetchRouteStops, EnrichedRouteStop} from '../services/api';
+import {API_BASE_URL} from '../constants/api';
 
 /**
- * Fetches route stops for rendering polyline and stop markers on the map.
- * Returns stop coordinates as [lng, lat] pairs for the polyline,
- * and enriched stops for markers.
+ * Fetches route polyline (road-snapped) and stops for rendering on the map.
+ * The polyline comes from the backend's stored OSRM-routed geometry,
+ * not from connecting stop coordinates with straight lines.
  */
 export function useRouteOnMap(routeId: string | null) {
   const [stops, setStops] = useState<EnrichedRouteStop[]>([]);
@@ -19,12 +20,27 @@ export function useRouteOnMap(routeId: string | null) {
     }
 
     setLoading(true);
-    fetchRouteStops(routeId)
-      .then((data) => {
-        setStops(data);
-        // Build polyline from stop coordinates
-        const coords: [number, number][] = data.map((s) => [s.stop_lng, s.stop_lat]);
-        setPolylineCoords(coords);
+
+    // Fetch both stops and the actual road-snapped polyline
+    Promise.all([
+      fetchRouteStops(routeId),
+      fetch(`${API_BASE_URL}/api/v1/routes/${routeId}/polyline`)
+        .then((r) => r.json())
+        .catch(() => null),
+    ])
+      .then(([stopsData, polylineData]) => {
+        setStops(stopsData || []);
+
+        // Use the road-snapped polyline from the backend
+        if (polylineData?.coordinates?.length >= 2) {
+          setPolylineCoords(polylineData.coordinates);
+        } else {
+          // Fallback: connect stops with straight lines
+          const coords: [number, number][] = (stopsData || []).map(
+            (s: EnrichedRouteStop) => [s.stop_lng, s.stop_lat],
+          );
+          setPolylineCoords(coords);
+        }
       })
       .catch(() => {
         setStops([]);

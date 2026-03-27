@@ -39,6 +39,21 @@ func (h *RoutesHandler) List(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, routes)
 }
 
+// GetPolyline returns the road-snapped route geometry as coordinates.
+func (h *RoutesHandler) GetPolyline(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+	coords, err := h.routeStore.GetPolyline(r.Context(), routeID)
+	if err != nil {
+		writeJSON(w, http.StatusNotFound, map[string]string{"error": "polyline not found"})
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"route_id":    routeID,
+		"coordinates": coords,
+		"points":      len(coords),
+	})
+}
+
 // Get returns a single route with its stops.
 func (h *RoutesHandler) Get(w http.ResponseWriter, r *http.Request) {
 	routeID := chi.URLParam(r, "routeID")
