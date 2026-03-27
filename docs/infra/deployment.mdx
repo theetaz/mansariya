@@ -1,0 +1,70 @@
+---
+title: "Deployment"
+description: "Production deployment on Hetzner with Docker Compose"
+---
+
+# Deployment
+
+Mansariya runs on a single **Hetzner CX32** VPS (~$9/month) with Docker Compose, fronted by Cloudflare for CDN and SSL.
+
+## Architecture
+
+```mermaid
+graph LR
+    USERS["📱 Users"] --> CF["Cloudflare<br/>CDN + SSL"]
+    CF --> NG["Nginx :9000<br/>Reverse Proxy"]
+    NG --> GO["Go Backend :9900"]
+    GO --> PG["PostgreSQL :5433"]
+    GO --> RD["Redis :6379"]
+    GO --> VH["Valhalla :9992"]
+
+    OFM["OpenFreeMap"] -.->|Map Tiles| USERS
+
+    style CF fill:#f5a623,stroke:#e09612
+    style GO fill:#E1F5EE,stroke:#1D9E75
+```
+
+## Docker Compose
+
+All services are defined in `infra/docker-compose.yml` with environment variables from `infra/.env`:
+
+```bash
+# Start everything
+docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
+
+# Or use the Makefile shortcut
+make infra-up-all
+```
+
+## Nginx
+
+Nginx acts as a reverse proxy, handling:
+- HTTP → backend proxy
+- WebSocket upgrade (`/ws/` paths)
+- Cloudflare SSL termination
+
+A template is provided for environment-based config:
+```bash
+envsubst '${BACKEND_PORT} ${NGINX_PORT} ${SERVER_NAME}' \
+  < infra/nginx/nginx.conf.template \
+  > infra/nginx/nginx.conf
+```
+
+## Server Sizing
+
+| Resource | CX32 | Mansariya Usage |
+|----------|------|-----------------|
+| CPU | 4 vCPU | Go backend: 1 core, Valhalla: 2 cores |
+| RAM | 8 GB | PostgreSQL: 2GB, Valhalla: 3GB, Redis: 512MB |
+| Disk | 80 GB SSD | Valhalla tiles: ~5GB, PostgreSQL: ~1GB |
+| Bandwidth | 20 TB | Minimal (JSON APIs + WebSocket) |
+
+## Cost Breakdown
+
+| Item | Monthly Cost |
+|------|-------------|
+| Hetzner CX32 VPS | ~$9 |
+| Cloudflare (free plan) | $0 |
+| OpenFreeMap tiles | $0 |
+| Domain (masariya.lk) | ~$1 |
+| **Total** | **~$10/month** |

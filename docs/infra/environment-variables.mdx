@@ -1,0 +1,90 @@
+---
+title: "Environment Variables"
+description: "Complete reference for all configuration"
+---
+
+# Environment Variables
+
+Mansariya uses `.env` files for all configuration. Each component has its own `.env` file, with `.env.example` templates checked into git.
+
+## Setup
+
+```bash
+cp infra/.env.example infra/.env
+cp backend/.env.example backend/.env
+cp mobile/.env.example mobile/.env
+```
+
+<Warning>
+  `.env` files are gitignored. Never commit actual credentials to the repository.
+</Warning>
+
+## Backend (`backend/.env`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `9900` | HTTP server port |
+| `HOST` | No | `0.0.0.0` | HTTP server bind address |
+| `DATABASE_URL` | **Yes** | — | PostgreSQL connection string |
+| `REDIS_ADDR` | No | `localhost:6379` | Redis host:port |
+| `REDIS_PASSWORD` | No | _(empty)_ | Redis password |
+| `REDIS_DB` | No | `0` | Redis database number |
+| `VALHALLA_URL` | No | `http://localhost:9992` | Valhalla service URL |
+| `NOMINATIM_URL` | No | `http://localhost:9990` | Nominatim service URL |
+| `OSRM_URL` | No | `https://router.project-osrm.org` | OSRM routing service URL |
+| `ADMIN_API_KEY` | **Yes** | — | API key for admin endpoints |
+
+### Example
+
+```bash
+PORT=9900
+HOST=0.0.0.0
+DATABASE_URL=postgres://masariya:masariya@localhost:5433/masariya?sslmode=disable
+REDIS_ADDR=localhost:6379
+VALHALLA_URL=http://localhost:9992
+NOMINATIM_URL=http://localhost:9990
+OSRM_URL=https://router.project-osrm.org
+ADMIN_API_KEY=your-secret-key-here
+```
+
+## Infrastructure (`infra/.env`)
+
+Used by Docker Compose for service configuration.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `POSTGRES_USER` | `masariya` | PostgreSQL username |
+| `POSTGRES_PASSWORD` | `masariya` | PostgreSQL password |
+| `POSTGRES_DB` | `masariya` | PostgreSQL database name |
+| `POSTGRES_PORT` | `5433` | Host port for PostgreSQL |
+| `REDIS_PORT` | `6379` | Host port for Redis |
+| `VALHALLA_PORT` | `9992` | Host port for Valhalla |
+| `NOMINATIM_PORT` | `9990` | Host port for Nominatim |
+| `NOMINATIM_PASSWORD` | `masariya` | Nominatim DB password |
+| `PBF_URL` | Geofabrik Sri Lanka | OSM data URL for Nominatim |
+| `REPLICATION_URL` | Geofabrik updates | OSM replication URL |
+| `NGINX_PORT` | `9000` | Host port for Nginx |
+| `BACKEND_PORT` | `9900` | Backend port (for Nginx upstream) |
+| `SERVER_NAME` | `api.masariya.lk` | Nginx server name |
+
+## Mobile (`mobile/.env`)
+
+Used by `react-native-config` for build-time injection.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `API_URL_IOS` | `http://localhost:9900` | Dev API URL for iOS simulator |
+| `API_URL_ANDROID` | `http://10.0.2.2:9900` | Dev API URL for Android emulator |
+| `API_URL_PROD` | `https://api.masariya.lk` | Production API URL |
+| `MAP_STYLE_URL` | OpenFreeMap liberty | MapLibre style URL |
+
+## Port Reference
+
+| Port | Service | Protocol |
+|------|---------|----------|
+| 5433 | PostgreSQL | TCP |
+| 6379 | Redis | TCP |
+| 9000 | Nginx | HTTP |
+| 9900 | Go Backend | HTTP + WS |
+| 9990 | Nominatim | HTTP |
+| 9992 | Valhalla | HTTP |
