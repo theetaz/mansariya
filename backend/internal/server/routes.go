@@ -25,6 +25,7 @@ type Deps struct {
 	Journey *handler.JourneyHandler
 	Admin   *handler.AdminHandler
 	Buses   *handler.BusesHandler
+	Metrics *handler.MetricsHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -71,6 +72,11 @@ func NewRouter(deps *Deps) *chi.Mux {
 		// Live buses
 		r.Get("/buses/active", deps.Buses.Active)
 		r.Get("/buses/nearby", deps.Buses.Nearby)
+
+		// Metrics
+		if deps.Metrics != nil {
+			r.Get("/metrics", deps.Metrics.Handle)
+		}
 	})
 
 	// WebSocket

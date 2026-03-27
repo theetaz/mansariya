@@ -119,6 +119,7 @@ func run() error {
 		Journey: handler.NewJourneyHandler(journeyStore),
 		Admin:   handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
 		Buses:   handler.NewBusesHandler(rdb),
+		Metrics: handler.NewMetricsHandler(rdb),
 	}
 
 	router := server.NewRouter(deps)
