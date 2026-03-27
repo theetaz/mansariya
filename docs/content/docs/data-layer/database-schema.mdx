@@ -1,0 +1,379 @@
+---
+title: Database Schema
+description: PostgreSQL + PostGIS schema design
+---
+
+## Overview
+
+Mansariya uses **PostgreSQL 16** with the **PostGIS** extension for spatial data storage and queries. The schema is designed around three concerns: static route/stop data, real-time vehicle tracking, and historical data for ETA learning. All spatial data uses SRID 4326 (WGS 84), the standard GPS coordinate reference system.
+
+Migrations live in `backend/migrations/` as plain SQL files, managed by golang-migrate. The current schema is defined across two migrations:
+
+- `001_init.up.sql` -- Core tables for routes, stops, vehicles, and crowdsource data
+- `002_timetable.up.sql` -- Timetable table and enrichment columns
+
+## Extensions
+
+```sql
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+```
+
+**PostGIS** provides spatial data types (`GEOMETRY`), spatial indexes (`GiST`), and spatial functions (`ST_DWithin`, `ST_Distance`, etc.). Without PostGIS, queries like "find all stops within 500 meters of this point" would require scanning every row and computing distances in application code.
+
+**pg_trgm** (trigram matching) enables fuzzy text search across Sinhala, Tamil, and English stop names. Trigrams work at the character level, so they handle partial matches and typos across all three scripts without language-specific configuration.
+
+## Table: routes
+
+The `routes` table is the central entity. Each row represents a bus route with its metadata and road geometry.
+
+```sql
+CREATE TABLE routes (
+    id TEXT PRIMARY KEY,
+    name_en TEXT NOT NULL,
+    name_si TEXT NOT NULL,
+    name_ta TEXT NOT NULL,
+    operator TEXT,
+    service_type TEXT,
+    fare_lkr INTEGER,
+    frequency_minutes INTEGER,
+    operating_hours TEXT,
+    polyline GEOMETRY(LineString, 4326),
+    polyline_confidence REAL DEFAULT 0.0,
+    source TEXT DEFAULT 'ntc_geocoded',
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_routes_polyline ON routes USING GIST(polyline);
+```
+
+### Column Details
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | TEXT PK | Route number as used by NTC. Examples: `"1"`, `"138"`, `"1-3/245"`. Not auto-generated -- these are real-world identifiers. |
+| `name_en` | TEXT | English route name, typically "Origin - Destination" format. Example: `"Colombo - Kandy"`. |
+| `name_si` | TEXT | Sinhala route name. Example: `"කොළඹ - මහනුවර"`. |
+| `name_ta` | TEXT | Tamil route name. Example: `"கொழும்பு - கண்டி"`. |
+| `operator` | TEXT | Who operates the route: `"SLTB"`, `"Private"`, or `"NTC"`. NULL if unknown. |
+| `service_type` | TEXT | Service class: `"Normal"`, `"Semi Luxury"`, or `"AC Luxury"`. Affects fare and bus type. |
+| `fare_lkr` | INTEGER | Base fare in Sri Lankan Rupees. From NTC fare PDF. |
+| `frequency_minutes` | INTEGER | Approximate headway in minutes. Example: `15` means a bus every 15 minutes. |
+| `operating_hours` | TEXT | Operating window. Example: `"05:00-22:00"`. |
+| `polyline` | GEOMETRY(LineString, 4326) | The route shape on the road network. A sequence of GPS coordinates tracing the road the bus follows. Built from OSM data or OSRM road-snapping. |
+| `polyline_confidence` | REAL | Confidence in the polyline accuracy. `0.0` = estimated from origin/destination geocoding. `0.5` = from OSM or routemaster. `1.0` = verified by crowdsource GPS traces. |
+| `source` | TEXT | Data provenance: `"ntc_geocoded"`, `"osm"`, `"github_gps"`, `"routemaster"`, `"manual"`. |
+| `is_active` | BOOLEAN | Whether the route is currently operational. Inactive routes are hidden from search but preserved for history. |
+| `origin_stop_id` | TEXT | Reference to the first stop (added in migration 002). |
+| `destination_stop_id` | TEXT | Reference to the last stop (added in migration 002). |
+| `validated_by` | TEXT | Who validated this route data (added in migration 002). |
+| `validated_at` | TIMESTAMPTZ | When validation occurred (added in migration 002). |
+| `data_source` | TEXT | More specific source tracking (added in migration 002). Default: `"scraped"`. |
+
+### Spatial Index
+
+The GiST index on `polyline` enables fast spatial queries like "find all routes within 1km of this point":
+
+```sql
+SELECT id, name_en
+FROM routes
+WHERE ST_DWithin(polyline, ST_SetSRID(ST_MakePoint(79.8612, 6.9271), 4326), 0.01);
+```
+
+This is how the route inference engine finds candidate routes for a GPS trace -- it queries the R-tree index built from these polylines.
+
+## Table: stops
+
+Bus stops with GPS locations and trilingual names.
+
+```sql
+CREATE TABLE stops (
+    id TEXT PRIMARY KEY,
+    name_en TEXT NOT NULL,
+    name_si TEXT,
+    name_ta TEXT,
+    location GEOMETRY(Point, 4326) NOT NULL,
+    source TEXT DEFAULT 'geocoded',
+    confidence REAL DEFAULT 0.0,
+    observation_count INTEGER DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_stops_location ON stops USING GIST(location);
+CREATE INDEX idx_stops_name_en ON stops USING GIN(name_en gin_trgm_ops);
+CREATE INDEX idx_stops_name_si ON stops USING GIN(name_si gin_trgm_ops);
+```
+
+### Column Details
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | TEXT PK | Stop identifier. Format: `"{route_id}_s{order}"` for route-specific stops (e.g., `"138_s0"`), or OSM node ID for shared stops. |
+| `name_en` | TEXT | English name. Example: `"Colombo Fort"`. |
+| `name_si` | TEXT | Sinhala name. Example: `"කොළඹ කොටුව"`. NULL if translation unavailable. |
+| `name_ta` | TEXT | Tamil name. NULL if translation unavailable. |
+| `location` | GEOMETRY(Point, 4326) | GPS coordinate of the stop. |
+| `source` | TEXT | How this stop's location was determined: `"geocoded"` (from Nominatim), `"crowdsourced"` (from GPS traces), `"osm"` (from OpenStreetMap), `"manual"` (hand-verified). |
+| `confidence` | REAL | Location accuracy. `0.0` = geocoded (may be wrong city). `0.5` = from OSM. `1.0` = GPS-verified. |
+| `observation_count` | INTEGER | How many times this stop has been independently observed via crowdsource GPS dwell detection. Higher counts increase confidence. |
+| `road_name` | TEXT | Nearby road name for context (added in migration 002). |
+| `landmark` | TEXT | Nearby landmark for user-friendly directions (added in migration 002). |
+| `is_terminal` | BOOLEAN | Whether this is a major terminal (Colombo Fort, Kandy, etc.). Set by migration 002 for 14 major cities. |
+| `routes_count` | INTEGER | How many routes pass through this stop. Computed in migration 002. |
+
+### Fuzzy Search Indexes
+
+The GIN trigram indexes on `name_en` and `name_si` enable fuzzy text search:
+
+```sql
+SELECT id, name_en, name_si,
+       similarity(name_en, 'kandy') AS score
+FROM stops
+WHERE name_en % 'kandy'
+ORDER BY score DESC
+LIMIT 10;
+```
+
+Trigram matching handles partial input, typos, and transliteration differences. A search for "colomb" matches "Colombo Fort", "Colombo Bastian Mawatha", etc. This works equally well for Sinhala and Tamil text since trigrams operate on raw characters.
+
+## Table: route_stops
+
+Junction table linking routes to stops in order. A stop can belong to multiple routes, and a route has an ordered sequence of stops.
+
+```sql
+CREATE TABLE route_stops (
+    route_id TEXT REFERENCES routes(id) ON DELETE CASCADE,
+    stop_id TEXT REFERENCES stops(id) ON DELETE CASCADE,
+    stop_order INTEGER NOT NULL,
+    distance_from_start_km REAL,
+    typical_arrival_offset_min INTEGER,
+    typical_duration_min INTEGER,
+    fare_from_start_lkr INTEGER,
+    PRIMARY KEY (route_id, stop_id, stop_order)
+);
+
+CREATE INDEX idx_route_stops_stop ON route_stops(stop_id);
+```
+
+### Column Details
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `route_id` | TEXT FK | References `routes.id`. |
+| `stop_id` | TEXT FK | References `stops.id`. |
+| `stop_order` | INTEGER | Position in the route. 0 = origin, 1 = first intermediate stop, etc. |
+| `distance_from_start_km` | REAL | Distance along the route from the origin stop. Used for trip progress calculation. |
+| `typical_arrival_offset_min` | INTEGER | Expected minutes from departure at origin to arrival at this stop. From timetable data or estimated from distance. |
+| `typical_duration_min` | INTEGER | Typical duration from the previous stop (added in migration 002). |
+| `fare_from_start_lkr` | INTEGER | Cumulative fare from the origin stop (added in migration 002). |
+
+The composite primary key `(route_id, stop_id, stop_order)` allows a stop to appear on the same route multiple times (circular routes) while maintaining order.
+
+The index on `stop_id` supports reverse lookups: "which routes pass through this stop?" This is essential for journey planning, where the system needs to find connecting routes at transfer stops.
+
+## Table: timetables
+
+Scheduled departure times from the origin stop. Added in migration 002.
+
+```sql
+CREATE TABLE timetables (
+    id SERIAL PRIMARY KEY,
+    route_id TEXT REFERENCES routes(id) ON DELETE CASCADE,
+    departure_time TIME NOT NULL,
+    days TEXT[] DEFAULT '{MON,TUE,WED,THU,FRI,SAT,SUN}',
+    service_type TEXT DEFAULT 'Normal',
+    notes TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_timetables_route ON timetables(route_id);
+CREATE INDEX idx_timetables_departure ON timetables(departure_time);
+```
+
+### Column Details
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `route_id` | TEXT FK | Which route this departure belongs to. |
+| `departure_time` | TIME | Scheduled departure from the origin stop. Example: `06:30:00`. |
+| `days` | TEXT[] | Days of the week this departure operates. Default is all seven days. Example: `{MON,TUE,WED,THU,FRI}` for weekday-only services. |
+| `service_type` | TEXT | `"Normal"`, `"Semi Luxury"`, or `"AC Luxury"`. Different service types may have different schedules on the same route. |
+| `notes` | TEXT | Free-form notes. Example: `"Express - limited stops"` or `"School service"`. |
+
+Timetable data comes from two sources:
+
+1. **NTC timetable PDFs** -- Real departure times with stop-by-stop timings (routes 17, 87).
+2. **Generated from frequency** -- For routes with known frequency (e.g., every 15 minutes from 05:00 to 22:00), the `collect_timetables.py` script generates synthetic timetable entries.
+
+## Table: trip_segments
+
+Historical travel time data between stops, segmented by time of day and day of week. This is the foundation for ETA learning.
+
+```sql
+CREATE TABLE trip_segments (
+    id BIGSERIAL PRIMARY KEY,
+    route_id TEXT REFERENCES routes(id) ON DELETE SET NULL,
+    from_stop_id TEXT,
+    to_stop_id TEXT,
+    travel_time_seconds INTEGER,
+    speed_kmh REAL,
+    hour_of_day SMALLINT,       -- 0-23
+    day_of_week SMALLINT,       -- 0=Monday, 6=Sunday
+    recorded_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_trip_segments_lookup
+    ON trip_segments(route_id, from_stop_id, to_stop_id, hour_of_day);
+```
+
+### How It Works
+
+Every time the system observes a bus traveling between two consecutive stops, it records the actual travel time, speed, hour, and day. Over time, this builds a statistical model:
+
+- **Morning rush (7-9 AM weekdays):** Route 138, Kadawatha to Kiribathgoda takes 12 minutes on average.
+- **Off-peak (11 AM-3 PM):** Same segment takes 7 minutes.
+- **Weekend:** Same segment takes 6 minutes.
+
+The ETA service queries this table to adjust predictions based on current time and day. The composite index on `(route_id, from_stop_id, to_stop_id, hour_of_day)` makes these lookups fast.
+
+Data in this table is fully anonymized. There is no `device_hash` or `session_id` -- only the route, stops, timing, and time context. Individual contributors cannot be identified from this data.
+
+## Table: discovered_stops
+
+Candidate bus stops found by clustering GPS dwell points from contributor traces.
+
+```sql
+CREATE TABLE discovered_stops (
+    id TEXT PRIMARY KEY,
+    location GEOMETRY(Point, 4326) NOT NULL,
+    observation_count INTEGER DEFAULT 1,
+    avg_dwell_seconds REAL,
+    nearest_route_ids TEXT[],
+    status TEXT DEFAULT 'candidate',
+    promoted_to_stop_id TEXT,
+    first_seen TIMESTAMPTZ DEFAULT NOW(),
+    last_seen TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_discovered_stops_location ON discovered_stops USING GIST(location);
+CREATE INDEX idx_discovered_stops_status ON discovered_stops(status);
+```
+
+### Lifecycle
+
+1. **Detection:** When multiple GPS traces show vehicles dwelling (speed near zero) at the same location for 15+ seconds, DBSCAN clustering identifies it as a candidate stop.
+2. **Accumulation:** Each new observation at the same location increments `observation_count` and updates `avg_dwell_seconds`.
+3. **Confirmation:** When `observation_count` exceeds a threshold (e.g., 5 independent observations from different devices), status changes from `"candidate"` to `"confirmed"`.
+4. **Promotion:** A confirmed stop is inserted into the `stops` table with `source = 'crowdsourced'`, and `promoted_to_stop_id` is set to link back.
+5. **Rejection:** Candidate stops that are clearly not bus stops (e.g., traffic lights, parking lots) can be manually set to `"rejected"`.
+
+The `nearest_route_ids` array tracks which routes pass near this discovered stop, enabling automatic association with the correct route when the stop is promoted.
+
+## Table: gps_traces
+
+Archived GPS traces for route learning. Storage is opt-in only -- contributors must explicitly agree to have their traces retained.
+
+```sql
+CREATE TABLE gps_traces (
+    id BIGSERIAL PRIMARY KEY,
+    device_hash TEXT NOT NULL,
+    session_id TEXT NOT NULL,
+    route_id TEXT,
+    trace GEOMETRY(LineString, 4326),
+    started_at TIMESTAMPTZ,
+    ended_at TIMESTAMPTZ,
+    point_count INTEGER,
+    avg_speed_kmh REAL
+);
+
+CREATE INDEX idx_gps_traces_route ON gps_traces(route_id);
+CREATE INDEX idx_gps_traces_time ON gps_traces(started_at);
+```
+
+GPS traces serve two purposes:
+
+1. **Polyline improvement:** Aggregating multiple traces along the same route reveals the actual road segments buses use, replacing estimated polylines with verified ones.
+2. **Stop discovery:** Dwell point analysis on traces identifies where buses regularly stop.
+
+The `device_hash` rotates every 24 hours, so traces from different days cannot be linked to the same device. The `session_id` is a random UUID per trip, providing no correlation between trips.
+
+## Table: active_vehicles
+
+Real-time vehicle positions. Updated by the pipeline broadcaster.
+
+```sql
+CREATE TABLE active_vehicles (
+    virtual_id TEXT PRIMARY KEY,
+    route_id TEXT REFERENCES routes(id) ON DELETE SET NULL,
+    current_position GEOMETRY(Point, 4326),
+    speed_kmh REAL,
+    bearing REAL,
+    contributor_count INTEGER DEFAULT 1,
+    confidence TEXT DEFAULT 'low',
+    last_update TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_active_vehicles_position ON active_vehicles USING GIST(current_position);
+CREATE INDEX idx_active_vehicles_route ON active_vehicles(route_id);
+```
+
+In practice, real-time vehicle positions are primarily stored in Redis (Hash + SortedSet) for low-latency access. This PostgreSQL table serves as a fallback and for administrative queries. The Redis TTL (5 minutes) automatically removes stale vehicles; PostgreSQL rows are cleaned up periodically.
+
+## PostGIS Functions Used
+
+Mansariya uses a focused subset of PostGIS functions:
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `ST_DWithin(geom, geom, distance)` | Find geometries within a distance threshold | Find stops within 500m of a point |
+| `ST_Distance(geom, geom)` | Calculate distance between two geometries | Rank nearby stops by proximity |
+| `ST_GeomFromText(wkt, srid)` | Create geometry from Well-Known Text | Insert polylines from route data |
+| `ST_X(point)` / `ST_Y(point)` | Extract longitude / latitude from a point | Return stop coordinates as JSON |
+| `ST_SetSRID(geom, srid)` | Assign coordinate reference system | Ensure all queries use SRID 4326 |
+| `ST_MakePoint(lng, lat)` | Create a point geometry | Build query points from API parameters |
+| `ST_AsText(geom)` | Convert geometry to WKT string | Debug and inspect geometries |
+| `ST_Length(geom::geography)` | Calculate length in meters | Compute route distance |
+
+## pg_trgm: Fuzzy Trilingual Search
+
+The `pg_trgm` extension splits text into three-character sequences (trigrams) and indexes them for similarity matching. This is critical for Mansariya because:
+
+1. **Sinhala text** uses complex Unicode characters. Traditional full-text search engines struggle with Sinhala tokenization. Trigrams work at the byte level, bypassing language-specific parsing.
+2. **Tamil text** has similar challenges. Trigrams handle both scripts without configuration.
+3. **User input** may contain typos, partial names, or transliterations. The `%` operator and `similarity()` function handle fuzzy matching gracefully.
+
+Example search across all three languages:
+
+```sql
+-- Search in English
+SELECT id, name_en FROM stops WHERE name_en % 'colombo fort';
+
+-- Search in Sinhala
+SELECT id, name_si FROM stops WHERE name_si % 'කොළඹ';
+
+-- Combined trilingual search
+SELECT id, name_en, name_si, name_ta,
+       GREATEST(
+           similarity(name_en, 'kandy'),
+           similarity(COALESCE(name_si, ''), 'kandy'),
+           similarity(COALESCE(name_ta, ''), 'kandy')
+       ) AS score
+FROM stops
+ORDER BY score DESC
+LIMIT 10;
+```
+
+## Why Raw SQL with pgx, Not an ORM
+
+Mansariya uses [pgx](https://github.com/jackc/pgx) (a pure Go PostgreSQL driver) with hand-written SQL instead of an ORM like GORM or Ent. The reasons:
+
+1. **PostGIS support:** ORMs have poor or no support for PostGIS spatial types and functions. Writing `ST_DWithin(location, ST_MakePoint($1, $2), $3)` in raw SQL is straightforward; expressing it through an ORM abstraction layer is awkward at best.
+2. **Query control:** Spatial queries with GiST indexes, trigram searches with GIN indexes, and window functions for ranking all benefit from precise SQL. An ORM adds a translation layer that can produce suboptimal queries.
+3. **Performance:** pgx provides connection pooling, prepared statements, and binary protocol support. There is no ORM overhead for mapping structs to rows.
+4. **Simplicity:** The schema has seven tables. An ORM's code generation, migration tooling, and relationship management add complexity that is not justified for a schema this small.
+5. **Transparency:** Every SQL query is visible in the codebase. There are no hidden N+1 queries or unexpected JOINs generated by lazy loading.
+
+Migrations are managed by golang-migrate, which runs plain SQL files in order. This keeps the schema definition in SQL where it belongs, not in Go struct tags.

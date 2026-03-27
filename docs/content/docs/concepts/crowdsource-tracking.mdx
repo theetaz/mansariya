@@ -1,0 +1,249 @@
+---
+title: Crowdsource Tracking
+description: How passengers become GPS sensors
+---
+
+## The Core Idea
+
+Mansariya tracks buses without installing any hardware on them. Instead, passengers' smartphones act as GPS sensors. When a passenger opens the Mansariya app on a bus, their phone silently collects GPS coordinates and sends them to the server. The server figures out which bus the phone is on, fuses data from multiple phones on the same bus, and broadcasts the result to everyone watching that route.
+
+No beacons. No SIM-card trackers bolted under seats. No contracts with bus operators. The passengers **are** the infrastructure.
+
+## Why This Approach
+
+### Sri Lanka's bus network is massive
+
+The National Transport Commission (NTC) lists over 3,500 bus routes connecting every corner of the island. These range from intercity expressways to rural village services operated by single-bus private owners. Any tracking solution must scale to cover all of them.
+
+### Hardware-based tracking is too expensive
+
+A GPS tracker module costs $20-50 per unit. Multiply that by roughly 25,000 active buses and you get a $500K-$1.25M upfront hardware cost, before accounting for SIM cards, data plans, installation labor, theft, water damage, and ongoing maintenance. No Sri Lankan transit authority has the budget for this, and no private operator has the incentive.
+
+### Smartphones are already everywhere
+
+Sri Lanka has 95%+ smartphone penetration. Nearly every bus passenger is carrying a device with GPS, an accelerometer, a cellular radio, and enough compute power to run a lightweight tracking app. The hardware is already deployed -- it just needs software.
+
+### Zero marginal cost per bus
+
+Adding a new bus to Mansariya's tracking network costs $0. The moment a passenger with the app boards that bus, it becomes visible. No procurement, no installation, no negotiation with the bus operator.
+
+## How It Works Step by Step
+
+The journey from a phone's GPS chip to a live bus dot on someone else's screen involves five stages.
+
+### Step 1: GPS Collection on the Phone
+
+The mobile app uses `react-native-geolocation-service` to watch the phone's position. Key parameters:
+
+| Parameter | Value | Why |
+|---|---|---|
+| `enableHighAccuracy` | `true` | Uses GPS + GLONASS, not just cell towers |
+| `distanceFilter` | `20m` | Only fires when the phone moves 20+ meters |
+| `interval` | `5000ms` | Android: check position every 5 seconds |
+| `fastestInterval` | `3000ms` | Android: accept updates as fast as every 3 seconds |
+
+Each GPS fix produces a **ping** with six fields:
+
+```json
+{
+  "lat": 6.92708,
+  "lng": 79.86124,
+  "ts": 1711530000,
+  "acc": 12.5,
+  "spd": 8.3,
+  "brg": 215.0
+}
+```
+
+- `lat` / `lng` -- WGS84 coordinates
+- `ts` -- Unix timestamp in seconds
+- `acc` -- Accuracy radius in meters (lower is better)
+- `spd` -- Speed in meters per second
+- `brg` -- Bearing in degrees (0 = north, 90 = east)
+
+### Step 2: Batching and Upload
+
+Rather than uploading every single ping immediately, the app **batches** them. The buffer is flushed every 10 seconds, sending all accumulated pings in one HTTP POST.
+
+```
+POST /api/v1/gps/batch
+{
+  "device_hash": "a3f8c1d9e7b24056",
+  "session_id": "sess_1711530000_k8m2x9",
+  "pings": [ ... ]
+}
+```
+
+The server validates the batch (device_hash, session_id, and at least one ping must be present), then pushes it onto a Redis Stream (`gps:raw`) for asynchronous processing. The HTTP response returns immediately -- the caller does not wait for pipeline processing.
+
+### Step 3: Map Matching (Valhalla)
+
+A Go worker consumes from `gps:raw` and sends each batch to Valhalla's Meili map-matching service. Valhalla snaps the noisy GPS coordinates to the nearest road segments, correcting for:
+
+- GPS drift (phone thinks you are in a building next to the road)
+- Multipath errors (signal bouncing off buildings)
+- Gaps when the phone loses satellite fix
+
+If Valhalla is unavailable, the worker falls back to using raw GPS coordinates directly. The map-matched result is written to a second Redis Stream (`gps:matched`).
+
+### Step 4: Route Inference and Clustering
+
+A second Go worker consumes from `gps:matched`. For each matched trace, it:
+
+1. **Infers the route** by comparing the trace shape against all known route polylines using Hausdorff distance, coverage analysis, bearing consistency, and speed checks. The result is a confidence score from 0 to 1; traces scoring below 0.6 are discarded.
+
+2. **Updates the device state** -- the in-memory map of every active contributing device, keyed by `device_hash`.
+
+3. **Clusters devices** every 3 seconds using DBSCAN to fuse multiple phones on the same bus into a single virtual vehicle position. (See [Bus Position Fusion](/docs/concepts/bus-position-fusion) for details.)
+
+### Step 5: Broadcast
+
+Fused vehicle positions are published to Redis Pub/Sub on channel `route:\{routeID\}`. WebSocket servers subscribe to these channels and forward updates to connected clients. The position is also stored in a Redis Hash (`bus:\{virtualID\}:pos`) with a 5-minute TTL for API queries.
+
+## The Contributor Model
+
+### Passive contribution
+
+The primary mode. The passenger taps "Start Contributing" once and the app runs in the background, collecting GPS and uploading batches. The passenger does not need to do anything else -- they can switch to another app, lock their phone, or just ride.
+
+### Active contribution
+
+Future enhancement. The passenger explicitly taps "I'm on bus 138" to tell the system which route they are on. This bypasses route inference entirely and provides a higher-confidence signal. Useful on routes where multiple bus services share the same road.
+
+### No contribution required to use the app
+
+Passengers who just want to see where buses are do not need to contribute. They open the app, search for a route, and see live positions from other contributors. Contribution is opt-in.
+
+## Device Identity
+
+Mansariya does not have user accounts (deferred to v1.1). The **device** is the identity.
+
+### device_hash
+
+A one-way hash derived from the device's UUID. The app generates a 16-character hex string that serves as an anonymous device identifier. Key properties:
+
+- **Rotates daily** -- the hash changes every 24 hours, preventing long-term tracking of individual devices
+- **One-way** -- cannot be reversed to recover the device UUID
+- **Consistent within a day** -- allows the server to associate multiple batches from the same device during one trip
+
+### session_id
+
+Generated when the user starts a tracking session. Format: `sess_{timestamp}_{random}` (e.g., `sess_1711530000_k8m2x9`). Groups all pings from a single trip together, so the pipeline can reconstruct a continuous trace.
+
+A new session starts each time the user begins contributing. If the app is killed and restarted, a new session_id is generated.
+
+## GPS Quality Challenges
+
+Phone GPS is not as accurate as purpose-built tracking hardware. Mansariya must handle significant quality variation.
+
+### Accuracy varies by device and environment
+
+| Environment | Typical accuracy |
+|---|---|
+| Open road, clear sky | 5-10m |
+| Urban canyon (tall buildings) | 15-30m |
+| Under a roof or inside a bus | 20-50m |
+| Indoor / tunnel | 100m+ or no fix |
+
+The `acc` field in each ping reports the estimated accuracy radius. The pipeline uses this to weight contributions during fusion -- a 10m-accuracy ping contributes more than a 40m one.
+
+### Speed helps disambiguate
+
+A phone reporting 35 km/h is almost certainly on a moving vehicle, not a pedestrian. Speed is used in two ways:
+
+1. **Route inference** -- bus-like speeds (10-70 km/h) increase the confidence score
+2. **DBSCAN clustering** -- devices must be within 5 km/h of each other to be clustered together (so a bus at 40 km/h is not grouped with a stationary phone)
+
+### Bearing adds direction
+
+Bearing (compass heading) helps distinguish buses traveling in opposite directions on the same road. Route inference checks whether the trace bearing matches the route direction (forward or return trip).
+
+## Why Batching
+
+Sending every GPS ping immediately would be wasteful and battery-draining. Batching solves multiple problems.
+
+### Battery conservation
+
+Each network request wakes the radio, which is one of the biggest battery drains on a smartphone. By collecting 2-3 pings and sending them in one batch every 10 seconds, the app reduces network requests by 60-80% compared to streaming individual pings.
+
+### Network efficiency
+
+A single ping is about 60 bytes of JSON. HTTP overhead (headers, TLS) adds roughly 500 bytes per request. Batching 3 pings into one request means 680 bytes total instead of 1,680 bytes for 3 individual requests -- a 60% bandwidth saving.
+
+### Graceful failure handling
+
+If an upload fails (no network, server down), the pings stay in the buffer and are retried on the next flush cycle. Failed pings are prepended back to the buffer so they are included in the next batch. No data is lost due to transient network issues.
+
+### Server efficiency
+
+The backend processes batches, not individual pings. Each batch is one Redis Stream entry, one Valhalla map-match call, and one route inference operation. Processing 20 pings as a batch is far cheaper than 20 individual operations.
+
+## The Cold Start Problem
+
+Crowdsource tracking has a chicken-and-egg problem: the app needs users to show bus positions, but users download the app to see bus positions.
+
+### Strategies to overcome cold start
+
+**1. Seed with schedules.** Even before the first contributor, the app shows route information -- stops, estimated frequencies, fare data. This is useful on its own and gives users a reason to install the app.
+
+**2. Target high-traffic routes first.** The Colombo metropolitan area has routes with 100+ buses and thousands of daily passengers. Even a small adoption rate produces usable coverage. Route 138 (Colombo-Kaduwela) and Route 001 (Pettah circular) are ideal starting points.
+
+**3. University partnerships.** University students are early adopters, ride buses daily, and are concentrated on specific routes. A campus launch creates dense coverage on a few routes immediately.
+
+**4. Visible impact loop.** When a contributor sees their own bus appear on the map within seconds of starting tracking, it creates an immediate, tangible reward. This feedback loop encourages continued use.
+
+## Network Effects
+
+Crowdsource tracking gets better as it grows, and the improvement is nonlinear.
+
+### More users means more coverage
+
+With 1 user per bus, every active bus on a route is visible. With 3+ users per bus, positions become "verified" confidence -- highly reliable.
+
+### More coverage means more users
+
+When passengers consistently see accurate, real-time bus positions, they recommend the app to others. Each new user potentially covers a route that was previously dark.
+
+### Coverage creates data creates better inference
+
+More GPS traces from more routes improve route inference accuracy. More stop dwell patterns help discover new stops. More travel time data improves ETA predictions.
+
+### The tipping point
+
+A route becomes genuinely useful when about 10% of its daily passengers have the app. For a busy Colombo route with 5,000 daily passengers, that is 500 people -- a realistic target with focused marketing.
+
+## Comparison to Hardware-Based Systems
+
+| Factor | Hardware trackers | Crowdsource (Mansariya) |
+|---|---|---|
+| **Cost per bus** | $30-50 device + $5/month SIM | $0 |
+| **Installation** | Physical install on each bus | None |
+| **Coverage** | Only equipped buses | Any bus with a passenger using the app |
+| **Maintenance** | Replace broken/stolen units | None |
+| **Accuracy** | Consistent (dedicated GPS) | Variable (depends on phone quality) |
+| **Scalability** | Linear cost increase | Zero marginal cost |
+| **Bus operator cooperation** | Required | Not needed |
+| **Time to cover new route** | Weeks (procurement + install) | Immediate (first user on that route) |
+| **Failure mode** | Device dies = bus goes dark | All passengers leave = bus goes dark |
+| **Data richness** | Location only | Location + speed + bearing + accuracy |
+
+### Where hardware wins
+
+Hardware trackers provide consistent, reliable positions regardless of passenger behavior. A dedicated GPS module gets fixes in conditions where phones struggle (inside metal bus frames, in tunnels). If budget and operator cooperation are available, hardware is more reliable.
+
+### Where crowdsource wins
+
+Crowdsource wins on cost, coverage breadth, and speed of deployment. In a country with 3,500+ routes and no centralized transit authority willing to fund hardware, crowdsource is the only viable path to comprehensive real-time tracking.
+
+## Privacy by Design
+
+Mansariya is built around the principle that tracking buses should not mean tracking people.
+
+- **No accounts** -- the device is the identity, and there is nothing to hack or leak
+- **Rotating device_hash** -- a new hash every 24 hours prevents longitudinal tracking
+- **Raw GPS discarded** -- pings are processed within 10 minutes and then deleted from Redis Streams (capped at 100,000 entries with approximate trimming)
+- **No route watching history** -- the server never records which routes a passenger views
+- **Opt-in only** -- GPS is only collected when the user explicitly starts tracking
+- **Local storage** -- saved routes, language preferences, and trip counts are stored on-device, never uploaded
+
+Contributors share their location, but only temporarily and anonymously. The system is designed so that even Mansariya's operators cannot identify or track individual users.

@@ -1,0 +1,228 @@
+---
+title: Data Layer Overview
+description: How Mansariya collects, processes, and stores bus route data
+---
+
+## Data Is the Foundation
+
+Without accurate route and stop data, nothing in Mansariya works. Real-time tracking relies on knowing which roads a bus route follows. ETA predictions require stop locations and historical segment times. Journey planning needs a complete graph of routes, stops, and connections. The data layer is the foundation that every other system builds upon.
+
+Sri Lanka has no centralized transit data API. There is no GTFS feed, no open data portal, and no standard machine-readable format for bus routes. The National Transport Commission (NTC) publishes fare tables and permits as scanned PDFs. OpenStreetMap has partial coverage. A few community projects have mapped specific corridors. Mansariya's data pipeline stitches all of these fragments together into a unified, queryable route database.
+
+## Data Sources Overview
+
+Mansariya draws from six distinct data sources, each contributing different pieces of the puzzle:
+
+| Source | What It Provides | Coverage |
+|--------|-----------------|----------|
+| NTC Fare PDF | Route numbers + fare tables | 353 routes |
+| NTC Permits PDF | English origin/destination names | 461 routes |
+| NTC Timetable PDFs | Real departure times with stop timings | Routes 17, 87 |
+| OSM Overpass API | Bus stops with GPS + route polylines | 4,272 stops, 53 routes |
+| GitHub Bus-Route-Finder | GPS-verified stops for Colombo | 143 stops, 31 routes |
+| routemaster.lk | Routes with GPS waypoints | 112 routes |
+
+Additionally, manual curation covers 56 routes with verified trilingual names, stop sequences, and frequency data.
+
+## Current Dataset
+
+The current Mansariya route database contains:
+
+- **685 routes** with at least a route number and basic metadata
+- **4,272 OSM bus stops** with GPS coordinates
+- **143 GPS-verified stops** in the Colombo metropolitan area
+- **53 route polylines** from OSM with 46,000+ road geometry points
+- **50 timetables** with real departure times
+- **210+ city name translations** across Sinhala, Tamil, and English
+
+This covers approximately **68% of NTC inter-provincial routes** and roughly **20% of the total Sri Lanka bus network** (which includes intra-provincial and private services not tracked by NTC).
+
+## Data Quality Tiers
+
+Not all route data is equally complete. Mansariya classifies routes into five quality tiers:
+
+### Tier 1: Full Data (name + stops + geo + timetable)
+
+Routes with trilingual names, ordered stop sequences with GPS coordinates, road-snapped polylines, and timetable data. These routes are ready for full real-time tracking and ETA prediction.
+
+**Example:** Route 138 (Colombo - Kandy) has English, Sinhala, and Tamil names, GPS-verified stops from the Bus-Route-Finder project, an OSM polyline snapped to the A1 highway, and frequency data.
+
+**Coverage:** ~30 routes
+
+### Tier 2: Good Data (name + stops + geo)
+
+Routes with trilingual names and stop locations, plus a road-snapped polyline, but no timetable. Real-time tracking works, but ETA is estimated from speed alone.
+
+**Coverage:** ~50 routes
+
+### Tier 3: Basic Data (name + estimated geo)
+
+Routes with at least an English name and origin/destination, with a polyline estimated by connecting origin and destination via road network. Stop locations may be approximate (geocoded from names rather than GPS-verified).
+
+**Coverage:** ~200 routes
+
+### Tier 4: Minimal Data (name only)
+
+Routes with a name and route number from the NTC permits PDF, but no stop data and no polyline. These routes appear in search results but cannot be tracked until more data is collected.
+
+**Coverage:** ~300 routes
+
+### Tier 5: ID Only
+
+Routes that exist only as a number in the NTC fare PDF. No name, no stops, no geometry. These are placeholders waiting for enrichment.
+
+**Coverage:** ~100 routes
+
+## How Each Source Contributes
+
+### NTC Fare PDF
+
+The NTC publishes an inter-provincial fare table as a PDF on ntc.gov.lk. The `collect.py` script downloads this PDF and extracts route numbers paired with fare amounts in LKR. This provides the most complete list of official route numbers (353 routes) but includes no route names, stop lists, or geographic data.
+
+**What we get:** Route numbers and fare amounts.
+
+**Limitation:** The PDF uses Sinhala text with broken Unicode characters (cid-encoded fonts), making automated name extraction unreliable.
+
+### NTC Permits PDF
+
+A separate NTC document lists inter-provincial route permits with English-language origin and destination names. The `parse_permits.py` script extracts 461 routes with names like "Colombo - Kandy" or "Galle - Matara".
+
+**What we get:** Route numbers mapped to English origin/destination pairs.
+
+**Limitation:** Names are origin-destination only, not full route descriptions. Some route numbers use a different format (e.g., "002-001" instead of "2") requiring normalization.
+
+### NTC Timetable PDFs
+
+For a small number of high-traffic routes, the NTC publishes detailed timetables showing departure times from the origin stop and arrival times at intermediate stops. The `collect_timetables.py` script parses these PDFs.
+
+**What we get:** Real departure times with stop-by-stop timing for routes 17 and 87.
+
+**Limitation:** Only available for a handful of routes. Timetables may be outdated (some from 2016).
+
+### OSM Overpass API
+
+OpenStreetMap's Overpass API provides the richest geographic data. The `collect.py` script queries for all bus stops (`highway=bus_stop`) in Sri Lanka, returning 4,272 stops with GPS coordinates and name tags. It also fetches 53 route relations with full road geometry (46,000+ points).
+
+**What we get:** GPS coordinates for stops, road-snapped polylines for routes, multilingual name tags.
+
+**Limitation:** Coverage is uneven. Urban areas (Colombo, Kandy, Galle) are well-mapped; rural routes have gaps. Some route relations are incomplete or outdated.
+
+### GitHub Bus-Route-Finder
+
+The open-source [Bus-Route-Finder](https://github.com/janithl/Bus-Route-Finder) project by janithl contains a SQL dump with 143 GPS-verified bus stop locations for 31 routes in the Colombo metropolitan area. The `collect.py` script parses this dump.
+
+**What we get:** High-accuracy GPS coordinates for stops, validated by physically visiting each location.
+
+**Limitation:** Colombo-area only. Data may not reflect recent stop relocations.
+
+### routemaster.lk
+
+The routemaster.lk website contains user-contributed route data with GPS waypoints. The `scrape_routemaster.py` script extracts 112 routes with coordinate sequences.
+
+**What we get:** GPS waypoints along route paths, which can be used to build polylines.
+
+**Limitation:** Waypoint density varies. Some routes have sparse points that produce jagged polylines. The site may not be actively maintained.
+
+### Manual Curation
+
+The `fix_and_enrich.py` script contains a `KNOWN_ROUTES` dictionary with 52 routes that have been manually verified and corrected. Each entry includes the correct English, Sinhala, and Tamil route name, fixing cases where automated parsing produced wrong mappings.
+
+**What we get:** Verified trilingual names and corrected route-name associations.
+
+**Example fix:** Route 138 was incorrectly mapped to "Colombo - Kurunegala" by automated parsing. The manual correction sets it to "Colombo - Kandy" with proper Sinhala and Tamil translations.
+
+## Data Freshness
+
+| Source | Last Updated | Update Frequency |
+|--------|-------------|-----------------|
+| NTC Fare PDF | July 2024 | Updated when fares change (roughly annual) |
+| NTC Permits PDF | 2023 | Infrequent updates |
+| NTC Timetable PDFs | 2016-2024 | Varies by route |
+| OSM Overpass | Continuously | Community-driven, ongoing |
+| GitHub Bus-Route-Finder | 2018 | No longer actively maintained |
+| routemaster.lk | 2020 | Sporadic community contributions |
+| Manual curation | Ongoing | Updated as errors are discovered |
+
+## Data Pipeline
+
+The collection pipeline follows a seven-stage process:
+
+```
+1. Collect    →  fetch raw data from all sources
+2. Parse      →  extract structured data from PDFs and web pages
+3. Merge      →  combine sources with priority-based deduplication
+4. Fix        →  correct known errors and wrong mappings
+5. Translate  →  add Sinhala and Tamil names via city translation map
+6. Match      →  associate OSM stops with route polylines
+7. Bootstrap  →  load final dataset into PostgreSQL
+```
+
+### Stage 1: Collect
+
+`collect.py` downloads and caches raw data from NTC, OSM, and GitHub sources. Files are stored in `data/collector/` to avoid re-downloading on subsequent runs.
+
+### Stage 2: Parse
+
+Source-specific parsers extract structured data:
+- `parse_permits.py` processes the NTC permits PDF into JSON
+- `extract_osm_polylines.py` extracts road geometry from OSM route relations
+- `scrape_routemaster.py` pulls GPS waypoints from routemaster.lk
+- `collect_timetables.py` parses NTC timetable PDFs
+
+### Stage 3: Merge
+
+`merge_all.py` combines all sources using a priority order:
+
+1. Manual corrections (highest priority)
+2. GitHub GPS-verified data
+3. NTC permits (English names)
+4. OSM data
+5. routemaster.lk (lowest priority)
+
+When multiple sources provide different data for the same route, higher-priority sources win. However, enrichment is additive: if source A has a name but no fare, and source B has a fare, both fields are kept.
+
+### Stage 4: Fix
+
+`fix_and_enrich.py` applies corrections from the `KNOWN_ROUTES` dictionary and replaces Nominatim-geocoded stop coordinates with GPS-verified coordinates where available.
+
+### Stage 5: Translate
+
+`translate_routes.py` uses a comprehensive `city_translations.json` mapping of 210+ Sri Lankan place names to add Sinhala and Tamil names to routes that only have English names. This covers 73.4% of routes with trilingual support.
+
+### Stage 6: Match Stops
+
+`match_stops_to_routes.py` finds OSM bus stops within 150 meters of route polylines and associates them with the nearest route. This matches 660 stops to 45 routes.
+
+### Stage 7: Bootstrap
+
+`go run ./cmd/bootstrap` loads the final `routes.json` into PostgreSQL. The bootstrap process:
+
+1. Verifies Nominatim and PostgreSQL are reachable (pre-flight checks)
+2. Geocodes stop names to coordinates via Nominatim (for stops without GPS)
+3. Builds road-snapped polylines via OSRM
+4. Inserts routes, stops, and route-stop associations into the database
+
+## Crowdsource Data
+
+Once the system is live, GPS traces from contributors continuously improve the dataset:
+
+- **Polyline refinement:** Aggregated GPS traces reveal the actual roads buses use, replacing estimated polylines with verified ones. The `polyline_confidence` field tracks this progression from 0.0 (estimated) to 1.0 (crowdsource-verified).
+- **Stop discovery:** DBSCAN clustering of GPS dwell points (where buses stop for extended periods) identifies candidate stops. These appear in the `discovered_stops` table with status "candidate" until confirmed by multiple independent observations.
+- **Timetable learning:** The `trip_segments` table records actual travel times between stops, segmented by hour of day and day of week. Over time, this builds a statistical model of typical travel times that powers ETA predictions.
+
+## The Virtuous Cycle
+
+Mansariya's data strategy depends on a virtuous cycle:
+
+```
+More route data  →  Better tracking accuracy
+     ↑                        ↓
+More contributors  ←  More useful for passengers
+```
+
+1. **Bootstrap phase:** Load the best available data from NTC, OSM, and community sources. Even with imperfect data, the system can track buses on the 30-50 routes with good coverage.
+2. **Early adopter phase:** Contributors ride buses and generate GPS traces. These traces improve polylines and discover stops on routes that previously had only estimated geometry.
+3. **Growth phase:** As tracking accuracy improves, more passengers find the app useful, creating more potential contributors. Each new contributor on a route improves data quality for that route.
+4. **Maturity phase:** Most routes have crowdsource-verified polylines and complete stop sequences. The system shifts from data collection to data maintenance.
+
+This cycle means Mansariya does not need perfect data at launch. It needs enough data to be useful on a few routes, and the crowd will fill in the rest over time.

@@ -1,0 +1,407 @@
+---
+title: Data Collection Pipeline
+description: How Mansariya builds its route database from multiple sources
+---
+
+## The Challenge
+
+Sri Lanka has no central transit data API. Unlike cities with GTFS feeds or open data portals, Sri Lankan bus routes exist only as:
+
+- Scanned PDFs on government websites (NTC fare tables, permit lists)
+- Community-contributed data on OpenStreetMap (partial coverage)
+- A few hobby projects that mapped specific corridors
+- Institutional knowledge held by bus operators, dispatchers, and frequent riders
+
+Building a route database from these fragments requires collecting data from multiple sources, resolving conflicts between them, and filling gaps where no source has the answer. The data collection pipeline automates as much of this process as possible while leaving room for manual corrections.
+
+## Data Sources Ranked by Reliability
+
+Not all sources are equally trustworthy. Mansariya ranks them from most to least reliable:
+
+### 1. GPS-Verified (GitHub Bus-Route-Finder)
+
+**Source:** [janithl/Bus-Route-Finder](https://github.com/janithl/Bus-Route-Finder) -- an open-source project where someone physically visited bus stops and recorded their GPS coordinates.
+
+**Coverage:** 31 routes, 143 stops in the Colombo metropolitan area.
+
+**Reliability:** Highest. These are ground-truth coordinates collected by physically standing at each stop with a GPS-enabled phone. When this data conflicts with any other source, it wins.
+
+**Limitation:** Colombo-area only. The project is no longer actively maintained, so stop relocations after 2018 may not be reflected.
+
+**File:** `data/collector/github_colombo.json`
+
+### 2. NTC Official Documents
+
+Three separate NTC publications provide different pieces of official data:
+
+#### Fare PDF (ntc.gov.lk)
+
+**What it provides:** Route numbers paired with fare amounts in LKR for 353 inter-provincial routes.
+
+**Reliability:** High for route numbers and fares. The NTC is the authoritative source for which routes exist. However, the PDF uses Sinhala text with broken Unicode encoding (cid-encoded fonts), making automated name extraction unreliable.
+
+**File:** `data/collector/ntc_fares.pdf`
+
+#### Permits PDF
+
+**What it provides:** 461 routes with English-language origin/destination names. Example: route 138 listed as "Colombo - Kandy."
+
+**Reliability:** High for English route names. The permit document is an official NTC publication. However, some route numbers use a different format (e.g., "002-001" instead of "2") and require normalization.
+
+**File:** `data/collector/ntc_permits.pdf`, parsed output in `ntc_permits_parsed.json`
+
+#### Timetable PDFs
+
+**What it provides:** Detailed departure times with stop-by-stop arrival offsets for a small number of high-traffic routes (currently routes 17 and 87).
+
+**Reliability:** Moderate. The times are official but may be outdated (some timetables date from 2016). Actual bus operations frequently deviate from published schedules.
+
+### 3. OSM Community (Overpass API)
+
+**What it provides:** 4,272 bus stops with GPS coordinates and name tags. 53 route relations with full road geometry (46,000+ coordinate points).
+
+**Reliability:** Moderate. OSM data quality depends on the mapper. Urban areas (Colombo, Kandy, Galle) are well-mapped by active contributors. Rural areas have sparser coverage. Some route relations are incomplete -- they may cover only part of the route, or the geometry may follow a path that no bus actually takes.
+
+**File:** `data/collector/osm_stops.json`, `osm_routes.json`, `osm_polylines.json`
+
+### 4. routemaster.lk (Scraped)
+
+**What it provides:** 112 routes with GPS waypoints tracing the route path.
+
+**Reliability:** Low-moderate. The data is user-contributed and may not be professionally surveyed. Waypoint density varies -- some routes have detailed paths, others have sparse points that produce jagged polylines. The site may not be actively maintained.
+
+**File:** `data/collector/routemaster_routes.json`
+
+### 5. Generated (from frequency data)
+
+**What it provides:** Synthetic timetables for approximately 40 routes where frequency data is known but no official timetable exists.
+
+**Reliability:** Low. If a route runs "every 15 minutes from 05:00 to 22:00," the generator creates timetable entries at 05:00, 05:15, 05:30, etc. This matches the expected pattern but not actual departure times.
+
+**File:** `data/timetables.json`
+
+## Collection Scripts
+
+All collection scripts live in `data/collector/`. They are Python scripts that fetch, parse, and transform data from their respective sources.
+
+### collect.py -- Main Collector
+
+The primary collection script that fetches data from NTC, OSM, and GitHub:
+
+```
+python3 data/collector/collect.py
+```
+
+**What it does:**
+
+1. Downloads the NTC fare PDF from ntc.gov.lk (if not already cached)
+2. Parses fare tables using pdfplumber to extract route numbers and fares
+3. Queries OSM Overpass API for all bus stops (`highway=bus_stop`) in Sri Lanka
+4. Queries OSM Overpass API for bus route relations
+5. Parses the GitHub Bus-Route-Finder SQL dump for Colombo stops
+6. Merges all sources into `routes_comprehensive.json`
+
+**Output:** `data/routes_comprehensive.json` -- the initial combined dataset.
+
+### parse_permits.py -- NTC Permits Parser
+
+Extracts route data from the NTC inter-provincial permits PDF:
+
+```
+python3 data/collector/parse_permits.py
+```
+
+**What it does:**
+
+1. Opens `ntc_permits.pdf` with pdfplumber
+2. Parses tabular data to extract route numbers, origins, and destinations
+3. Normalizes route number formats (e.g., "002-001" becomes "2")
+4. Outputs structured JSON with English route names
+
+**Output:** `data/collector/ntc_permits_parsed.json` -- 461 routes with English names.
+
+### extract_osm_polylines.py -- OSM Road Geometry
+
+Extracts actual road geometry from OSM route relations:
+
+```
+python3 data/collector/extract_osm_polylines.py
+```
+
+**What it does:**
+
+1. Reads OSM route relations from `osm_routes.json`
+2. Extracts the ordered way members and their node coordinates
+3. Assembles continuous LineString geometries for each route
+4. Handles gaps where route relations have missing ways
+
+**Output:** `data/collector/osm_polylines.json` -- road geometry for 53 routes.
+
+### scrape_routemaster.py -- routemaster.lk Scraper
+
+Extracts GPS waypoints from routemaster.lk:
+
+```
+python3 data/collector/scrape_routemaster.py
+```
+
+**What it does:**
+
+1. Fetches route listing pages from routemaster.lk
+2. Parses individual route pages for GPS waypoint data
+3. Extracts coordinate sequences that trace each route path
+
+**Output:** `data/collector/routemaster_routes.json` -- 112 routes with GPS waypoints.
+
+### collect_timetables.py -- Timetable Parser and Generator
+
+Parses NTC timetable PDFs and generates synthetic timetables from frequency data:
+
+```
+python3 data/collector/collect_timetables.py
+```
+
+**What it does:**
+
+1. Parses available NTC timetable PDFs (routes 17, 87) for real departure times
+2. For routes with known frequency but no timetable, generates synthetic entries
+3. Combines real and generated timetables into a single dataset
+
+**Output:** `data/timetables.json` -- 50 timetable entries.
+
+## Merging Strategy
+
+The `merge_all.py` script combines all collected data into a single `routes.json` file, resolving conflicts using a priority-based system.
+
+### Priority Order
+
+When multiple sources provide different values for the same field of the same route, the higher-priority source wins:
+
+```
+1. Manual corrections (KNOWN_ROUTES dict)    -- highest
+2. GitHub GPS-verified data
+3. NTC permits (English names)
+4. OSM data
+5. routemaster.lk                            -- lowest
+```
+
+### How Merging Works
+
+```
+python3 data/collector/merge_all.py
+```
+
+1. **Load base:** Start with `routes_comprehensive.json` (output of `collect.py`).
+2. **Enrich from permits:** For each route in the permits data, if the route exists in the base, update its English name. If it does not exist, add it as a new route.
+3. **Add OSM polylines:** For routes that have OSM road geometry, replace estimated polylines with the OSM version.
+4. **Merge routemaster:** Add GPS waypoints from routemaster.lk for routes that lack polyline data.
+5. **Apply corrections:** Overlay the `KNOWN_ROUTES` dictionary from `fix_and_enrich.py`, which contains manually verified names and data.
+
+### Additive Enrichment
+
+Merging is additive when possible. If source A has a route name but no fare, and source B has a fare but no name, the merge keeps both:
+
+```python
+# Pseudocode from merge_all.py
+if existing_route.get('fare_lkr') is None and new_source.get('fare_lkr'):
+    existing_route['fare_lkr'] = new_source['fare_lkr']
+```
+
+This maximizes data completeness. A route might get its name from NTC permits, its fare from the NTC fare PDF, its stops from GitHub, and its polyline from OSM.
+
+### Deduplication
+
+Routes are deduplicated by their `id` (route number). The `normalize_route_no()` function handles format differences:
+
+- Leading zeros: `"001"` becomes `"1"`
+- Permit format: `"002-001"` becomes `"2"` (first part only)
+- Mixed formats: consistent normalization across all sources
+
+## Data Fixes
+
+### fix_and_enrich.py -- Correcting Errors
+
+Automated parsing sometimes produces wrong route-name mappings. The `fix_and_enrich.py` script contains a `KNOWN_ROUTES` dictionary with 52 manually verified routes:
+
+```python
+KNOWN_ROUTES = {
+    "1": {
+        "name_en": "Colombo - Chilaw",
+        "name_si": "කොළඹ - හලාවත",
+        "name_ta": "கொழும்பு - சிலாபம்",
+    },
+    "138": {
+        "name_en": "Colombo - Kandy",
+        "name_si": "කොළඹ - මහනුවර",
+        "name_ta": "கொழும்பு - கண்டி",
+    },
+    # ... 50 more routes
+}
+```
+
+**Common fixes:**
+
+- Route 138 was wrongly mapped to "Colombo - Kurunegala" by automated parsing. The correct name is "Colombo - Kandy."
+- Several routes had Sinhala names with broken Unicode characters from the NTC PDF's cid-encoded fonts.
+- Some routes had origin and destination swapped.
+
+### GPS-Verified Stop Replacement
+
+When a stop has both a Nominatim-geocoded location and a GPS-verified location from the Bus-Route-Finder project, the GPS coordinates replace the geocoded ones. Nominatim geocoding can match the wrong location entirely (e.g., matching "Kandy" to a street named "Kandy Road" in Colombo instead of the city of Kandy).
+
+```python
+def load_github_stops():
+    """Load GPS-verified stops from Bus-Route-Finder data."""
+    # These coordinates come from someone physically standing at each stop
+    # They override any Nominatim-geocoded coordinates
+```
+
+## Translation
+
+### translate_routes.py -- Trilingual Names
+
+Mansariya supports three languages: English, Sinhala, and Tamil. The `translate_routes.py` script uses a comprehensive city name mapping to add Sinhala and Tamil names to routes that only have English names.
+
+**Translation source:** `data/collector/city_translations.json` -- a hand-built mapping of 210+ Sri Lankan place names across all three languages.
+
+**How it works:**
+
+1. Parse the English route name to extract origin and destination city names
+2. Look up each city name in the translation map
+3. Construct Sinhala and Tamil route names by joining translated city names
+
+**Example:**
+
+```
+English:  "Colombo - Kandy"
+Sinhala:  "කොළඹ - මහනුවර"
+Tamil:    "கொழும்பு - கண்டி"
+```
+
+**Coverage:** 73.4% of routes have trilingual names after translation. The remaining 26.6% include routes with city names not yet in the translation map, or routes with non-standard naming formats.
+
+### Sinhala-to-English Mapping
+
+The `fix_and_enrich.py` script also contains a `SINHALA_TO_ENGLISH` dictionary mapping Sinhala city names to their English equivalents. This is used in the reverse direction -- when a route has a Sinhala name from the NTC PDF but no English name, the mapping provides the English version.
+
+The dictionary covers major cities (Colombo, Kandy, Galle, Matara, Jaffna, etc.) as well as key towns and junctions (Kadawatha, Kiribathgoda, Peradeniya, Dambulla, etc.) with 80+ entries.
+
+## Stop Matching
+
+### match_stops_to_routes.py -- Associating Stops with Routes
+
+OSM provides 4,272 bus stops with GPS coordinates, but does not always indicate which routes serve which stops. The `match_stops_to_routes.py` script associates stops with routes using spatial proximity.
+
+```
+python3 data/collector/match_stops_to_routes.py
+```
+
+**Algorithm:**
+
+1. For each route with a polyline, find all OSM stops within 150 meters of the route path
+2. Order matched stops by their position along the route (distance from start)
+3. Assign stop IDs in format `"{route_id}_s{order}"`
+4. Record the distance from route start for each matched stop
+
+**Results:** 660 stops matched to 45 routes.
+
+**Why 150 meters?** Bus stops in Sri Lanka are often set back from the main road, located in bus bays, or positioned on side roads near intersections. A 150-meter threshold captures these cases while avoiding false matches with stops on parallel roads.
+
+**Limitations:**
+
+- Only works for routes with polyline data (45 routes out of 685)
+- May miss stops that are farther than 150m from the route path
+- May incorrectly match stops on nearby but different roads
+
+## Bootstrap Process
+
+The final step loads the processed data into PostgreSQL. This is a Go program, not a Python script, because it interacts with the same database and geocoding infrastructure as the production backend.
+
+```
+cd backend && go run ./cmd/bootstrap
+```
+
+### Pre-Flight Checks
+
+Before inserting any data, the bootstrap process verifies that required services are reachable:
+
+1. **PostgreSQL:** Attempts a connection and checks that the `routes` table exists (migrations must have been run)
+2. **Nominatim:** Makes a test geocoding request to verify the self-hosted Nominatim instance is responding
+
+If either check fails, the bootstrap exits with a clear error message rather than partially loading data.
+
+### Loading Steps
+
+1. **Read routes.json:** Parse the merged route data file
+2. **Geocode stops:** For stops that have names but no GPS coordinates, send the name to Nominatim for geocoding. Stops with existing coordinates (from OSM, GitHub, or routemaster) skip this step.
+3. **Build polylines:** For routes with origin/destination coordinates but no polyline, request a driving route from OSRM to generate a road-snapped LineString geometry. Routes with existing polylines (from OSM or routemaster) skip this step.
+4. **Insert routes:** Upsert each route into the `routes` table with all available metadata
+5. **Insert stops:** Upsert each stop into the `stops` table with coordinates and source
+6. **Insert route_stops:** Create the junction table entries linking stops to routes in order
+
+### Geocoding Considerations
+
+Nominatim geocoding is imprecise. A search for "Kandy" might return the city center, a specific building, or a completely wrong location. The bootstrap process mitigates this by:
+
+- Preferring GPS coordinates from OSM or GitHub over geocoded coordinates
+- Setting `source = 'geocoded'` and `confidence = 0.0` for Nominatim results
+- Flagging routes where geocoding produced suspicious results (e.g., origin and destination less than 1km apart for an inter-city route)
+
+### OSRM Road-Snapping
+
+For routes without pre-existing polylines, OSRM (Open Source Routing Machine) generates driving directions between the origin and destination stops. The resulting geometry follows actual roads, producing a plausible route shape.
+
+**Limitations of OSRM-generated polylines:**
+
+- OSRM computes the shortest or fastest driving route, which may not match the actual bus route (buses may take longer routes to serve intermediate towns)
+- The `polyline_confidence` is set to `0.0` for these estimated polylines
+- As crowdsource GPS traces are collected, these estimated polylines will be replaced with verified ones
+
+## Pipeline Summary
+
+The complete data collection pipeline, from raw sources to a queryable PostgreSQL database:
+
+```
+Source PDFs / APIs / websites
+        |
+        v
+[collect.py]           Fetch + cache raw data
+[parse_permits.py]     Extract NTC permit data
+[extract_osm_polylines.py]   Get road geometry from OSM
+[scrape_routemaster.py]      Pull GPS waypoints
+[collect_timetables.py]      Parse + generate timetables
+        |
+        v
+[merge_all.py]         Combine all sources with priority
+        |
+        v
+[fix_and_enrich.py]    Correct errors, add GPS-verified stops
+        |
+        v
+[translate_routes.py]  Add Sinhala + Tamil names
+        |
+        v
+[match_stops_to_routes.py]   Associate OSM stops with routes
+        |
+        v
+routes.json            Final merged dataset
+        |
+        v
+[go run ./cmd/bootstrap]     Load into PostgreSQL
+        |
+        v
+PostgreSQL + PostGIS   Queryable route database
+```
+
+Each step is idempotent -- running it again produces the same output. This allows the entire pipeline to be re-run when new source data becomes available without manual intervention.
+
+## Extending the Pipeline
+
+To add a new data source:
+
+1. Write a collection script in `data/collector/` that outputs JSON
+2. Add a merge step in `merge_all.py` with appropriate priority
+3. Add any necessary name translations to `city_translations.json`
+4. Re-run the full pipeline: collect, merge, fix, translate, match, bootstrap
+
+The pipeline is designed to accommodate new sources without modifying existing scripts. Each source is processed independently, and the merge step handles conflict resolution.

@@ -1,0 +1,322 @@
+---
+title: Bus Position Fusion
+description: How multiple phones become one bus position
+---
+
+## The Problem
+
+Three passengers on the same bus all have Mansariya open and contributing GPS. Their phones report slightly different coordinates:
+
+| Passenger | Latitude | Longitude | Accuracy | Speed |
+|---|---|---|---|---|
+| Phone A | 6.92708 | 79.86124 | 8m | 34 km/h |
+| Phone B | 6.92715 | 79.86130 | 22m | 36 km/h |
+| Phone C | 6.92701 | 79.86119 | 15m | 33 km/h |
+
+These three points are within 15 meters of each other and moving at nearly the same speed. They are clearly on the same bus. But if the app showed three separate bus dots to viewers, it would be confusing and inaccurate.
+
+The solution is **position fusion**: clustering nearby, co-moving devices into a single "virtual vehicle" with one fused position.
+
+## Solution: DBSCAN Clustering
+
+Mansariya uses DBSCAN (Density-Based Spatial Clustering of Applications with Noise) to group contributing devices into clusters. Each cluster represents one bus.
+
+### Why DBSCAN
+
+Several properties make DBSCAN ideal for this problem:
+
+- **No need to specify the number of clusters** -- we do not know how many buses are on a route at any given time
+- **Handles noise** -- a phone that is not actually on a bus (someone walking near a bus stop) will be identified as noise rather than forcing it into a cluster
+- **Arbitrary cluster shapes** -- not that buses have unusual shapes, but DBSCAN does not assume spherical clusters like k-means would
+- **Fast for small inputs** -- typical input is fewer than 100 devices per route, so the O(n^2) neighbor search is not a bottleneck
+
+### DBSCAN Parameters
+
+The algorithm is configured with three parameters, tuned for the bus tracking use case:
+
+```
+epsKM       = 0.05   (50 meters spatial radius)
+speedEpsKMH = 5.0    (5 km/h speed tolerance)
+minPts      = 1      (minimum 1 point per cluster)
+```
+
+**Spatial radius (50m):** Two phones must be within 50 meters of each other to be considered neighbors. This is generous enough to account for GPS inaccuracy (phones on the same bus can report positions 10-30m apart) but tight enough that two buses stopped at adjacent stops 100m apart will not be merged.
+
+**Speed tolerance (5 km/h):** Two phones must be traveling at speeds within 5 km/h of each other to be neighbors. This is the key parameter that separates buses traveling at different speeds on the same road. A bus doing 40 km/h will not cluster with one doing 15 km/h, even if they are momentarily 50m apart.
+
+**Minimum points (1):** Even a single phone counts as a valid cluster. In many cases, especially on less popular routes, a bus may have only one contributor. Setting minPts to 1 ensures that solo riders still produce a bus position, just with lower confidence.
+
+### How DBSCAN Works Step by Step
+
+The algorithm processes a list of points (one per active device on a route):
+
+**1. Initialize.** Every point starts as "unvisited". A cluster counter starts at zero.
+
+**2. Pick an unvisited point.** For each unvisited point P:
+
+- Find all neighbors of P (points within 50m AND within 5 km/h of P's speed)
+- If the number of neighbors is less than `minPts`, mark P as noise and move on
+- Otherwise, start a new cluster and assign P to it
+
+**3. Expand the cluster.** For each neighbor N of P:
+
+- If N was previously marked as noise, reassign it to the current cluster (border point)
+- If N is unvisited, assign it to the current cluster
+- Find N's own neighbors; if N has enough neighbors, add them to the expansion queue
+
+**4. Repeat** until all points are visited.
+
+**5. Handle noise.** In standard DBSCAN, noise points are discarded. But for bus tracking, a "noise" point is just a solo rider -- still a valid bus position. Mansariya assigns each noise point its own single-member cluster.
+
+Here is the core implementation:
+
+```go
+func DBSCAN(points []DBSCANPoint, epsKM float64, speedEpsKMH float64, minPts int) []Cluster {
+    labels := make([]int, n)   // 0 = unvisited, -1 = noise, >0 = cluster ID
+    clusterID := 0
+
+    for i := 0; i < n; i++ {
+        if labels[i] != 0 { continue }
+        neighbors := regionQuery(points, i, epsKM, speedEpsKMH)
+        if len(neighbors) < minPts {
+            labels[i] = -1 // noise
+            continue
+        }
+        clusterID++
+        labels[i] = clusterID
+        // ... expand cluster using BFS queue ...
+    }
+
+    // Noise points become single-device clusters
+    for i, label := range labels {
+        if label == -1 {
+            clusterID++
+            clusters[clusterID] = []DBSCANPoint{points[i]}
+        }
+    }
+}
+```
+
+### The Neighbor Check
+
+Two points are neighbors if **both** conditions are true:
+
+1. **Haversine distance** between them is less than or equal to 0.05 km (50 meters)
+2. **Absolute speed difference** is less than or equal to 5.0 km/h
+
+```go
+func regionQuery(points []DBSCANPoint, idx int, epsKM, speedEpsKMH float64) []int {
+    p := points[idx]
+    for i, q := range points {
+        dist := Haversine(p.Lat, p.Lng, q.Lat, q.Lng)
+        speedDiff := abs(p.Speed - q.Speed)
+        if dist <= epsKM && speedDiff <= speedEpsKMH {
+            neighbors = append(neighbors, i)
+        }
+    }
+    return neighbors
+}
+```
+
+The speed check is what makes this work for bus tracking. Without it, two buses stopped at adjacent traffic lights would be merged into one. With it, even if they are 30m apart, a bus at 0 km/h and a bus at 25 km/h stay separate.
+
+## Position Fusion
+
+Once DBSCAN has grouped devices into clusters, each cluster needs to produce a single fused position. Mansariya uses **weighted averaging** where the weight is the inverse of GPS accuracy.
+
+### Why Weight by Accuracy
+
+Not all phones are created equal. A flagship phone with a dual-frequency GPS chip might report 5m accuracy, while a budget phone might report 40m. The flagship phone's position is much more trustworthy, so it should contribute more to the fused result.
+
+The weight formula is:
+
+```
+weight = 1.0 / max(accuracy, 1.0)
+```
+
+The `max(accuracy, 1.0)` prevents division by zero if a phone reports 0m accuracy (which some do, incorrectly).
+
+### Fusion Calculation
+
+For a cluster of N points:
+
+```
+fusedLat   = sum(lat_i * weight_i) / sum(weight_i)
+fusedLng   = sum(lng_i * weight_i) / sum(weight_i)
+fusedSpeed = sum(speed_i * weight_i) / sum(weight_i)
+```
+
+Using the example from earlier:
+
+| Phone | Lat | Lng | Accuracy | Weight (1/acc) |
+|---|---|---|---|---|
+| A | 6.92708 | 79.86124 | 8m | 0.125 |
+| B | 6.92715 | 79.86130 | 22m | 0.0455 |
+| C | 6.92701 | 79.86119 | 15m | 0.0667 |
+
+Total weight = 0.125 + 0.0455 + 0.0667 = 0.2372
+
+Fused lat = (6.92708 * 0.125 + 6.92715 * 0.0455 + 6.92701 * 0.0667) / 0.2372 = **6.92707**
+
+Phone A's position dominates because it has 3x better accuracy than Phone B.
+
+### Bearing Fusion
+
+Bearing (compass heading) is not averaged across phones. Instead, the bearing from the **most recently updated device** in the cluster is used. This is because bearing requires motion to be accurate -- a phone that just submitted a fix is more likely to have a fresh bearing reading than one from a few seconds ago.
+
+### Speed Fusion
+
+Speed is weighted-averaged like position. This produces a stable speed estimate that smooths out per-device noise.
+
+## Virtual Vehicle ID
+
+Each cluster produces a "virtual vehicle" -- a computed bus entity that does not correspond to any physical identifier. The virtual vehicle needs a stable ID so that the frontend can track its movement over time without it "jumping" to a new identity.
+
+### How the ID is Generated
+
+```go
+func virtualID(routeID string, deviceIDs []string) string {
+    sort.Strings(deviceIDs)
+    h := sha256.New()
+    h.Write([]byte(routeID))
+    for _, id := range deviceIDs {
+        h.Write([]byte(id))
+    }
+    return fmt.Sprintf("v_%s_%x", routeID, h.Sum(nil)[:4])
+}
+```
+
+The ID is a SHA256 hash of the route ID concatenated with the **sorted** device IDs. Sorting ensures that the same set of devices always produces the same hash, regardless of the order they were processed.
+
+Example: `v_138_a3f8c1d9`
+
+### Stability Across Updates
+
+Because the ID is deterministic based on the contributing devices, a bus with the same three phones will keep the same virtual ID across clustering cycles. This allows the frontend to animate the bus dot smoothly instead of creating a new dot every 3 seconds.
+
+### When the ID Changes
+
+The virtual ID changes when the set of contributing devices changes -- for example, when a passenger exits the bus. In practice, this is handled gracefully because:
+
+- The new virtual ID will have nearly the same position as the old one
+- The frontend matches by proximity and route, not just by ID
+- The old ID expires from Redis after 5 minutes of inactivity
+
+## Confidence Levels
+
+Each virtual vehicle carries a confidence level derived from its contributor count:
+
+| Contributors | Confidence | Meaning |
+|---|---|---|
+| 1 | `low` | Single phone. Position may drift, phone could be near the route but not on a bus |
+| 2 | `good` | Two independent phones agree on position. Much more reliable |
+| 3+ | `verified` | Multiple phones confirm. Highly reliable position |
+
+```go
+confidence := model.ConfidenceLow
+if n >= 3 {
+    confidence = model.ConfidenceVerified
+} else if n >= 2 {
+    confidence = model.ConfidenceGood
+}
+```
+
+Confidence directly affects the user experience. See [Confidence System](/docs/concepts/confidence-system) for how these levels map to UI elements, ETA reliability, and sort order.
+
+## Cluster Lifecycle
+
+### Reclustering Every 3 Seconds
+
+The processor runs a clustering loop on a 3-second ticker:
+
+```go
+func (p *Processor) clusterLoop(ctx context.Context) {
+    ticker := time.NewTicker(3 * time.Second)
+    for {
+        select {
+        case <-ctx.Done(): return
+        case <-ticker.C: p.clusterAndBroadcast(ctx)
+        }
+    }
+}
+```
+
+Every 3 seconds, all active device states are snapshot, clustered, and the resulting vehicle positions are broadcast. This ensures that bus positions update frequently enough to feel "live" but not so frequently that it wastes resources.
+
+### Stale Device Removal
+
+A background cleanup loop runs every 30 seconds. Any device that has not sent an update in 5 minutes is removed from the active devices map:
+
+```go
+cutoff := time.Now().Add(-5 * time.Minute)
+for hash, d := range p.devices {
+    if d.LastSeen.Before(cutoff) {
+        delete(p.devices, hash)
+    }
+}
+```
+
+Five minutes is chosen because:
+- It is long enough to survive brief network outages or tunnels
+- It is short enough that a bus does not show phantom passengers after everyone has exited
+- The Redis position hash also uses a 5-minute TTL, so both systems stay in sync
+
+### Bus Appears and Disappears
+
+A bus first appears when a contributor on that bus sends their first batch that passes route inference. It disappears when all contributors on that bus go stale (5 minutes without updates). Between those events, the bus position updates every 3 seconds.
+
+## Edge Cases
+
+### Two Buses Close Together
+
+The most common edge case: two buses on the same route are stopped at the same traffic light, 30 meters apart. Without the speed check, DBSCAN would merge them.
+
+In practice, these buses are distinguished by **speed differences** at the time of the last update. Even if both are stopped (0 km/h), they will form separate single-device clusters because their contributors are in different physical locations. When one bus starts moving, the speed divergence (0 km/h vs 15 km/h) immediately separates them even if they are still within 50m.
+
+### Bus at a Terminal
+
+A bus sitting at a terminal for 15 minutes has stationary contributors. Other passengers walking past the bus stop are also nearly stationary. The DBSCAN spatial radius of 50m is tight enough that pedestrians 60+ meters away are excluded, but passengers in a queue right next to the bus could be included. Since minPts is 1, this worst case just slightly shifts the fused position.
+
+### Contributor Switches Buses
+
+If a passenger gets off one bus and onto another at the same stop, their device_hash will appear with a new route inference result on the next batch. The old bus loses a contributor; the new bus gains one. Both virtual IDs change, but positions remain stable because the majority of contributors on each bus did not change.
+
+### Phone in a Building Near the Route
+
+A phone sitting in an office building 20m from a bus route might report coordinates that overlap with the road. Speed is the primary defense: the phone will report 0 km/h while buses report 30+ km/h. DBSCAN's speed tolerance prevents this phone from being clustered with a moving bus. If the phone is near a bus stop where buses are also stopped, route inference will likely fail because the phone's trace does not follow the route shape.
+
+### Single Contributor with Bad GPS
+
+A solo rider with a budget phone reporting 40m accuracy and erratic coordinates will produce a "low" confidence virtual vehicle. The position may jump between updates. The frontend uses confidence level to display appropriate UI cues (muted colors, uncertainty indicators) so passengers know not to rely heavily on this position.
+
+## Data Flow Summary
+
+```
+N phones on same bus
+  |
+  v
+N separate device states (lat, lng, speed, accuracy)
+  |
+  v
+Group by route_id
+  |
+  v
+DBSCAN (eps=50m, speedEps=5km/h, minPts=1)
+  |
+  v
+Cluster of N points
+  |
+  v
+Weighted average by 1/accuracy
+  |
+  v
+One Vehicle{virtualID, lat, lng, speed, bearing, confidence}
+  |
+  v
+Redis Pub/Sub + Hash (5-min TTL)
+  |
+  v
+WebSocket broadcast to all watchers
+```
+
+The entire process -- from N raw device states to one broadcast vehicle position -- happens every 3 seconds. For typical input sizes (fewer than 100 devices per route), it completes in under 1 millisecond.

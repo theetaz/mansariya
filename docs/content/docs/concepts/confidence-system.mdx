@@ -1,0 +1,293 @@
+---
+title: Confidence System
+description: How Mansariya knows how reliable a bus position is
+---
+
+## Why Confidence Matters
+
+Not all bus positions are equally trustworthy. A position derived from a single phone with 40m GPS accuracy on a budget device is fundamentally less reliable than a position confirmed by three independent phones with good GPS. Passengers need to understand this difference so they can make informed decisions about when to head to the bus stop.
+
+Mansariya makes reliability visible throughout the app. Every bus position, route polyline, and stop carries a confidence indicator that tells the user how much they should trust the data.
+
+## Bus Position Confidence
+
+### Three Confidence Levels
+
+Bus position confidence is determined by the number of contributing devices in the DBSCAN cluster that produced the virtual vehicle. The mapping is straightforward:
+
+| Confidence | Contributor Count | Constant | Description |
+|---|---|---|---|
+| **Low** | 1 | `ConfidenceLow` | Single phone reporting. Position may drift |
+| **Good** | 2 | `ConfidenceGood` | Two independent phones agree |
+| **Verified** | 3+ | `ConfidenceVerified` | Multiple phones confirm. Highly reliable |
+
+These are defined as string constants in the vehicle model:
+
+```go
+const (
+    ConfidenceLow      = "low"      // 1 contributor
+    ConfidenceGood     = "good"     // 2 contributors
+    ConfidenceVerified = "verified" // 3+ contributors
+)
+```
+
+### How Confidence Is Assigned
+
+During the clustering phase, after DBSCAN groups devices and position fusion produces a single coordinate, the cluster size determines confidence:
+
+```go
+confidence := model.ConfidenceLow
+if n >= 3 {
+    confidence = model.ConfidenceVerified
+} else if n >= 2 {
+    confidence = model.ConfidenceGood
+}
+```
+
+This happens every 3 seconds when the processor re-clusters all active devices. Confidence can change between updates -- if a third passenger starts contributing, the bus goes from "good" to "verified". If two passengers exit, it drops from "verified" to "low".
+
+### Why These Thresholds
+
+**1 phone = Low.** A single phone has no independent verification. GPS can drift 20-50m, the phone could be in a building near the route, or the device could have a malfunctioning GPS chip. The position is better than nothing, but users should treat it with caution.
+
+**2 phones = Good.** When two independent devices -- with different GPS chips, different positions in the bus, and different accuracy characteristics -- report locations within 50m of each other and at similar speeds, the probability of both being wrong in the same way is low. Two sources agreeing is a strong signal.
+
+**3+ phones = Verified.** Three or more independent confirmations create a consensus. At this point, the weighted average position is highly accurate (typically within 5-10m of the bus's true location), and it is extremely unlikely that all devices are producing a false positive.
+
+### Confidence in the API Response
+
+When the frontend requests bus positions (via WebSocket or REST), each vehicle includes its confidence level:
+
+```json
+{
+  "virtual_id": "v_138_a3f8c1d9",
+  "route_id": "138",
+  "lat": 6.92707,
+  "lng": 79.86123,
+  "speed_kmh": 34.2,
+  "bearing": 215.0,
+  "contributor_count": 3,
+  "confidence": "verified",
+  "last_update": "2024-03-27T10:15:30Z"
+}
+```
+
+Both `confidence` (the level) and `contributor_count` (the raw number) are sent. The frontend uses the level for display logic but could use the count for more granular decisions.
+
+## How Confidence Affects the User Experience
+
+### Color Coding
+
+The design system maps confidence levels to the application's color palette:
+
+| Confidence | Color | Token | Visual Treatment |
+|---|---|---|---|
+| Low | Amber | `Alert Amber (#BA7517)` | Muted bus dot, dashed outline |
+| Good | Green | `Mansariya Green (#1D9E75)` | Solid bus dot, normal style |
+| Verified | Green + badge | `Mansariya Green (#1D9E75)` | Solid bus dot with verification indicator |
+
+Low-confidence buses are visually distinct so passengers can immediately tell which positions are reliable and which are approximate.
+
+### ETA Reliability
+
+The ETA system uses confidence as a signal when presenting arrival estimates:
+
+- **Verified buses** show a precise ETA: "Arriving in 4 min"
+- **Good-confidence buses** show an ETA with a range: "Arriving in 4-6 min"
+- **Low-confidence buses** show a qualified ETA: "Approximately 5 min (unverified)"
+
+The actual ETA calculation uses the same algorithm regardless of confidence. The difference is in **how the result is presented** -- lower confidence means wider uncertainty margins in the display.
+
+### Sort Order
+
+When multiple buses are approaching a stop, they are sorted by a combination of distance and confidence. A verified bus 2 km away may rank above a low-confidence bus 1.5 km away because the verified position is more trustworthy for planning.
+
+### Bus Cards
+
+In the route detail view, each bus appears as a card showing:
+
+- Current position on the route (which stops it is between)
+- Speed
+- Contributor count (e.g., "3 contributors")
+- Confidence badge
+
+Users can tap a bus card to track that specific bus on the map.
+
+## Polyline Confidence
+
+Route polyline confidence is a **separate concept** from bus position confidence. It measures how accurate the route's geographic shape is -- the line drawn on the map showing where the bus goes.
+
+### The Polyline Confidence Scale
+
+Polyline confidence is a float from 0.0 to 1.0 stored as `polyline_confidence` on the `routes` table:
+
+```sql
+polyline_confidence REAL DEFAULT 0.0  -- 0 = estimated, 1 = crowdsource-verified
+```
+
+| Score | Source | Meaning |
+|---|---|---|
+| **0.0** | Nominatim geocoding | Stop names were geocoded to coordinates and connected with straight lines. The polyline does not follow roads. It shows approximately where the route goes but not the exact path |
+| **0.5** | OSRM road-snapping | Stop coordinates were fed to OSRM's routing engine, which calculated the road-following path between each pair of stops. The polyline follows actual roads but may choose wrong roads at ambiguous points |
+| **1.0** | Crowdsource verification | Enough GPS traces from actual bus trips have confirmed the exact roads this route takes. The polyline matches reality |
+
+### How Polyline Confidence Improves
+
+When Mansariya is first deployed, all route polylines start at 0.0 or 0.5 (depending on whether OSRM snapping was successful during data bootstrap). Over time, as contributors ride these routes, their GPS traces provide ground truth.
+
+The pipeline compares incoming traces against the stored polyline. When enough traces consistently follow the same road segments, the polyline confidence is upgraded. This is a gradual, automatic process.
+
+### Impact on Route Display
+
+The map renders polylines differently based on confidence:
+
+- **0.0 (estimated):** Dashed line, lower opacity. A label may indicate "Approximate route"
+- **0.5 (road-snapped):** Solid line, normal opacity. Shown as a reliable path
+- **1.0 (verified):** Solid line, full opacity. No caveats
+
+### Route Model
+
+The `Route` model carries polyline confidence alongside the geometry:
+
+```go
+type Route struct {
+    ID                 string         `json:"id"`
+    Polyline           orb.LineString `json:"polyline,omitempty"`
+    PolylineConfidence float64        `json:"polyline_confidence"`
+    // ... other fields
+}
+```
+
+## Stop Confidence
+
+Bus stops also carry a confidence measure, but it works differently from both bus position confidence and polyline confidence.
+
+### Observation Count
+
+Each stop has an `observation_count` field that tracks how many times the system has observed bus dwell behavior at that location:
+
+```go
+type Stop struct {
+    ID               string    `json:"id"`
+    Confidence       float64   `json:"confidence"`
+    ObservationCount int       `json:"observation_count"`
+    // ... other fields
+}
+```
+
+```sql
+confidence REAL DEFAULT 0.0,
+observation_count INTEGER DEFAULT 0,
+```
+
+### Stop Sources and Initial Confidence
+
+| Source | Initial Confidence | Description |
+|---|---|---|
+| `geocoded` | 0.0 | Stop location derived from geocoding the stop name. Could be off by 50-200m |
+| `osm` | 0.5 | Location imported from OpenStreetMap. Usually accurate |
+| `manual` | 0.8 | Manually verified by a human |
+| `crowdsourced` | Varies | Discovered by the system from dwell patterns |
+
+### Discovered Stops
+
+The system can **discover new stops** that are not in the original dataset. When multiple buses on a route consistently slow down and stop at the same location, the system creates a `DiscoveredStop`:
+
+```go
+type DiscoveredStop struct {
+    Location         orb.Point `json:"location"`
+    ObservationCount int       `json:"observation_count"`
+    AvgDwellSeconds  float64   `json:"avg_dwell_seconds"`
+    NearestRouteIDs  []string  `json:"nearest_route_ids"`
+    Status           string    `json:"status"`
+    PromotedToStopID string    `json:"promoted_to_stop_id,omitempty"`
+}
+```
+
+A discovered stop starts with a `Status` of pending. Once it accumulates enough observations and is verified, it can be promoted to a full stop with its own ID.
+
+### How Observation Count Grows
+
+Every time a bus is observed dwelling (speed drops near zero) within a buffer distance of a known stop, that stop's observation count increments. Higher observation counts increase confidence that the stop location is accurate and that it is an active stop.
+
+## Route Inference Confidence
+
+When the pipeline determines which route a GPS trace belongs to, it produces a confidence score from 0.0 to 1.0. This is yet another confidence concept -- how sure the system is that it correctly identified the route.
+
+### Scoring Components
+
+The inference engine combines four weighted factors:
+
+| Factor | Weight | What It Measures |
+|---|---|---|
+| Coverage | 50% | What fraction of the GPS trace falls within 30m of the route polyline |
+| Hausdorff distance | 25% | Maximum deviation of the trace from the route (inverted -- lower distance = higher score) |
+| Bearing consistency | 15% | Does the trace direction match the route direction (forward or return trip) |
+| Speed consistency | 10% | Is the speed bus-like (10-70 km/h) |
+
+```go
+score := coverage*0.5 +
+    (1-clamp(hausdorff/maxHausdorffDeg, 0, 1))*0.25 +
+    bearingScore*0.15 +
+    speedScore*0.1
+```
+
+### Minimum Threshold
+
+A trace must score at least **0.6** (60%) to be assigned to a route. Below this threshold, the inference is considered too uncertain and the trace is discarded. This prevents misassignment on roads where multiple routes overlap.
+
+```go
+const confidenceThresh = 0.6
+
+if bestScore < confidenceThresh || bestRouteID == "" {
+    return nil
+}
+```
+
+### Rejection Criteria
+
+Before scoring, traces are rejected outright if:
+
+- They have fewer than 2 points (cannot compute direction or shape)
+- Their Hausdorff distance exceeds 0.005 degrees (~500m) from the nearest candidate route
+- No candidate routes are found within the R-tree search buffer
+
+### Bearing Scoring Details
+
+The bearing check compares the trace's average bearing against the route's overall direction (computed from the first to last point of the route polyline):
+
+| Bearing Difference | Score | Interpretation |
+|---|---|---|
+| Less than 30 degrees | 1.0 | Same direction as route |
+| Greater than 150 degrees | 0.5 | Opposite direction (return trip) |
+| 30-150 degrees | 0.0 | Perpendicular -- probably wrong route |
+
+A return trip scores 0.5 rather than 0.0 because many routes have the same polyline for both directions. The bearing score prevents confusion between routes that share a road but travel perpendicular to each other.
+
+### Speed Scoring Details
+
+Bus-like speeds (10-70 km/h) receive a score of 1.0. Speeds outside this range receive 0.3, reflecting the possibility that the device is on a different type of vehicle or stationary.
+
+## Confidence at Every Layer
+
+Mansariya applies confidence at multiple levels, each serving a different purpose:
+
+| Layer | Type | Range | Driven By |
+|---|---|---|---|
+| Bus position | Categorical | low / good / verified | Number of contributing devices |
+| Route polyline | Continuous | 0.0 - 1.0 | Data source and crowdsource verification |
+| Bus stop | Continuous | 0.0 - 1.0 + observation count | Data source and observed dwell patterns |
+| Route inference | Continuous | 0.0 - 1.0 | Hausdorff + coverage + bearing + speed |
+
+These four confidence measures are independent. A bus can have "verified" position confidence (3 phones confirm its location) while riding on a route with 0.5 polyline confidence (the route shape has not been crowdsource-verified yet). A stop can have high observation count but low initial confidence because it was geocoded rather than manually verified.
+
+### Why Multiple Confidence Types
+
+Each type answers a different question:
+
+- **Bus position confidence** answers: "Is this bus really here?"
+- **Polyline confidence** answers: "Does this line on the map match the actual road?"
+- **Stop confidence** answers: "Is this stop location accurate?"
+- **Inference confidence** answers: "Is this phone really on this route?"
+
+By keeping them separate, the system can be transparent about what it knows and what it is guessing. A passenger viewing a bus on the map can distinguish between a well-tracked bus on a poorly-mapped route versus a poorly-tracked bus on a well-mapped route -- and make decisions accordingly.

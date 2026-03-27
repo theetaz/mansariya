@@ -1,0 +1,301 @@
+---
+title: Route Inference Algorithm
+description: How Mansariya determines which bus route a device is on
+---
+
+## The Problem
+
+Mansariya tracks buses using crowdsourced GPS from passengers' phones. When a phone sends a stream of GPS coordinates, the system must answer a deceptively hard question: **which of the 685+ bus routes in Sri Lanka is this device traveling on?**
+
+This is non-trivial because:
+
+- Many routes share the same roads. The A1 highway from Colombo to Kandy carries routes 001, 004, 017, and dozens more.
+- A GPS trace from a single ride covers only a small portion of a route that may span 200+ km.
+- Phone GPS has 10-50m of noise, so the trace does not fall exactly on any route.
+- Buses travel in both directions. Route 138 Pettah to Kottawa and Route 138 Kottawa to Pettah use the same road but are logically different.
+- The system must handle this in real time, with sub-second latency, as GPS batches arrive.
+
+The route inference algorithm solves this through a five-step pipeline: spatial filtering, distance checking, coverage analysis, bearing consistency, and speed validation. Each step narrows the candidates and produces a score.
+
+## Source Code Reference
+
+The implementation lives in two packages:
+
+- `backend/internal/pipeline/inference.go` -- the inference engine
+- `backend/internal/spatial/index.go` -- the R-tree spatial index
+- `backend/internal/spatial/hausdorff.go` -- Hausdorff distance and coverage functions
+- `backend/internal/spatial/geo.go` -- bearing, haversine, and point-to-segment utilities
+
+## Step 1: Spatial Index Lookup (R-tree)
+
+Brute-force comparison of a trace against all 685+ routes would be O(n), running Hausdorff and coverage calculations against every route polyline on every incoming trace. At peak load with thousands of GPS batches per minute, this is prohibitive.
+
+Instead, Mansariya uses an **R-tree spatial index** (via `tidwall/rtree`, a pure-Go generic R-tree) to narrow the search space to only routes whose bounding box is near the trace.
+
+### How the R-tree is built
+
+At startup, the `RouteIndex.Load()` method iterates every known route, computes its geographic bounding box, and inserts it into the R-tree:
+
+```go
+for id, line := range routes {
+    bound := line.Bound()
+    idx.tree.Insert(
+        [2]float64{bound.Min.Lon(), bound.Min.Lat()},
+        [2]float64{bound.Max.Lon(), bound.Max.Lat()},
+        id,
+    )
+}
+```
+
+Each route's bounding box is the smallest rectangle (in lat/lng space) that contains all of the route's polyline points.
+
+### How the query works
+
+When a GPS trace arrives, the inference engine computes the trace's bounding box, expands it by a 0.05-degree buffer (~5 km), and queries the R-tree for all routes whose bounding boxes intersect:
+
+```go
+candidates := ie.index.NearbyFromTrace(line, 0.05)
+```
+
+The R-tree traverses its internal tree structure, pruning branches whose bounding boxes do not overlap the query rectangle. This gives **O(log n)** performance rather than O(n) brute-force.
+
+For a trace near Colombo, this might reduce 685 routes to 20-30 candidates -- an order of magnitude reduction before any expensive geometric calculations.
+
+### Why 5 km buffer?
+
+The buffer accounts for GPS noise and the fact that the trace might be slightly outside the route's bounding box due to measurement error. 5 km is generous enough to catch any reasonable candidate without including routes from the other side of the country.
+
+## Step 2: Hausdorff Distance Check
+
+For each candidate route from the R-tree, the algorithm computes the **directed Hausdorff distance** from the trace to the route polyline.
+
+### What is Hausdorff distance?
+
+The Hausdorff distance measures how far two curves are from each other. Formally, the directed Hausdorff distance from set A to set B is:
+
+```
+H(A, B) = max over all points a in A [ min over all points b in B [ distance(a, b) ] ]
+```
+
+In plain language: for every point in the trace, find the nearest point on the route. The Hausdorff distance is the **worst case** -- the maximum of all those nearest-point distances. If any trace point is far from the route, the Hausdorff distance will be large.
+
+### Why directed (trace to route)?
+
+Mansariya uses **directed** Hausdorff (trace to route, not route to trace). This is critical because:
+
+- A GPS trace covers only a small section of a long route. A 5 km trace on a 200 km route means most route points are far from the trace.
+- Route-to-trace Hausdorff would always be enormous for long routes, making it useless for comparison.
+- Trace-to-route Hausdorff asks the right question: "does the trace stay close to the route?" regardless of how much of the route is covered.
+
+### The threshold
+
+```go
+const maxHausdorffDeg = 0.005 // ~500m at Sri Lanka's latitude
+```
+
+At Sri Lanka's latitude (~7 degrees N), 0.005 degrees of longitude is approximately 500 meters. Any route where the trace deviates more than 500m at any point is immediately rejected. This is a coarse filter -- buses should never be 500m from their route unless the route data is wrong or the trace belongs to a different route.
+
+### Implementation
+
+```go
+hausdorff := spatial.DirectedHausdorff(line, routeLine)
+if hausdorff > maxHausdorffDeg {
+    continue // reject this candidate
+}
+```
+
+The `DirectedHausdorff` function iterates each point in the trace, finds its minimum distance to any segment of the route polyline, and returns the maximum of those distances.
+
+## Step 3: Coverage Calculation
+
+Routes that pass the Hausdorff check might still be wrong. A trace could be close to a route at all points but only overlap a tiny section. Coverage measures how much of the trace actually aligns with the route.
+
+### Definition
+
+Coverage answers: **what fraction of the trace falls within a 30-meter buffer of the route?**
+
+```go
+const coverageBuffer = 0.0003 // ~30m in degrees
+coverage := spatial.Coverage(line, routeLine, coverageBuffer)
+```
+
+### How it works
+
+The `Coverage` function walks each segment of the trace. For each segment, it checks whether the segment's midpoint is within `coverageBuffer` degrees of any segment in the route polyline. It then returns the ratio of covered segment length to total trace length.
+
+A coverage of 0.9 means 90% of the trace (by length) falls within 30m of the route. A coverage of 0.3 means only 30% aligns -- probably a different route that happens to share some road segments.
+
+### Why 30 meters?
+
+This buffer accounts for:
+- GPS noise (10-20m typical, up to 50m in urban canyons)
+- Road width (buses often travel in the center or side lane)
+- Slight differences between the route polyline (from NTC data) and the actual road centerline
+
+30m is tight enough to distinguish routes on parallel streets (which are usually 50+ meters apart) but loose enough to handle GPS noise.
+
+## Step 4: Bearing Consistency
+
+Two routes might share the same road but travel in opposite directions. Route 138 Pettah to Kottawa and Route 138 Kottawa to Pettah overlap completely in road geometry but represent different trips.
+
+### How it works
+
+The algorithm compares the trace's average bearing (computed from GPS headings) with the route's overall direction (bearing from first to last polyline point):
+
+```go
+diff := spatial.BearingDifference(traceBearing, routeBearing)
+
+if diff < 30 {
+    return 1.0 // same direction
+}
+if diff > 150 {
+    return 0.5 // opposite direction (return trip)
+}
+return 0.0 // perpendicular -- probably wrong route
+```
+
+### Scoring breakdown
+
+| Bearing Difference | Score | Interpretation |
+|---|---|---|
+| Less than 30 degrees | 1.0 | Same direction -- strong match |
+| 30 to 150 degrees | 0.0 | Perpendicular -- wrong route entirely |
+| Greater than 150 degrees | 0.5 | Opposite direction -- return trip on same route |
+
+### Why opposite direction gets 0.5, not 0.0
+
+A bus traveling in the opposite direction on the same route is still **on that route**. The return trip shares the same route ID in many cases. A score of 0.5 means it is a plausible match but less confident than a same-direction match, so the system can still assign the route if other signals (coverage, proximity) are strong.
+
+### Bearing wraparound
+
+Compass bearings wrap around at 360 degrees. A trace heading 350 degrees and a route heading 10 degrees are actually 20 degrees apart, not 340. The `BearingDifference` function handles this:
+
+```go
+func BearingDifference(b1, b2 float64) float64 {
+    diff := math.Abs(b1 - b2)
+    if diff > 180 {
+        diff = 360 - diff
+    }
+    return diff
+}
+```
+
+## Step 5: Speed Validation
+
+Buses in Sri Lanka typically travel between 10 and 70 km/h. The trace's average speed provides a sanity check.
+
+```go
+speedScore := 1.0
+if trace.AvgSpeed < 10 || trace.AvgSpeed > 70 {
+    speedScore = 0.3
+}
+```
+
+### Speed ranges
+
+| Speed | Score | Rationale |
+|---|---|---|
+| 10-70 km/h | 1.0 | Normal bus speed range |
+| Below 10 km/h | 0.3 | Could be stuck in traffic, at a terminal, or a pedestrian |
+| Above 70 km/h | 0.3 | Could be on an expressway or a private vehicle |
+
+### Why 0.3 instead of 0.0 for out-of-range speeds
+
+Extreme speeds do not definitively rule out a bus. Colombo traffic regularly drops bus speeds below 10 km/h, and highway segments allow speeds above 70 km/h. The low score reduces confidence without eliminating the match entirely.
+
+## Final Scoring
+
+All five signals are combined into a single weighted score:
+
+```go
+score := coverage*0.5 +
+    (1-clamp(hausdorff/maxHausdorffDeg, 0, 1))*0.25 +
+    bearingScore*0.15 +
+    speedScore*0.1
+```
+
+### Weight rationale
+
+| Signal | Weight | Why |
+|---|---|---|
+| Coverage | 0.50 | The most reliable indicator. If the trace overlaps the route, it is very likely the right route. |
+| Proximity (1 - Hausdorff ratio) | 0.25 | Confirms the trace does not deviate. Penalizes routes where the trace wanders off. |
+| Bearing | 0.15 | Distinguishes direction on shared roads. Important but not decisive -- some routes have complex shapes. |
+| Speed | 0.10 | Weak signal. Traffic conditions make speed highly variable. |
+
+### Threshold
+
+```go
+const confidenceThresh = 0.6
+```
+
+A route must score at least 0.6 to be assigned. If no route meets this threshold, the trace is unassigned -- the system would rather say "I do not know" than assign the wrong route.
+
+### Winner selection
+
+If multiple routes score above 0.6, the highest score wins:
+
+```go
+if score > bestScore {
+    bestScore = score
+    bestRouteID = routeID
+}
+```
+
+## Worked Example
+
+Consider a phone sending GPS from a bus on Route 138 (Pettah to Kottawa):
+
+1. **R-tree lookup**: The trace's bounding box (around southern Colombo) intersects 28 route bounding boxes. These are the candidates.
+
+2. **Hausdorff check**: Of the 28 candidates, 22 have directed Hausdorff > 0.005 degrees (the trace is more than 500m from their polylines). Only 6 remain.
+
+3. **Coverage**: Route 138 has 0.94 coverage (94% of the trace is within 30m). Route 177 has 0.45 coverage (they share the Galle Road segment). Route 255 has 0.31 coverage.
+
+4. **Bearing**: The trace heading is 165 degrees. Route 138 (Pettah to Kottawa) has bearing 170 degrees -- difference is 5 degrees, score 1.0. Route 138 (Kottawa to Pettah) has bearing 350 degrees -- difference is 175 degrees, score 0.5.
+
+5. **Speed**: Average speed is 28 km/h (typical for Colombo traffic). Score 1.0.
+
+6. **Final scores**:
+   - Route 138 (Pettah to Kottawa): 0.94 x 0.5 + 0.97 x 0.25 + 1.0 x 0.15 + 1.0 x 0.1 = 0.962
+   - Route 138 (Kottawa to Pettah): 0.94 x 0.5 + 0.97 x 0.25 + 0.5 x 0.15 + 1.0 x 0.1 = 0.887
+   - Route 177: 0.45 x 0.5 + 0.80 x 0.25 + 0.8 x 0.15 + 1.0 x 0.1 = 0.645
+
+   Route 138 (Pettah to Kottawa) wins with 0.962.
+
+## Edge Cases
+
+### Two routes on the same road
+
+When routes 001 and 004 both use the A1 highway between Colombo and Kadawatha, coverage and Hausdorff will be similar. The algorithm relies on small differences:
+
+- One route continues to Kandy while the other turns toward Negombo. If the trace extends past the divergence point, coverage drops for the wrong route.
+- If the trace is too short to reach the divergence, both routes score similarly and the higher-scoring one is assigned with moderate confidence.
+
+### GPS signal loss in tunnels
+
+If a trace has a gap (e.g., the Kelani River tunnel), the coverage of the gap section is zero. But the sections before and after the gap still contribute. If 80% of the non-gap trace aligns with a route, the coverage is still high enough.
+
+### Buses stuck in terminal
+
+A bus waiting at Pettah terminal produces very low speed and a trace that may not extend along any route. The algorithm returns nil (unassigned) because the trace is too short -- the minimum requirement is 2 points.
+
+### Route polyline quality
+
+Some NTC route data is imprecise. A route polyline that is 100m off the actual road will reduce coverage scores for all traces on that route. Over time, crowdsourced traces improve route polylines by averaging verified paths (handled by a separate polyline confidence system, not by inference).
+
+### Circular routes
+
+Some routes (like city circular services) start and end at the same point. Bearing is less useful here because the overall route bearing is near zero. The algorithm still works because coverage and Hausdorff are independent of bearing -- they only care about spatial proximity.
+
+## Performance
+
+The five-step pipeline is designed for speed:
+
+- **Step 1** (R-tree): O(log n) -- microseconds
+- **Step 2** (Hausdorff): O(trace_points x route_points) per candidate, but most candidates are eliminated, and the inner loop exits early on rejection
+- **Step 3** (Coverage): Same complexity as Hausdorff
+- **Step 4** (Bearing): O(1) -- simple arithmetic
+- **Step 5** (Speed): O(1) -- comparison
+
+In practice, a 50-point trace against 685 routes completes in under 10ms on a single core, well within the real-time budget.

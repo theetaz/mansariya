@@ -1,0 +1,332 @@
+---
+title: ETA Calculation
+description: How Mansariya estimates when a bus will arrive at your stop
+---
+
+## The Problem
+
+A commuter stands at a bus stop. They want to know: **when will the next bus arrive?**
+
+This seems simple, but the calculation involves several non-obvious challenges:
+
+- The bus's position comes from crowdsourced GPS, which updates every 5-10 seconds and has 10-50m noise.
+- The distance between bus and stop is not a straight line -- roads curve, climb hills, loop around one-way systems.
+- Bus speed is highly variable. Colombo traffic can bring a bus from 40 km/h to a standstill in seconds.
+- Multiple buses may be approaching the same stop. The commuter wants all of them, sorted by arrival time.
+- Some buses have already passed the stop and should not appear in the results.
+
+## Source Code Reference
+
+The ETA implementation lives in:
+
+- `backend/internal/service/eta.go` -- the ETA service with `Calculate()` and `distanceAlongRoute()`
+- `backend/internal/store/trip_store.go` -- historical speed lookups from the `trip_segments` table
+- `backend/internal/handler/eta.go` -- HTTP handler for the ETA API endpoint
+
+## Input
+
+The ETA endpoint accepts:
+
+- **Route ID**: which bus route the commuter is watching (e.g., "138")
+- **Stop location**: the latitude and longitude of the bus stop
+
+The API endpoint is `GET /api/v1/routes/\{routeID\}/eta?lat=\{lat\}&lng=\{lng\}`.
+
+## The Algorithm
+
+### Step 1: Find Active Buses on the Route
+
+Active buses for each route are stored in a Redis sorted set keyed by `route:\{routeID\}:buses`. The score is the last update timestamp, allowing stale entries to be identified.
+
+```go
+busIDs, err := s.rdb.ZRangeByScore(ctx, "route:"+routeID+":buses", &redis.ZRangeBy{
+    Min: "-inf",
+    Max: "+inf",
+}).Result()
+```
+
+This returns all virtual bus IDs currently tracked on this route. A virtual bus ID is an opaque identifier assigned by the clustering pipeline -- it represents a physical bus as detected by one or more contributing phones.
+
+### Step 2: Load Bus Position from Redis
+
+Each bus's current state is stored in a Redis hash at `bus:\{busID\}:pos` containing:
+
+| Field | Description |
+|---|---|
+| `lat` | Current latitude |
+| `lng` | Current longitude |
+| `speed` | Current speed in km/h |
+| `confidence` | Position confidence: "low", "good", or "verified" |
+| `count` | Number of contributing phones |
+
+```go
+pos, err := s.rdb.HGetAll(ctx, "bus:"+busID+":pos").Result()
+```
+
+### Step 3: Project Bus Position onto Route Polyline
+
+The bus's GPS position is rarely exactly on the route polyline. It might be 10-20 meters off due to GPS noise and road width. The algorithm finds the **nearest segment** of the route polyline to the bus:
+
+```go
+func nearestSegmentIndex(route orb.LineString, lat, lng float64) int {
+    minDist := math.MaxFloat64
+    bestIdx := 0
+    for i := 0; i < len(route); i++ {
+        d := spatial.Haversine(lat, lng, route[i].Lat(), route[i].Lon())
+        if d < minDist {
+            minDist = d
+            bestIdx = i
+        }
+    }
+    return bestIdx
+}
+```
+
+This returns the index of the route polyline vertex closest to the bus. The bus is considered to be "at" this segment of the route.
+
+### Step 4: Project Stop Position onto Route Polyline
+
+The same projection is applied to the stop's position, finding which segment of the route polyline the stop is nearest to:
+
+```go
+stopIdx := nearestSegmentIndex(route, stopLat, stopLng)
+```
+
+### Step 5: Calculate Distance Along Route
+
+This is the most important step, and where naive implementations go wrong.
+
+**The wrong way**: straight-line (Haversine) distance between bus and stop.
+
+**The right way**: sum the route polyline segments between the bus's projected position and the stop's projected position.
+
+```go
+func distanceAlongRoute(route orb.LineString, busLat, busLng, stopLat, stopLng float64) float64 {
+    busIdx := nearestSegmentIndex(route, busLat, busLng)
+    stopIdx := nearestSegmentIndex(route, stopLat, stopLng)
+
+    if stopIdx <= busIdx {
+        return -1 // bus has passed the stop
+    }
+
+    totalKM := 0.0
+
+    // Distance from bus to end of its segment
+    if busIdx < len(route)-1 {
+        totalKM += spatial.Haversine(busLat, busLng,
+            route[busIdx+1].Lat(), route[busIdx+1].Lon())
+    }
+
+    // Full segments between
+    for i := busIdx + 1; i < stopIdx && i < len(route)-1; i++ {
+        totalKM += spatial.Haversine(
+            route[i].Lat(), route[i].Lon(),
+            route[i+1].Lat(), route[i+1].Lon())
+    }
+
+    // Distance from start of stop's segment to stop
+    if stopIdx < len(route) {
+        totalKM += spatial.Haversine(
+            route[stopIdx].Lat(), route[stopIdx].Lon(),
+            stopLat, stopLng)
+    }
+
+    return totalKM
+}
+```
+
+The distance is computed in three parts:
+
+1. **Bus to end of its current segment**: Haversine from the bus's actual position to the next vertex on the route polyline.
+2. **Full intermediate segments**: sum of Haversine distances for each complete segment between the bus's segment and the stop's segment.
+3. **Start of stop's segment to stop**: Haversine from the last vertex before the stop to the stop's actual position.
+
+### Why Distance Along Route Matters
+
+Consider a bus on Route 004 approaching Kaduwela junction. The stop is on the other side of a river crossing where the road curves around a hill.
+
+| Method | Distance | ETA at 30 km/h |
+|---|---|---|
+| Straight-line (Haversine) | 2.0 km | 4 minutes |
+| Along route | 5.2 km | 10.4 minutes |
+
+The straight-line method cuts through the hill and river. The along-route method follows the actual road, which curves 3 km out of the way to cross at a bridge. Using straight-line distance would **underestimate the ETA by 60%**, giving the commuter a dangerously optimistic prediction.
+
+Another example: a bus approaching Kandy on the A1 highway. The road descends from the hills in a series of switchbacks. Straight-line distance to the bus stop might be 1 km, but the road distance is 4 km of hairpin turns.
+
+### Step 6: Calculate ETA from Distance and Speed
+
+With the along-route distance, ETA is straightforward:
+
+```go
+if speed <= 0 {
+    speed = 25 // default 25 km/h if stationary
+}
+etaMinutes := (distanceKM / speed) * 60
+```
+
+The speed comes from the bus's Redis hash, which stores the current GPS-derived speed. If the bus is stationary (speed = 0), the algorithm assumes it will resume at 25 km/h -- a conservative average for Sri Lankan bus routes that accounts for traffic and stops.
+
+### Step 7: Filter Out Buses That Have Passed
+
+When `distanceAlongRoute` returns a negative value, the bus's projected position is ahead of the stop on the route polyline. This means the bus has already passed the stop and should not appear in the ETA results:
+
+```go
+if etaMinutes < 0 {
+    continue // bus has passed the stop
+}
+```
+
+The sign convention works because `stopIdx <= busIdx` returns -1, and the resulting negative ETA is caught by this check.
+
+### Step 8: Sort and Return
+
+The remaining buses are sorted by ETA in ascending order and returned to the client:
+
+```go
+resp.Buses = append(resp.Buses, model.BusETA{
+    BusID:            busID,
+    ETAMinutes:       int(math.Round(etaMinutes)),
+    Confidence:       confidence,
+    DistanceKM:       math.Round(distanceKM*10) / 10,
+    ContributorCount: contributors,
+})
+```
+
+The response includes:
+
+| Field | Description |
+|---|---|
+| `bus_id` | Virtual bus identifier |
+| `eta_minutes` | Estimated arrival time in minutes (rounded to nearest integer) |
+| `confidence` | "low", "good", or "verified" -- based on contributor count |
+| `distance_km` | Along-route distance to one decimal place |
+| `contributor_count` | Number of phones tracking this bus |
+
+## ETA Confidence
+
+Not all ETAs are equally reliable. Confidence depends on the quality of the bus position data, which is determined by how many phones are contributing GPS for that bus.
+
+| Contributor Count | Confidence | Meaning |
+|---|---|---|
+| 1 | low | Single phone. GPS noise directly affects position. Speed estimate is from one device. |
+| 2-3 | good | Multiple phones agree on the position. Noise is averaged out. Speed is more reliable. |
+| 4+ | verified | Strong consensus. Position and speed are highly reliable. |
+
+The confidence label is passed to the mobile app, which can display it as a visual indicator (e.g., a green badge for "verified", amber for "low").
+
+### Why more contributors = better ETA
+
+With a single contributor, the bus speed comes from one phone's GPS, which can fluctuate wildly (reporting 45 km/h one second and 12 km/h the next due to GPS noise). The ETA swings accordingly.
+
+With multiple contributors, the clustering pipeline averages their positions and speeds, smoothing out noise. The resulting speed estimate is much more stable, and the ETA changes gradually rather than jumping around.
+
+## Historical Speed Data
+
+The current implementation uses the bus's real-time speed for ETA. However, the system also collects historical trip data to improve future estimates.
+
+### The trip_segments table
+
+```sql
+CREATE TABLE trip_segments (
+    id BIGSERIAL PRIMARY KEY,
+    route_id TEXT,
+    from_stop_id TEXT,
+    to_stop_id TEXT,
+    travel_time_seconds INTEGER,
+    speed_kmh REAL,
+    hour_of_day SMALLINT,     -- 0-23
+    day_of_week SMALLINT,     -- 0=Monday, 6=Sunday
+    recorded_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+Every time a tracked bus completes a segment between two consecutive stops, the system records the actual travel time and speed. Over time, this builds a dataset of how long it actually takes to travel each segment at each hour of the day.
+
+### GetHistoricalSpeed
+
+The `TripStore.GetHistoricalSpeed()` function queries this data:
+
+```go
+func (s *TripStore) GetHistoricalSpeed(ctx context.Context,
+    routeID, fromStopID, toStopID string, hourOfDay int) (float64, error) {
+
+    // Try hour-specific first (requires 5+ observations)
+    err := s.pool.QueryRow(ctx,
+        `SELECT AVG(speed_kmh)
+         FROM trip_segments
+         WHERE route_id = $1 AND from_stop_id = $2
+           AND to_stop_id = $3 AND hour_of_day = $4
+         HAVING COUNT(*) >= 5`,
+        routeID, fromStopID, toStopID, hourOfDay).Scan(&speed)
+
+    // Fall back to overall average (requires 3+ observations)
+    // ...
+}
+```
+
+The query has a two-tier fallback:
+
+1. **Hour-specific average**: "How fast do buses usually travel this segment at 8 AM?" Requires at least 5 observations for statistical significance.
+2. **Overall average**: "How fast do buses usually travel this segment at any time?" Requires at least 3 observations.
+
+### Time-of-day adjustment
+
+Sri Lankan bus speeds vary dramatically by time of day:
+
+| Time | Typical Speed (Colombo) | Context |
+|---|---|---|
+| 06:00-08:30 | 12-18 km/h | Morning rush hour |
+| 08:30-16:00 | 25-35 km/h | Off-peak |
+| 16:00-19:00 | 10-15 km/h | Evening rush hour |
+| 19:00-22:00 | 30-40 km/h | Night off-peak |
+| Weekends | 25-35 km/h | Reduced congestion |
+
+Historical speed data captures these patterns. A bus 5 km from a stop at 8 AM on a Monday will get a longer ETA than the same bus at the same distance at 10 PM, because the historical data shows that segment is slower during rush hour.
+
+### Future improvement: segment-level ETA
+
+The current implementation uses a single speed value for the entire bus-to-stop distance. A more accurate approach (planned for a future version) will:
+
+1. Break the bus-to-stop path into individual stop-to-stop segments
+2. Look up the historical speed for each segment at the current hour
+3. Calculate ETA for each segment individually
+4. Sum the segment ETAs
+
+This handles the common case where a bus passes through both congested and free-flowing areas between its current position and the target stop.
+
+## Fallback When Route Polyline is Unavailable
+
+If the route's polyline is not loaded in the route index (unusual but possible for newly added routes), the algorithm falls back to straight-line distance:
+
+```go
+if hasRoute && len(routeLine) >= 2 {
+    distanceKM = distanceAlongRoute(routeLine, busLat, busLng, stopLat, stopLng)
+} else {
+    distanceKM = spatial.Haversine(busLat, busLng, stopLat, stopLng)
+}
+```
+
+This gives a rough estimate that is always less than or equal to the actual road distance. The mobile app can indicate reduced confidence when this fallback is used.
+
+## Edge Cases
+
+### Bus at the terminal
+
+A bus at the Pettah terminal has speed 0 and is near the first stop of the route. The algorithm assigns the default speed of 25 km/h and calculates ETA normally. This may overestimate the actual arrival time because the bus might not depart for several minutes, but it provides a reasonable upper bound.
+
+### Very short distance
+
+When a bus is within 200 meters of the stop, the ETA rounds to 0 or 1 minute. The mobile app displays "Arriving" instead of a minute count.
+
+### Multiple routes sharing a stop
+
+A commuter at a stop served by routes 138, 177, and 255 makes three separate ETA requests (one per route). Each returns its own set of approaching buses. The mobile app merges these into a single sorted list.
+
+### GPS signal loss
+
+If a bus's position data in Redis is stale (last update more than 60 seconds ago), the sorted set score-based filtering can exclude it. Currently, all buses in the sorted set are included; staleness detection is handled by the tracking pipeline's TTL on the Redis hash.
+
+### Route with many stops
+
+For a long route like 001 (Colombo to Kandy, 115 km), the along-route distance calculation iterates through many polyline segments. With typical polylines of 500-2000 points, this is still fast -- under 1 ms per bus.

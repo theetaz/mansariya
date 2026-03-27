@@ -32,7 +32,7 @@ The Go backend is a single binary that serves three functions:
 
 ### WebSocket Server
 
-- WebSocket endpoint at `/ws/track/{routeID}` for real-time bus position updates
+- WebSocket endpoint at `/ws/track/\{routeID\}` for real-time bus position updates
 - Hub manages client subscriptions per route
 - Pub/Sub Bridge forwards Redis messages to connected clients
 
@@ -96,7 +96,7 @@ Streams are trimmed to keep only the last 10 minutes of data (MAXLEN approximate
 
 | Channel Pattern | Purpose |
 |----------------|---------|
-| `route:{routeID}` | Bus position updates for a specific route |
+| `route:\{routeID\}` | Bus position updates for a specific route |
 
 The WebSocket Hub subscribes to `route:*` using pattern matching and forwards messages to connected clients.
 

@@ -1,0 +1,256 @@
+---
+title: Privacy by Design
+description: How Mansariya protects user privacy at every layer
+---
+
+## Core Principle
+
+The device IS the identity, not the person.
+
+Mansariya is built on a fundamental design choice: the system never knows who its users are. There are no accounts, no logins, no emails, no phone numbers. A contributor's phone sends GPS data pseudonymously, and a passenger views bus positions without any identification at all. This is not a feature gap waiting for v2 -- it is a deliberate architectural decision that shapes every layer of the system.
+
+## No User Accounts
+
+For the MVP, Mansariya has no authentication system. There is no sign-up flow, no login screen, no password storage, no OAuth integration. The reasons:
+
+1. **Lower barrier to adoption:** Opening the app and seeing buses immediately is more compelling than a registration form. In Sri Lanka's transit market, where riders are accustomed to zero-tech bus stops, any friction reduces adoption.
+2. **No personal data to protect:** If the system never collects names, emails, or phone numbers, there is no personal data to breach. A database compromise exposes only route data and anonymized GPS traces.
+3. **Reduced infrastructure:** No auth means no password hashing, no token management, no session storage, no password reset emails, no OAuth token refresh. This aligns with the $9/month server budget.
+
+Authentication is planned for v1.1, when the leaderboard and rewards system will link `device_hash` values to optional user profiles. Even then, account creation will be opt-in, and the core tracking functionality will work without it.
+
+## Device Hash
+
+Every GPS ping from a contributor's phone includes a `device_hash` that identifies the device without revealing its identity.
+
+### How It Works
+
+```
+device_hash = SHA256(device_UUID + daily_salt)
+```
+
+- **device_UUID:** The phone's unique device identifier (Android's `ANDROID_ID` or equivalent). This never leaves the device in raw form.
+- **daily_salt:** A date-based string that changes every 24 hours. Example: `"2026-03-27"`.
+- **SHA256:** A one-way cryptographic hash function. Given the hash output, it is computationally infeasible to recover the input.
+
+### Properties
+
+| Property | Behavior |
+|----------|----------|
+| **Deterministic within a day** | The same device produces the same hash all day, allowing the pipeline to correlate GPS pings from one device within a single day. |
+| **Rotates every 24 hours** | At midnight, the salt changes, producing a completely different hash. Yesterday's contributor cannot be linked to today's contributor. |
+| **One-way** | Even Mansariya's operators cannot reverse the hash to obtain the device UUID. The SHA256 preimage resistance ensures this. |
+| **Not globally unique** | Two devices in different cities might theoretically produce the same hash (collision), but the probability is negligible (1 in 2^256). |
+
+### Why Rotation Matters
+
+Without rotation, a static device hash would allow building a movement history: "device ABC rides route 138 every weekday at 8:00 AM, rides route 5 on Saturdays." With daily rotation, the most anyone can learn is a single day's movements, and even that requires correlating pings within the 10-minute retention window.
+
+### What Operators Cannot Do
+
+- Cannot identify which person a device hash belongs to
+- Cannot track a device across days
+- Cannot link a contributor's GPS traces to the routes they search for
+- Cannot determine how many days a specific person has used the app
+
+## Session Tracking
+
+Each trip generates a new random UUID as its `session_id`:
+
+```go
+type GPSBatch struct {
+    DeviceHash string    `json:"device_hash"`
+    SessionID  string    `json:"session_id"`
+    Pings      []GPSPing `json:"pings"`
+}
+```
+
+The `session_id` serves one purpose: correlating GPS pings within a single bus ride so the pipeline can build a continuous trace. Once the trip ends:
+
+- The session ID is never reused
+- There is no mapping from session ID to device hash (beyond what exists transiently in the pipeline)
+- Different trips from the same device use different session IDs
+- Even within a single day, two trips by the same device are uncorrelatable by session
+
+## GPS Data Lifecycle
+
+Raw GPS data has a strictly limited lifespan. Here is the timeline of a GPS ping from collection to deletion:
+
+### T+0 seconds: Ingestion
+
+The contributor's phone sends a batch of GPS pings to `POST /api/v1/gps/batch`. The ingester validates the data and writes it to the Redis Stream `gps:raw`.
+
+### T+1-2 seconds: Map Matching
+
+The MapMatcher worker reads the batch, sends the trace to Valhalla for road-snapping, and writes the matched result to `gps:matched`. The original raw pings in `gps:raw` begin sliding toward the stream's 100,000-entry cap.
+
+### T+2-5 seconds: Processing
+
+The Processor reads the matched trace, infers which route the device is on, and clusters it with other contributors via DBSCAN. The output is a **fused vehicle position** -- a single point representing where the bus is, not where any individual phone is.
+
+### T+5 seconds: Broadcasting
+
+The fused position is published to Redis Pub/Sub and stored in a Hash with a 5-minute TTL. Individual contributor data is no longer needed.
+
+### T+10 minutes: Raw Data Gone
+
+With the stream capped at ~100,000 entries and continuous ingestion, raw GPS batches are overwritten within approximately 10 minutes. After this point, the original GPS pings no longer exist anywhere in the system.
+
+### T+5 minutes: Position Expires
+
+If no new update arrives for a bus, its Redis Hash key expires and is automatically deleted. The bus disappears from the map.
+
+```
+GPS Ping -----> gps:raw -----> gps:matched -----> Fused Position
+  (phone)       (10 min)       (10 min)           (5 min TTL)
+                                                       |
+                                                       v
+                                                   Deleted
+```
+
+## What Is NOT Collected
+
+Mansariya explicitly avoids collecting the following:
+
+### No User Identity
+
+No name, email, phone number, social media account, or any other personally identifiable information. The `device_hash` is a rotating pseudonym, not an identity.
+
+### No Device Fingerprinting
+
+No phone model, OS version, screen resolution, installed apps, or browser user agent. The GPS handler accepts only the fields defined in the `GPSPing` struct: latitude, longitude, timestamp, accuracy, speed, and bearing.
+
+### No App Usage Patterns
+
+The backend does not track which screens a user visits, how long they spend on the app, which routes they search for, or which buses they watch. All user preferences (saved routes, language setting, trip counter) are stored locally on the device and never transmitted to the server.
+
+### No Route Viewing History
+
+When a passenger opens route 138 and watches buses move, the WebSocket connection carries the route ID but no device identifier. The server knows "someone is watching route 138" but not who. There is no analytics pipeline tracking "user X searched for route 138 at 8:00 AM."
+
+### No Background Location
+
+The app only collects GPS when the user is actively contributing (tracking screen open). There is no background location collection, no geofencing, no silent GPS polling.
+
+## What IS Stored (and for How Long)
+
+| Data | Storage | Duration | Contains Device Info? |
+|------|---------|----------|----------------------|
+| Raw GPS pings | Redis Stream `gps:raw` | ~10 minutes (overwritten by stream cap) | Yes: `device_hash` + GPS |
+| Map-matched traces | Redis Stream `gps:matched` | ~10 minutes | Yes: `device_hash` + snapped GPS |
+| Fused bus positions | Redis Hash `bus:{vid}:pos` | 5-minute TTL | No: only bus position |
+| Active bus sets | Redis Sorted Set `route:\{id\}:buses` | Cleaned every 5 minutes | No: only bus virtual IDs |
+| Trip segments | PostgreSQL `trip_segments` | Permanent | No: only route + stops + timing |
+| GPS traces (opt-in) | PostgreSQL `gps_traces` | Until user requests deletion | Yes: `device_hash` (rotating) + `session_id` |
+| User preferences | Device local storage | User-controlled | N/A (never sent to server) |
+
+### Trip Segments: Permanent but Anonymized
+
+The `trip_segments` table stores historical travel times between stops:
+
+```sql
+CREATE TABLE trip_segments (
+    route_id TEXT,
+    from_stop_id TEXT,
+    to_stop_id TEXT,
+    travel_time_seconds INTEGER,
+    speed_kmh REAL,
+    hour_of_day SMALLINT,
+    day_of_week SMALLINT,
+    recorded_at TIMESTAMPTZ
+);
+```
+
+Note what is absent: no `device_hash`, no `session_id`, no source identifier. A trip segment record says "on a Wednesday at 8 AM, the bus took 12 minutes to travel from stop A to stop B on route 138." It does not say who was on that bus, which phone reported it, or anything about the contributor.
+
+### GPS Traces: Opt-In Only
+
+The `gps_traces` table stores complete trip traces, but only for contributors who explicitly opt in. This data helps improve route polylines and discover new stops. Contributors who do not opt in have their data discarded after pipeline processing.
+
+Even for opt-in traces, the `device_hash` rotates daily, so traces from different days cannot be linked.
+
+## Comparison to Other Tracking Systems
+
+### Google Maps Transit
+
+- Requires a Google account
+- Stores complete location history indefinitely (unless user actively deletes)
+- Links transit usage to advertising profile
+- Google can identify exactly which person rode which bus
+
+### Hardware GPS Trackers
+
+- Bus operator sees all positions forever
+- Centralized control -- operators can track individual buses 24/7
+- No privacy for bus drivers
+- Passengers are not tracked, but the operator has full vehicle surveillance
+
+### Mansariya
+
+- No accounts required
+- Device hash rotates every 24 hours
+- Raw GPS discarded within 10 minutes
+- Fused positions expire in 5 minutes
+- No individual tracking possible after data fusion
+- Even database administrator cannot identify users
+- Passengers viewing the app are completely anonymous
+
+## Threat Model
+
+### What if the database is compromised?
+
+An attacker gains access to PostgreSQL and Redis. They find:
+
+- Route and stop data (public information)
+- Anonymized trip segments (no user linkage)
+- Opt-in GPS traces with rotating device hashes (at most one day of traces per hash, no identity)
+- Real-time bus positions (no user data attached)
+
+They cannot: identify any individual user, build movement profiles, or link traces across days.
+
+### What if Redis is sniffed in transit?
+
+An attacker intercepts Redis traffic between the backend and Redis. They see:
+
+- Raw GPS pings with device hashes (within the 10-minute window)
+- They could build a single-day movement trace for a device hash
+- They cannot identify who that device belongs to
+- After midnight, the hash rotates and the trace becomes unlinkable
+
+Mitigation: Redis is accessed via localhost on the same server. There is no network transit to sniff. In a multi-server deployment, Redis TLS would be enabled.
+
+### What if the phone is compromised?
+
+An attacker with access to a contributor's phone can see:
+
+- The device UUID (but not any server-side data linked to it)
+- Locally stored preferences (language, saved routes)
+- The current session's GPS data
+
+They cannot: access other contributors' data, historical server-side data, or any data from previous days (the hash has rotated).
+
+## Future Privacy Features
+
+### Differential Privacy
+
+When publishing aggregate statistics (e.g., "average commute time on route 138"), differential privacy techniques can add calibrated noise to prevent individual trip inference. This is relevant when the system publishes public analytics.
+
+### User-Controlled Data Deletion
+
+Even without accounts, the app can support deletion requests by device hash. A contributor can request "delete all data associated with today's device hash," and the system purges matching records from `gps_traces` and any transient pipeline data.
+
+### Transparency Reports
+
+Periodic reports documenting:
+- What data is collected and how long it is retained
+- Any data requests from authorities (and how they were handled)
+- Changes to the privacy model
+- Aggregate statistics about data volumes (without individual detail)
+
+### Post-Auth Privacy
+
+When accounts are introduced in v1.1 for leaderboard/rewards:
+- Account creation will be optional
+- Core tracking works without an account
+- Account data will be separable from GPS data
+- Users can delete their account without affecting the anonymized trip data that has already been aggregated

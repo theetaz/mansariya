@@ -72,7 +72,7 @@ Phone GPS
   |
   v
 [Stage 4: Broadcaster]
-  Publishes to Redis Pub/Sub "route:{routeID}"
+  Publishes to Redis Pub/Sub "route:\{routeID\}"
   WebSocket Hub forwards to connected clients
 ```
 
@@ -83,7 +83,7 @@ Phone GPS
 | **Ingester** | HTTP POST with GPS batch | Redis Stream `gps:raw` | Validates coordinates, checks device hash, returns 200 OK immediately (async processing) |
 | **Map Matcher** | Raw GPS points from `gps:raw` | Redis Stream `gps:matched` | Sends trace to Valhalla Meili, snaps noisy GPS to road segments, returns road-aligned coordinates |
 | **Processor** | Matched points from `gps:matched` | Bus position records | Infers which route the device is on using spatial R-tree lookup + Hausdorff distance, then clusters multiple contributors into a single virtual bus via DBSCAN |
-| **Broadcaster** | Bus position updates | Redis Pub/Sub + WebSocket | Publishes positions to `route:{routeID}` channels, WebSocket Hub delivers to subscribed passengers |
+| **Broadcaster** | Bus position updates | Redis Pub/Sub + WebSocket | Publishes positions to `route:\{routeID\}` channels, WebSocket Hub delivers to subscribed passengers |
 
 ## Monorepo Layout
 

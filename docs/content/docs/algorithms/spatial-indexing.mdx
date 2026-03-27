@@ -1,0 +1,504 @@
+---
+title: Spatial Indexing
+description: R-tree, Hausdorff distance, and geo algorithms
+---
+
+## Why Spatial Algorithms Matter
+
+Everything in Mansariya is about location. Every operation -- from matching a GPS trace to a route, to finding nearby stops, to calculating ETA -- is fundamentally a spatial computation. Naive implementations that compare every point against every other point do not scale. With 685+ routes, 5,000+ stops, and thousands of GPS pings per minute, the system needs efficient spatial data structures and algorithms.
+
+This page covers the core spatial building blocks used throughout the Mansariya backend.
+
+## Source Code Reference
+
+All spatial primitives live in `backend/internal/spatial/`:
+
+- `index.go` -- R-tree spatial index for route polylines
+- `hausdorff.go` -- Hausdorff distance and coverage functions
+- `geo.go` -- Haversine, bearing, point-to-segment distance
+
+## R-tree Spatial Index
+
+### What is an R-tree?
+
+An R-tree is a tree data structure that indexes multi-dimensional spatial objects (in Mansariya's case, 2D bounding boxes in latitude/longitude space). It is the spatial equivalent of a B-tree: just as a B-tree allows O(log n) lookup of one-dimensional keys, an R-tree allows O(log n) lookup of two-dimensional regions.
+
+### How it works
+
+The R-tree organizes bounding boxes into a hierarchy of nested rectangles:
+
+```
+Root
+  |-- Region A (covers northwest Sri Lanka)
+  |     |-- Route 001 bbox
+  |     |-- Route 004 bbox
+  |     |-- Route 017 bbox
+  |
+  |-- Region B (covers Colombo metro)
+  |     |-- Route 138 bbox
+  |     |-- Route 177 bbox
+  |     |-- Route 255 bbox
+  |
+  |-- Region C (covers eastern province)
+        |-- Route 048 bbox
+        |-- Route 049 bbox
+```
+
+When searching for routes near a GPS trace, the R-tree starts at the root and only descends into regions that overlap the query rectangle. If a trace is in Colombo, it immediately prunes Region A and Region C, examining only Region B and its children.
+
+### Library: tidwall/rtree
+
+Mansariya uses `github.com/tidwall/rtree`, a pure Go generic R-tree implementation. Key properties:
+
+- **Pure Go**: no CGO, compiles cleanly for any platform
+- **Generic**: `RTreeG[string]` maps bounding boxes to route ID strings
+- **Thread-safe reads**: the R-tree is built once at startup and read concurrently by worker goroutines (Mansariya adds its own `sync.RWMutex` for the rare case of hot-reloading routes)
+- **Memory efficient**: stores coordinates as `[2]float64` pairs (min/max corners)
+
+### Building the index
+
+At startup, `RouteIndex.Load()` inserts every route's bounding box:
+
+```go
+func (idx *RouteIndex) Load(routes map[string]orb.LineString) {
+    idx.tree = rtree.RTreeG[string]{}
+    idx.lines = make(map[string]orb.LineString, len(routes))
+
+    for id, line := range routes {
+        if len(line) < 2 {
+            continue
+        }
+        idx.lines[id] = line
+
+        bound := line.Bound()
+        idx.tree.Insert(
+            [2]float64{bound.Min.Lon(), bound.Min.Lat()},
+            [2]float64{bound.Max.Lon(), bound.Max.Lat()},
+            id,
+        )
+    }
+}
+```
+
+Each route's bounding box is computed by `orb.LineString.Bound()`, which finds the minimum and maximum latitude and longitude across all points in the polyline.
+
+### Query types
+
+**Point query (nearby stops)**:
+
+```go
+func (idx *RouteIndex) Nearby(lat, lng, bufferDeg float64) []string {
+    var results []string
+    idx.tree.Search(
+        [2]float64{lng - bufferDeg, lat - bufferDeg},
+        [2]float64{lng + bufferDeg, lat + bufferDeg},
+        func(min, max [2]float64, routeID string) bool {
+            results = append(results, routeID)
+            return true
+        },
+    )
+    return results
+}
+```
+
+This creates a small query rectangle around a single point and returns all routes whose bounding boxes intersect it. Used for finding which routes pass near a user's location.
+
+**Box query (routes near trace)**:
+
+```go
+func (idx *RouteIndex) NearbyFromTrace(trace orb.LineString, bufferDeg float64) []string {
+    bound := trace.Bound()
+    var results []string
+    idx.tree.Search(
+        [2]float64{bound.Min.Lon() - bufferDeg, bound.Min.Lat() - bufferDeg},
+        [2]float64{bound.Max.Lon() + bufferDeg, bound.Max.Lat() + bufferDeg},
+        func(min, max [2]float64, routeID string) bool {
+            results = append(results, routeID)
+            return true
+        },
+    )
+    return results
+}
+```
+
+This computes the bounding box of the entire GPS trace, expands it by a buffer, and finds all routes that could potentially overlap. Used as the first step in route inference.
+
+### Complexity comparison
+
+| Operation | Brute Force | R-tree |
+|---|---|---|
+| Find routes near a point | O(n) -- check all 685 routes | O(log n) -- ~10 comparisons |
+| Find routes near a trace | O(n) -- check all 685 routes | O(log n + k) where k = results |
+| Memory | None (scan on demand) | ~50 KB for 685 routes |
+
+The R-tree reduces route candidate generation from milliseconds to microseconds.
+
+## Hausdorff Distance
+
+### What is Hausdorff distance?
+
+The Hausdorff distance between two point sets A and B measures how far they are from each other in a worst-case sense:
+
+```
+H(A, B) = max( sup_a inf_b d(a,b), sup_b inf_a d(a,b) )
+```
+
+In plain language: for every point in A, find the closest point in B, and take the maximum of those distances. Do the same in reverse (every point in B to closest in A). The Hausdorff distance is the larger of the two.
+
+### Directed vs symmetric
+
+**Symmetric Hausdorff** `H(A, B)`: the maximum of directed(A, B) and directed(B, A). Measures mutual deviation.
+
+**Directed Hausdorff** `H(A -> B)`: only checks how far A deviates from B, ignoring how far B deviates from A.
+
+Mansariya uses **directed Hausdorff** for route inference:
+
+```go
+func Hausdorff(a, b orb.LineString) float64 {
+    return math.Max(DirectedHausdorff(a, b), DirectedHausdorff(b, a))
+}
+
+func DirectedHausdorff(a, b orb.LineString) float64 {
+    maxDist := 0.0
+    for _, pa := range a {
+        minDist := math.MaxFloat64
+        for i := 0; i < len(b)-1; i++ {
+            d := pointToSegmentDegrees(pa, b[i], b[i+1])
+            if d < minDist {
+                minDist = d
+            }
+        }
+        if minDist > maxDist {
+            maxDist = minDist
+        }
+    }
+    return maxDist
+}
+```
+
+### Why directed for route inference?
+
+A GPS trace is a **small subset** of a route. A 5 km trace on a 200 km route covers only 2.5% of the route. If you computed symmetric Hausdorff, the route-to-trace direction would always produce an enormous value (most route points are far from the short trace), making the metric useless.
+
+Directed Hausdorff (trace to route) asks the right question: "does every point in the trace have a nearby point on the route?" This ignores the uncovered portions of the route, which is exactly what we want.
+
+### Implementation detail
+
+Note that `DirectedHausdorff` measures distance from each point to the nearest **segment** of the other line, not just the nearest **point**. This is more accurate because a point might be close to the middle of a long segment but far from either endpoint.
+
+The `pointToSegmentDegrees` function computes the perpendicular distance from a point to a line segment using projection:
+
+```go
+func pointToSegmentDegrees(p, a, b orb.Point) float64 {
+    dx := b[0] - a[0]
+    dy := b[1] - a[1]
+    lenSq := dx*dx + dy*dy
+
+    if lenSq == 0 {
+        return pointDistDegrees(p, a)
+    }
+
+    t := ((p[0]-a[0])*dx + (p[1]-a[1])*dy) / lenSq
+    t = math.Max(0, math.Min(1, t))
+
+    proj := orb.Point{a[0] + t*dx, a[1] + t*dy}
+    return pointDistDegrees(p, proj)
+}
+```
+
+The parameter `t` is the projection of point `p` onto the line defined by segment `a-b`. Clamping `t` to [0, 1] ensures the projection stays on the segment (not the infinite line). If `t < 0`, the nearest point is `a`; if `t > 1`, the nearest point is `b`; otherwise, it is the perpendicular foot.
+
+### Units: degrees not meters
+
+The Hausdorff implementation works in **degrees** rather than meters. This is a deliberate simplification: at Sri Lanka's latitude (~7 degrees N), 1 degree of latitude is approximately 111 km, and 1 degree of longitude is approximately 110 km. The ratio is close enough to 1:1 that degree-based distances are valid for the purpose of comparison and thresholding.
+
+The threshold `maxHausdorffDeg = 0.005` corresponds to roughly 500 meters, which is the maximum acceptable deviation for route matching.
+
+## Coverage Function
+
+### What is coverage?
+
+Coverage measures what fraction of a GPS trace falls within a buffer distance of a reference route. It answers: "if I draw a 30-meter corridor around this route, how much of my trace falls inside it?"
+
+```go
+func Coverage(a, b orb.LineString, bufferDeg float64) float64 {
+    totalLen := 0.0
+    coveredLen := 0.0
+
+    for i := 0; i < len(a)-1; i++ {
+        segLen := pointDistDegrees(a[i], a[i+1])
+        totalLen += segLen
+
+        mid := orb.Point{
+            (a[i][0] + a[i+1][0]) / 2,
+            (a[i][1] + a[i+1][1]) / 2,
+        }
+        minDist := minDistToLine(mid, b)
+        if minDist <= bufferDeg {
+            coveredLen += segLen
+        }
+    }
+
+    if totalLen == 0 {
+        return 0
+    }
+    return coveredLen / totalLen
+}
+```
+
+### How it works
+
+1. Walk each segment of the trace (line A)
+2. For each segment, compute the midpoint
+3. Find the minimum distance from that midpoint to any segment of the route (line B)
+4. If that distance is within the buffer, the segment is "covered"
+5. Return the ratio of covered length to total length
+
+### Buffer value
+
+```
+coverageBuffer = 0.0003 degrees (~30m at Sri Lanka's latitude)
+```
+
+The 30-meter buffer accounts for GPS noise, road width, and minor differences between the route polyline and actual road alignment. It is tight enough to distinguish between parallel streets (typically 50+ meters apart) but loose enough to handle typical smartphone GPS error.
+
+### Coverage vs Hausdorff
+
+These two metrics are complementary:
+
+| Metric | What it catches | What it misses |
+|---|---|---|
+| Hausdorff | A single point far from the route (one bad GPS reading) | A trace that runs parallel to the route but offset by 400m (still under 500m threshold) |
+| Coverage | The overall alignment of trace with route | Individual outlier points (one bad point might be in a covered segment) |
+
+Together, they provide both "worst case" and "average case" measures of trace-to-route similarity.
+
+## Haversine Formula
+
+### What is it?
+
+The Haversine formula computes the **great-circle distance** between two points on the Earth's surface. It is the shortest distance over the surface of a sphere, accounting for Earth's curvature.
+
+### Implementation
+
+```go
+const earthRadiusKM = 6371.0
+
+func Haversine(lat1, lng1, lat2, lng2 float64) float64 {
+    dLat := toRad(lat2 - lat1)
+    dLng := toRad(lng2 - lng1)
+
+    a := math.Sin(dLat/2)*math.Sin(dLat/2) +
+        math.Cos(toRad(lat1))*math.Cos(toRad(lat2))*
+            math.Sin(dLng/2)*math.Sin(dLng/2)
+
+    c := 2 * math.Atan2(math.Sqrt(a), math.Sqrt(1-a))
+    return earthRadiusKM * c
+}
+```
+
+### Where it is used
+
+The Haversine function is the most-called function in the entire backend:
+
+- **ETA calculation**: summing along-route distances between polyline vertices
+- **Nearby stop queries**: finding stops within a radius of a user's location
+- **Point-to-segment distance**: computing distance from a GPS point to the nearest road segment
+- **Clustering**: DBSCAN distance calculation for grouping nearby GPS traces into virtual buses
+- **Speed calculation**: distance between consecutive GPS points divided by time delta
+
+### Accuracy
+
+The Haversine formula assumes a perfect sphere with radius 6,371 km. Earth is actually an oblate spheroid (wider at the equator). This introduces an error of up to ~0.5% for distances under 100 km. For bus tracking purposes (where distances of interest are 0.1-50 km), this is negligible.
+
+For context: a 0.5% error on a 10 km distance is 50 meters. GPS itself has 10-50 meter error, so the Haversine approximation is well within the noise floor.
+
+## Point-to-Segment Distance
+
+### The problem
+
+Given a point P and a line segment AB, find the minimum distance from P to the segment. This is different from the distance from P to either endpoint -- the closest point might be somewhere in the middle of the segment.
+
+### Implementation
+
+```go
+func PointToSegmentDistance(pLat, pLng, aLat, aLng, bLat, bLng float64) float64 {
+    ab := Haversine(aLat, aLng, bLat, bLng)
+    if ab == 0 {
+        return Haversine(pLat, pLng, aLat, aLng)
+    }
+
+    ap := Haversine(aLat, aLng, pLat, pLng)
+    bp := Haversine(bLat, bLng, pLat, pLng)
+
+    // If projection falls outside segment, return distance to nearest endpoint
+    if ap*ap+ab*ab < bp*bp {
+        return ap
+    }
+    if bp*bp+ab*ab < ap*ap {
+        return bp
+    }
+
+    // Use the triangle area method for perpendicular distance
+    s := (ap + bp + ab) / 2
+    area := math.Sqrt(math.Max(0, s*(s-ap)*(s-bp)*(s-ab)))
+    return 2 * area / ab
+}
+```
+
+### How it works
+
+The function uses **Heron's formula** to compute the area of triangle PAB, then derives the perpendicular distance:
+
+1. Compute all three side lengths (AP, BP, AB) using Haversine
+2. Check if the perpendicular foot falls outside the segment:
+   - If angle at A is obtuse (AP^2 + AB^2 < BP^2), the closest point is A
+   - If angle at B is obtuse (BP^2 + AB^2 < AP^2), the closest point is B
+3. Otherwise, compute the triangle area using Heron's formula: `area = sqrt(s(s-a)(s-b)(s-c))`
+4. The perpendicular distance is `2 * area / base_length`
+
+### Where it is used
+
+- **Stop-to-route matching**: finding which route passes closest to a bus stop
+- **Route polyline projection**: finding where a bus is "on" the route polyline (used in ETA calculation)
+- **GPS point to road snapping**: the Haversine-based version for kilometer-scale distances
+
+## Bearing Calculations
+
+### Initial bearing
+
+The bearing from point A to point B is the compass direction you would need to travel:
+
+```go
+func Bearing(lat1, lng1, lat2, lng2 float64) float64 {
+    dLng := toRad(lng2 - lng1)
+    lat1R := toRad(lat1)
+    lat2R := toRad(lat2)
+
+    y := math.Sin(dLng) * math.Cos(lat2R)
+    x := math.Cos(lat1R)*math.Sin(lat2R) -
+         math.Sin(lat1R)*math.Cos(lat2R)*math.Cos(dLng)
+
+    bearing := toDeg(math.Atan2(y, x))
+    return math.Mod(bearing+360, 360)
+}
+```
+
+This returns a value between 0 and 360 degrees:
+- 0/360 = North
+- 90 = East
+- 180 = South
+- 270 = West
+
+### Bearing difference
+
+Comparing two bearings requires handling the wraparound at 360 degrees:
+
+```go
+func BearingDifference(b1, b2 float64) float64 {
+    diff := math.Abs(b1 - b2)
+    if diff > 180 {
+        diff = 360 - diff
+    }
+    return diff
+}
+```
+
+Without the wraparound check, bearings 350 and 10 would appear to differ by 340 degrees when they are actually only 20 degrees apart. The function always returns a value between 0 and 180 degrees.
+
+### Where bearings are used
+
+- **Route inference**: comparing trace direction to route direction (same direction vs opposite vs perpendicular)
+- **Live tracking**: displaying the bus icon facing the correct direction on the map
+- **GPS quality**: detecting stationary devices (bearing changes erratically when GPS noise dominates a stationary position)
+
+## PostGIS Spatial Functions
+
+In addition to the Go-based spatial functions above, Mansariya uses PostGIS for spatial queries in PostgreSQL.
+
+### ST_DWithin
+
+Finds features within a distance. Used in geography mode for meter-based queries:
+
+```sql
+SELECT id, name_en FROM stops
+WHERE ST_DWithin(location::geography, ST_MakePoint($1, $2)::geography, $3)
+```
+
+This finds all stops within `$3` meters of a point. The `::geography` cast is critical -- it tells PostGIS to compute the distance on the Earth's surface (in meters) rather than in the coordinate system (in degrees).
+
+### ST_Distance
+
+Computes exact distance between geometries:
+
+```sql
+SELECT ST_Distance(a.location::geography, b.location::geography) AS distance_m
+FROM stops a, stops b
+WHERE a.id = $1 AND b.id = $2
+```
+
+### ST_GeomFromText
+
+Parses Well-Known Text (WKT) format into a PostGIS geometry:
+
+```sql
+INSERT INTO routes (id, polyline) VALUES ($1,
+    ST_GeomFromText('LINESTRING(79.8612 6.9271, 79.8618 6.9275, ...)', 4326))
+```
+
+The `4326` is the SRID (Spatial Reference Identifier) for WGS84 -- the same coordinate system that GPS uses. All geometries in Mansariya use SRID 4326.
+
+### ST_X / ST_Y
+
+Extract coordinates from point geometries:
+
+```sql
+SELECT ST_X(location) AS lng, ST_Y(location) AS lat FROM stops WHERE id = $1
+```
+
+Note the convention: `ST_X` returns longitude (the X axis in geographic coordinates) and `ST_Y` returns latitude.
+
+### GIST indexes
+
+All spatial columns in Mansariya use GIST (Generalized Search Tree) indexes:
+
+```sql
+CREATE INDEX idx_routes_polyline ON routes USING GIST(polyline);
+CREATE INDEX idx_stops_location ON stops USING GIST(location);
+```
+
+GIST indexes support spatial operations like `ST_DWithin`, `ST_Intersects`, and `ST_Distance` efficiently. Without a GIST index, spatial queries would require a full table scan.
+
+## Putting It All Together
+
+The spatial algorithms form a layered system where each layer builds on the ones below:
+
+```
+Route Inference (pipeline/inference.go)
+    |
+    |-- R-tree query (spatial/index.go)
+    |     |-- Bounding box intersection
+    |
+    |-- Hausdorff distance (spatial/hausdorff.go)
+    |     |-- Point-to-segment distance (degree-based)
+    |
+    |-- Coverage (spatial/hausdorff.go)
+    |     |-- Point-to-segment distance (degree-based)
+    |
+    |-- Bearing comparison (spatial/geo.go)
+    |     |-- Bearing calculation
+    |     |-- Bearing difference (with wraparound)
+    |
+    |-- Haversine distance (spatial/geo.go)
+
+ETA Calculation (service/eta.go)
+    |-- Route polyline lookup (spatial/index.go)
+    |-- Nearest segment index (Haversine-based)
+    |-- Distance along route (Haversine segment sums)
+
+PostGIS (database queries)
+    |-- ST_DWithin for nearby stops
+    |-- GIST index for spatial query acceleration
+```
+
+Every real-time operation -- from a GPS batch arriving to a bus appearing on a commuter's phone -- passes through multiple layers of this spatial stack. The combination of in-memory R-tree indexes, efficient degree-based geometric calculations, and PostGIS-backed persistent queries allows the system to handle thousands of concurrent operations on a single $9/month server.

@@ -87,7 +87,7 @@ All errors follow a consistent JSON format:
 | Method | Endpoint | Description |
 |--------|---------|-------------|
 | GET | `/api/v1/routes` | List all routes (paginated) |
-| GET | `/api/v1/routes/{id}` | Get a single route with stops and polyline |
+| GET | `/api/v1/routes/\{id\}` | Get a single route with stops and polyline |
 | GET | `/api/v1/routes/search?q=` | Search routes by number or name (trilingual) |
 | GET | `/api/v1/routes/sync` | Download all route data for offline caching |
 | GET | `/api/v1/routes/nearby?lat=&lng=&radius=` | Find routes near a location |
@@ -97,7 +97,7 @@ All errors follow a consistent JSON format:
 | Method | Endpoint | Description |
 |--------|---------|-------------|
 | GET | `/api/v1/stops` | List all stops (paginated) |
-| GET | `/api/v1/stops/{id}` | Get a single stop with connected routes |
+| GET | `/api/v1/stops/\{id\}` | Get a single stop with connected routes |
 | GET | `/api/v1/stops/search?q=` | Search stops by name (trilingual fuzzy search) |
 | GET | `/api/v1/stops/nearby?lat=&lng=&radius=` | Find stops near a location |
 
@@ -117,14 +117,14 @@ All errors follow a consistent JSON format:
 
 | Method | Endpoint | Description |
 |--------|---------|-------------|
-| GET | `/api/v1/routes/{id}/buses/active` | Get all active buses on a route |
+| GET | `/api/v1/routes/\{id\}/buses/active` | Get all active buses on a route |
 | GET | `/api/v1/buses/nearby?lat=&lng=&radius=` | Get active buses near a location |
 
 ### WebSocket
 
 | Protocol | Endpoint | Description |
 |----------|---------|-------------|
-| WS | `/ws/track/{routeID}` | Subscribe to live bus position updates for a route |
+| WS | `/ws/track/\{routeID\}` | Subscribe to live bus position updates for a route |
 
 ### Admin
 

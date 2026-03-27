@@ -11,7 +11,7 @@ Once the GPS pipeline produces a bus position update, it needs to reach passenge
 Pipeline Processor
   |
   v
-Redis Pub/Sub (channel: route:{routeID})
+Redis Pub/Sub (channel: route:\{routeID\})
   |
   v
 Pub/Sub Bridge (Go goroutine)
@@ -28,7 +28,7 @@ Connected Passenger Apps
 ### Connection Flow
 
 1. The passenger opens a route detail screen in the app
-2. The app connects to `ws://host/ws/track/{routeID}`
+2. The app connects to `ws://host/ws/track/\{routeID\}`
 3. The WebSocket Hub registers the client as a subscriber for that route
 4. When the Pub/Sub Bridge receives a position update for that route, the Hub broadcasts it to all subscribed clients
 5. When the passenger leaves the screen, the connection is closed and the subscription is removed
@@ -119,7 +119,7 @@ For clients that cannot use WebSocket (or for initial page loads before the WebS
 ### Get Active Buses on a Route
 
 ```
-GET /api/v1/routes/{routeID}/buses/active
+GET /api/v1/routes/\{routeID\}/buses/active
 ```
 
 Returns all currently active buses on the specified route with their latest positions.

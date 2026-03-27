@@ -1,0 +1,256 @@
+---
+title: Map Matching Deep Dive
+description: How Valhalla Meili snaps GPS to roads using Hidden Markov Models
+---
+
+## The Problem
+
+Smartphone GPS is inherently noisy. In ideal conditions (open sky, no buildings), a phone's GPS has 5-10 meter accuracy. In urban Sri Lanka -- narrow streets flanked by concrete buildings, buses weaving through traffic -- accuracy degrades to 20-50 meters or worse. Multi-path reflections from buildings cause the reported position to jump erratically.
+
+Without map matching, a bus traveling down Galle Road might appear to:
+
+- Jump to a parallel side street 30 meters away
+- Float off-road entirely, hovering over a building
+- Overshoot intersections and appear to teleport backward
+- Zigzag between lanes that do not exist
+
+These raw GPS artifacts corrupt every downstream calculation: route inference cannot match a noisy trace to a clean route polyline, ETA estimation uses wrong distances, and the live map shows buses phasing through buildings.
+
+**Map matching** solves this by taking a sequence of noisy GPS observations and finding the most probable path on the actual road network that the device traveled.
+
+## Valhalla Meili
+
+Mansariya uses **Valhalla Meili**, the map matching engine built into the open-source Valhalla routing framework. Meili implements a **Hidden Markov Model (HMM)** approach, which is the academic gold standard for map matching (established by Newson and Krumm, 2009).
+
+Valhalla is self-hosted on the same server as the Mansariya backend, running in a Docker container with OpenStreetMap tile data for Sri Lanka. This gives:
+
+- **No rate limits**: process thousands of traces per minute without throttling
+- **No API costs**: zero marginal cost per trace (compare to Google Roads API at $0.01 per call)
+- **Low latency**: ~100ms per trace since the request stays on the local network
+- **Full control**: custom costing models, tuned parameters, bus-specific behavior
+
+## Hidden Markov Model Approach
+
+The HMM treats map matching as a probabilistic inference problem. At each GPS observation, the vehicle could be on any of several nearby road segments. The HMM determines the most likely sequence of road segments.
+
+### States and observations
+
+- **States**: candidate road segments near each GPS observation. For a GPS point near an intersection, there might be 4-6 candidate segments (one for each road meeting at the intersection).
+- **Observations**: the raw GPS coordinates from the phone. Each observation is a (latitude, longitude, timestamp) tuple.
+
+### Emission probability
+
+The emission probability answers: **how likely is it that this GPS reading came from this particular road segment?**
+
+It is based on the perpendicular distance from the GPS point to the candidate road segment. Closer segments are more probable. Meili models this as a **normal (Gaussian) distribution**:
+
+```
+P(observation | segment) = (1 / sqrt(2 * pi * sigma_z^2)) * exp(-d^2 / (2 * sigma_z^2))
+```
+
+Where:
+- `d` is the perpendicular distance from the GPS point to the road segment (in meters)
+- `sigma_z` is the GPS measurement noise standard deviation
+
+Mansariya configures `sigma_z = 4.07` meters (the Meili default, derived from empirical studies of GPS noise). This means:
+
+| Distance from road | Relative probability |
+|---|---|
+| 0 m (on the road) | 1.0 (maximum) |
+| 4 m | 0.61 |
+| 10 m | 0.09 |
+| 20 m | 0.00003 |
+| 50 m | effectively 0 |
+
+A GPS point 50 meters from a road has near-zero emission probability for that road segment. This is how map matching "knows" a point is unlikely to belong to a distant road.
+
+### Transition probability
+
+The transition probability answers: **how likely is it that the vehicle moved from segment A at time t to segment B at time t+1?**
+
+This is based on the relationship between two distances:
+
+- **Great-circle distance** between consecutive GPS points (straight-line through the air)
+- **Route distance** between the candidate segments (actual driving distance on the road network)
+
+If these distances are similar, the transition is likely (the vehicle drove along the road). If the route distance is much longer than the great-circle distance, something is wrong (the model would have to assume the vehicle took a bizarre detour).
+
+Meili models this as an **exponential distribution**:
+
+```
+P(transition) = (1 / beta) * exp(-|d_route - d_gps| / beta)
+```
+
+Where:
+- `d_route` is the shortest driving distance between the two candidate segments
+- `d_gps` is the great-circle distance between the two GPS observations
+- `beta` is a tuning parameter (Mansariya uses `beta = 3`)
+
+A small `beta` makes the model strict -- it strongly prefers transitions where driving distance matches GPS distance. A large `beta` makes it lenient. The value of 3 provides a good balance for urban bus routes.
+
+### Viterbi algorithm
+
+Given emission and transition probabilities for all candidates at all timestamps, Meili uses the **Viterbi algorithm** to find the most probable sequence of road segments.
+
+The Viterbi algorithm is a dynamic programming approach:
+
+1. At the first GPS point, score each candidate segment by its emission probability.
+2. At each subsequent GPS point, for each new candidate segment, find the previous candidate that maximizes (previous score x transition probability x emission probability).
+3. After processing all GPS points, trace back from the highest-scoring final candidate to recover the full path.
+
+This runs in O(T x S^2) time, where T is the number of GPS observations and S is the maximum number of candidate segments per observation. With typical values (T=50 observations, S=5 candidates), this is fast.
+
+The result is a sequence of road segments that form a connected path on the road network -- the "matched trace."
+
+## Configuration Parameters
+
+Mansariya's Valhalla configuration lives in `infra/valhalla/valhalla.json`. Each parameter controls a different aspect of the matching behavior.
+
+### Default profile
+
+```json
+{
+  "search_radius": 50,
+  "gps_accuracy": 15,
+  "turn_penalty_factor": 50,
+  "breakage_distance": 2000,
+  "interpolation_distance": 200,
+  "sigma_z": 4.07,
+  "beta": 3
+}
+```
+
+### Bus-specific profile
+
+```json
+{
+  "search_radius": 50,
+  "gps_accuracy": 20,
+  "turn_penalty_factor": 100
+}
+```
+
+### Parameter explanations
+
+**search_radius: 50 meters**
+
+How far from each GPS point Valhalla looks for candidate road segments. A GPS point at (6.9271, 79.8612) will consider all road segments within 50 meters. Larger values handle noisier GPS but increase computation (more candidates per observation means more Viterbi states). 50m covers the worst-case urban GPS noise without pulling in irrelevant roads.
+
+**gps_accuracy: 15 meters (default) / 20 meters (bus)**
+
+The expected accuracy of incoming GPS points. This feeds into the emission probability calculation. Buses get a higher value (20m) because phone GPS inside a metal bus body tends to be slightly degraded compared to phones in open air. This tells Meili to "trust" the raw coordinates less for bus traces.
+
+**turn_penalty_factor: 50 (default) / 100 (bus)**
+
+Discourages the model from selecting paths that involve sharp turns or U-turns. Higher values make turns more expensive in the routing cost model. Buses have this set to 100 (double the default) because:
+
+- Buses almost never U-turn on their routes
+- Buses rarely make sharp turns into side streets
+- When GPS noise creates an apparent turn, it is almost always an artifact
+
+This prevents the model from "matching" a bus onto a side street just because one noisy GPS point happened to be closer to that street.
+
+**breakage_distance: 2000 meters**
+
+If two consecutive GPS points are more than 2000 meters apart, Meili "breaks" the trace into separate segments and matches each independently. This handles:
+
+- GPS signal loss in tunnels or underground
+- Phone going to sleep and waking up minutes later
+- Long gaps at bus terminals
+
+Without breakage, a 2 km gap would force Meili to find a connected path between two distant points, potentially matching through incorrect roads. Breaking the trace is more honest -- each segment is matched with high quality.
+
+**interpolation_distance: 200 meters**
+
+When matched road segments are far apart, Meili fills the gap by interpolating points along the road every 200 meters. This produces a smooth, continuous matched trace even when the original GPS points were sparse. The interpolated points follow the road network, including curves and intersections.
+
+**sigma_z: 4.07 meters**
+
+Standard deviation for the emission probability's Gaussian distribution. This is the Meili default, derived from empirical analysis of GPS noise characteristics. It controls how quickly probability drops off with distance from a road segment.
+
+**beta: 3**
+
+Scale parameter for the transition probability's exponential distribution. Controls how strictly the model enforces consistency between GPS distance and driving distance. Lower values are stricter; the value of 3 provides tolerance for GPS noise while still penalizing implausible transitions.
+
+## Bus-Specific Costing
+
+Valhalla supports multiple "costing models" that define which roads a vehicle type can use and prefers. The bus costing model:
+
+- **Prefers main roads**: buses stick to arterial roads, national highways, and bus routes
+- **Avoids residential streets**: a bus is unlikely to be driving through a housing lane
+- **Considers road width**: narrow roads are penalized because buses physically cannot fit on some streets
+- **Penalizes U-turns heavily**: the high `turn_penalty_factor` of 100 makes U-turns very expensive
+
+This is important in Sri Lanka where narrow lanes run parallel to main roads. Without bus costing, Meili might match a bus onto a 3-meter-wide lane because one GPS point was 2 meters closer to that lane.
+
+## Sri Lanka-Specific Considerations
+
+### Narrow roads and congestion
+
+Many Sri Lankan bus routes run through towns with narrow roads and heavy congestion. Buses in Colombo frequently travel at walking speed, producing GPS traces with clustered points. Meili handles this well -- the HMM does not assume any minimum speed.
+
+### Bus stops mid-road
+
+Unlike dedicated bus bays common in other countries, Sri Lankan bus stops are often simply a point on the road where the bus halts. This means buses stop in the traffic lane, producing a cluster of GPS points at the same location. Meili treats these as stationary observations on the correct road segment.
+
+### Parallel road pairs
+
+Major corridors like Galle Road and the Colombo-Katunayake Expressway run parallel with separation of 100-500 meters. The `search_radius` of 50m prevents cross-matching between these parallel routes, and the transition probabilities ensure that once a trace is matched to one road, it stays there unless the GPS evidence strongly supports a road change.
+
+### Multi-path GPS errors near tall buildings
+
+Colombo's Fort district and Bambalapitiya have tall buildings that cause GPS multi-path errors (signals bouncing off buildings, reporting positions 30-50m from reality). The `gps_accuracy` of 20m for buses and the `sigma_z` of 4.07m work together -- the emission probability spreads out enough to still give reasonable probability to the correct road segment even when the GPS is 30m off.
+
+## The Matching Pipeline
+
+Map matching sits at the beginning of the GPS processing pipeline:
+
+```
+Phone GPS → POST /api/v1/gps/batch → Redis Stream "gps:raw"
+    → [Go worker: Valhalla map-match] → Redis Stream "gps:matched"
+```
+
+The Go worker reads raw GPS batches from the `gps:raw` Redis stream, sends them to the local Valhalla instance via HTTP, and writes the matched result to the `gps:matched` stream for route inference.
+
+### Request format
+
+The worker sends a trace to Valhalla's `/trace_route` endpoint:
+
+```json
+{
+  "shape": [
+    {"lat": 6.9271, "lon": 79.8612, "time": 1700000000},
+    {"lat": 6.9275, "lon": 79.8618, "time": 1700000005},
+    {"lat": 6.9280, "lon": 79.8625, "time": 1700000010}
+  ],
+  "costing": "bus",
+  "shape_match": "map_snap"
+}
+```
+
+### Response
+
+Valhalla returns the matched path as a sequence of road-snapped coordinates along with metadata (matched edge IDs, confidence, distance traveled). The worker extracts the snapped coordinates and average speed to produce a `MatchedTrace` for downstream processing.
+
+## Fallback Behavior
+
+If Valhalla is unavailable (container restart, resource exhaustion), the pipeline falls back to using **raw GPS points** directly. This produces degraded quality:
+
+- Route inference accuracy drops because noisy points reduce coverage scores
+- The live map shows less smooth bus movement
+- ETA calculations use straight-line distances instead of road-snapped distances
+
+The fallback is automatic -- the worker detects Valhalla connection errors and passes through raw coordinates with a flag indicating reduced confidence. When Valhalla recovers, the pipeline automatically resumes full-quality matching.
+
+## Performance Characteristics
+
+| Metric | Value |
+|---|---|
+| Average latency per trace | ~100 ms |
+| Maximum trace length | 16,000 points |
+| Maximum trace distance | 200 km |
+| Concurrent traces | Limited by CPU cores (2 on CX32) |
+| Memory usage | ~500 MB for Sri Lanka tile data |
+| Cold start time | ~30 seconds (tile loading) |
+
+The 100ms latency is well within the real-time budget. GPS batches arrive every 5-10 seconds, and the entire pipeline (map match + route inference + clustering + broadcast) completes in under 500ms.

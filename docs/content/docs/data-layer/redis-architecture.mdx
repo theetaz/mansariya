@@ -1,0 +1,348 @@
+---
+title: Redis Architecture
+description: Streams, Pub/Sub, and caching patterns
+---
+
+## Three Roles for Redis
+
+Redis serves three distinct purposes in Mansariya, each using a different Redis data structure:
+
+| Role | Data Structure | Purpose |
+|------|---------------|---------|
+| **Async Pipeline** | Streams | Process GPS data through map-matching and inference stages |
+| **Real-time Broadcast** | Pub/Sub | Push bus position updates to WebSocket clients |
+| **Position Cache** | Hash + Sorted Set | Store latest bus positions with automatic expiration |
+
+These three roles could theoretically use separate Redis instances, but for Mansariya's scale (a single server handling all of Sri Lanka), one Redis instance handles all three efficiently.
+
+## 1. Streams: Async Pipeline Processing
+
+Redis Streams power the GPS processing pipeline. Raw GPS pings from contributor phones pass through two stream-connected stages before becoming live bus positions.
+
+### Stream: gps:raw
+
+The entry point for all GPS data. The HTTP ingester writes validated GPS batches here.
+
+```
+XADD gps:raw MAXLEN ~100000 * data "{...json...}"
+```
+
+- **Producer:** `Ingester.Ingest()` in `internal/pipeline/ingester.go`
+- **Consumer:** MapMatcher worker
+- **Max length:** ~100,000 entries (approximate trimming via `MAXLEN ~100000`)
+- **Entry format:** Single `data` field containing a JSON-serialized `GPSBatch`
+
+The `MAXLEN` cap prevents unbounded memory growth. With 5-second update intervals and hundreds of contributors, 100,000 entries provides roughly 30 minutes of buffer. The `~` prefix tells Redis to use approximate trimming (more efficient than exact trimming).
+
+### Stream: gps:matched
+
+Map-matched GPS traces. The MapMatcher reads from `gps:raw`, sends traces through Valhalla for road-snapping, and writes results here.
+
+```
+XADD gps:matched MAXLEN ~100000 * data "{...json...}"
+```
+
+- **Producer:** `MapMatcher.processMessage()` in `internal/pipeline/mapmatcher.go`
+- **Consumer:** Processor worker
+- **Entry format:** JSON-serialized `MatchedTrace` with road-snapped coordinates
+
+### Consumer Group: pipeline
+
+Both streams use the same consumer group name `"pipeline"`, with individual consumer names for each worker:
+
+```
+XGROUP CREATE gps:raw pipeline 0 MKSTREAM
+XGROUP CREATE gps:matched pipeline 0 MKSTREAM
+```
+
+- **Consumer `"mapmatcher"`:** Reads from `gps:raw`, writes to `gps:matched`
+- **Consumer `"processor"`:** Reads from `gps:matched`, performs route inference and clustering
+
+The MapMatcher creates consumer groups on startup via `EnsureConsumerGroup()`:
+
+```go
+func (mm *MapMatcher) EnsureConsumerGroup(ctx context.Context) error {
+    err := mm.rdb.XGroupCreateMkStream(ctx, StreamRawGPS, ConsumerGroup, "0").Err()
+    if err != nil && err.Error() != "BUSYGROUP Consumer Group name already exists" {
+        return fmt.Errorf("create consumer group: %w", err)
+    }
+    // ... same for StreamMatchedGPS
+}
+```
+
+### Reading from Streams
+
+Workers use `XREADGROUP` with blocking reads:
+
+```go
+streams, err := mm.rdb.XReadGroup(ctx, &redis.XReadGroupArgs{
+    Group:    ConsumerGroup,       // "pipeline"
+    Consumer: ConsumerMapMatch,    // "mapmatcher"
+    Streams:  []string{StreamRawGPS, ">"},
+    Count:    10,                  // process up to 10 messages per batch
+    Block:    2 * time.Second,     // block for 2s if no messages
+}).Result()
+```
+
+Key behaviors:
+
+- **`">"`** means "give me only new messages not yet delivered to any consumer in this group"
+- **`Count: 10`** limits batch size to prevent one worker from monopolizing messages
+- **`Block: 2 * time.Second`** avoids busy-waiting when the stream is empty
+- Messages are acknowledged with `XACK` after processing (or on error, to avoid reprocessing stuck messages)
+
+### Why Streams, Not Simple Queues
+
+Redis Streams provide several advantages over list-based queues (`LPUSH`/`BRPOP`):
+
+1. **Persistence:** Stream entries survive Redis restarts (with AOF/RDB persistence enabled). If a worker crashes mid-processing, unacknowledged messages can be re-delivered.
+2. **Consumer groups:** Multiple consumers can process the same stream in parallel. If Mansariya needed to scale map-matching, it could add more `mapmatcher` consumers without changing the producer.
+3. **Replayability:** Streams retain history (up to `MAXLEN`). A new consumer can start from the beginning of the stream, useful for debugging or reprocessing.
+4. **Backpressure visibility:** `XLEN` and `XINFO` reveal how many messages are pending, enabling monitoring of pipeline health.
+
+## 2. Pub/Sub: Real-time Broadcast
+
+After the Processor stage clusters multiple contributor traces into a single bus position, the Broadcaster publishes the result to Redis Pub/Sub for instant delivery to WebSocket clients.
+
+### Channel Pattern: route:\{routeID\}
+
+Each route has its own Pub/Sub channel. When a bus position update is computed for route 138, it is published to channel `route:138`:
+
+```go
+pipe.Publish(ctx, "route:"+vehicle.RouteID, string(data))
+```
+
+- **Publisher:** `Broadcaster.Publish()` in `internal/pipeline/broadcaster.go`
+- **Subscriber:** `runPubSubBridge()` in `cmd/server/main.go`
+- **Message format:** JSON-serialized `Vehicle` struct with lat, lng, speed, bearing, confidence, contributor count
+
+### The Pub/Sub Bridge
+
+The bridge runs as a goroutine in the main server process. It subscribes to all route channels using a pattern subscription and forwards messages to the WebSocket Hub:
+
+```go
+func runPubSubBridge(ctx context.Context, rdb *goredis.Client, hub *ws.Hub) {
+    pubsub := rdb.PSubscribe(ctx, "route:*")
+    defer pubsub.Close()
+
+    ch := pubsub.Channel()
+    for {
+        select {
+        case <-ctx.Done():
+            return
+        case msg, ok := <-ch:
+            if !ok {
+                return
+            }
+            if len(msg.Channel) > 6 {
+                routeID := msg.Channel[6:] // strip "route:" prefix
+                hub.Broadcast(routeID, json.RawMessage(msg.Payload))
+            }
+        }
+    }
+}
+```
+
+The bridge extracts the route ID from the channel name (stripping the `route:` prefix) and calls `hub.Broadcast()`, which sends the message to all WebSocket connections subscribed to that route.
+
+### Pattern Subscription: route:*
+
+Using `PSubscribe("route:*")` catches all route channels with a single subscription. This means:
+
+- The bridge does not need to know which routes exist upfront
+- New routes are automatically covered
+- There is no per-route subscription management
+
+### Why Pub/Sub, Not Streams
+
+For real-time broadcast, Pub/Sub is the right choice:
+
+1. **Fire-and-forget:** If no WebSocket clients are listening for route 42, the message is simply discarded. There is no stream entry to accumulate.
+2. **Low latency:** Pub/Sub delivers messages with minimal overhead. There is no consumer group coordination, no acknowledgment, no backlog.
+3. **No persistence needed:** Bus positions are ephemeral. A missed position update is irrelevant because the next one arrives in 5 seconds. Storing every position in a stream would waste memory.
+4. **Fan-out:** One publish reaches all subscribers simultaneously. If 100 passengers are watching route 138, one `PUBLISH` delivers to all 100 via the WebSocket Hub.
+
+## 3. Hash + Sorted Set: Position Cache
+
+While Pub/Sub handles real-time push, the Hash and Sorted Set structures handle pull-based queries: "What is the current position of bus X?" and "Which buses are active on route Y?"
+
+### Hash: bus:\{virtualID\}:pos
+
+Each active bus has a Hash storing its latest known state:
+
+```go
+posKey := "bus:" + vehicle.VirtualID + ":pos"
+pipe.HSet(ctx, posKey, map[string]interface{}{
+    "lat":        vehicle.Lat,
+    "lng":        vehicle.Lng,
+    "speed":      vehicle.SpeedKMH,
+    "bearing":    vehicle.Bearing,
+    "route_id":   vehicle.RouteID,
+    "confidence": vehicle.Confidence,
+    "count":      vehicle.ContributorCount,
+    "ts":         vehicle.LastUpdate.Unix(),
+})
+pipe.Expire(ctx, posKey, 5*time.Minute)
+```
+
+**Hash fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `lat` | float | Current latitude |
+| `lng` | float | Current longitude |
+| `speed` | float | Speed in km/h |
+| `bearing` | float | Compass heading in degrees |
+| `route_id` | string | Which route this bus is on |
+| `confidence` | string | Position confidence: `"low"`, `"good"`, `"verified"` |
+| `count` | int | Number of contributors fused into this position |
+| `ts` | int64 | Unix timestamp of last update |
+
+**TTL: 5 minutes.** If no update arrives within 5 minutes, the key expires automatically and the bus disappears from the system. This is the primary mechanism for removing stale buses -- no cleanup cron job needed.
+
+The Hash structure (vs. a simple string with JSON) allows reading individual fields:
+
+```
+HGET bus:v_138_001:pos lat
+HGET bus:v_138_001:pos speed
+```
+
+This is useful for the ETA service, which only needs position and speed, not the full vehicle state.
+
+### Sorted Set: route:\{routeID\}:buses
+
+Each route has a Sorted Set tracking its active buses. The member is the bus's virtual ID, and the score is the Unix timestamp of the last update:
+
+```go
+pipe.ZAdd(ctx, "route:"+vehicle.RouteID+":buses", redis.Z{
+    Score:  float64(vehicle.LastUpdate.Unix()),
+    Member: vehicle.VirtualID,
+})
+```
+
+This enables the query "find all active buses on route 138":
+
+```go
+busIDs, err := s.rdb.ZRangeByScore(ctx, "route:"+routeID+":buses", &redis.ZRangeBy{
+    Min: strconv.FormatInt(cutoff.Unix(), 10),
+    Max: "+inf",
+}).Result()
+```
+
+By filtering on score (timestamp), stale entries are excluded without removal. The Broadcaster's `CleanStale()` method periodically removes entries older than 5 minutes:
+
+```go
+func (b *Broadcaster) CleanStale(ctx context.Context) error {
+    cutoff := float64(time.Now().Add(-5 * time.Minute).Unix())
+    keys, err := b.rdb.Keys(ctx, "route:*:buses").Result()
+    if err != nil {
+        return err
+    }
+    for _, key := range keys {
+        b.rdb.ZRemRangeByScore(ctx, key, "-inf", fmt.Sprintf("%f", cutoff))
+    }
+    return nil
+}
+```
+
+## Data Flow Through Redis
+
+The complete data flow from phone to passenger screen passes through all three Redis roles:
+
+```
+Phone GPS
+  |
+  v
+[HTTP Ingester]
+  |
+  | XADD gps:raw
+  v
+[Stream: gps:raw]
+  |
+  | XREADGROUP (mapmatcher consumer)
+  v
+[MapMatcher Worker]
+  |  Valhalla map-match
+  |
+  | XADD gps:matched
+  v
+[Stream: gps:matched]
+  |
+  | XREADGROUP (processor consumer)
+  v
+[Processor Worker]
+  |  Route inference + DBSCAN clustering
+  |
+  +---> PUBLISH route:\{id\}       --> [Pub/Sub Bridge] --> [WS Hub] --> Clients
+  |
+  +---> HSET bus:{vid}:pos       --> [Position Cache]  --> API queries
+  |     EXPIRE 5min
+  |
+  +---> ZADD route:\{id\}:buses    --> [Active Bus Set]  --> "buses on route" queries
+```
+
+All three Redis operations (PUBLISH, HSET+EXPIRE, ZADD) are batched in a single Redis pipeline for efficiency:
+
+```go
+pipe := b.rdb.Pipeline()
+pipe.Publish(ctx, "route:"+vehicle.RouteID, string(data))
+pipe.HSet(ctx, posKey, fields)
+pipe.Expire(ctx, posKey, 5*time.Minute)
+pipe.ZAdd(ctx, routeBusesKey, redis.Z{...})
+_, err = pipe.Exec(ctx)
+```
+
+Pipelining sends all four commands to Redis in a single round-trip, reducing network overhead.
+
+## Redis Key Naming Conventions
+
+| Pattern | Type | Purpose | TTL |
+|---------|------|---------|-----|
+| `gps:raw` | Stream | Raw GPS batches | Capped at ~100K entries |
+| `gps:matched` | Stream | Map-matched traces | Capped at ~100K entries |
+| `bus:\{virtualID\}:pos` | Hash | Latest bus position | 5 minutes |
+| `route:\{routeID\}:buses` | Sorted Set | Active buses per route | Cleaned periodically |
+| `route:\{routeID\}` | Pub/Sub channel | Real-time position broadcast | N/A (fire-and-forget) |
+
+## Why Redis, Not Kafka
+
+For a system that might eventually handle thousands of GPS pings per second, Kafka is the typical choice. Mansariya uses Redis instead for several reasons:
+
+1. **Simplicity:** Redis is a single process. Kafka requires ZooKeeper (or KRaft), brokers, and topic management. For a project with a $9/month infrastructure budget, operational simplicity matters.
+2. **Single-node sufficient:** Sri Lanka has roughly 6,000 active buses at peak. Even with 50% adoption and 5-second updates, that is 600 pings/second. Redis handles this without breaking a sweat.
+3. **Built-in TTL:** Redis Hash expiration automatically cleans up stale bus positions. In Kafka, you would need a separate cleanup process or rely on log compaction with custom logic.
+4. **Multi-purpose:** Redis serves streams, pub/sub, and caching from a single instance. Using Kafka for streams would still require Redis (or another cache) for position storage.
+5. **Low latency:** Redis operates in-memory with sub-millisecond response times. The entire pipeline from GPS ingestion to WebSocket broadcast takes under 2 seconds, with Redis adding negligible overhead.
+6. **Familiar tooling:** The Go ecosystem has excellent Redis support via go-redis v9. Monitoring is straightforward with `redis-cli INFO`, `XINFO`, and `PUBSUB NUMSUB`.
+
+If Mansariya grows beyond a single server, the migration path is clear: split the pipeline streams into a dedicated Redis instance, or replace streams with Kafka while keeping Redis for caching and pub/sub. But at current scale, Redis handles all three roles comfortably within the 8GB RAM of a Hetzner CX32.
+
+## Monitoring
+
+Key metrics to watch:
+
+```bash
+# Stream backlog (pending messages not yet processed)
+redis-cli XINFO GROUPS gps:raw
+redis-cli XINFO GROUPS gps:matched
+
+# Stream length (total entries in stream)
+redis-cli XLEN gps:raw
+redis-cli XLEN gps:matched
+
+# Active buses on a route
+redis-cli ZCARD route:138:buses
+
+# Pub/Sub subscriber count
+redis-cli PUBSUB NUMSUB route:138
+
+# Memory usage
+redis-cli INFO memory
+```
+
+A healthy pipeline shows:
+
+- `pending` counts near zero (consumers keeping up with producers)
+- Stream lengths well below the 100,000 cap
+- Active bus counts matching expected service levels
+- Memory usage stable and well within available RAM
