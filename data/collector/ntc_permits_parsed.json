@@ -1,0 +1,2865 @@
+[
+  {
+    "route_no": "0-0R4-11",
+    "origin": "COLOMBO",
+    "destination": "CHILAW",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "0-1R5-17",
+    "origin": "KURUNEGALA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "0-3R2-4",
+    "origin": "COLOMBO",
+    "destination": "TANGALLE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "0-5R2-8",
+    "origin": "KANDY",
+    "destination": "DIYASENPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "0-9R2--R004",
+    "origin": "COLOMBO",
+    "destination": "KULIYAPITIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "0R48-9",
+    "origin": "KURUNEGALA",
+    "destination": "HINGURAKGODA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "1",
+    "origin": "COLOMBO",
+    "destination": "KANDY",
+    "service_type": "NORMAL",
+    "count": 170
+  },
+  {
+    "route_no": "1-1",
+    "origin": "COLOMBO",
+    "destination": "KEGALLE",
+    "service_type": "NORMAL",
+    "count": 23
+  },
+  {
+    "route_no": "1-1/2",
+    "origin": "NEGOMBO",
+    "destination": "KEGALLE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "1-2",
+    "origin": "COLOMBO",
+    "destination": "MAWANELLA",
+    "service_type": "NORMAL",
+    "count": 14
+  },
+  {
+    "route_no": "1-3",
+    "origin": "COLOMBO",
+    "destination": "WARAKAPOLA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "1-4",
+    "origin": "COLOMBO",
+    "destination": "GALAPITAMADA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "1-R",
+    "origin": "COLOMBO",
+    "destination": "KANDY",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "1/245",
+    "origin": "NEGOMBO",
+    "destination": "KANDY",
+    "service_type": "NORMAL",
+    "count": 18
+  },
+  {
+    "route_no": "1/627-0",
+    "origin": "COLOMBO",
+    "destination": "RUPAHA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "1/744",
+    "origin": "COLOMBO",
+    "destination": "PADIYAPELELLA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "2",
+    "origin": "COLOMBO",
+    "destination": "MATARA",
+    "service_type": "NORMAL",
+    "count": 104
+  },
+  {
+    "route_no": "2-1",
+    "origin": "COLOMBO",
+    "destination": "GALLE",
+    "service_type": "NORMAL",
+    "count": 95
+  },
+  {
+    "route_no": "2-10",
+    "origin": "COLOMBO",
+    "destination": "DEYYANDARA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "2-12",
+    "origin": "COLOMBO",
+    "destination": "KIRINDA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "2-1R8-2",
+    "origin": "MAHIYANGANAY",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "2-3",
+    "origin": "COLOMBO",
+    "destination": "AMBALANGODA",
+    "service_type": "NORMAL",
+    "count": 40
+  },
+  {
+    "route_no": "2-4",
+    "origin": "COLOMBO",
+    "destination": "YATIYANA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "2-9",
+    "origin": "COLOMBO",
+    "destination": "DEYYANDARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "2/13",
+    "origin": "COLOMBO",
+    "destination": "MAWARALA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "2/366",
+    "origin": "COLOMBO",
+    "destination": "AKURESSA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "2/368",
+    "origin": "COLOMBO",
+    "destination": "URUBOKKE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "3-1",
+    "origin": "COLOMBO",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 15
+  },
+  {
+    "route_no": "3-1/3",
+    "origin": "MIDDENIYA",
+    "destination": "COLOMBO",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "3-4",
+    "origin": "COLOMBO",
+    "destination": "HAMBANTHOTA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "3/363",
+    "origin": "COLOMBO",
+    "destination": "WALASMULLA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "3/497",
+    "origin": "COLOMBO",
+    "destination": "SURIYAWEWA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "4",
+    "origin": "COLOMBO",
+    "destination": "MANNAR",
+    "service_type": "LUXURY",
+    "count": 7
+  },
+  {
+    "route_no": "4-1",
+    "origin": "COLOMBO",
+    "destination": "THALAIMANNAR",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "4-10",
+    "origin": "COLOMBO",
+    "destination": "ELUWANKULAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "4-11",
+    "origin": "COLOMBO",
+    "destination": "CHILAW",
+    "service_type": "NORMAL",
+    "count": 103
+  },
+  {
+    "route_no": "4-11/1",
+    "origin": "CHILAW",
+    "destination": "MAHARAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "4-13",
+    "origin": "PUTTALAM",
+    "destination": "MANNAR",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "4-3",
+    "origin": "COLOMBO",
+    "destination": "ANURADHAPURA",
+    "service_type": "LUXURY",
+    "count": 8
+  },
+  {
+    "route_no": "4-7",
+    "origin": "COLOMBO",
+    "destination": "PUTTALAM",
+    "service_type": "NORMAL",
+    "count": 32
+  },
+  {
+    "route_no": "4-9",
+    "origin": "COLOMBO",
+    "destination": "ANAMADUWA",
+    "service_type": "LUXURY",
+    "count": 8
+  },
+  {
+    "route_no": "4-9/9",
+    "origin": "COLOMBO",
+    "destination": "ANURADHAPURA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "4/844",
+    "origin": "COLOMBO",
+    "destination": "SRIPURA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "5",
+    "origin": "COLOMBO",
+    "destination": "KURUNEGALA",
+    "service_type": "NORMAL",
+    "count": 56
+  },
+  {
+    "route_no": "5/245",
+    "origin": "KATUNAYAKE",
+    "destination": "KURUNEGALA",
+    "service_type": "NORMAL",
+    "count": 8
+  },
+  {
+    "route_no": "5/57/5",
+    "origin": "KATUNAYAKE",
+    "destination": "GALNEWA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "6",
+    "origin": "COLOMBO",
+    "destination": "KURUNEGALA",
+    "service_type": "NORMAL",
+    "count": 85
+  },
+  {
+    "route_no": "6/558",
+    "origin": "COLOMBO",
+    "destination": "MORAGOLLAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "6/57/5",
+    "origin": "COLOMBO",
+    "destination": "GALNEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "7",
+    "origin": "COLOMBO",
+    "destination": "KALPITIYA",
+    "service_type": "NORMAL",
+    "count": 7
+  },
+  {
+    "route_no": "7-1",
+    "origin": "NEGOMBO",
+    "destination": "KALPITIYA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "8",
+    "origin": "COLOMBO",
+    "destination": "MATALE",
+    "service_type": "LUXURY",
+    "count": 32
+  },
+  {
+    "route_no": "9",
+    "origin": "COLOMBO",
+    "destination": "TELDENIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "9-0R9",
+    "origin": "MONARAGALA",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "9-1",
+    "origin": "COLOMBO",
+    "destination": "WATTEGAMA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "9-2",
+    "origin": "COLOMBO",
+    "destination": "DIGANA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "11",
+    "origin": "MATARA",
+    "destination": "RATHNAPURA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "11-1",
+    "origin": "MATARA",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 20
+  },
+  {
+    "route_no": "11-1-0",
+    "origin": "MATARA",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "11-3",
+    "origin": "MATARA",
+    "destination": "SURIYAWEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "11/342",
+    "origin": "MATARA",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "15-1",
+    "origin": "COLOMBO",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 14
+  },
+  {
+    "route_no": "15-1-0",
+    "origin": "COLOMBO",
+    "destination": "ANURADHAPURA",
+    "service_type": "LUXURY",
+    "count": 16
+  },
+  {
+    "route_no": "15-11",
+    "origin": "COLOMBO",
+    "destination": "JANAKAPURA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "15-13",
+    "origin": "GALNEWA",
+    "destination": "COLOMBO",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "15-17",
+    "origin": "KURUNEGALA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "15-18",
+    "origin": "KEGALLE",
+    "destination": "VAVUNIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "15-21/4",
+    "origin": "COLOMBO",
+    "destination": "GALNEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "15-22/0",
+    "origin": "MORATUWA",
+    "destination": "KANKASANTHURAI",
+    "service_type": "SUPER",
+    "count": 2
+  },
+  {
+    "route_no": "15-4",
+    "origin": "COLOMBO",
+    "destination": "GALNEWA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "15-5",
+    "origin": "KURUNEGALA",
+    "destination": "KEKIRAWA",
+    "service_type": "NORMAL",
+    "count": 6
+  },
+  {
+    "route_no": "15-5/5",
+    "origin": "KURUNEGALA",
+    "destination": "BULNEEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "15-6",
+    "origin": "COLOMBO",
+    "destination": "GALENBINDUNUWE",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "15-7",
+    "origin": "COLOMBO",
+    "destination": "VAVUNIYA",
+    "service_type": "NORMAL",
+    "count": 8
+  },
+  {
+    "route_no": "15/87",
+    "origin": "COLOMBO",
+    "destination": "JAFFNA",
+    "service_type": "SUPER LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "15/87/7",
+    "origin": "COLOMBO",
+    "destination": "POINT PEDRO",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "15/968",
+    "origin": "COLOMBO",
+    "destination": "WEWALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "16",
+    "origin": "COLOMBO",
+    "destination": "NAWALAPITIYA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "17",
+    "origin": "PANADURA",
+    "destination": "KANDY",
+    "service_type": "NORMAL",
+    "count": 20
+  },
+  {
+    "route_no": "17-1",
+    "origin": "PANADURA",
+    "destination": "KURUNEGALA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "17/15-0",
+    "origin": "PANADURA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "17/6",
+    "origin": "BATTARAMULLA",
+    "destination": "KURUNEGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "18-2",
+    "origin": "COLOMBO",
+    "destination": "HATTON",
+    "service_type": "LUXURY",
+    "count": 14
+  },
+  {
+    "route_no": "18-6",
+    "origin": "COLOMBO",
+    "destination": "BAGAWANTHALAW",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "18-7",
+    "origin": "COLOMBO",
+    "destination": "THALAWAKELE",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "19-2",
+    "origin": "COLOMBO",
+    "destination": "GAMPOLA",
+    "service_type": "NORMAL",
+    "count": 34
+  },
+  {
+    "route_no": "21",
+    "origin": "KANDY",
+    "destination": "BADULLA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "21/742",
+    "origin": "COLOMBO",
+    "destination": "THERIPEHE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "22-11",
+    "origin": "KANDY",
+    "destination": "BIBILA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "22-12",
+    "origin": "KANDY",
+    "destination": "MAHAOYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "22-2",
+    "origin": "KANDY",
+    "destination": "AMPARA",
+    "service_type": "LUXURY",
+    "count": 21
+  },
+  {
+    "route_no": "22-2/8",
+    "origin": "KANDY",
+    "destination": "AKKARAIPATTU",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "22-3",
+    "origin": "KANDY",
+    "destination": "TAMPITITYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "22-4",
+    "origin": "MAHIYANGANAY",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "22-5",
+    "origin": "KANDY",
+    "destination": "MAHIYANGANAYA",
+    "service_type": "NORMAL",
+    "count": 15
+  },
+  {
+    "route_no": "22-6",
+    "origin": "KANDY",
+    "destination": "SIRIPURA",
+    "service_type": "NORMAL",
+    "count": 7
+  },
+  {
+    "route_no": "22-6-0",
+    "origin": "KANDY",
+    "destination": "DEHIATTAKANDIYA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "22-7",
+    "origin": "COLOMBO",
+    "destination": "KALMUNAI",
+    "service_type": "LUXURY",
+    "count": 15
+  },
+  {
+    "route_no": "22-8",
+    "origin": "COLOMBO",
+    "destination": "AMPARA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "22-9",
+    "origin": "COLOMBO",
+    "destination": "NINTHAVOOR",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "22/217",
+    "origin": "PUSSALAWINNA",
+    "destination": "KANDY",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "22/218/0",
+    "origin": "AMPARA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "23",
+    "origin": "AVISSAWELLA",
+    "destination": "KITHULGALA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "25",
+    "origin": "URUBOKKA",
+    "destination": "WANDAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "25/27/2",
+    "origin": "EMBILIPITIYA",
+    "destination": "WELIKANDA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "25/363",
+    "origin": "MULATIYANA",
+    "destination": "MONARAGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "25/76",
+    "origin": "EMBILIPITIYA",
+    "destination": "TRINCOMALEE",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "26",
+    "origin": "COLOMBO",
+    "destination": "HAKMANA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "26-1",
+    "origin": "COLOMBO",
+    "destination": "MIDDENIYA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "26-3",
+    "origin": "COLOMBO",
+    "destination": "DEYYANDARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "27/218/0",
+    "origin": "THANAMALWILA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "30-7-0",
+    "origin": "MAHAOYA",
+    "destination": "WELLASSA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "31",
+    "origin": "MATARA",
+    "destination": "BANDARAWELA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "31-1",
+    "origin": "MATARA",
+    "destination": "NUWARAELIYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "31-2",
+    "origin": "MATARA",
+    "destination": "BADULLA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "32",
+    "origin": "COLOMBO",
+    "destination": "KATARAGAMA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "32-1",
+    "origin": "COLOMBO",
+    "destination": "HAMBANTHOTA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "32-4",
+    "origin": "COLOMBO",
+    "destination": "TANGALLE",
+    "service_type": "NORMAL",
+    "count": 35
+  },
+  {
+    "route_no": "32-5",
+    "origin": "COLOMBO",
+    "destination": "MIDDENIYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "32-6",
+    "origin": "ELPITIYA",
+    "destination": "KATARAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "32-7",
+    "origin": "GALLE",
+    "destination": "KATARAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "32/493",
+    "origin": "COLOMBO",
+    "destination": "ANGUNUKOLAPELE",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "34-3",
+    "origin": "NEGOMBO",
+    "destination": "KURUNEGALA",
+    "service_type": "LUXURY",
+    "count": 42
+  },
+  {
+    "route_no": "34-4",
+    "origin": "NEGOMBO",
+    "destination": "GIRIULLA",
+    "service_type": "NORMAL",
+    "count": 33
+  },
+  {
+    "route_no": "35",
+    "origin": "GALLE",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "35-1",
+    "origin": "MATARA",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 10
+  },
+  {
+    "route_no": "35-3",
+    "origin": "MATARA",
+    "destination": "MONARAGALA",
+    "service_type": "NORMAL",
+    "count": 19
+  },
+  {
+    "route_no": "35/881-0",
+    "origin": "MATARA",
+    "destination": "KALMUNAI",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "35/935",
+    "origin": "GALLE",
+    "destination": "BATTICALOA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "38",
+    "origin": "COLOMBO",
+    "destination": "BIBILA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "38-1",
+    "origin": "COLOMBO",
+    "destination": "MAHIYANGANAYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "38-3",
+    "origin": "COLOMBO",
+    "destination": "DEHIATTAKANDIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "41-10",
+    "origin": "KANDY",
+    "destination": "ONEGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "41-11",
+    "origin": "KANDY",
+    "destination": "ARUNAPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "41-12/0",
+    "origin": "GAMPOLA",
+    "destination": "BATTICALOA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "41-2",
+    "origin": "KANDY",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 21
+  },
+  {
+    "route_no": "41-2/6",
+    "origin": "KANDY",
+    "destination": "BIMPOKUNA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "41-2/9",
+    "origin": "KANDY",
+    "destination": "SUNGAWILA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "41-3",
+    "origin": "KANDY",
+    "destination": "BUDDHAYAYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "41/48",
+    "origin": "KANDY",
+    "destination": "BATTICALOA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "42",
+    "origin": "COLOMBO",
+    "destination": "UDUGAMA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "42-2",
+    "origin": "KANDY",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 30
+  },
+  {
+    "route_no": "42-5",
+    "origin": "KANDY",
+    "destination": "NOCHCHIYAGAMA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "42-8",
+    "origin": "COLOMBO",
+    "destination": "MAPALAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "42-9",
+    "origin": "COLOMBO",
+    "destination": "THAWALAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "42/369",
+    "origin": "COLOMBO",
+    "destination": "OPATHA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "42/384-0",
+    "origin": "COLOMBO",
+    "destination": "BELIATTAKUMBUR",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "42/430",
+    "origin": "COLOMBO",
+    "destination": "MORAWAKA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "42/825",
+    "origin": "KANDY",
+    "destination": "KAHATAGASDIGILI",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "42/825/8",
+    "origin": "KANDY",
+    "destination": "GOMARANKADAWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "43",
+    "origin": "KANDY",
+    "destination": "ANURADHAPURA",
+    "service_type": "LUXURY",
+    "count": 33
+  },
+  {
+    "route_no": "43/857",
+    "origin": "KANDY",
+    "destination": "VAVUNIYA",
+    "service_type": "NORMAL",
+    "count": 13
+  },
+  {
+    "route_no": "45",
+    "origin": "KANDY",
+    "destination": "TRINCOMALEE",
+    "service_type": "NORMAL",
+    "count": 6
+  },
+  {
+    "route_no": "45/950",
+    "origin": "KANDY",
+    "destination": "MUTTUR",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "46",
+    "origin": "KEGALLE",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "47-3",
+    "origin": "KANDY",
+    "destination": "WELIMADA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "47-3-0",
+    "origin": "ELLA",
+    "destination": "KANDY",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "47-3/3",
+    "origin": "KANDY",
+    "destination": "LUNUWATTA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48",
+    "origin": "COLOMBO",
+    "destination": "KALMUNAI",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "48-1",
+    "origin": "COLOMBO",
+    "destination": "BATTICALOA",
+    "service_type": "LUXURY",
+    "count": 9
+  },
+  {
+    "route_no": "48-1/9",
+    "origin": "SUNGAWILA",
+    "destination": "BATTICALOA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-12",
+    "origin": "COLOMBO",
+    "destination": "AKKARAIPATTU",
+    "service_type": "SUPER LUXURY",
+    "count": 3
+  },
+  {
+    "route_no": "48-12/9",
+    "origin": "AKKARAIPATTU",
+    "destination": "SUNGAWILA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "48-13",
+    "origin": "COLOMBO",
+    "destination": "THIRUKKOVIL",
+    "service_type": "LUXURY",
+    "count": 4
+  },
+  {
+    "route_no": "48-15",
+    "origin": "COLOMBO",
+    "destination": "SUNGAWILA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-16",
+    "origin": "COLOMBO",
+    "destination": "MADURUOYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-17",
+    "origin": "COLOMBO",
+    "destination": "WELIKANDA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-19",
+    "origin": "KADURUWELA",
+    "destination": "KATHTHANKUDI",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "48-2",
+    "origin": "COLOMBO",
+    "destination": "DIYASENPURA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "48-20",
+    "origin": "COLOMBO",
+    "destination": "AMBAGASWEWA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "48-23",
+    "origin": "COLOMBO",
+    "destination": "MEEGASWEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-27",
+    "origin": "KURUNEGALA",
+    "destination": "WELIKANDA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "48-27/2",
+    "origin": "MAHIYANGANAY",
+    "destination": "KURULUBEDDA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "48-27/21",
+    "origin": "MAHIYANGANAY",
+    "destination": "RANSALATHENNA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-29",
+    "origin": "KADURUWELA",
+    "destination": "KALMUNAI",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-3",
+    "origin": "COLOMBO",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 36
+  },
+  {
+    "route_no": "48-33",
+    "origin": "COLOMBO",
+    "destination": "KALAHAGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48-4",
+    "origin": "COLOMBO",
+    "destination": "MEDIRIGIRIYA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "48-8",
+    "origin": "KURUNEGALA",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 22
+  },
+  {
+    "route_no": "48-9",
+    "origin": "KURUNEGALA",
+    "destination": "HINGURAKGODA",
+    "service_type": "NORMAL",
+    "count": 5
+  },
+  {
+    "route_no": "48/218",
+    "origin": "COLOMBO",
+    "destination": "DEHIATTAKANDIYA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "48/218-0",
+    "origin": "COLOMBO",
+    "destination": "SIRIPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "48/962",
+    "origin": "KALMUNAI",
+    "destination": "SUNGAWILA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "49",
+    "origin": "COLOMBO",
+    "destination": "TRINCOMALEE",
+    "service_type": "LUXURY",
+    "count": 10
+  },
+  {
+    "route_no": "49-1",
+    "origin": "KURUNEGALA",
+    "destination": "TRINCOMALEE",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "49/866",
+    "origin": "COLOMBO",
+    "destination": "KINNIYA",
+    "service_type": "SUPER LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "49/866-0",
+    "origin": "COLOMBO",
+    "destination": "TRINCOMALEE",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "49/900",
+    "origin": "COLOMBO",
+    "destination": "KUCHCHAWELI",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "49/950",
+    "origin": "COLOMBO",
+    "destination": "MUTTUR",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "52-3",
+    "origin": "KANDY",
+    "destination": "HINGURAKGODA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "52-3/9",
+    "origin": "KANDY",
+    "destination": "SIYAMBALAGAS",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "52-6",
+    "origin": "KANDY",
+    "destination": "AMBAGASWEWA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "52-8",
+    "origin": "KANDY",
+    "destination": "DIYASENPURA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "55/245",
+    "origin": "NEGOMBO",
+    "destination": "NUWARAGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57",
+    "origin": "COLOMBO",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 17
+  },
+  {
+    "route_no": "57-10",
+    "origin": "KURUNEGALA",
+    "destination": "MEDAWACHCHIYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "57-18",
+    "origin": "COLOMBO",
+    "destination": "VILACHCHIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57-2",
+    "origin": "KURUNEGALA",
+    "destination": "VAVUNIYA",
+    "service_type": "NORMAL",
+    "count": 6
+  },
+  {
+    "route_no": "57-5",
+    "origin": "KURUNEGALA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 44
+  },
+  {
+    "route_no": "57-9",
+    "origin": "KEGALLE",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "57/221/4",
+    "origin": "KALUTARA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57/3",
+    "origin": "COLOMBO",
+    "destination": "VAVUNIYA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "57/419/0",
+    "origin": "JAYALANDA",
+    "destination": "THAMBUTHTHEGA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57/422/0",
+    "origin": "GALAYAYA",
+    "destination": "NIWANTHAKACHET",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57/423-0",
+    "origin": "KATHNORUWA",
+    "destination": "ANURADHAPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57/542/0",
+    "origin": "TRACK",
+    "destination": "04 NIWANTHAKACHET",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57/904",
+    "origin": "KURUNEGALA",
+    "destination": "DEMATAWEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57/928",
+    "origin": "DEMATAWEWA",
+    "destination": "KURUNEGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "57/978",
+    "origin": "COLOMBO",
+    "destination": "KALAOYA(RAJANG",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "60",
+    "origin": "COLOMBO",
+    "destination": "DENIYAYA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "60-1",
+    "origin": "COLOMBO",
+    "destination": "AKURESSA",
+    "service_type": "LUXURY",
+    "count": 9
+  },
+  {
+    "route_no": "60-3",
+    "origin": "COLOMBO",
+    "destination": "DEYYANDARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "60-4",
+    "origin": "COLOMBO",
+    "destination": "URUBOKKA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "60-6",
+    "origin": "COLOMBO",
+    "destination": "PALLEGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "60/369",
+    "origin": "COLOMBO",
+    "destination": "DEERANGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "67",
+    "origin": "COLOMBO",
+    "destination": "RAKWANA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "67-1",
+    "origin": "COLOMBO",
+    "destination": "KOLONNA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "69",
+    "origin": "KANDY",
+    "destination": "RATHNAPURA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "69-1",
+    "origin": "KANDY",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "69-4",
+    "origin": "KANDY",
+    "destination": "AVISSAWELLA",
+    "service_type": "NORMAL",
+    "count": 9
+  },
+  {
+    "route_no": "69/15/0",
+    "origin": "HAMBANTHOTA",
+    "destination": "VAVUNIYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "76/218/3",
+    "origin": "BADULLA",
+    "destination": "TRINCOMALEE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "76/218/31",
+    "origin": "TRINCOMALEE",
+    "destination": "DIYATHALAWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "78",
+    "origin": "COLOMBO",
+    "destination": "NAWALAPITIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "79",
+    "origin": "COLOMBO",
+    "destination": "NUWARAELIYA",
+    "service_type": "LUXURY",
+    "count": 8
+  },
+  {
+    "route_no": "79-1",
+    "origin": "COLOMBO",
+    "destination": "WELIMADA",
+    "service_type": "NORMAL",
+    "count": 5
+  },
+  {
+    "route_no": "81/48",
+    "origin": "PUTTLAM",
+    "destination": "BATTICALOA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "82/580/0",
+    "origin": "MULATHIVU",
+    "destination": "AMPARA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "86-1",
+    "origin": "BATTICALOA",
+    "destination": "VAVUNIYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "86-2",
+    "origin": "VAVUNIYA",
+    "destination": "AKKARAIPATTU",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "87",
+    "origin": "COLOMBO",
+    "destination": "JAFFNA",
+    "service_type": "SUPER LUXURY",
+    "count": 22
+  },
+  {
+    "route_no": "87-2",
+    "origin": "COLOMBO",
+    "destination": "VAVUNIYA",
+    "service_type": "LUXURY",
+    "count": 13
+  },
+  {
+    "route_no": "87-5",
+    "origin": "PANADURA",
+    "destination": "JAFFNA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "87-7/769",
+    "origin": "MORATUWA",
+    "destination": "KANKASANTHURAI",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "87/759",
+    "origin": "COLOMBO",
+    "destination": "POINT PEDRO",
+    "service_type": "LUXURY",
+    "count": 3
+  },
+  {
+    "route_no": "87/769",
+    "origin": "COLOMBO",
+    "destination": "KANKASANTHURAI",
+    "service_type": "SUPER LUXURY",
+    "count": 4
+  },
+  {
+    "route_no": "87/782",
+    "origin": "COLOMBO",
+    "destination": "KAREINAGAR",
+    "service_type": "SUPER LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "88",
+    "origin": "TRINCOMALEE",
+    "destination": "JAFFNA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "88-2",
+    "origin": "VAVUNIYA",
+    "destination": "TRINCOMALEE",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "92-4",
+    "origin": "COLOMBO",
+    "destination": "KULIYAPITIYA",
+    "service_type": "NORMAL",
+    "count": 46
+  },
+  {
+    "route_no": "92-5",
+    "origin": "NEGOMBO",
+    "destination": "KULIYAPITIYA",
+    "service_type": "NORMAL",
+    "count": 31
+  },
+  {
+    "route_no": "92/929-0",
+    "origin": "COLOMBO",
+    "destination": "PANDUWASNUWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "92/929/9",
+    "origin": "NIKAWERATIYA",
+    "destination": "COLOMBO",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "98",
+    "origin": "COLOMBO",
+    "destination": "AKKARAIPATTU",
+    "service_type": "LUXURY",
+    "count": 3
+  },
+  {
+    "route_no": "98-1",
+    "origin": "COLOMBO",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 10
+  },
+  {
+    "route_no": "98-11",
+    "origin": "COLOMBO",
+    "destination": "BADALKUMBURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "98-2",
+    "origin": "COLOMBO",
+    "destination": "MONARAGALA",
+    "service_type": "NORMAL",
+    "count": 31
+  },
+  {
+    "route_no": "98-4-8",
+    "origin": "COLOMBO",
+    "destination": "AKKARAIPATTU",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "98-6",
+    "origin": "COLOMBO",
+    "destination": "BALANGODA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "98-8",
+    "origin": "COLOMBO",
+    "destination": "PANAMA",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "98/486-0",
+    "origin": "COLOMBO",
+    "destination": "WELIOYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "98/487",
+    "origin": "COLOMBO",
+    "destination": "WELIPATHAYAYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "99",
+    "origin": "COLOMBO",
+    "destination": "BADULLA",
+    "service_type": "LUXURY",
+    "count": 25
+  },
+  {
+    "route_no": "99-4",
+    "origin": "COLOMBO",
+    "destination": "BALANGODA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "99-8",
+    "origin": "COLOMBO",
+    "destination": "PASSARA",
+    "service_type": "SUPER LUXURY",
+    "count": 5
+  },
+  {
+    "route_no": "99-9",
+    "origin": "COLOMBO",
+    "destination": "LUNUGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "122",
+    "origin": "COLOMBO",
+    "destination": "RATHNAPURA",
+    "service_type": "NORMAL",
+    "count": 25
+  },
+  {
+    "route_no": "122-2",
+    "origin": "COLOMBO",
+    "destination": "RATHNAPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "122/210",
+    "origin": "COLOMBO",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 13
+  },
+  {
+    "route_no": "122/210-0",
+    "origin": "COLOMBO",
+    "destination": "SURIYAWEWA",
+    "service_type": "NORMAL",
+    "count": 6
+  },
+  {
+    "route_no": "122/210/1",
+    "origin": "COLOMBO",
+    "destination": "URUBOKKE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "122/210/2",
+    "origin": "COLOMBO",
+    "destination": "HAMBANTHOTA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "122/467",
+    "origin": "COLOMBO",
+    "destination": "RAKWANA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "122/98-0",
+    "origin": "COLOMBO",
+    "destination": "OBBEGODA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "126/69",
+    "origin": "PANADURA",
+    "destination": "MATALE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "168-2",
+    "origin": "URUBOKKA",
+    "destination": "KAELLA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "211",
+    "origin": "EMBILIPITIYA",
+    "destination": "HAMBANTHOTA",
+    "service_type": "NORMAL",
+    "count": 18
+  },
+  {
+    "route_no": "217-1",
+    "origin": "DIVULAPELESSANAWAMEDAGAMA",
+    "destination": "",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "217/22-0",
+    "origin": "DEHIATTAKANDI",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "218-2",
+    "origin": "MAHIYANGANAY",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 15
+  },
+  {
+    "route_no": "218-2-0",
+    "origin": "RATHMALKANDUMAHIYANGANAYA",
+    "destination": "",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "218-6",
+    "origin": "BADULLA",
+    "destination": "SIRIPURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "218-8",
+    "origin": "MAHIYANGANAY",
+    "destination": "MINNERIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "218/22",
+    "origin": "ARALAGANVILA",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "218/314",
+    "origin": "BADULLA",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "218/685",
+    "origin": "DEHIATTAKANDI",
+    "destination": "HANGURANKETHA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "221-1",
+    "origin": "MAHIYANGANAY",
+    "destination": "SIRIPURA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "226",
+    "origin": "BALANGODA",
+    "destination": "BANDARAWELA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "234/580/0",
+    "origin": "VAVUNIYA",
+    "destination": "MONARGALA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "245-1/1",
+    "origin": "NEGOMBO",
+    "destination": "HATTON",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "270/17/0",
+    "origin": "NEGOMBO",
+    "destination": "MATARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "301/218",
+    "origin": "BIBILA",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "303-1",
+    "origin": "MONARAGALA",
+    "destination": "PANAMA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "303-2",
+    "origin": "LAHUGALA",
+    "destination": "MONARAGALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "311-2",
+    "origin": "NUWARAELIYA",
+    "destination": "WELIMADA",
+    "service_type": "NORMAL",
+    "count": 20
+  },
+  {
+    "route_no": "312/218",
+    "origin": "GALAUDA",
+    "destination": "SURIYAPOKUNA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "314/218-0",
+    "origin": "BADULLA",
+    "destination": "WELIKANDA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "314/22-0",
+    "origin": "BADULLA",
+    "destination": "AMPARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "314/580/0",
+    "origin": "BADULLA",
+    "destination": "JAFFNA",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "315/1-0",
+    "origin": "HORANA",
+    "destination": "WAKARAI",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "333",
+    "origin": "MATARA",
+    "destination": "KATARAGAMA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "334-1",
+    "origin": "MATARA",
+    "destination": "KATARAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "335-1",
+    "origin": "THISSA",
+    "destination": "THANAMALWILA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "335-2",
+    "origin": "THANAMALVILA",
+    "destination": "DEBARAWEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "338-7",
+    "origin": "2ND",
+    "destination": "MILE POST RAJAPAKSHA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "339-4",
+    "origin": "EMBILIPITIYA",
+    "destination": "MIDDENIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "345",
+    "origin": "THIHAGODA",
+    "destination": "KATARAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "348",
+    "origin": "NITTAMBUWA",
+    "destination": "RUWANWELLA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "363-11",
+    "origin": "EMBILIPITIYA",
+    "destination": "WALASMULLA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "363-12",
+    "origin": "MATARA",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "363-13",
+    "origin": "EMBILIPITIYA",
+    "destination": "KARAPITIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "363-18",
+    "origin": "WALASMULLA",
+    "destination": "WELIARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "363-19",
+    "origin": "KADURUGAS",
+    "destination": "RAJAPAKSHA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "363-2",
+    "origin": "PEELLA",
+    "destination": "SURIYAWEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "363-2-0",
+    "origin": "HAKMANA",
+    "destination": "SURIYAWEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "363-6",
+    "origin": "EMBILIPITIYA",
+    "destination": "MIDDENIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "363/1",
+    "origin": "MIDDENIYA",
+    "destination": "WELI-OYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "363/11",
+    "origin": "DANDUMA",
+    "destination": "RAJAPAKSHE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "393",
+    "origin": "COLOMBO",
+    "destination": "YAKKALAMULLA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "393-2",
+    "origin": "COLOMBO",
+    "destination": "BADDEGAMA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "401",
+    "origin": "ELPITIYA",
+    "destination": "COLOMBO",
+    "service_type": "NORMAL",
+    "count": 22
+  },
+  {
+    "route_no": "401-1",
+    "origin": "ALUTHGAMA",
+    "destination": "ELPITIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "403",
+    "origin": "MATHUGAMA",
+    "destination": "NELUWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "419/57",
+    "origin": "MEEGALEWA",
+    "destination": "THAMBUTHTHEGA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "449",
+    "origin": "HORANA",
+    "destination": "KARADANA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "450",
+    "origin": "PANADURA",
+    "destination": "RATHNAPURA",
+    "service_type": "NORMAL",
+    "count": 30
+  },
+  {
+    "route_no": "470",
+    "origin": "AVISSAWELLA",
+    "destination": "EHELIYAGODA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "470-2",
+    "origin": "AVISSAWELLA",
+    "destination": "RATHNAPURA",
+    "service_type": "NORMAL",
+    "count": 26
+  },
+  {
+    "route_no": "473/7",
+    "origin": "COLOMBO",
+    "destination": "KALAWANA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "482",
+    "origin": "MATHUGAMA",
+    "destination": "KALAWANA",
+    "service_type": "NORMAL",
+    "count": 8
+  },
+  {
+    "route_no": "482-1",
+    "origin": "MATHUGAMA",
+    "destination": "MANANA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "488",
+    "origin": "BALANGODA",
+    "destination": "HATTON",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "493-1",
+    "origin": "EMBILIPITIYA",
+    "destination": "BELIATTA",
+    "service_type": "NORMAL",
+    "count": 24
+  },
+  {
+    "route_no": "493-1-0",
+    "origin": "EMBILIPITIYA",
+    "destination": "BELIATTA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "493-2",
+    "origin": "MATARA",
+    "destination": "KIRIIBBANARA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "493-3",
+    "origin": "HAKMANA",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "493-4",
+    "origin": "GALLE",
+    "destination": "EMBILIPITIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "493/574",
+    "origin": "EMBILIPITIYA",
+    "destination": "D.A.RAJAPAKSHE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "497",
+    "origin": "EMBILIPITIYA",
+    "destination": "SOORIYAWEWA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "504/221/1",
+    "origin": "BOYAWALANA",
+    "destination": "BANDARANAYAKE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "507",
+    "origin": "KURUNEGALA",
+    "destination": "KEGALLE",
+    "service_type": "NORMAL",
+    "count": 38
+  },
+  {
+    "route_no": "508",
+    "origin": "KURUNEGALA",
+    "destination": "RAMBUKKANA",
+    "service_type": "NORMAL",
+    "count": 8
+  },
+  {
+    "route_no": "509",
+    "origin": "KURUNEGALA",
+    "destination": "RAMBUKKANA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "534/1",
+    "origin": "THAMMENNAWA",
+    "destination": "KITHULKOTE",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "542-3/0",
+    "origin": "THAMMENNAWA",
+    "destination": "THAMBUTHTHEGA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "542-5/0",
+    "origin": "WARAWEWA",
+    "destination": "THAMBUTHTHEGA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "548",
+    "origin": "KURUNEGALA",
+    "destination": "KEKIRAWA",
+    "service_type": "NORMAL",
+    "count": 4
+  },
+  {
+    "route_no": "548-1",
+    "origin": "KURUNEGALA",
+    "destination": "GALNEWA",
+    "service_type": "NORMAL",
+    "count": 3
+  },
+  {
+    "route_no": "549",
+    "origin": "KURUNEGALA",
+    "destination": "DAMBULLA",
+    "service_type": "NORMAL",
+    "count": 19
+  },
+  {
+    "route_no": "549-1",
+    "origin": "KURUNEGALA",
+    "destination": "WEWALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "549-4",
+    "origin": "KURUNEGALA",
+    "destination": "GALKIRIYAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "549-5",
+    "origin": "DAMBULLA",
+    "destination": "WAYAMBA ROYAL",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "549/499",
+    "origin": "KURUNEGALA",
+    "destination": "SIGIRIYA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "549/580",
+    "origin": "KURUNEGALA",
+    "destination": "HANDUNGAMUWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "556",
+    "origin": "KURUNEGALA",
+    "destination": "MATALE",
+    "service_type": "NORMAL",
+    "count": 20
+  },
+  {
+    "route_no": "558/544-0",
+    "origin": "EGODAGAMA",
+    "destination": "GANTHIRIYAGAMA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "564-6",
+    "origin": "KURUNEGALA",
+    "destination": "MIRISSALA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "570/549",
+    "origin": "PANSIYAGAMA",
+    "destination": "IBBAGAMUWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "581-1",
+    "origin": "MATALE",
+    "destination": "KADURUWELA",
+    "service_type": "NORMAL",
+    "count": 6
+  },
+  {
+    "route_no": "602",
+    "origin": "KANDY",
+    "destination": "KURUNEGALA",
+    "service_type": "NORMAL",
+    "count": 74
+  },
+  {
+    "route_no": "626/43/0",
+    "origin": "NUWARAELIYA",
+    "destination": "JAFFNA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "662",
+    "origin": "KANDY",
+    "destination": "KEGALLE",
+    "service_type": "NORMAL",
+    "count": 36
+  },
+  {
+    "route_no": "662-1",
+    "origin": "KANDY",
+    "destination": "MAWANELLA",
+    "service_type": "NORMAL",
+    "count": 25
+  },
+  {
+    "route_no": "670",
+    "origin": "NITTAMBUWA",
+    "destination": "WARAKAPOLA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "674-1",
+    "origin": "COLOMBO",
+    "destination": "KOTIYAKUMBURA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "674-3",
+    "origin": "AVISSAWELLA",
+    "destination": "KEGALLE",
+    "service_type": "NORMAL",
+    "count": 20
+  },
+  {
+    "route_no": "677",
+    "origin": "COLOMBO",
+    "destination": "BULATHKOHUPITIY",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "677-4",
+    "origin": "AVISSAWELLA",
+    "destination": "BULATHKOHUPITIY",
+    "service_type": "NORMAL",
+    "count": 8
+  },
+  {
+    "route_no": "750/3",
+    "origin": "EMBILIPITIYA",
+    "destination": "HAMBANTHOTA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "819-4/7",
+    "origin": "TRINCOMALEE",
+    "destination": "WISHWAMADU",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "822-2-0",
+    "origin": "SOLE",
+    "destination": "NIWANTHAKACHET",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "825",
+    "origin": "KANDY",
+    "destination": "DUTUWEWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "835",
+    "origin": "ANURADHAPURATRINCOMALEE",
+    "destination": "",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "842",
+    "origin": "ANURADHAPURAPULMUDAI",
+    "destination": "",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "857",
+    "origin": "ANURADHAPURAVAVUNIYA",
+    "destination": "",
+    "service_type": "NORMAL",
+    "count": 10
+  },
+  {
+    "route_no": "869-5",
+    "origin": "GALOYA",
+    "destination": "GANTHALAWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "901/943",
+    "origin": "KALPITIYA",
+    "destination": "MANNAR",
+    "service_type": "NORMAL",
+    "count": 2
+  },
+  {
+    "route_no": "903-1-0",
+    "origin": "WEHERATHENN",
+    "destination": "MADUKANDA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "907",
+    "origin": "NEGOMBO",
+    "destination": "CHILAW",
+    "service_type": "NORMAL",
+    "count": 25
+  },
+  {
+    "route_no": "929-1",
+    "origin": "NEGOMBO",
+    "destination": "ELIWILA",
+    "service_type": "NORMAL",
+    "count": 5
+  },
+  {
+    "route_no": "968/582-0",
+    "origin": "WEWALA",
+    "destination": "KEKIRAWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "970/15",
+    "origin": "MORAGOLLA",
+    "destination": "KEKIRAWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "970/15-0",
+    "origin": "DEWAHUWA",
+    "destination": "KEKIRAWA",
+    "service_type": "NORMAL",
+    "count": 1
+  },
+  {
+    "route_no": "EX",
+    "origin": "COLOMBO",
+    "destination": "GALLE",
+    "service_type": "SUPER",
+    "count": 7
+  },
+  {
+    "route_no": "EX-1-5",
+    "origin": "COLOMBO",
+    "destination": "MONARAGALA",
+    "service_type": "LUXURY",
+    "count": 5
+  },
+  {
+    "route_no": "EX01",
+    "origin": "MAKUMBURA",
+    "destination": "GALLE",
+    "service_type": "SUPER LUXURY",
+    "count": 26
+  },
+  {
+    "route_no": "EX01-1",
+    "origin": "MAKUMBURA",
+    "destination": "MATARA",
+    "service_type": "SUPER LUXURY",
+    "count": 25
+  },
+  {
+    "route_no": "EX01-11/",
+    "origin": "COLOMBO",
+    "destination": "WEERAKETIYA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-12/",
+    "origin": "COLOMBO",
+    "destination": "KATARAGAMA",
+    "service_type": "SUPER",
+    "count": 4
+  },
+  {
+    "route_no": "EX01-13/",
+    "origin": "COLOMBO",
+    "destination": "DEIYANDARA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-14/",
+    "origin": "COLOMBO",
+    "destination": "DENIYAYA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-16",
+    "origin": "COLOMBO",
+    "destination": "ELPITIYA",
+    "service_type": "SUPER LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-18",
+    "origin": "COLOMBO",
+    "destination": "MATARA",
+    "service_type": "SUPER LUXURY",
+    "count": 3
+  },
+  {
+    "route_no": "EX01-21",
+    "origin": "KADAWATHA",
+    "destination": "GALLE",
+    "service_type": "SUPER LUXURY",
+    "count": 9
+  },
+  {
+    "route_no": "EX01-22",
+    "origin": "KADAWATHA",
+    "destination": "MATARA",
+    "service_type": "SUPER LUXURY",
+    "count": 15
+  },
+  {
+    "route_no": "EX01-23",
+    "origin": "KADUWELA",
+    "destination": "GALLE",
+    "service_type": "SUPER LUXURY",
+    "count": 5
+  },
+  {
+    "route_no": "EX01-24/",
+    "origin": "MATARA",
+    "destination": "KANDY",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-25/",
+    "origin": "PANADURA",
+    "destination": "MATARA",
+    "service_type": "SUPER",
+    "count": 4
+  },
+  {
+    "route_no": "EX01-29/",
+    "origin": "COLOMBO",
+    "destination": "KAMBURUPITIYA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-42",
+    "origin": "COLOMBO",
+    "destination": "BADDEGAMA",
+    "service_type": "SUPER LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-46",
+    "origin": "MORATUWA",
+    "destination": "MATARA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-5/",
+    "origin": "COLOMBO",
+    "destination": "HAKMANA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-51/",
+    "origin": "COLOMBO",
+    "destination": "AMPARA",
+    "service_type": "SUPER",
+    "count": 4
+  },
+  {
+    "route_no": "EX01-7/",
+    "origin": "COLOMBO",
+    "destination": "MIDDENIYA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-74/",
+    "origin": "MAKUMBURA",
+    "destination": "BADULLA",
+    "service_type": "SUPER",
+    "count": 3
+  },
+  {
+    "route_no": "EX01-78/",
+    "origin": "MAKUMBURA",
+    "destination": "AKKARAIPATTU",
+    "service_type": "SUPER",
+    "count": 2
+  },
+  {
+    "route_no": "EX01-81/",
+    "origin": "MAKUMBURA",
+    "destination": "MADOLSIMA",
+    "service_type": "LUXURY",
+    "count": 2
+  },
+  {
+    "route_no": "EX01-83/",
+    "origin": "COLOMBO",
+    "destination": "EMBILIPITIYA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-84/",
+    "origin": "COLOMBO",
+    "destination": "AKURESSA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-85/",
+    "origin": "AKURESSA",
+    "destination": "COLOMBO",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-88/",
+    "origin": "COLOMBO",
+    "destination": "AGUNUKOLAPELES",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-9/",
+    "origin": "COLOMBO",
+    "destination": "EMBILIPITIYA",
+    "service_type": "SUPER",
+    "count": 5
+  },
+  {
+    "route_no": "EX01-90/",
+    "origin": "COLOMBO",
+    "destination": "ANGUNAKOLAPELE",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-94/",
+    "origin": "MATARA",
+    "destination": "KURUNEGALA",
+    "service_type": "SUPER",
+    "count": 2
+  },
+  {
+    "route_no": "EX01-95/",
+    "origin": "MAKUMBURA",
+    "destination": "MEEGAHAKIULA",
+    "service_type": "LUXURY",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-96/",
+    "origin": "COLOMBO",
+    "destination": "KOLONNA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01-97/",
+    "origin": "COLOMBO",
+    "destination": "UDAWALAWA",
+    "service_type": "SUPER",
+    "count": 1
+  },
+  {
+    "route_no": "EX01/EX0",
+    "origin": "MATARA",
+    "destination": "NEGOMBO",
+    "service_type": "SUPER",
+    "count": 5
+  },
+  {
+    "route_no": "EX02/EX0",
+    "origin": "MAKUMBURA",
+    "destination": "KANDY",
+    "service_type": "LUXURY",
+    "count": 3
+  }
+]
