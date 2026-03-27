@@ -51,7 +51,8 @@ type GeocodedStop struct {
 func main() {
 	dataFile := flag.String("data", "data/routes.json", "Path to routes JSON file")
 	dbURL := flag.String("db", "", "Database URL (or set DATABASE_URL env)")
-	nominatimURL := flag.String("nominatim", "https://nominatim.openstreetmap.org", "Nominatim base URL")
+	nominatimURL := flag.String("nominatim", "", "Nominatim base URL (or set NOMINATIM_URL env)")
+	osrmBaseURL := flag.String("osrm", "", "OSRM base URL (or set OSRM_URL env)")
 	flag.Parse()
 
 	if *dbURL == "" {
@@ -60,6 +61,18 @@ func main() {
 	if *dbURL == "" {
 		slog.Error("DATABASE_URL required")
 		os.Exit(1)
+	}
+	if *nominatimURL == "" {
+		*nominatimURL = os.Getenv("NOMINATIM_URL")
+	}
+	if *nominatimURL == "" {
+		*nominatimURL = "https://nominatim.openstreetmap.org"
+	}
+	if *osrmBaseURL == "" {
+		*osrmBaseURL = os.Getenv("OSRM_URL")
+	}
+	if *osrmBaseURL == "" {
+		*osrmBaseURL = "https://router.project-osrm.org"
 	}
 
 	ctx := context.Background()
@@ -108,7 +121,7 @@ func main() {
 		}
 
 		// Build road-snapped polyline using OSRM routing service
-		coords := buildRoadSnappedPolyline(geocoded)
+		coords := buildRoadSnappedPolyline(geocoded, *osrmBaseURL)
 
 		err := insertRoute(ctx, pool, route, geocoded, coords)
 		if err != nil {
@@ -128,7 +141,7 @@ func main() {
 
 // buildRoadSnappedPolyline uses OSRM to get a road-following route between stops.
 // Falls back to straight lines if OSRM is unavailable.
-func buildRoadSnappedPolyline(stops []GeocodedStop) [][2]float64 {
+func buildRoadSnappedPolyline(stops []GeocodedStop, osrmBase string) [][2]float64 {
 	if len(stops) < 2 {
 		coords := make([][2]float64, len(stops))
 		for i, s := range stops {
@@ -145,7 +158,7 @@ func buildRoadSnappedPolyline(stops []GeocodedStop) [][2]float64 {
 	coordStr := strings.Join(coordParts, ";")
 
 	// Call OSRM route API
-	osrmURL := fmt.Sprintf("https://router.project-osrm.org/route/v1/driving/%s?overview=full&geometries=geojson", coordStr)
+	osrmURL := fmt.Sprintf("%s/route/v1/driving/%s?overview=full&geometries=geojson", osrmBase, coordStr)
 
 	client := &http.Client{Timeout: 15 * time.Second}
 	resp, err := client.Get(osrmURL)

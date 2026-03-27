@@ -32,7 +32,7 @@
   },
   "httpd": {
     "service": {
-      "listen": "tcp://0.0.0.0:8002"
+      "listen": "tcp://0.0.0.0:9992"
     }
   },
   "loki": {

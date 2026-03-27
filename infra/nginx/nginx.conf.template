@@ -1,13 +1,10 @@
-# Static config — for template-based config, use nginx.conf.template with envsubst:
-#   envsubst '${BACKEND_PORT} ${NGINX_PORT} ${SERVER_NAME}' < nginx.conf.template > nginx.conf
-
 upstream backend {
-    server 127.0.0.1:9900;
+    server 127.0.0.1:${BACKEND_PORT};
 }
 
 server {
-    listen 9000;
-    server_name api.masariya.lk;
+    listen ${NGINX_PORT};
+    server_name ${SERVER_NAME};
 
     # Redirect HTTP to HTTPS (handled by Cloudflare in prod)
     # location / { return 301 https://$host$request_uri; }

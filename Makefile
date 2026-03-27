@@ -1,19 +1,23 @@
 .PHONY: infra-up infra-down backend-dev backend-build backend-test migrate mobile-android
 
+# Load infra env if present
+-include infra/.env
+export
+
 # Infrastructure
 infra-up:
-	docker compose -f infra/docker-compose.yml up -d postgres redis
+	docker compose -f infra/docker-compose.yml --env-file infra/.env up -d postgres redis
 
 infra-up-all:
-	docker compose -f infra/docker-compose.yml up -d
+	docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
 
 infra-down:
 	docker compose -f infra/docker-compose.yml down
 
 # Self-hosted Nominatim (first run downloads ~120MB Sri Lanka data, takes ~5-10 min)
 nominatim-up:
-	docker compose -f infra/docker-compose.yml up -d nominatim
-	@echo "Nominatim importing Sri Lanka data... Check: curl http://localhost:8080/status"
+	docker compose -f infra/docker-compose.yml --env-file infra/.env up -d nominatim
+	@echo "Nominatim importing Sri Lanka data... Check: curl http://localhost:$${NOMINATIM_PORT:-9990}/status"
 
 # Backend
 backend-dev:
@@ -34,13 +38,17 @@ migrate-down:
 	cd backend && go run -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest \
 		-path migrations -database "$${DATABASE_URL}" down 1
 
-# Bootstrap route data (uses self-hosted Nominatim at localhost:8080 — no rate limit)
+# Bootstrap route data (uses self-hosted Nominatim — no rate limit)
 bootstrap:
-	cd backend && go run ./cmd/bootstrap -data ../data/routes.json -db "$${DATABASE_URL}" -nominatim http://localhost:8080
+	cd backend && go run ./cmd/bootstrap \
+		-data ../data/routes.json \
+		-db "$${DATABASE_URL}" \
+		-nominatim "$${NOMINATIM_URL:-http://localhost:9990}" \
+		-osrm "$${OSRM_URL:-https://router.project-osrm.org}"
 
 # GPS Simulator — mimics real devices pushing GPS data
 simulate:
-	cd backend && go run ./cmd/simulator -api http://localhost:8000 -buses 3 -routes 1,2,138,100,120
+	cd backend && go run ./cmd/simulator -api "http://localhost:$${PORT:-9900}" -buses 3 -routes 1,2,138,100,120
 
 # Mobile
 mobile-ios:

@@ -1,0 +1,23 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "index",
+    "architecture",
+    "quickstart",
+    "---How It Works---",
+    "how-it-works/gps-pipeline",
+    "how-it-works/map-matching",
+    "how-it-works/real-time-tracking",
+    "how-it-works/journey-planning",
+    "---Mobile App---",
+    "mobile/overview",
+    "mobile/offline-first",
+    "mobile/contributing-gps",
+    "---Infrastructure---",
+    "infra/deployment",
+    "infra/services",
+    "infra/environment-variables",
+    "---API Reference---",
+    "api-reference/overview"
+  ]
+}

@@ -1,0 +1,38 @@
+---
+title: Introduction
+description: Sri Lanka's first crowdsource-powered bus tracking system
+---
+
+## Welcome to Mansariya
+
+**Mansariya** is Sri Lanka's first crowdsource-powered real-time bus tracking system. Instead of installing GPS hardware on buses, passengers' smartphones become the sensors — making it free for operators and riders alike.
+
+### Key Features
+
+- **Zero Hardware** — No GPS devices on buses. Passengers' phones do the tracking.
+- **Free for Commuters** — $0 map stack with OpenFreeMap. ~$9/month server cost.
+- **Trilingual** — Full support for Sinhala, Tamil, and English.
+- **Privacy First** — No accounts needed. Device hashes rotate every 24 hours. Raw GPS discarded in 10 minutes.
+
+## How It Works — In 30 Seconds
+
+```
+Phone GPS → POST /gps/batch → Go Backend
+  → Redis Stream → Map Matcher (Valhalla)
+  → Route Inferrer (DBSCAN) → Redis Pub/Sub
+  → WebSocket Hub → Passenger App
+```
+
+1. **Contributors** ride the bus with the Mansariya app open — their phone GPS is sent to the backend.
+2. The **pipeline** map-matches the GPS trace to roads, infers which bus route the device is on, and fuses multiple contributors into a single bus position.
+3. **Passengers** open the app and see live bus positions, ETAs, and journey plans — all powered by the crowd.
+
+## Key Numbers
+
+| Metric | Value |
+|--------|-------|
+| Server cost | ~$9/month (Hetzner CX32) |
+| Map cost | $0 (OpenFreeMap) |
+| GPS processing latency | &lt; 2 seconds |
+| Position update interval | 5 seconds |
+| Privacy: raw GPS retention | 10 minutes max |
