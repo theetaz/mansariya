@@ -1,0 +1,153 @@
+---
+title: GPS Pipeline
+description: How raw phone GPS becomes live bus positions
+---
+
+## Overview
+
+The GPS pipeline transforms noisy smartphone GPS pings into accurate, real-time bus positions. It runs as a set of long-lived Go goroutines consuming from Redis Streams, processing data through four stages.
+
+```
+Phone GPS (5s interval)
+  |
+  v
+Stage 1: Ingester ---- validates, writes to Redis Stream
+  |
+  v
+Stage 2: Map Matcher -- snaps GPS to roads via Valhalla
+  |
+  v
+Stage 3: Processor ---- infers route, clusters contributors
+  |
+  v
+Stage 4: Broadcaster -- publishes to WebSocket clients
+```
+
+Each stage is decoupled via Redis Streams, allowing independent scaling and failure isolation.
+
+## Stage 1: Ingester
+
+The ingester receives GPS batches from contributor phones via HTTP POST.
+
+**Endpoint:** `POST /api/v1/gps/batch`
+
+**What it does:**
+
+1. Validates the incoming batch (coordinates within Sri Lanka bounding box, timestamp freshness, accuracy threshold)
+2. Extracts the `device_hash` from the request -- a one-way hash of the device UUID that rotates every 24 hours for privacy
+3. Pushes each validated ping to the Redis Stream `gps:raw`
+4. Returns `200 OK` immediately -- all further processing is asynchronous
+
+**Input payload example:**
+
+```json
+{
+  "device_hash": "a1b2c3d4e5f6",
+  "pings": [
+    {
+      "lat": 6.9271,
+      "lng": 79.8612,
+      "accuracy": 12.5,
+      "speed": 8.3,
+      "bearing": 45.0,
+      "timestamp": "2025-01-15T08:30:00Z"
+    }
+  ]
+}
+```
+
+**Key behaviors:**
+
+- Pings with accuracy worse than 25m are discarded
+- Timestamps older than 60 seconds are discarded
+- The response is always fast (< 10ms) since processing is async
+- Device hashes are not linked to any user identity
+
+## Stage 2: Map Matcher
+
+The map matcher consumes from `gps:raw` and uses Valhalla Meili to snap noisy GPS points to the actual road network.
+
+**What it does:**
+
+1. Reads a consumer group from `gps:raw`
+2. Batches points by device hash (builds a trace of recent movement)
+3. Sends the trace to Valhalla Meili's `/trace_route` endpoint
+4. Receives road-snapped coordinates with matched road segment IDs
+5. Writes matched points to Redis Stream `gps:matched`
+
+**Why map matching matters:**
+
+Phone GPS has 10-20m of error. A bus on a highway might appear to be on a parallel service road, or zigzag between lanes. Map matching uses a Hidden Markov Model to determine the most likely road segment the device is actually on.
+
+**Valhalla Meili configuration:**
+
+| Parameter | Value | Purpose |
+|-----------|-------|---------|
+| `search_radius` | 50m | Maximum distance to search for candidate road segments |
+| `gps_accuracy` | 15m | Expected GPS accuracy of input points |
+| `turn_penalty_factor` | 50 | Penalizes unlikely U-turns and sharp turns |
+| `breakage_distance` | 2000m | Maximum gap before the trace is considered broken |
+| `sigma_z` | 4.07 | GPS noise standard deviation for emission probability |
+| `beta` | 3 | Transition probability parameter |
+
+**Failure handling:**
+
+- If Valhalla returns no match (device is off-road or in a tunnel), the raw points are forwarded with a `low_confidence` flag
+- If Valhalla is down, points are re-queued with exponential backoff
+
+## Stage 3: Processor
+
+The processor is where route inference and contributor fusion happen. This is the core intelligence of the system.
+
+**What it does:**
+
+1. Consumes matched points from `gps:matched`
+2. **Route inference:** Uses a spatial R-tree index of all known routes to find candidate routes near the matched point. Then computes Hausdorff distance between the device's recent trace and each candidate route polyline. The closest match (below threshold) is the inferred route.
+3. **DBSCAN clustering:** Multiple phones on the same bus produce separate traces. DBSCAN clusters nearby devices on the same route into a single "virtual bus." Each cluster gets a `virtual_id`.
+4. Updates the bus position in Redis: `bus:{virtual_id}:pos` hash with 5-minute TTL
+5. Publishes the position update to the broadcaster
+
+**Confidence levels based on contributor count:**
+
+| Contributors in Cluster | Confidence | Label |
+|------------------------|------------|-------|
+| 1 | Low | Single device, could be a car |
+| 2 | Good | Two devices confirm it is likely a bus |
+| 3+ | Verified | High confidence bus position |
+
+**Route inference details:**
+
+- The R-tree is built at startup from all route polylines stored in PostgreSQL
+- Hausdorff distance measures the maximum deviation between the device trace and the route shape
+- If multiple routes overlap (common in cities), the system uses direction of travel and stop proximity as tiebreakers
+- Routes are re-evaluated every 30 seconds to handle route switches (e.g., device gets off one bus and onto another)
+
+## Stage 4: Broadcaster
+
+The broadcaster bridges the pipeline to connected passengers.
+
+**What it does:**
+
+1. Subscribes to Redis Pub/Sub channels matching `route:*`
+2. When a position update arrives, the WebSocket Hub looks up all clients subscribed to that route
+3. Broadcasts the position update to those clients as a JSON message
+
+The WebSocket Hub manages subscriptions efficiently -- a client subscribing to route 138 only receives updates for route 138, not all routes.
+
+## Performance
+
+| Metric | Value |
+|--------|-------|
+| End-to-end latency (phone to passenger screen) | < 2 seconds |
+| Ingester throughput | 1000+ pings/second per worker |
+| Map matching latency (Valhalla) | ~100ms per trace |
+| Pipeline worker count | Configurable, default 4 per stage |
+| Redis Stream consumer groups | 1 per stage, multiple consumers per group |
+| Bus position TTL | 5 minutes (auto-removes stale buses) |
+
+## Privacy by Design
+
+- **No accounts:** The pipeline never knows who is contributing. Only a rotating `device_hash` is used.
+- **Hash rotation:** The device hash changes every 24 hours, preventing long-term tracking.
+- **Data retention:** Raw GPS pings in `gps:raw` are trimmed after 10 minutes. Matched traces are not stored permanently.
+- **Opt-in only:** GPS contribution requires explicit user consent in the app.

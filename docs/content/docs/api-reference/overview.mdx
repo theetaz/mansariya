@@ -1,0 +1,155 @@
+---
+title: API Overview
+description: Mansariya REST API and WebSocket reference
+---
+
+## Base URLs
+
+| Environment | URL |
+|------------|-----|
+| **Production** | `https://api.masariya.lk` |
+| **Development** | `http://localhost:9900` |
+
+All REST endpoints are prefixed with `/api/v1/`. WebSocket endpoints are at `/ws/`.
+
+## Interactive API Docs
+
+A Swagger UI is available for interactive exploration and testing:
+
+```
+http://localhost:9900/docs
+```
+
+This lists all endpoints with request/response schemas and allows you to make test requests directly from your browser.
+
+## Authentication
+
+### Public Endpoints
+
+Most endpoints are public and require no authentication. This includes:
+
+- Route and stop search
+- Journey planning
+- GPS batch submission
+- Live bus positions
+- WebSocket connections
+
+### Admin Endpoints
+
+Admin endpoints (route management, data import, system status) require an API key passed in the `X-API-Key` header.
+
+```bash
+curl -H "X-API-Key: your-admin-key" \
+  http://localhost:9900/api/v1/admin/routes
+```
+
+The API key is set via the `ADMIN_API_KEY` environment variable. There are no user accounts or OAuth flows -- admin access is key-based.
+
+## Error Response Format
+
+All errors follow a consistent JSON format:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid coordinates: latitude must be between -90 and 90",
+    "details": {
+      "field": "lat",
+      "value": 999.0
+    }
+  }
+}
+```
+
+### Common Error Codes
+
+| HTTP Status | Code | Meaning |
+|------------|------|---------|
+| 400 | `VALIDATION_ERROR` | Request body or query parameters are invalid |
+| 400 | `BAD_REQUEST` | Malformed request |
+| 401 | `UNAUTHORIZED` | Missing or invalid API key (admin endpoints) |
+| 404 | `NOT_FOUND` | Resource does not exist |
+| 422 | `UNPROCESSABLE_ENTITY` | Request is valid but cannot be processed |
+| 429 | `RATE_LIMITED` | Too many requests (reserved for future use) |
+| 500 | `INTERNAL_ERROR` | Server error |
+
+## Endpoint Groups
+
+### GPS Ingestion
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| POST | `/api/v1/gps/batch` | Submit a batch of GPS pings from a contributor device |
+
+### Routes
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/api/v1/routes` | List all routes (paginated) |
+| GET | `/api/v1/routes/{id}` | Get a single route with stops and polyline |
+| GET | `/api/v1/routes/search?q=` | Search routes by number or name (trilingual) |
+| GET | `/api/v1/routes/sync` | Download all route data for offline caching |
+| GET | `/api/v1/routes/nearby?lat=&lng=&radius=` | Find routes near a location |
+
+### Stops
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/api/v1/stops` | List all stops (paginated) |
+| GET | `/api/v1/stops/{id}` | Get a single stop with connected routes |
+| GET | `/api/v1/stops/search?q=` | Search stops by name (trilingual fuzzy search) |
+| GET | `/api/v1/stops/nearby?lat=&lng=&radius=` | Find stops near a location |
+
+### Journey Planning
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/api/v1/journey?from=&to=` | Find bus routes connecting two stops |
+
+### ETA
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/api/v1/eta?route_id=&stop_id=` | Get ETA for next bus at a stop on a route |
+
+### Live Buses
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/api/v1/routes/{id}/buses/active` | Get all active buses on a route |
+| GET | `/api/v1/buses/nearby?lat=&lng=&radius=` | Get active buses near a location |
+
+### WebSocket
+
+| Protocol | Endpoint | Description |
+|----------|---------|-------------|
+| WS | `/ws/track/{routeID}` | Subscribe to live bus position updates for a route |
+
+### Admin
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| POST | `/api/v1/admin/routes` | Create or update routes (requires API key) |
+| POST | `/api/v1/admin/stops` | Create or update stops (requires API key) |
+| GET | `/api/v1/admin/stats` | System statistics (requires API key) |
+
+### Health
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/health` | Health check (returns `{"status": "ok"}`) |
+
+## Rate Limits
+
+There are currently no rate limits on any endpoint. The single-server architecture handles the expected load without throttling. Rate limiting may be added in the future if needed, using Cloudflare's free tier rules.
+
+## CORS
+
+The API allows cross-origin requests from all origins in development. In production, CORS is restricted to the Mansariya app domains.
+
+## Request Size Limits
+
+- Maximum request body size: **1 MB**
+- GPS batch: typically 2-5 KB per request
+- Nginx enforces the limit before the request reaches the Go backend

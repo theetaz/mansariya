@@ -59,3 +59,6 @@ data/raw/
 # Misc
 *.log
 tmp/
+docs/node_modules/
+docs/.next/
+docs/.source/

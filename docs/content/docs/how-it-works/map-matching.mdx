@@ -1,0 +1,114 @@
+---
+title: Map Matching
+description: Snapping noisy GPS traces to the road network with Valhalla Meili
+---
+
+## Why Map Matching?
+
+Smartphone GPS is noisy. Typical accuracy is 10-20 meters in urban areas and can degrade to 50+ meters near tall buildings or under tree cover. Without map matching, a bus traveling on a main road might appear to jump between parallel streets, overshoot intersections, or float off-road entirely.
+
+Map matching solves this by taking a sequence of noisy GPS points and finding the most likely path on the actual road network that the device traveled.
+
+**Before map matching:**
+
+```
+Raw GPS points (noisy):
+  *   *     *
+    *    *      *
+  *   *    *
+```
+
+**After map matching:**
+
+```
+Snapped to road:
+  *--*--*--*--*--*--*--*--*
+```
+
+## How Valhalla Meili Works
+
+Mansariya uses **Valhalla Meili**, the map matching engine built into the Valhalla routing framework. Meili uses a **Hidden Markov Model (HMM)** to find the most probable road path.
+
+### Hidden Markov Model Concepts
+
+| Concept | In Map Matching |
+|---------|----------------|
+| **Hidden states** | Road segments in the network |
+| **Observations** | GPS points from the phone |
+| **Emission probability** | How likely a GPS point came from a given road segment (based on distance) |
+| **Transition probability** | How likely the device traveled from one road segment to another (based on route distance vs. straight-line distance) |
+| **Algorithm** | Viterbi algorithm finds the most likely sequence of road segments |
+
+### Step by Step
+
+1. **Candidate generation:** For each GPS point, Meili finds all road segments within `search_radius` (50m). These are the candidate states.
+
+2. **Emission probability:** For each candidate, compute the probability that the GPS point came from that road segment. Closer segments get higher probability. This uses a Gaussian distribution with `sigma_z` as the standard deviation.
+
+3. **Transition probability:** For each pair of consecutive candidates, compute the probability of transitioning between them. This compares the straight-line distance between GPS points to the actual road network distance between candidate segments. If the road distance is much longer than straight-line (indicating a convoluted path), the probability is lower.
+
+4. **Viterbi decoding:** The Viterbi algorithm finds the sequence of road segments that maximizes the joint probability across all points. This gives the most likely path.
+
+5. **Output:** Meili returns the snapped coordinates (on-road positions), the matched road segment IDs, and the interpolated path between points.
+
+## Configuration Parameters
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| `search_radius` | 50m | Maximum distance to look for candidate road segments around each GPS point. Larger values handle noisier GPS but increase computation. |
+| `gps_accuracy` | 15m | Expected accuracy of input GPS points. Tells Meili how much to "trust" the raw coordinates. |
+| `turn_penalty_factor` | 50 | Penalizes unlikely turns. Higher values make the model prefer straight paths, reducing false route switches at intersections. |
+| `breakage_distance` | 2000m | If consecutive GPS points are more than this distance apart, the trace is "broken" into separate segments. Handles gaps from tunnels or signal loss. |
+| `sigma_z` | 4.07 | Standard deviation for the emission probability Gaussian. Controls how quickly probability drops with distance from a road. |
+| `beta` | 3 | Controls the transition probability sensitivity. Higher values are more permissive of detours. |
+
+## Self-Hosted Valhalla
+
+Mansariya runs its own Valhalla instance with Sri Lanka's OpenStreetMap data. This has several advantages over hosted services:
+
+- **No rate limits** -- Process as many traces as the server can handle
+- **No API costs** -- Completely free after the initial setup
+- **Low latency** -- ~100ms per trace on the local network vs. 200-500ms for remote APIs
+- **Data freshness** -- OSM data is updated regularly, and the tiles can be rebuilt
+
+### Setup
+
+Valhalla is deployed as a Docker container. On first startup, it:
+
+1. Downloads the Sri Lanka OSM extract (~120MB PBF file)
+2. Builds routing tiles from the OSM data (takes 2-5 minutes)
+3. Loads the tiles into memory and starts serving
+
+Subsequent restarts are instant since the tiles are cached in a Docker volume.
+
+### API Usage
+
+The backend calls Valhalla's `/trace_route` endpoint:
+
+```json
+{
+  "shape": [
+    {"lat": 6.9271, "lon": 79.8612, "time": 1705305000},
+    {"lat": 6.9275, "lon": 79.8618, "time": 1705305005},
+    {"lat": 6.9280, "lon": 79.8625, "time": 1705305010}
+  ],
+  "costing": "auto",
+  "shape_match": "map_snap",
+  "search_radius": 50,
+  "gps_accuracy": 15,
+  "turn_penalty_factor": 50,
+  "breakage_distance": 2000
+}
+```
+
+The response includes the snapped coordinates, matched edges, and the interpolated route geometry.
+
+## Edge Cases
+
+| Scenario | How It Is Handled |
+|----------|------------------|
+| **Bus in tunnel** | GPS signal lost. When it emerges, `breakage_distance` splits the trace. Each segment is matched independently. |
+| **Parallel roads** | `turn_penalty_factor` and transition probabilities prefer the road that best fits the overall trace direction and speed. |
+| **U-turns** | High `turn_penalty_factor` makes U-turns expensive. The model only accepts them when the GPS evidence is strong. |
+| **GPS drift while stationary** | Multiple points at nearly the same location are matched to the same road segment. No false movement is generated. |
+| **Valhalla downtime** | Points are re-queued with exponential backoff. The pipeline does not lose data. |

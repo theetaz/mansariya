@@ -1,0 +1,166 @@
+---
+title: Journey Planning
+description: How Mansariya finds the best bus route between two stops
+---
+
+## Overview
+
+Journey planning answers the question: "How do I get from stop A to stop B by bus?" Mansariya finds all routes that connect the origin and destination stops, enriches each option with live data (active buses, ETAs, fares), and ranks them for the passenger.
+
+```
+User: "Pettah → Nugegoda"
+  |
+  v
+1. Stop search (fuzzy, trilingual)
+  |
+  v
+2. Route matching (which routes connect these stops?)
+  |
+  v
+3. Journey enrichment (duration, fare, live buses, ETA)
+  |
+  v
+Response: ranked list of journey options
+```
+
+## Step 1: Stop Search
+
+Passengers type stop names in Sinhala, Tamil, or English. The search uses PostgreSQL's `pg_trgm` extension for fuzzy trigram matching across all three languages.
+
+**How it works:**
+
+- Each stop has `name_en`, `name_si`, and `name_ta` columns
+- A GIN trigram index on all three columns enables fast fuzzy search
+- The query uses `similarity()` to rank results, so "Petah" matches "Pettah" and partial inputs work
+- Results are ranked by similarity score, with a minimum threshold to filter noise
+
+**Stop autocomplete endpoint:**
+
+```
+GET /api/v1/stops/search?q=pettah&limit=10
+```
+
+Response:
+
+```json
+{
+  "stops": [
+    {
+      "id": "stop_001",
+      "name_en": "Pettah Bus Stand",
+      "name_si": "පිට්ටල බස් නැවතුම",
+      "name_ta": "பெட்டா பஸ் நிலையம்",
+      "lat": 6.9355,
+      "lng": 79.8506
+    }
+  ]
+}
+```
+
+## Step 2: Route Matching
+
+Once origin and destination stops are identified, the system finds all routes that pass through both stops in the correct order.
+
+**How it works:**
+
+1. Query the `route_stops` table to find all routes containing the origin stop
+2. For each of those routes, check if it also contains the destination stop
+3. Verify the stop order: the destination must come after the origin in the route's stop sequence
+4. Return all matching routes with their stop sequences
+
+The `route_stops` table stores each route's ordered stop list with a `stop_order` column, making direction-aware queries efficient.
+
+## Step 3: Journey Enrichment
+
+Each matching route is enriched with live and static data to help the passenger choose the best option.
+
+| Data Point | Source | Description |
+|------------|--------|-------------|
+| **Duration** | Historical data | Estimated travel time between origin and destination stops |
+| **Fare** | Route metadata | Bus fare for the journey (from NTC fare tables) |
+| **Distance** | Route geometry | Distance along the route between the two stops |
+| **Active buses** | Redis (live) | Number of buses currently tracked on this route |
+| **Next bus ETA** | Calculated (live) | Estimated time until the next bus reaches the origin stop |
+| **Stop count** | `route_stops` table | Number of intermediate stops |
+
+## API Response
+
+```
+GET /api/v1/journey?from=stop_001&to=stop_042
+```
+
+```json
+{
+  "origin": {
+    "id": "stop_001",
+    "name_en": "Pettah Bus Stand",
+    "lat": 6.9355,
+    "lng": 79.8506
+  },
+  "destination": {
+    "id": "stop_042",
+    "name_en": "Nugegoda Junction",
+    "lat": 6.8721,
+    "lng": 79.8886
+  },
+  "journeys": [
+    {
+      "route_id": "route_138",
+      "route_number": "138",
+      "route_name_en": "Pettah - Kottawa",
+      "origin_stop_order": 1,
+      "destination_stop_order": 12,
+      "intermediate_stops": 10,
+      "distance_km": 11.2,
+      "estimated_duration_min": 35,
+      "fare_lkr": 65,
+      "active_buses": 4,
+      "next_bus_eta_min": 8,
+      "eta_confidence": "good"
+    },
+    {
+      "route_id": "route_177",
+      "route_number": "177",
+      "route_name_en": "Pettah - Maharagama",
+      "origin_stop_order": 1,
+      "destination_stop_order": 15,
+      "intermediate_stops": 13,
+      "distance_km": 13.5,
+      "estimated_duration_min": 42,
+      "fare_lkr": 70,
+      "active_buses": 2,
+      "next_bus_eta_min": 14,
+      "eta_confidence": "low"
+    }
+  ]
+}
+```
+
+## ETA Calculation
+
+The ETA tells passengers how long until the next bus on a given route reaches their stop. This is calculated in real time using live bus positions.
+
+### How ETA Is Computed
+
+1. **Snap bus to route:** Find the closest point on the route polyline to the bus's current position. This gives the bus's progress along the route as a distance from the start.
+
+2. **Calculate remaining distance:** Compute the distance along the route polyline from the bus's current position to the target stop.
+
+3. **Estimate travel time:** Use the bus's current speed combined with historical average speed data for that route segment to estimate how long it will take to cover the remaining distance.
+
+4. **Assign confidence:** The ETA confidence depends on data quality.
+
+### ETA Confidence
+
+| Confidence | Conditions |
+|------------|-----------|
+| `high` | Bus position is verified (3+ contributors), bus is within 5km of the stop, speed data is recent |
+| `good` | Bus position has 2 contributors, or bus is 5-15km away |
+| `low` | Single contributor, bus is far away, or speed data is stale |
+| `unavailable` | No active buses on the route, or bus has not been updated in the last 2 minutes |
+
+### Limitations
+
+- ETAs do not account for traffic conditions beyond what is observable from current bus speed
+- If no buses are currently tracked on a route, ETA is unavailable (not estimated from schedule, since Mansariya does not use schedules)
+- ETA accuracy improves with more contributors on the bus

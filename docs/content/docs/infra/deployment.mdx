@@ -1,0 +1,175 @@
+---
+title: Deployment
+description: Production deployment on Hetzner with Docker Compose
+---
+
+## Architecture
+
+Mansariya runs on a single **Hetzner CX32** server with all services managed by Docker Compose. Cloudflare sits in front for CDN and SSL termination.
+
+```
+Internet
+  |
+  v
+Cloudflare (CDN + SSL)
+  |
+  v
+Hetzner CX32 Server
+  |
+  v
+Nginx (:9000) -- reverse proxy
+  |
+  |--- Go Backend (:9900) -- HTTP API + WebSocket + pipeline
+  |--- PostgreSQL (:5433) -- routes, stops, spatial data
+  |--- Redis (:6379) -- Streams, Pub/Sub, Hash
+  |--- Valhalla (:9992) -- map matching + routing
+  |--- Nominatim (:9990) -- geocoding (bootstrap only)
+
+Mobile App --> OpenFreeMap (direct, free tiles)
+```
+
+Map tiles are served directly from OpenFreeMap to the mobile app -- they do not pass through the Mansariya server.
+
+## Server Sizing
+
+| Resource | Hetzner CX32 | Usage |
+|----------|-------------|-------|
+| **vCPU** | 4 cores | Go backend + pipeline workers use 1-2 cores, Valhalla uses 1, PostgreSQL uses 0.5, Redis uses 0.2 |
+| **RAM** | 8 GB | Valhalla tiles ~2GB, PostgreSQL ~1GB, Go backend ~500MB, Redis ~200MB, headroom ~4GB |
+| **Storage** | 80 GB SSD | PostgreSQL data ~5GB, Valhalla tiles ~2GB, Docker images ~3GB, logs ~1GB |
+| **Bandwidth** | 20 TB/month | More than sufficient for GPS pings and WebSocket traffic |
+
+## Docker Compose
+
+All services are defined in `infra/docker-compose.yml`. Common operations:
+
+### Start All Services
+
+```bash
+make infra-up-all
+```
+
+Or directly:
+
+```bash
+docker compose -f infra/docker-compose.yml up -d
+```
+
+### Stop All Services
+
+```bash
+docker compose -f infra/docker-compose.yml down
+```
+
+### View Logs
+
+```bash
+# All services
+docker compose -f infra/docker-compose.yml logs -f
+
+# Specific service
+docker compose -f infra/docker-compose.yml logs -f backend
+```
+
+### Rebuild After Code Changes
+
+```bash
+docker compose -f infra/docker-compose.yml up -d --build backend
+```
+
+### Check Service Health
+
+```bash
+docker compose -f infra/docker-compose.yml ps
+```
+
+## Nginx Reverse Proxy
+
+Nginx handles:
+
+- **Reverse proxying** HTTP requests to the Go backend
+- **WebSocket upgrades** for `/ws/track/*` paths
+- **Static file serving** for API docs
+- **Request buffering** and connection management
+
+The Nginx configuration is in `infra/nginx/`. Key settings:
+
+- Proxy pass to `http://backend:9900`
+- WebSocket upgrade headers for `/ws/` paths
+- Keep-alive connections to the backend
+- Request size limit of 1MB (GPS batches are small)
+
+## Deployment Steps
+
+### Initial Setup
+
+1. Provision a Hetzner CX32 server with Ubuntu 22.04
+2. Install Docker and Docker Compose
+3. Set up Cloudflare DNS (A record pointing to server IP)
+4. Clone the repository
+5. Copy and configure environment files
+6. Start services: `make infra-up-all`
+7. Run migrations: `make migrate-up`
+8. Bootstrap route data: `make bootstrap`
+
+### Updating the Backend
+
+```bash
+git pull
+docker compose -f infra/docker-compose.yml up -d --build backend
+```
+
+The Go binary is rebuilt inside the Docker container. PostgreSQL, Redis, and Valhalla containers are not affected.
+
+### Database Migrations
+
+```bash
+make migrate-up
+```
+
+Migrations are idempotent and versioned. They run inside the backend container using golang-migrate.
+
+## Cost Breakdown
+
+| Item | Monthly Cost |
+|------|-------------|
+| Hetzner CX32 | ~$7.50 |
+| Cloudflare (free tier) | $0 |
+| OpenFreeMap tiles | $0 |
+| Domain name | ~$1 (amortized) |
+| Backups (Hetzner snapshot) | ~$1.50 |
+| **Total** | **~$10/month** |
+
+## Backups
+
+### PostgreSQL
+
+Automated daily backups using `pg_dump`:
+
+```bash
+docker compose -f infra/docker-compose.yml exec postgres \
+  pg_dump -U mansariya mansariya | gzip > backup_$(date +%Y%m%d).sql.gz
+```
+
+### Hetzner Snapshots
+
+Weekly server snapshots provide full-system recovery. These capture all Docker volumes including PostgreSQL data and Valhalla tiles.
+
+### Redis
+
+Redis data is ephemeral (Streams, Pub/Sub, TTL-based caches). It does not need backup -- the data regenerates from live GPS contributions.
+
+## Monitoring
+
+- **Health endpoint:** `GET /health` returns `{"status": "ok"}` when the backend is running
+- **Docker health checks:** Each service has a health check in `docker-compose.yml`
+- **Cloudflare analytics:** Basic traffic metrics available on the free tier
+- **Log aggregation:** Docker logs are stored on disk, rotated by Docker's default log driver
+
+## Scaling Considerations
+
+The single-server architecture handles the current scale (Sri Lanka's bus network). If Mansariya grows beyond what one CX32 can handle:
+
+1. **Vertical scaling:** Upgrade to CX42 (8 vCPU, 16GB RAM) for ~$15/month
+2. **Horizontal scaling:** Move PostgreSQL and Redis to managed services, run multiple Go backend instances behind a load balancer
+3. **Pipeline scaling:** Pipeline workers can run on separate machines, consuming from the same Redis Streams

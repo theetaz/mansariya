@@ -1,0 +1,147 @@
+---
+title: Real-Time Tracking
+description: How live bus positions reach passengers via WebSocket
+---
+
+## Overview
+
+Once the GPS pipeline produces a bus position update, it needs to reach passengers' phones in real time. Mansariya uses WebSockets for persistent, low-latency connections and Redis Pub/Sub as the internal message bus.
+
+```
+Pipeline Processor
+  |
+  v
+Redis Pub/Sub (channel: route:{routeID})
+  |
+  v
+Pub/Sub Bridge (Go goroutine)
+  |
+  v
+WebSocket Hub (manages client subscriptions)
+  |
+  v
+Connected Passenger Apps
+```
+
+## WebSocket Architecture
+
+### Connection Flow
+
+1. The passenger opens a route detail screen in the app
+2. The app connects to `ws://host/ws/track/{routeID}`
+3. The WebSocket Hub registers the client as a subscriber for that route
+4. When the Pub/Sub Bridge receives a position update for that route, the Hub broadcasts it to all subscribed clients
+5. When the passenger leaves the screen, the connection is closed and the subscription is removed
+
+### Hub Design
+
+The WebSocket Hub is a single Go goroutine that manages all active connections. It maintains a map of `routeID -> set of connections`. This ensures:
+
+- **Efficient broadcasting:** Messages are only sent to clients watching a specific route, not all connected clients
+- **Clean teardown:** When a client disconnects (network loss, app backgrounded), the Hub removes it from all subscriptions
+- **Scalability:** The Hub handles thousands of concurrent connections on a single server
+
+### Pub/Sub Bridge
+
+The Pub/Sub Bridge subscribes to Redis Pub/Sub channels matching the pattern `route:*`. When a message arrives on `route:138`, the bridge forwards it to the Hub, which delivers it to all clients watching route 138.
+
+This decouples the pipeline workers from the WebSocket layer. Workers publish to Redis; the Hub reads from Redis. They do not need to know about each other.
+
+## Message Format
+
+Each position update sent to clients is a JSON message:
+
+```json
+{
+  "virtual_id": "bus_138_cluster_3",
+  "route_id": "route_138",
+  "lat": 6.9271,
+  "lng": 79.8612,
+  "speed_kmh": 32.5,
+  "bearing": 45.0,
+  "contributor_count": 3,
+  "confidence": "verified",
+  "last_update": "2025-01-15T08:30:05Z"
+}
+```
+
+### Field Reference
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `virtual_id` | string | Unique identifier for this virtual bus (from DBSCAN clustering) |
+| `route_id` | string | The route this bus is operating on |
+| `lat` | float | Latitude of the bus position |
+| `lng` | float | Longitude of the bus position |
+| `speed_kmh` | float | Current speed in km/h |
+| `bearing` | float | Direction of travel in degrees (0 = north, 90 = east) |
+| `contributor_count` | int | Number of phones currently contributing to this bus position |
+| `confidence` | string | Position confidence level: `low`, `good`, or `verified` |
+| `last_update` | string | ISO 8601 timestamp of the most recent GPS ping |
+
+## Confidence Levels
+
+The confidence level indicates how reliable the bus position is, based on how many independent phones are contributing GPS data for that bus.
+
+| Confidence | Contributors | Meaning | UI Treatment |
+|------------|-------------|---------|-------------|
+| `low` | 1 | Single device. Could be a car or motorcycle on the same route. | Amber indicator, "Unverified" label |
+| `good` | 2 | Two independent devices confirm the position. Likely a bus. | Default green indicator |
+| `verified` | 3+ | Three or more devices. High confidence this is a bus. | Green indicator with checkmark |
+
+## Redis Bus Position Storage
+
+In addition to the real-time Pub/Sub broadcast, each bus position is stored in a Redis Hash for REST API access.
+
+**Key pattern:** `bus:{virtual_id}:pos`
+
+**Hash fields:**
+
+| Field | Value |
+|-------|-------|
+| `route_id` | Route identifier |
+| `lat` | Latitude |
+| `lng` | Longitude |
+| `speed` | Speed in km/h |
+| `bearing` | Direction in degrees |
+| `contributors` | Number of contributing devices |
+| `confidence` | Confidence level |
+| `updated_at` | Unix timestamp |
+
+**TTL:** 5 minutes. If no new GPS data arrives for a bus, its position automatically expires from Redis. This ensures stale buses are removed from the map without explicit cleanup.
+
+**Active bus tracking:** A Redis Sorted Set `active_buses:{route_id}` tracks which buses are currently active on each route, scored by last update time. This allows efficient queries like "how many buses are active on route 138?"
+
+## REST Fallback Endpoints
+
+For clients that cannot use WebSocket (or for initial page loads before the WebSocket connects), REST endpoints provide the current state:
+
+### Get Active Buses on a Route
+
+```
+GET /api/v1/routes/{routeID}/buses/active
+```
+
+Returns all currently active buses on the specified route with their latest positions.
+
+### Get Nearby Buses
+
+```
+GET /api/v1/buses/nearby?lat=6.9271&lng=79.8612&radius=1000
+```
+
+Returns all active buses within the specified radius (in meters) of the given coordinates.
+
+These endpoints read directly from the Redis Hash/SortedSet, so they always reflect the latest pipeline output.
+
+## Latency Budget
+
+| Stage | Time |
+|-------|------|
+| Phone GPS to server | ~200ms (network) |
+| Ingester processing | < 10ms |
+| Map matching (Valhalla) | ~100ms |
+| Route inference + clustering | ~50ms |
+| Redis Pub/Sub to Hub | < 5ms |
+| Hub to client WebSocket | < 5ms |
+| **Total end-to-end** | **< 2 seconds** |

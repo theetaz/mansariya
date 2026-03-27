@@ -1,0 +1,146 @@
+---
+title: Contributing GPS
+description: How passengers become sensors
+---
+
+## Overview
+
+Mansariya has no GPS hardware on buses. Instead, passengers who opt in become the sensors. When a contributor rides a bus with the Mansariya app active, their phone's GPS data is sent to the backend, processed through the pipeline, and turned into live bus positions visible to all passengers.
+
+## How It Works
+
+```
+Phone GPS sensor
+  |
+  v
+Collect pings every 5 seconds
+  |
+  v
+Batch 10-20 pings
+  |
+  v
+Generate device_hash (rotates daily)
+  |
+  v
+POST /api/v1/gps/batch
+  |
+  v
+Pipeline processes → Live bus position
+```
+
+1. The contributor taps "Start Contributing" in the app
+2. The app requests location permission (if not already granted)
+3. GPS pings are collected every 5 seconds using `react-native-geolocation-service`
+4. Pings are accumulated in a local batch
+5. Every 10-20 pings (50-100 seconds), the batch is sent to the backend
+6. A rotating `device_hash` is included (not a device ID)
+7. The backend pipeline map-matches and processes the data
+8. Other passengers see the resulting bus position on their map
+
+## GPS Collection Settings
+
+| Setting | Value | Description |
+|---------|-------|-------------|
+| Collection interval | 5 seconds | Time between GPS readings |
+| Minimum accuracy | 25 meters | Pings with worse accuracy are discarded |
+| Batch size | 10-20 pings | Sent together in one HTTP request |
+| Background mode | Supported | GPS collection continues when app is backgrounded |
+| Battery optimization | High accuracy with interval throttling | Balances accuracy with battery life |
+
+## Privacy Protections
+
+Privacy is a core design constraint, not an afterthought. Here is how contributor GPS data is protected:
+
+### No Account Required
+
+Contributors do not need to create an account, sign in, or provide any personal information. The app works without any identity.
+
+### Rotating Device Hash
+
+Instead of a device ID, the app generates a `device_hash` -- a one-way cryptographic hash of the device's UUID combined with the current date. This hash:
+
+- Changes every 24 hours, so the same device produces a different hash each day
+- Cannot be reversed to recover the device UUID
+- Is only used to group GPS pings from the same device within a single day (needed for map matching a continuous trace)
+
+### GPS Data Is Discarded Quickly
+
+Raw GPS pings are kept in the Redis Stream `gps:raw` for processing only. They are trimmed after **10 minutes**. Matched traces are not stored permanently. The only persistent data is the aggregated bus position -- which contains no contributor information.
+
+### Opt-In Only
+
+GPS contribution is **never automatic**. The user must explicitly tap "Start Contributing" each session. The setting is not remembered between app launches (the user consciously decides each time).
+
+## What Gets Sent
+
+Each GPS batch sent to the server contains only the minimum data needed for processing:
+
+```json
+{
+  "device_hash": "a1b2c3d4e5f6",
+  "pings": [
+    {
+      "lat": 6.9271,
+      "lng": 79.8612,
+      "accuracy": 12.5,
+      "speed": 8.3,
+      "bearing": 45.0,
+      "timestamp": "2025-01-15T08:30:00Z"
+    },
+    {
+      "lat": 6.9275,
+      "lng": 79.8618,
+      "accuracy": 10.2,
+      "speed": 9.1,
+      "bearing": 47.0,
+      "timestamp": "2025-01-15T08:30:05Z"
+    }
+  ]
+}
+```
+
+## What Is NOT Sent
+
+The app never sends:
+
+- **Device UUID or IMEI** -- Only the one-way hash is sent
+- **Phone number** -- Not collected
+- **User name or email** -- No accounts exist
+- **Which routes the user watches** -- Viewing is completely private
+- **App usage patterns** -- No analytics
+- **Contacts, photos, or other phone data** -- Not accessed
+- **Persistent device identifier** -- The hash rotates daily
+
+## Contribution Impact
+
+The number of contributors on a bus directly affects the quality of the position data:
+
+| Contributors | Effect |
+|-------------|--------|
+| **1 phone** | Position is reported but marked as `low` confidence. Could be a car. |
+| **2 phones** | DBSCAN clusters them into a single bus. Confidence is `good`. |
+| **3+ phones** | High-confidence `verified` position. Accurate speed and bearing. |
+
+Even a single contributor is valuable -- the position is shown to passengers (with an "unverified" indicator). As adoption grows, most buses will have multiple contributors, and confidence will increase automatically.
+
+## Battery Usage
+
+GPS tracking does consume battery. Mansariya minimizes the impact:
+
+- **5-second interval** instead of continuous tracking reduces GPS chip wake-ups
+- **Background mode** uses lower-power location settings when the app is not in the foreground
+- The contributor can stop sharing GPS at any time with a single tap
+- The app shows a persistent notification when GPS is being shared, so the user is always aware
+
+Typical battery impact: approximately 5-8% per hour of active contribution, depending on the device.
+
+## Offline Behavior
+
+If the contributor loses internet connectivity while sharing GPS:
+
+1. Pings continue to be collected locally
+2. Batches are queued in memory (up to 500 pings / ~40 minutes)
+3. When connectivity returns, queued batches are sent automatically
+4. Pings older than 10 minutes are discarded by the server but still submitted (the server decides what to keep)
+
+See the [Offline-First](/docs/mobile/offline-first) page for more details on the GPS queue.

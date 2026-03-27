@@ -1,0 +1,131 @@
+---
+title: Architecture
+description: System design, data flow, and tech stack
+---
+
+## System Overview
+
+Mansariya follows a pipeline architecture where raw GPS data from phones flows through several processing stages before reaching passengers as live bus positions.
+
+```
+Mobile App
+  |
+  v
+Go Backend (HTTP + WebSocket)
+  |
+  v
+Pipeline Workers (goroutines)
+  |-- Map Matcher (Valhalla Meili)
+  |-- Route Inferrer (R-tree + Hausdorff)
+  |-- Clusterer (DBSCAN)
+  |
+  v
+Data Layer
+  |-- PostgreSQL 16 + PostGIS (routes, stops, spatial data)
+  |-- Redis 7 (Streams, Pub/Sub, Hash, SortedSet)
+  |-- Valhalla (map matching, routing)
+  |
+  v
+WebSocket Hub --> Passenger Apps
+```
+
+The Go backend is a single binary that serves HTTP endpoints, manages WebSocket connections, and runs pipeline workers as long-lived goroutines.
+
+## Tech Stack
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **Backend** | Go 1.23+, Chi v5, pgx v5, go-redis v9 | HTTP API, WebSocket, pipeline workers |
+| **Mobile** | React Native (bare workflow), TypeScript, MapLibre, Zustand | Passenger and contributor app |
+| **Database** | PostgreSQL 16 + PostGIS | Routes, stops, spatial queries |
+| **Real-time** | Redis Streams + Pub/Sub | Pipeline messaging, live broadcast |
+| **Map matching** | Valhalla Meili (self-hosted) | Snap GPS traces to road network |
+| **Maps** | OpenFreeMap + MapLibre | Free vector tiles, $0 cost |
+| **Infra** | Docker Compose, Hetzner CX32 | Single-server deployment |
+| **CDN/SSL** | Cloudflare | Edge caching, TLS termination |
+| **Geocoding** | Nominatim (self-hosted) | Stop/address geocoding (bootstrap) |
+| **Spatial libs** | paulmach/orb, tidwall/rtree | Geometry operations, spatial indexing |
+
+## Data Flow: GPS Ingestion Pipeline
+
+Raw GPS pings from contributor phones pass through four stages before becoming live bus positions visible to passengers.
+
+```
+Phone GPS
+  |
+  v
+[Stage 1: Ingester]
+  POST /api/v1/gps/batch
+  Validates, pushes to Redis Stream "gps:raw"
+  |
+  v
+[Stage 2: Map Matcher]
+  Consumes "gps:raw"
+  Sends traces to Valhalla Meili
+  Produces snapped points to "gps:matched"
+  |
+  v
+[Stage 3: Processor]
+  Consumes "gps:matched"
+  Route inference (R-tree + Hausdorff distance)
+  DBSCAN clustering (fuse multiple phones → single bus)
+  |
+  v
+[Stage 4: Broadcaster]
+  Publishes to Redis Pub/Sub "route:{routeID}"
+  WebSocket Hub forwards to connected clients
+```
+
+### Pipeline Stages
+
+| Stage | Input | Output | What It Does |
+|-------|-------|--------|-------------|
+| **Ingester** | HTTP POST with GPS batch | Redis Stream `gps:raw` | Validates coordinates, checks device hash, returns 200 OK immediately (async processing) |
+| **Map Matcher** | Raw GPS points from `gps:raw` | Redis Stream `gps:matched` | Sends trace to Valhalla Meili, snaps noisy GPS to road segments, returns road-aligned coordinates |
+| **Processor** | Matched points from `gps:matched` | Bus position records | Infers which route the device is on using spatial R-tree lookup + Hausdorff distance, then clusters multiple contributors into a single virtual bus via DBSCAN |
+| **Broadcaster** | Bus position updates | Redis Pub/Sub + WebSocket | Publishes positions to `route:{routeID}` channels, WebSocket Hub delivers to subscribed passengers |
+
+## Monorepo Layout
+
+```
+mansariya/
+  backend/          Go backend (single binary)
+    cmd/            Entry points
+    internal/       All internal packages
+    migrations/     SQL migration files
+  mobile/           React Native app (TypeScript)
+    src/
+      components/   Reusable UI components
+      screens/      Screen components
+      stores/       Zustand state stores
+      services/     API client, WebSocket, location
+      i18n/         Translations (si, ta, en)
+  infra/            Docker Compose, Dockerfiles, nginx
+  data/             Raw NTC route data files
+  docs/             Fumadocs documentation site
+  plans/            Architecture decisions and design docs (gitignored)
+```
+
+## Infrastructure
+
+All services run on a single **Hetzner CX32** server (~$9/month).
+
+### Port Assignments
+
+| Service | Port | Description |
+|---------|------|-------------|
+| Go Backend | 9900 | HTTP API + WebSocket |
+| PostgreSQL | 5433 | Database (mapped from container 5432) |
+| Redis | 6379 | Streams, Pub/Sub, Hash, SortedSet |
+| Valhalla | 9992 | Map matching and routing engine |
+| Nominatim | 9990 | Geocoding (bootstrap only) |
+| Nginx | 9000 | Reverse proxy, WebSocket upgrade |
+
+### External Services
+
+- **Cloudflare** -- CDN and SSL termination. All traffic passes through Cloudflare before reaching the server.
+- **OpenFreeMap** -- Free vector map tiles served directly to the mobile app. No API key needed. No cost.
+
+### Why a Single Server?
+
+Sri Lanka's bus network has roughly 6,000 active buses at peak. Even with aggressive assumptions (50% adoption, 5-second updates), this produces about 600 GPS pings/second. A single CX32 (4 vCPU, 8GB RAM) handles this comfortably. Scaling out is straightforward later: separate the pipeline workers, add a load balancer.
