@@ -5,8 +5,9 @@
        docs-dev docs-build docs-install \
        setup
 
-# Load infra env if present
+# Load env files if present
 -include infra/.env
+-include backend/.env
 export
 
 ##@ General
