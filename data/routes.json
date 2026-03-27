@@ -45,7 +45,14 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand",
+      "Kelani Campus"
+    ],
     "osm_polyline": [
       [
         79.8775601,
@@ -120,6 +127,57 @@
         "lat": 7.291560334863875,
         "lng": 80.63362250595094,
         "name": "Kandy – Colombo Intercity"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Kelani Campus",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9718519,
+        "lng": 79.916883
+      },
+      {
+        "name": "Kelani Campus",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9723431,
+        "lng": 79.9170426
       }
     ]
   },
@@ -2110,7 +2168,10 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Colombo - Hanwella Low Level Rd,Kaduwela",
+      "Kaduwela New Kandy Rd Bus Stop,Malabe"
+    ],
     "waypoints": [
       {
         "lat": 6.936314690861787,
@@ -2121,6 +2182,22 @@
         "lat": 5.943899579425599,
         "lng": 80.54920820519328,
         "name": "Matara"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo - Hanwella Low Level Rd,Kaduwela",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353102,
+        "lng": 79.9839961
+      },
+      {
+        "name": "Kaduwela New Kandy Rd Bus Stop,Malabe",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343681,
+        "lng": 79.9837298
       }
     ]
   },
@@ -2182,7 +2259,10 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Colombo - Hanwella Low Level Rd,Kaduwela",
+      "Kaduwela New Kandy Rd Bus Stop,Malabe"
+    ],
     "waypoints": [
       {
         "lat": 6.936314690861787,
@@ -2193,6 +2273,22 @@
         "lat": 6.032843067848115,
         "lng": 80.21566862730981,
         "name": "Galle Central Bus Station"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo - Hanwella Low Level Rd,Kaduwela",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353102,
+        "lng": 79.9839961
+      },
+      {
+        "name": "Kaduwela New Kandy Rd Bus Stop,Malabe",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343681,
+        "lng": 79.9837298
       }
     ]
   },
@@ -2650,7 +2746,15 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand",
+      "Galle face halt 1",
+      "St. Peter's college"
+    ],
     "waypoints": [
       {
         "lat": 6.935686028608979,
@@ -2676,6 +2780,64 @@
         "lat": 6.032843067848115,
         "lng": 80.21566862730981,
         "name": "Galle Central Bus Station"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Galle face halt 1",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9216076,
+        "lng": 79.8462335
+      },
+      {
+        "name": "Galle face halt 1",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9200288,
+        "lng": 79.8468512
+      },
+      {
+        "name": "St. Peter's college",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8809496,
+        "lng": 79.8617823
       }
     ]
   },
@@ -2978,7 +3140,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -3004,6 +3172,43 @@
         "lat": 6.413246242205084,
         "lng": 81.33221626281738,
         "name": "Kataragama"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -3125,7 +3330,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -3161,6 +3372,43 @@
         "lat": 8.340148466376414,
         "lng": 80.41462182998657,
         "name": "Anuradhapura CTB"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -3403,7 +3651,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -3424,6 +3678,43 @@
         "lat": 7.488026752674358,
         "lng": 80.36431163549423,
         "name": "Kurunegala"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -5279,7 +5570,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -5290,6 +5587,43 @@
         "lat": 8.240425606293488,
         "lng": 79.76373955607414,
         "name": "Kalpitiya"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -5327,7 +5661,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -5343,6 +5683,43 @@
         "lat": 7.477155253864091,
         "lng": 80.62298387289047,
         "name": "Matale (Colombo)"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -5380,7 +5757,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand"
+    ],
     "waypoints": [
       {
         "lat": 6.935686028608979,
@@ -5417,6 +5800,43 @@
         "lng": 80.76579959310038,
         "name": "Teldeniya"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      }
     ]
   },
   {
@@ -5429,7 +5849,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand"
+    ],
     "waypoints": [
       {
         "lat": 6.935686028608979,
@@ -5466,6 +5892,43 @@
         "lng": 80.68130614576148,
         "name": "Wattegama"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      }
     ]
   },
   {
@@ -5478,7 +5941,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand"
+    ],
     "waypoints": [
       {
         "lat": 6.935686028608979,
@@ -5514,6 +5983,43 @@
         "lat": 7.299172359644936,
         "lng": 80.73467180683565,
         "name": "Digana"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
       }
     ]
   },
@@ -6874,7 +7380,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand"
+    ],
     "waypoints": [
       {
         "lat": 6.935686028608979,
@@ -6890,6 +7402,43 @@
         "lat": 6.855890227362347,
         "lng": 80.74797863505705,
         "name": "Dayagama"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
       }
     ]
   },
@@ -7305,7 +7854,14 @@
     "fare_lkr": 510,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand",
+      "Pattiya Junction Bus Stop"
+    ],
     "waypoints": [
       {
         "lat": 6.935686028608979,
@@ -7326,6 +7882,50 @@
         "lat": 7.05580562311642,
         "lng": 80.53419620908244,
         "name": "Nawalapitiya"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Pattiya Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9626762,
+        "lng": 79.8948687
       }
     ]
   },
@@ -7351,7 +7951,13 @@
     "fare_lkr": 516,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "177 bus stop",
+      "Malabe Junction bus stop, Kaduwela road",
+      "Malabe Junction bus stop, Malabe",
+      "Nugegoda Bus Stand",
+      "Willium Junction"
+    ],
     "waypoints": [
       {
         "lat": 7.291560334863875,
@@ -7377,6 +7983,43 @@
         "lat": 6.711627681626962,
         "lng": 79.90790257720948,
         "name": "Panadura Bus Stop (private buses)"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "177 bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9045555,
+        "lng": 79.9532658
+      },
+      {
+        "name": "Malabe Junction bus stop, Kaduwela road",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9039195,
+        "lng": 79.9542684
+      },
+      {
+        "name": "Malabe Junction bus stop, Malabe",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9037081,
+        "lng": 79.9565175
+      },
+      {
+        "name": "Nugegoda Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8728552,
+        "lng": 79.8922087
+      },
+      {
+        "name": "Willium Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8606225,
+        "lng": 79.8641387
       }
     ]
   },
@@ -7474,7 +8117,10 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Colombo - Hanwella Low Level Rd,Kaduwela",
+      "Kaduwela New Kandy Rd Bus Stop,Malabe"
+    ],
     "waypoints": [
       {
         "lat": 6.936094771193548,
@@ -7490,6 +8136,22 @@
         "lat": 6.889223063179617,
         "lng": 80.59887684881687,
         "name": "Hatton"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo - Hanwella Low Level Rd,Kaduwela",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353102,
+        "lng": 79.9839961
+      },
+      {
+        "name": "Kaduwela New Kandy Rd Bus Stop,Malabe",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343681,
+        "lng": 79.9837298
       }
     ]
   },
@@ -8961,7 +9623,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -9002,6 +9670,43 @@
         "lat": 6.028536643570933,
         "lng": 80.79444793984294,
         "name": "Tangalle"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -34384,7 +35089,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -34420,6 +35131,43 @@
         "lat": 7.929036094532072,
         "lng": 81.0332116484642,
         "name": "Kaduruwela"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -55861,7 +56609,13 @@
     "fare_lkr": 705,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -55877,6 +56631,43 @@
         "lat": 8.340153774062442,
         "lng": 80.41450716555119,
         "name": "Anuradhapura"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -56094,7 +56885,17 @@
     "fare_lkr": 687,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Roxi film hall halt",
+      "Nithyakalyani Jewellery Bus Stop",
+      "William Junction",
+      "Bambalapitiya flats halt",
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo Fort",
+      "Colombo central Bus stand",
+      "Bus to Kandy"
+    ],
     "waypoints": [
       {
         "lat": 6.342266406587228,
@@ -56130,6 +56931,71 @@
         "lat": 6.933601222698944,
         "lng": 79.85540101795198,
         "name": "Bastian Mawatha – Fort"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Roxi film hall halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8651652,
+        "lng": 79.863177
+      },
+      {
+        "name": "Nithyakalyani Jewellery Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8670885,
+        "lng": 79.8628585
+      },
+      {
+        "name": "William Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8639742,
+        "lng": 79.8635756
+      },
+      {
+        "name": "Bambalapitiya flats halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8840616,
+        "lng": 79.8584362
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
       }
     ]
   },
@@ -88578,7 +89444,23 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Moratuwa Express Bus Stand",
+      "Moratuwa clock tower(to Panadura)",
+      "Moratuwa",
+      "Wellawatte Arpico halt",
+      "Mangala halt",
+      "Nithyakalyani Jewellery Bus Stop",
+      "Bambalapitiya Junction Bus Stop",
+      "Bambalapitiya Junction",
+      "Gangaramaya Halt",
+      "Dharmapala Mawatha Halt",
+      "NDB Dharmapala Mawatha Bus Stop",
+      "Hettiyawatte Junction",
+      "Kotahena Bus Stop",
+      "AC bus to Jaffna",
+      "Bus Stop #155"
+    ],
     "waypoints": [
       {
         "lat": 6.775689878171351,
@@ -88609,6 +89491,120 @@
         "lat": 6.94807888746265,
         "lng": 79.86126065254211,
         "name": "Kotahena Bus Stop"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Moratuwa Express Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7775175,
+        "lng": 79.8822431
+      },
+      {
+        "name": "Moratuwa clock tower(to Panadura)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7770654,
+        "lng": 79.8832625
+      },
+      {
+        "name": "Moratuwa",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7753741,
+        "lng": 79.8838061
+      },
+      {
+        "name": "Wellawatte Arpico halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8683204,
+        "lng": 79.8624659
+      },
+      {
+        "name": "Mangala halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.869308,
+        "lng": 79.8623526
+      },
+      {
+        "name": "Mangala Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8693304,
+        "lng": 79.8623961
+      },
+      {
+        "name": "Nithyakalyani Jewellery Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8670885,
+        "lng": 79.8628585
+      },
+      {
+        "name": "Bambalapitiya Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8943178,
+        "lng": 79.8574226
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      },
+      {
+        "name": "Gangaramaya Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9158726,
+        "lng": 79.8558682
+      },
+      {
+        "name": "Dharmapala Mawatha Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9126109,
+        "lng": 79.8539891
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      },
+      {
+        "name": "Hettiyawatte Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9499007,
+        "lng": 79.8574676
+      },
+      {
+        "name": "Kotahena Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9474309,
+        "lng": 79.8618479
+      },
+      {
+        "name": "AC bus to Jaffna",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9482955,
+        "lng": 79.8606937
+      },
+      {
+        "name": "Bus Stop #155",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.94683,
+        "lng": 79.8627971
       }
     ]
   },
@@ -88803,7 +89799,12 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "D S Senanayake College Bus Stop",
+      "House Of Fashion Bus Stop",
+      "Bambalapitiya Junction Bus Stop",
+      "Bambalapitiya Junction"
+    ],
     "waypoints": [
       {
         "lat": 7.078278849564235,
@@ -88825,6 +89826,43 @@
         "lng": 79.85718922689557,
         "name": "Bambalapitiya"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "D S Senanayake College Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.907934,
+        "lng": 79.8760374
+      },
+      {
+        "name": "D S Senanayake College Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9076893,
+        "lng": 79.8760234
+      },
+      {
+        "name": "House Of Fashion Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9104499,
+        "lng": 79.8775794
+      },
+      {
+        "name": "Bambalapitiya Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8943178,
+        "lng": 79.8574226
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      }
     ]
   },
   {
@@ -88837,7 +89875,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Maharagama",
+      "Dr Lester James Peries Mawatha Bus Stop",
+      "Kotahena Bus Stop",
+      "AC bus to Jaffna",
+      "Bus Stop #155"
+    ],
     "waypoints": [
       {
         "lat": 6.848346661055358,
@@ -88864,6 +89908,43 @@
         "lng": 79.86126065254211,
         "name": "Kotahena Bus Stop"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Maharagama",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8480074,
+        "lng": 79.9261907
+      },
+      {
+        "name": "Dr Lester James Peries Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8864854,
+        "lng": 79.8599725
+      },
+      {
+        "name": "Kotahena Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9474309,
+        "lng": 79.8618479
+      },
+      {
+        "name": "AC bus to Jaffna",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9482955,
+        "lng": 79.8606937
+      },
+      {
+        "name": "Bus Stop #155",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.94683,
+        "lng": 79.8627971
+      }
     ]
   },
   {
@@ -88876,7 +89957,18 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Regal Cinema bus stop",
+      "Galadari Hotel halt",
+      "Regal Halt",
+      "Pettah SLT Halt",
+      "Fort-Airport (#187)",
+      "Colombo public library stop",
+      "NDB Dharmapala Mawatha Bus Stop",
+      "Anula Vidyalaya Bus Stop",
+      "Jayamangala Mawatha, Bus Stop",
+      "Udahamulla Depot"
+    ],
     "waypoints": [
       {
         "lat": 6.936094771193548,
@@ -88917,6 +90009,78 @@
         "lat": 6.86537403999687,
         "lng": 79.91130547598004,
         "name": "Udahamulla"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Galadari Hotel halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.931527,
+        "lng": 79.8451236
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Pettah SLT Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340921,
+        "lng": 79.8460338
+      },
+      {
+        "name": "Fort-Airport (#187)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.934517,
+        "lng": 79.8470818
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "NDB Dharmapala Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9133637,
+        "lng": 79.8571086
+      },
+      {
+        "name": "Anula Vidyalaya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8722089,
+        "lng": 79.8838604
+      },
+      {
+        "name": "Jayamangala Mawatha, Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8753711,
+        "lng": 79.8991848
+      },
+      {
+        "name": "Udahamulla Depot",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8651121,
+        "lng": 79.911971
       }
     ]
   },
@@ -89435,7 +90599,17 @@
     "fare_lkr": 378,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt",
+      "Regal Cinema bus stop",
+      "Regal Halt",
+      "Fort-Airport (#187)",
+      "Town hall",
+      "Hyde Park Bus Stop",
+      "Ibbanwala Junction Bus Stop"
+    ],
     "waypoints": [
       {
         "lat": 6.934030602171932,
@@ -89476,6 +90650,78 @@
         "lat": 6.955193063969733,
         "lng": 80.20476210862398,
         "name": "Avissawella"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Regal Cinema bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9314341,
+        "lng": 79.847143
+      },
+      {
+        "name": "Regal Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9313543,
+        "lng": 79.8469491
+      },
+      {
+        "name": "Fort-Airport (#187)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.934517,
+        "lng": 79.8470818
+      },
+      {
+        "name": "Town hall",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9165944,
+        "lng": 79.8628895
+      },
+      {
+        "name": "Hyde Park Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9193092,
+        "lng": 79.8601494
+      },
+      {
+        "name": "Ibbanwala Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.918528,
+        "lng": 79.861865
       }
     ]
   },
@@ -90466,7 +91712,9 @@
     "operating_hours": "",
     "stops": [
       "Gnanawimala",
-      "Crime Bureau"
+      "Crime Bureau",
+      "Petroleum",
+      "Demetagoda"
     ],
     "osm_polyline": [
       [
@@ -90600,6 +91848,20 @@
         "name_ta": "",
         "lat": 6.9306878,
         "lng": 79.882114
+      },
+      {
+        "name": "Petroleum",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.931523,
+        "lng": 79.8840726
+      },
+      {
+        "name": "Demetagoda",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9296956,
+        "lng": 79.8781571
       }
     ]
   },
@@ -96058,7 +97320,15 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt",
+      "Colombo public library stop",
+      "Nugegoda",
+      "Kottawa Bus Stand",
+      "Kottawa"
+    ],
     "waypoints": [
       {
         "lat": 6.934030602171932,
@@ -96100,6 +97370,78 @@
         "lng": 80.54920820519328,
         "name": "Matara"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Colombo public library stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9129932,
+        "lng": 79.8580808
+      },
+      {
+        "name": "Nugegoda",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8690559,
+        "lng": 79.8900597
+      },
+      {
+        "name": "Nugegoda",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.869201,
+        "lng": 79.8901108
+      },
+      {
+        "name": "Kottawa Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8413708,
+        "lng": 79.9640088
+      },
+      {
+        "name": "Kottawa",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8417634,
+        "lng": 79.9629582
+      },
+      {
+        "name": "Kottawa",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8422498,
+        "lng": 79.9624578
+      }
     ]
   },
   {
@@ -96112,7 +97454,9 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Colombo Fort"
+    ],
     "waypoints": [
       {
         "lat": 7.034666399674631,
@@ -96133,6 +97477,15 @@
         "lat": 6.936094771193548,
         "lng": 79.84493396244943,
         "name": "Fort"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
       }
     ]
   },
@@ -113749,7 +115102,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Sugatadasa bus stop",
+      "Armour street",
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 6.909,
@@ -113775,6 +115134,50 @@
         "lat": 6.934030602171932,
         "lng": 79.85023945569992,
         "name": "Pettah"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Sugatadasa bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9472639,
+        "lng": 79.86963
+      },
+      {
+        "name": "Armour street",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9424718,
+        "lng": 79.8644849
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
       }
     ]
   },
@@ -113825,7 +115228,9 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Colombo City Center Halt"
+    ],
     "waypoints": [
       {
         "lat": 6.918999335149678,
@@ -113836,6 +115241,15 @@
         "lat": 6.979080146084084,
         "lng": 79.87582521513104,
         "name": "Mattakkuliya"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo City Center Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9179082,
+        "lng": 79.8545022
       }
     ]
   },
@@ -114690,7 +116104,11 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Borella",
+      "Kotte-Pagoda Bus Stand",
+      "Pita Kotte Bus Stop"
+    ],
     "waypoints": [
       {
         "lat": 6.914962701546732,
@@ -114716,6 +116134,36 @@
         "lat": 6.8685279,
         "lng": 79.9247087,
         "name": "Sri J’pura Hospital (Nawarohala)"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Borella",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9153814,
+        "lng": 79.8778049
+      },
+      {
+        "name": "Kotte-Pagoda Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8839367,
+        "lng": 79.9015789
+      },
+      {
+        "name": "Pita Kotte Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8832315,
+        "lng": 79.9018403
+      },
+      {
+        "name": "Pita Kotte Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8830688,
+        "lng": 79.9018101
       }
     ]
   },
@@ -118390,7 +119838,12 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Town Hall",
+      "Townhall Bus Stop",
+      "Ibbanwala Junction Bus Stop",
+      "Borella"
+    ],
     "waypoints": [
       {
         "lat": 6.916734760548956,
@@ -118417,6 +119870,50 @@
         "lng": 79.99887560000002,
         "name": "Salmal Uyana Bus Stand"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Town Hall",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9168254,
+        "lng": 79.8649673
+      },
+      {
+        "name": "Town hall",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9164719,
+        "lng": 79.8630651
+      },
+      {
+        "name": "Townhall Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9161758,
+        "lng": 79.8647474
+      },
+      {
+        "name": "Town hall",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9165944,
+        "lng": 79.8628895
+      },
+      {
+        "name": "Ibbanwala Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.918528,
+        "lng": 79.861865
+      },
+      {
+        "name": "Borella",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9153814,
+        "lng": 79.8778049
+      }
     ]
   },
   {
@@ -118429,7 +119926,9 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Colombo City Center Halt"
+    ],
     "waypoints": [
       {
         "lat": 6.918999335149678,
@@ -118456,6 +119955,15 @@
         "lng": 79.92724933443242,
         "name": "Mulleriyawa"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Colombo City Center Halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9179082,
+        "lng": 79.8545022
+      }
     ]
   },
   {
@@ -118468,7 +119976,16 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Kotahena Bus Stop",
+      "AC bus to Jaffna",
+      "Bus Stop #155",
+      "Hettiyawatte Junction",
+      "Nawaloka bus stop",
+      "Borella",
+      "Sri Jayawardhanapura Kotte",
+      "Nugegoda Bus Stand"
+    ],
     "waypoints": [
       {
         "lat": 6.94807888746265,
@@ -118509,6 +120026,78 @@
         "lat": 6.872687813436052,
         "lng": 79.89187369613649,
         "name": "Nugegoda Supermarket"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Kotahena Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9474309,
+        "lng": 79.8618479
+      },
+      {
+        "name": "AC bus to Jaffna",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9482955,
+        "lng": 79.8606937
+      },
+      {
+        "name": "Bus Stop #155",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.94683,
+        "lng": 79.8627971
+      },
+      {
+        "name": "Hettiyawatte Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9499007,
+        "lng": 79.8574676
+      },
+      {
+        "name": "Nawaloka bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9227947,
+        "lng": 79.8533349
+      },
+      {
+        "name": "Nawaloka Bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9213764,
+        "lng": 79.8529387
+      },
+      {
+        "name": "Nawaloka Bus stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9225624,
+        "lng": 79.8532848
+      },
+      {
+        "name": "Borella",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9153814,
+        "lng": 79.8778049
+      },
+      {
+        "name": "Sri Jayawardhanapura Kotte",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8978762,
+        "lng": 79.9060001
+      },
+      {
+        "name": "Nugegoda Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8728552,
+        "lng": 79.8922087
       }
     ]
   },
@@ -118575,7 +120164,14 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Route 240 - Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand",
+      "Bus to Kandy",
+      "Colombo Fort",
+      "Rajagiriya Bus Stop"
+    ],
     "waypoints": [
       {
         "lat": 6.933601222698944,
@@ -118596,6 +120192,57 @@
         "lat": 6.906136353737428,
         "lng": 79.92859938913261,
         "name": "Koswatta"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
+      },
+      {
+        "name": "Bus to Kandy",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.933403,
+        "lng": 79.8558025
+      },
+      {
+        "name": "Colombo Fort",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9332535,
+        "lng": 79.8566929
+      },
+      {
+        "name": "Rajagiriya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9101712,
+        "lng": 79.8945965
+      },
+      {
+        "name": "Rajagiriya Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9100839,
+        "lng": 79.8945203
       }
     ]
   },
@@ -120473,7 +122120,9 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Narahenpita"
+    ],
     "waypoints": [
       {
         "lat": 6.891997737732406,
@@ -120504,6 +122153,29 @@
         "lat": 6.979080146084084,
         "lng": 79.87582521513104,
         "name": "Mattakkuliya"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Narahenpita",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.891591,
+        "lng": 79.8770981
+      },
+      {
+        "name": "Narahenpita",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8918527,
+        "lng": 79.8768632
+      },
+      {
+        "name": "Narahenpita",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8916239,
+        "lng": 79.8770305
       }
     ]
   },
@@ -126595,7 +128267,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Gunasinghepura Bus Stop",
+      "Route 240 - Negombo",
+      "AC Express Route 240 Negombo",
+      "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+      "Colombo central Bus stand"
+    ],
     "waypoints": [
       {
         "lat": 7.166311026928108,
@@ -126606,6 +128284,43 @@
         "lat": 6.935686028608979,
         "lng": 79.85523472099305,
         "name": "Central Bus Stop – Fort"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Gunasinghepura Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9371283,
+        "lng": 79.8556206
+      },
+      {
+        "name": "Route 240 - Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9353666,
+        "lng": 79.8542544
+      },
+      {
+        "name": "AC Express Route 240 Negombo",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9370258,
+        "lng": 79.8555055
+      },
+      {
+        "name": "Airport Express Bus 187 (To Aweriwatta Bus Station)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9336647,
+        "lng": 79.855834
+      },
+      {
+        "name": "Colombo central Bus stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343891,
+        "lng": 79.8546349
       }
     ]
   },
@@ -126838,7 +128553,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Moratuwa Express Bus Stand",
+      "Moratuwa clock tower(to Panadura)",
+      "Moratuwa",
+      "Maliban Junction",
+      "Maharagama Bus Stand"
+    ],
     "waypoints": [
       {
         "lat": 6.775689878171351,
@@ -126860,6 +128581,43 @@
         "lng": 79.92612132802606,
         "name": "Maharagama-Dehiwela Road"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Moratuwa Express Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7775175,
+        "lng": 79.8822431
+      },
+      {
+        "name": "Moratuwa clock tower(to Panadura)",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7770654,
+        "lng": 79.8832625
+      },
+      {
+        "name": "Moratuwa",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.7753741,
+        "lng": 79.8838061
+      },
+      {
+        "name": "Maliban Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8194686,
+        "lng": 79.873627
+      },
+      {
+        "name": "Maharagama Bus Stand",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8464147,
+        "lng": 79.9277078
+      }
     ]
   },
   {
@@ -126872,7 +128630,12 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Town Hall",
+      "Townhall Bus Stop",
+      "Ibbanwala Junction Bus Stop",
+      "Demetagoda"
+    ],
     "waypoints": [
       {
         "lat": 6.916734760548956,
@@ -126904,6 +128667,50 @@
         "lng": 79.95463907718658,
         "name": "Kadawatha"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Town Hall",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9168254,
+        "lng": 79.8649673
+      },
+      {
+        "name": "Town hall",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9164719,
+        "lng": 79.8630651
+      },
+      {
+        "name": "Townhall Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9161758,
+        "lng": 79.8647474
+      },
+      {
+        "name": "Town hall",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9165944,
+        "lng": 79.8628895
+      },
+      {
+        "name": "Ibbanwala Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.918528,
+        "lng": 79.861865
+      },
+      {
+        "name": "Demetagoda",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9296956,
+        "lng": 79.8781571
+      }
     ]
   },
   {
@@ -126916,7 +128723,12 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Miriswatta junction",
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 7.0917684882256875,
@@ -126942,6 +128754,50 @@
         "lat": 6.934030602171932,
         "lng": 79.85023945569992,
         "name": "Pettah"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Miriswatta junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.0738406,
+        "lng": 80.016736
+      },
+      {
+        "name": "Miriswatta junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.0728698,
+        "lng": 80.0158949
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
       }
     ]
   },
@@ -127123,7 +128979,11 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 6.9762687114502615,
@@ -127140,6 +129000,36 @@
         "lng": 79.85023945569992,
         "name": "Pettah"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      }
     ]
   },
   {
@@ -127152,7 +129042,11 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 7.042742891932615,
@@ -127174,6 +129068,36 @@
         "lng": 79.85023945569992,
         "name": "Pettah"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      }
     ]
   },
   {
@@ -127186,7 +129110,11 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 6.948217338032912,
@@ -127202,6 +129130,36 @@
         "lat": 6.934030602171932,
         "lng": 79.85023945569992,
         "name": "Pettah"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
       }
     ]
   },
@@ -130537,7 +132495,11 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 6.987578243528,
@@ -130563,6 +132525,36 @@
         "lat": 6.934030602171932,
         "lng": 79.85023945569992,
         "name": "Pettah"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
       }
     ]
   },
@@ -132335,7 +134327,8 @@
     "stops": [
       "Dehiyagatha",
       "Seeduwa Brandix Bus Stop",
-      "18th Mile Post"
+      "18th Mile Post",
+      "Seeduwa junction bus halt"
     ],
     "osm_polyline": [
       [
@@ -134036,6 +136029,13 @@
         "name_ta": "",
         "lat": 7.1587327,
         "lng": 79.8705384
+      },
+      {
+        "name": "Seeduwa junction bus halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.1313464,
+        "lng": 79.8769289
       }
     ]
   },
@@ -143104,7 +145104,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt",
+      "Bambalapitiya flats halt",
+      "Dr Lester James Peries Mawatha Bus Stop"
+    ],
     "waypoints": [
       {
         "lat": 6.934030602171932,
@@ -143126,6 +145132,50 @@
         "lng": 79.99841103820802,
         "name": "Aluthgama"
       }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
+      },
+      {
+        "name": "Bambalapitiya flats halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8840616,
+        "lng": 79.8584362
+      },
+      {
+        "name": "Dr Lester James Peries Mawatha Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8864854,
+        "lng": 79.8599725
+      }
     ]
   },
   {
@@ -143138,7 +145188,11 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 6.584258854504222,
@@ -143149,6 +145203,36 @@
         "lat": 6.934030602171932,
         "lng": 79.85023945569992,
         "name": "Pettah"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
       }
     ]
   },
@@ -143162,7 +145246,13 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Bambalapitiya Junction Bus Stop",
+      "Bambalapitiya Junction",
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 6.291665403005091,
@@ -143183,6 +145273,50 @@
         "lat": 6.934030602171932,
         "lng": 79.85023945569992,
         "name": "Pettah"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Bambalapitiya Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8943178,
+        "lng": 79.8574226
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
       }
     ]
   },
@@ -143518,7 +145652,17 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": [],
+    "stops": [
+      "Wellewatte Market",
+      "Manning Place halt",
+      "Wellawatte Market Bus Stop",
+      "Little Asia Bus Stop",
+      "Bambalapitiya Junction Bus Stop",
+      "Bambalapitiya Junction",
+      "Fort Bus Stop",
+      "Route 187 Airport",
+      "Colombo Fort Railway Station halt"
+    ],
     "waypoints": [
       {
         "lat": 6.522985862555461,
@@ -143549,6 +145693,85 @@
         "lat": 6.934030602171932,
         "lng": 79.85023945569992,
         "name": "Pettah"
+      }
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "Wellewatte Market",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8741109,
+        "lng": 79.8613657
+      },
+      {
+        "name": "Manning Place halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8746231,
+        "lng": 79.8616116
+      },
+      {
+        "name": "Manning Place halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8746635,
+        "lng": 79.8615757
+      },
+      {
+        "name": "Wellawatte Market Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8743826,
+        "lng": 79.8614314
+      },
+      {
+        "name": "Little Asia Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8726109,
+        "lng": 79.8618081
+      },
+      {
+        "name": "Bambalapitiya Junction Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.8943178,
+        "lng": 79.8574226
+      },
+      {
+        "name": "Bambalapitiya Junction",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.893302,
+        "lng": 79.8555889
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340332,
+        "lng": 79.8502961
+      },
+      {
+        "name": "Fort Bus Stop",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343064,
+        "lng": 79.8489576
+      },
+      {
+        "name": "Route 187 Airport",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9343411,
+        "lng": 79.8486168
+      },
+      {
+        "name": "Colombo Fort Railway Station halt",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 6.9340201,
+        "lng": 79.8503843
       }
     ]
   },
