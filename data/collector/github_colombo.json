@@ -1,0 +1,4385 @@
+{
+  "routes": [
+    {
+      "bus_id": 1,
+      "route_no": "138",
+      "from": "Pettah",
+      "to": "Kottawa"
+    },
+    {
+      "bus_id": 2,
+      "route_no": "138",
+      "from": "Pettah",
+      "to": "Homagama"
+    },
+    {
+      "bus_id": 3,
+      "route_no": "138",
+      "from": "Pettah",
+      "to": "Maharagama"
+    },
+    {
+      "bus_id": 4,
+      "route_no": "138/2",
+      "from": "Pettah",
+      "to": "Mattegoda"
+    },
+    {
+      "bus_id": 5,
+      "route_no": "138/4",
+      "from": "Pettah",
+      "to": "Athurugiriya"
+    },
+    {
+      "bus_id": 6,
+      "route_no": "138/3",
+      "from": "Pettah",
+      "to": "Rukmalgama"
+    },
+    {
+      "bus_id": 7,
+      "route_no": "100",
+      "from": "Pettah",
+      "to": "Panadura"
+    },
+    {
+      "bus_id": 8,
+      "route_no": "100",
+      "from": "Pettah",
+      "to": "Moratuwa"
+    },
+    {
+      "bus_id": 9,
+      "route_no": "101",
+      "from": "Pettah",
+      "to": "Moratuwa"
+    },
+    {
+      "bus_id": 10,
+      "route_no": "154",
+      "from": "Kiribathgoda",
+      "to": "Angulana"
+    },
+    {
+      "bus_id": 11,
+      "route_no": "154",
+      "from": "Kadawatha",
+      "to": "Bambalapitiya"
+    },
+    {
+      "bus_id": 12,
+      "route_no": "120",
+      "from": "Pettah",
+      "to": "Horana"
+    },
+    {
+      "bus_id": 13,
+      "route_no": "120",
+      "from": "Pettah",
+      "to": "Kesbewa"
+    },
+    {
+      "bus_id": 14,
+      "route_no": "120",
+      "from": "Pettah",
+      "to": "Piliyandala"
+    },
+    {
+      "bus_id": 15,
+      "route_no": "141",
+      "from": "Narahenpita",
+      "to": "Wellawatte"
+    },
+    {
+      "bus_id": 16,
+      "route_no": "135",
+      "from": "Kohuwala",
+      "to": "Kelaniya"
+    },
+    {
+      "bus_id": 17,
+      "route_no": "122",
+      "from": "Pettah",
+      "to": "Avissawella"
+    },
+    {
+      "bus_id": 18,
+      "route_no": "122",
+      "from": "Pettah",
+      "to": "Rathnapura"
+    },
+    {
+      "bus_id": 19,
+      "route_no": "125",
+      "from": "Pettah",
+      "to": "Padukka"
+    },
+    {
+      "bus_id": 20,
+      "route_no": "125",
+      "from": "Pettah",
+      "to": "Ingiriya"
+    },
+    {
+      "bus_id": 21,
+      "route_no": "177",
+      "from": "Kollupitiya",
+      "to": "Kaduwela"
+    },
+    {
+      "bus_id": 22,
+      "route_no": "155",
+      "from": "Soysapura",
+      "to": "Mattakkuliya"
+    },
+    {
+      "bus_id": 23,
+      "route_no": "155",
+      "from": "Mount Lavinia",
+      "to": "Mattakkuliya"
+    },
+    {
+      "bus_id": 24,
+      "route_no": "140",
+      "from": "Kollupitiya",
+      "to": "Wellampitiya"
+    },
+    {
+      "bus_id": 25,
+      "route_no": "175",
+      "from": "Kollupitiya",
+      "to": "Kohilawatte"
+    },
+    {
+      "bus_id": 26,
+      "route_no": "119",
+      "from": "Dehiwala",
+      "to": "Maharagama"
+    },
+    {
+      "bus_id": 27,
+      "route_no": "174",
+      "from": "Kottawa",
+      "to": "Borella"
+    },
+    {
+      "bus_id": 28,
+      "route_no": "163",
+      "from": "Dehiwala",
+      "to": "Battaramulla"
+    },
+    {
+      "bus_id": 29,
+      "route_no": "176",
+      "from": "Karagampitiya",
+      "to": "Hettiyawatte"
+    },
+    {
+      "bus_id": 30,
+      "route_no": "103",
+      "from": "Narahenpita",
+      "to": "Fort"
+    },
+    {
+      "bus_id": 31,
+      "route_no": "187",
+      "from": "Fort",
+      "to": "Airport"
+    }
+  ],
+  "places": [
+    {
+      "id": 1,
+      "name": "Pettah",
+      "area": "Coast",
+      "lat": 6.933211,
+      "lng": 79.855435
+    },
+    {
+      "id": 2,
+      "name": "Fort Railway Station",
+      "area": "Coast",
+      "lat": 6.934085,
+      "lng": 79.850221
+    },
+    {
+      "id": 3,
+      "name": "Lotus Road",
+      "area": "Coast",
+      "lat": 6.933978,
+      "lng": 79.846991
+    },
+    {
+      "id": 4,
+      "name": "Galle Face Green",
+      "area": "Coast",
+      "lat": 6.921959,
+      "lng": 79.846085
+    },
+    {
+      "id": 5,
+      "name": "Kollupitiya Junc.",
+      "area": "Coast",
+      "lat": 6.911159,
+      "lng": 79.849652
+    },
+    {
+      "id": 6,
+      "name": "McDonalds, Kollupitiya",
+      "area": "Coast",
+      "lat": 6.903171,
+      "lng": 79.852297
+    },
+    {
+      "id": 7,
+      "name": "Bambalapitiya Junc.",
+      "area": "Coast",
+      "lat": 6.893686,
+      "lng": 79.855456
+    },
+    {
+      "id": 8,
+      "name": "Holy Family Convent, Bambalapitiya",
+      "area": "Coast",
+      "lat": 6.887812,
+      "lng": 79.857318
+    },
+    {
+      "id": 9,
+      "name": "Savoy Cinema, Wellawatte",
+      "area": "Coast",
+      "lat": 6.88027,
+      "lng": 79.85956
+    },
+    {
+      "id": 10,
+      "name": "Wellawatte Junc.",
+      "area": "Coast",
+      "lat": 6.875344,
+      "lng": 79.861014
+    },
+    {
+      "id": 16,
+      "name": "Lake House",
+      "area": "Central",
+      "lat": 6.932609,
+      "lng": 79.847989
+    },
+    {
+      "id": 19,
+      "name": "Gamini Hall Junc.",
+      "area": "Central",
+      "lat": 6.926533,
+      "lng": 79.861813
+    },
+    {
+      "id": 20,
+      "name": "Darley Road/Excel World",
+      "area": "Central",
+      "lat": 6.921661,
+      "lng": 79.862167
+    },
+    {
+      "id": 21,
+      "name": "Gangarama",
+      "area": "Coast",
+      "lat": 6.918109,
+      "lng": 79.854341
+    },
+    {
+      "id": 23,
+      "name": "Mahanama College",
+      "area": "Coast",
+      "lat": 6.905679,
+      "lng": 79.853579
+    },
+    {
+      "id": 24,
+      "name": "British Council",
+      "area": "Coast",
+      "lat": 6.899832,
+      "lng": 79.855542
+    },
+    {
+      "id": 25,
+      "name": "Regal Cinema",
+      "area": "Central",
+      "lat": 6.931283,
+      "lng": 79.846959
+    },
+    {
+      "id": 26,
+      "name": "Slave Island",
+      "area": "Central",
+      "lat": 6.923296,
+      "lng": 79.851626
+    },
+    {
+      "id": 27,
+      "name": "Town Hall",
+      "area": "Central",
+      "lat": 6.916799,
+      "lng": 79.863364
+    },
+    {
+      "id": 28,
+      "name": "Public Library",
+      "area": "Central",
+      "lat": 6.912869,
+      "lng": 79.857945
+    },
+    {
+      "id": 30,
+      "name": "Race Course Grounds",
+      "area": "Central",
+      "lat": 6.90618,
+      "lng": 79.863685
+    },
+    {
+      "id": 31,
+      "name": "Campus (Arts Faculty)",
+      "area": "Central",
+      "lat": 6.90258,
+      "lng": 79.862237
+    },
+    {
+      "id": 32,
+      "name": "Campus (near Wycherley)",
+      "area": "Central",
+      "lat": 6.900023,
+      "lng": 79.859544
+    },
+    {
+      "id": 33,
+      "name": "Thurstan College",
+      "area": "Central",
+      "lat": 6.905019,
+      "lng": 79.858342
+    },
+    {
+      "id": 34,
+      "name": "Glass House",
+      "area": "Central",
+      "lat": 6.910941,
+      "lng": 79.858342
+    },
+    {
+      "id": 35,
+      "name": "Thunmulla",
+      "area": "South",
+      "lat": 6.896189,
+      "lng": 79.860263
+    },
+    {
+      "id": 36,
+      "name": "Police Park",
+      "area": "South",
+      "lat": 6.892876,
+      "lng": 79.861979
+    },
+    {
+      "id": 37,
+      "name": "Thimbirigasyaya",
+      "area": "South",
+      "lat": 6.889979,
+      "lng": 79.863793
+    },
+    {
+      "id": 38,
+      "name": "BRC Grounds",
+      "area": "South",
+      "lat": 6.887529,
+      "lng": 79.864501
+    },
+    {
+      "id": 39,
+      "name": "Redimola Junc.",
+      "area": "South",
+      "lat": 6.883631,
+      "lng": 79.868277
+    },
+    {
+      "id": 40,
+      "name": "Maya Ave.",
+      "area": "South",
+      "lat": 6.880766,
+      "lng": 79.870402
+    },
+    {
+      "id": 41,
+      "name": "Kirulapone Junc.",
+      "area": "South",
+      "lat": 6.878582,
+      "lng": 79.874629
+    },
+    {
+      "id": 42,
+      "name": "Kirulapone South",
+      "area": "South",
+      "lat": 6.877719,
+      "lng": 79.878631
+    },
+    {
+      "id": 43,
+      "name": "Balapokuna Road",
+      "area": "South",
+      "lat": 6.873842,
+      "lng": 79.881849
+    },
+    {
+      "id": 44,
+      "name": "Anula Vidyalaya",
+      "area": "South",
+      "lat": 6.871946,
+      "lng": 79.884317
+    },
+    {
+      "id": 45,
+      "name": "Nugegoda",
+      "area": "Outside",
+      "lat": 6.869315,
+      "lng": 79.889628
+    },
+    {
+      "id": 46,
+      "name": "Seventh Mile Post",
+      "area": "Outside",
+      "lat": 6.866855,
+      "lng": 79.893297
+    },
+    {
+      "id": 47,
+      "name": "Gansabha Junc.",
+      "area": "Outside",
+      "lat": 6.865108,
+      "lng": 79.896559
+    },
+    {
+      "id": 48,
+      "name": "Delkanda",
+      "area": "Outside",
+      "lat": 6.862818,
+      "lng": 79.901794
+    },
+    {
+      "id": 49,
+      "name": "Wijerama",
+      "area": "Outside",
+      "lat": 6.857641,
+      "lng": 79.908607
+    },
+    {
+      "id": 50,
+      "name": "Navinna",
+      "area": "Outside",
+      "lat": 6.855105,
+      "lng": 79.913392
+    },
+    {
+      "id": 52,
+      "name": "Wattegedara Junc.",
+      "area": "Outside",
+      "lat": 6.851228,
+      "lng": 79.921106
+    },
+    {
+      "id": 53,
+      "name": "Maharagama",
+      "area": "Outside",
+      "lat": 6.846083,
+      "lng": 79.928144
+    },
+    {
+      "id": 74,
+      "name": "Sugathadasa Stadium",
+      "area": "North",
+      "lat": 6.946662,
+      "lng": 79.869146
+    },
+    {
+      "id": 75,
+      "name": "Armour Street",
+      "area": "North",
+      "lat": 6.943425,
+      "lng": 79.864254
+    },
+    {
+      "id": 76,
+      "name": "Ananda College",
+      "area": "Central",
+      "lat": 6.924499,
+      "lng": 79.868031
+    },
+    {
+      "id": 77,
+      "name": "Maradana",
+      "area": "Central",
+      "lat": 6.928237,
+      "lng": 79.864619
+    },
+    {
+      "id": 78,
+      "name": "Castle Street Hospital",
+      "area": "Central",
+      "lat": 6.910973,
+      "lng": 79.88525
+    },
+    {
+      "id": 79,
+      "name": "Devi Balika Vidyalaya",
+      "area": "Central",
+      "lat": 6.911015,
+      "lng": 79.882118
+    },
+    {
+      "id": 80,
+      "name": "Alwis Place, Kollupitiya",
+      "area": "Central",
+      "lat": 6.912645,
+      "lng": 79.853911
+    },
+    {
+      "id": 81,
+      "name": "Arts Fac. Horton Place",
+      "area": "Central",
+      "lat": 6.911548,
+      "lng": 79.868717
+    },
+    {
+      "id": 82,
+      "name": "Green Path",
+      "area": "Central",
+      "lat": 6.911729,
+      "lng": 79.862012
+    },
+    {
+      "id": 83,
+      "name": "Stratford Avenue",
+      "area": "South",
+      "lat": 6.877613,
+      "lng": 79.873019
+    },
+    {
+      "id": 84,
+      "name": "Kirulapone Ave.",
+      "area": "South",
+      "lat": 6.882694,
+      "lng": 79.875573
+    },
+    {
+      "id": 85,
+      "name": "Suwisuddharamaya",
+      "area": "South",
+      "lat": 6.880127,
+      "lng": 79.869554
+    },
+    {
+      "id": 86,
+      "name": "Sapphire Halt",
+      "area": "South",
+      "lat": 6.876697,
+      "lng": 79.866421
+    },
+    {
+      "id": 87,
+      "name": "Pamankada",
+      "area": "South",
+      "lat": 6.876984,
+      "lng": 79.869661
+    },
+    {
+      "id": 88,
+      "name": "Vijaya Kumaratunge Mw.",
+      "area": "South",
+      "lat": 6.885527,
+      "lng": 79.876742
+    },
+    {
+      "id": 89,
+      "name": "Apollo Hospital",
+      "area": "South",
+      "lat": 6.889223,
+      "lng": 79.876893
+    },
+    {
+      "id": 90,
+      "name": "Narahenpita Junc.",
+      "area": "South",
+      "lat": 6.891886,
+      "lng": 79.877011
+    },
+    {
+      "id": 100,
+      "name": "Borella",
+      "area": "Central",
+      "lat": 6.914743,
+      "lng": 79.877601
+    },
+    {
+      "id": 101,
+      "name": "Horton Place - Baseline Junc.",
+      "area": "Central",
+      "lat": 6.91126,
+      "lng": 79.877472
+    },
+    {
+      "id": 102,
+      "name": "Borella Cemetery Junc.",
+      "area": "Central",
+      "lat": 6.908587,
+      "lng": 79.877279
+    },
+    {
+      "id": 103,
+      "name": "Sarana Road",
+      "area": "Central",
+      "lat": 6.905583,
+      "lng": 79.87347
+    },
+    {
+      "id": 104,
+      "name": "Maitland Place",
+      "area": "Central",
+      "lat": 6.902899,
+      "lng": 79.870487
+    },
+    {
+      "id": 201,
+      "name": "Delmon Hospital",
+      "area": "Coast",
+      "lat": 6.870711,
+      "lng": 79.86206
+    },
+    {
+      "id": 202,
+      "name": "Ramakrishna Road",
+      "area": "Coast",
+      "lat": 6.865896,
+      "lng": 79.863047
+    },
+    {
+      "id": 203,
+      "name": "William Grinding Mills",
+      "area": "Outside",
+      "lat": 6.862514,
+      "lng": 79.863766
+    },
+    {
+      "id": 204,
+      "name": "Dehiwala Municipal Council",
+      "area": "Outside",
+      "lat": 6.861033,
+      "lng": 79.864125
+    },
+    {
+      "id": 206,
+      "name": "Holy Family Convent, Dehiwala",
+      "area": "Outside",
+      "lat": 6.857172,
+      "lng": 79.865016
+    },
+    {
+      "id": 207,
+      "name": "Dehiwala Junc.",
+      "area": "Outside",
+      "lat": 6.850823,
+      "lng": 79.865992
+    },
+    {
+      "id": 208,
+      "name": "Dehiwala Cemetery",
+      "area": "Outside",
+      "lat": 6.844933,
+      "lng": 79.866217
+    },
+    {
+      "id": 209,
+      "name": "Hotel Road, Mt. Lavinia",
+      "area": "Outside",
+      "lat": 6.841971,
+      "lng": 79.866904
+    },
+    {
+      "id": 211,
+      "name": "Mount Lavinia Junc.",
+      "area": "Outside",
+      "lat": 6.832959,
+      "lng": 79.867301
+    },
+    {
+      "id": 212,
+      "name": "Maliban Junc.",
+      "area": "Outside",
+      "lat": 6.81943,
+      "lng": 79.873706
+    },
+    {
+      "id": 213,
+      "name": "Belekkade Junc., Rathmalana",
+      "area": "Outside",
+      "lat": 6.814743,
+      "lng": 79.87877
+    },
+    {
+      "id": 214,
+      "name": "Rathmalana Airport",
+      "area": "Outside",
+      "lat": 6.812442,
+      "lng": 79.881152
+    },
+    {
+      "id": 215,
+      "name": "Soysapura",
+      "area": "Outside",
+      "lat": 6.804622,
+      "lng": 79.886688
+    },
+    {
+      "id": 216,
+      "name": "Katubedda Junc.",
+      "area": "Outside",
+      "lat": 6.797325,
+      "lng": 79.888533
+    },
+    {
+      "id": 217,
+      "name": "Rawatawatta",
+      "area": "Outside",
+      "lat": 6.788035,
+      "lng": 79.885111
+    },
+    {
+      "id": 218,
+      "name": "Moratuwa",
+      "area": "Outside",
+      "lat": 6.774494,
+      "lng": 79.88245
+    },
+    {
+      "id": 219,
+      "name": "Panadura",
+      "area": "Outside",
+      "lat": 6.711376,
+      "lng": 79.907609
+    },
+    {
+      "id": 220,
+      "name": "Angulana",
+      "area": "Outside",
+      "lat": 6.798188,
+      "lng": 79.873009
+    },
+    {
+      "id": 230,
+      "name": "Dutugemunu Street",
+      "area": "Outside",
+      "lat": 6.870593,
+      "lng": 79.877359
+    },
+    {
+      "id": 231,
+      "name": "Kohuwala",
+      "area": "Outside",
+      "lat": 6.867068,
+      "lng": 79.884574
+    },
+    {
+      "id": 232,
+      "name": "Woodlands",
+      "area": "Outside",
+      "lat": 6.862301,
+      "lng": 79.888394
+    },
+    {
+      "id": 233,
+      "name": "Pepiliyana",
+      "area": "Outside",
+      "lat": 6.856661,
+      "lng": 79.890647
+    },
+    {
+      "id": 234,
+      "name": "Raththanapitiya",
+      "area": "Outside",
+      "lat": 6.848336,
+      "lng": 79.897599
+    },
+    {
+      "id": 235,
+      "name": "Boralesgamuwa",
+      "area": "Outside",
+      "lat": 6.841242,
+      "lng": 79.901612
+    },
+    {
+      "id": 236,
+      "name": "Werahera",
+      "area": "Outside",
+      "lat": 6.829721,
+      "lng": 79.911391
+    },
+    {
+      "id": 237,
+      "name": "Bokundara",
+      "area": "Outside",
+      "lat": 6.818621,
+      "lng": 79.917727
+    },
+    {
+      "id": 238,
+      "name": "Piliyandala",
+      "area": "Outside",
+      "lat": 6.801219,
+      "lng": 79.923338
+    },
+    {
+      "id": 239,
+      "name": "Kesbewa",
+      "area": "Outside",
+      "lat": 6.795519,
+      "lng": 79.940804
+    },
+    {
+      "id": 240,
+      "name": "Polgasovita",
+      "area": "Outside",
+      "lat": 6.78698,
+      "lng": 79.964896
+    },
+    {
+      "id": 241,
+      "name": "Kahathuduwa",
+      "area": "Outside",
+      "lat": 6.783465,
+      "lng": 79.983408
+    },
+    {
+      "id": 242,
+      "name": "Horana",
+      "area": "Outside",
+      "lat": 6.716624,
+      "lng": 80.063826
+    },
+    {
+      "id": 244,
+      "name": "Panagoda",
+      "area": "Outside",
+      "lat": 6.848267,
+      "lng": 80.018798
+    },
+    {
+      "id": 245,
+      "name": "Godagama",
+      "area": "Outside",
+      "lat": 6.851478,
+      "lng": 80.031608
+    },
+    {
+      "id": 246,
+      "name": "Migoda",
+      "area": "Outside",
+      "lat": 6.84423,
+      "lng": 80.046719
+    },
+    {
+      "id": 247,
+      "name": "Padukka",
+      "area": "Outside",
+      "lat": 6.841465,
+      "lng": 80.090777
+    },
+    {
+      "id": 248,
+      "name": "Handapangoda",
+      "area": "Outside",
+      "lat": 6.792339,
+      "lng": 80.142624
+    },
+    {
+      "id": 249,
+      "name": "Ingiriya",
+      "area": "Outside",
+      "lat": 6.743991,
+      "lng": 80.176613
+    },
+    {
+      "id": 251,
+      "name": "Pannipitiya",
+      "area": "Outside",
+      "lat": 6.8462,
+      "lng": 79.949698
+    },
+    {
+      "id": 252,
+      "name": "Kottawa",
+      "area": "Outside",
+      "lat": 6.841673,
+      "lng": 79.963989
+    },
+    {
+      "id": 253,
+      "name": "Makumbura",
+      "area": "Outside",
+      "lat": 6.838616,
+      "lng": 79.979954
+    },
+    {
+      "id": 254,
+      "name": "Homagama",
+      "area": "Outside",
+      "lat": 6.84113,
+      "lng": 80.002012
+    },
+    {
+      "id": 255,
+      "name": "Kottawa Railway Station",
+      "area": "Outside",
+      "lat": 6.844006,
+      "lng": 79.968152
+    },
+    {
+      "id": 256,
+      "name": "Rukmalgama",
+      "area": "Outside",
+      "lat": 6.856916,
+      "lng": 79.985855
+    },
+    {
+      "id": 257,
+      "name": "Walgama Junc., Athurugiriya",
+      "area": "Outside",
+      "lat": 6.864948,
+      "lng": 79.995832
+    },
+    {
+      "id": 258,
+      "name": "Athurugiriya Junc.",
+      "area": "Outside",
+      "lat": 6.877453,
+      "lng": 79.989502
+    },
+    {
+      "id": 259,
+      "name": "Pinhena Junc.",
+      "area": "Outside",
+      "lat": 6.832778,
+      "lng": 79.964654
+    },
+    {
+      "id": 260,
+      "name": "Mattegoda",
+      "area": "Outside",
+      "lat": 6.811579,
+      "lng": 79.975083
+    },
+    {
+      "id": 271,
+      "name": "Open University, Nawala",
+      "area": "Outside",
+      "lat": 6.883024,
+      "lng": 79.886795
+    },
+    {
+      "id": 272,
+      "name": "Nawala Junc.",
+      "area": "Outside",
+      "lat": 6.887029,
+      "lng": 79.887203
+    },
+    {
+      "id": 273,
+      "name": "Koswatte, Nawala",
+      "area": "Outside",
+      "lat": 6.900034,
+      "lng": 79.893994
+    },
+    {
+      "id": 274,
+      "name": "Bellanthota Junc.",
+      "area": "Outside",
+      "lat": 6.848315,
+      "lng": 79.885433
+    },
+    {
+      "id": 275,
+      "name": "Nandimala",
+      "area": "Outside",
+      "lat": 6.849859,
+      "lng": 79.879398
+    },
+    {
+      "id": 276,
+      "name": "Karagampitiya",
+      "area": "Outside",
+      "lat": 6.850253,
+      "lng": 79.872022
+    },
+    {
+      "id": 277,
+      "name": "Kalubowila Hospital",
+      "area": "Outside",
+      "lat": 6.866466,
+      "lng": 79.8773
+    },
+    {
+      "id": 278,
+      "name": "Nugegoda Supermarket",
+      "area": "Outside",
+      "lat": 6.873469,
+      "lng": 79.891355
+    },
+    {
+      "id": 279,
+      "name": "Pita Kotte",
+      "area": "Outside",
+      "lat": 6.883897,
+      "lng": 79.901891
+    },
+    {
+      "id": 280,
+      "name": "Impala Cinema, Rajagiriya",
+      "area": "Outside",
+      "lat": 6.910973,
+      "lng": 79.890743
+    },
+    {
+      "id": 281,
+      "name": "Rajagiriya Junc.",
+      "area": "Outside",
+      "lat": 6.910121,
+      "lng": 79.894434
+    },
+    {
+      "id": 282,
+      "name": "Ethul Kotte Junc.",
+      "area": "Outside",
+      "lat": 6.905509,
+      "lng": 79.905217
+    },
+    {
+      "id": 283,
+      "name": "Sethsiripaya",
+      "area": "Outside",
+      "lat": 6.902441,
+      "lng": 79.914347
+    },
+    {
+      "id": 284,
+      "name": "Battaramulla",
+      "area": "Outside",
+      "lat": 6.90209,
+      "lng": 79.918059
+    },
+    {
+      "id": 285,
+      "name": "Thalangama",
+      "area": "Outside",
+      "lat": 6.905967,
+      "lng": 79.926234
+    },
+    {
+      "id": 286,
+      "name": "Thalahena",
+      "area": "Outside",
+      "lat": 6.908012,
+      "lng": 79.944999
+    },
+    {
+      "id": 287,
+      "name": "Malabe",
+      "area": "Outside",
+      "lat": 6.904081,
+      "lng": 79.954408
+    },
+    {
+      "id": 288,
+      "name": "Pittugala",
+      "area": "Outside",
+      "lat": 6.908693,
+      "lng": 79.969289
+    },
+    {
+      "id": 289,
+      "name": "SLIIT, Malabe",
+      "area": "Outside",
+      "lat": 6.914711,
+      "lng": 79.972175
+    },
+    {
+      "id": 290,
+      "name": "Kaduwela",
+      "area": "Outside",
+      "lat": 6.935703,
+      "lng": 79.984245
+    },
+    {
+      "id": 291,
+      "name": "Thalawathugoda",
+      "area": "Outside",
+      "lat": 6.876281,
+      "lng": 79.935343
+    },
+    {
+      "id": 292,
+      "name": "Pelawatta/Isurupaya",
+      "area": "Outside",
+      "lat": 6.890597,
+      "lng": 79.928927
+    },
+    {
+      "id": 295,
+      "name": "Peliyagoda Junc.",
+      "area": "Outside",
+      "lat": 6.955758,
+      "lng": 79.883115
+    },
+    {
+      "id": 296,
+      "name": "Nawaloka Junc.",
+      "area": "Outside",
+      "lat": 6.960678,
+      "lng": 79.880841
+    },
+    {
+      "id": 297,
+      "name": "Wattala",
+      "area": "Outside",
+      "lat": 6.981253,
+      "lng": 79.888029
+    },
+    {
+      "id": 298,
+      "name": "Handala",
+      "area": "Outside",
+      "lat": 6.990688,
+      "lng": 79.893136
+    },
+    {
+      "id": 299,
+      "name": "Welisara",
+      "area": "Outside",
+      "lat": 7.021782,
+      "lng": 79.899552
+    },
+    {
+      "id": 300,
+      "name": "Kandana",
+      "area": "Outside",
+      "lat": 7.047827,
+      "lng": 79.897041
+    },
+    {
+      "id": 301,
+      "name": "Kapuwatta",
+      "area": "Outside",
+      "lat": 7.064012,
+      "lng": 79.893222
+    },
+    {
+      "id": 302,
+      "name": "Ja-Ela",
+      "area": "Outside",
+      "lat": 7.078236,
+      "lng": 79.89054
+    },
+    {
+      "id": 303,
+      "name": "Katunayake Airport",
+      "area": "Outside",
+      "lat": 7.16564,
+      "lng": 79.884059
+    }
+  ],
+  "stops": [
+    {
+      "bus_id": 1,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 1,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 1,
+      "place_id": 25,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 1,
+      "place_id": 26,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 1,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 1,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 1,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 1,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 1,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 1,
+      "place_id": 34,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 1,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 1,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 1,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 1,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 1,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 1,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 1,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 1,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 1,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 1,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 1,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 1,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 1,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 1,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 1,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 1,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 1,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 1,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 1,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 1,
+      "place_id": 250,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 1,
+      "place_id": 251,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 1,
+      "place_id": 252,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 2,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 2,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 2,
+      "place_id": 25,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 2,
+      "place_id": 26,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 2,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 2,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 2,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 2,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 2,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 2,
+      "place_id": 34,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 2,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 2,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 2,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 2,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 2,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 2,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 2,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 2,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 2,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 2,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 2,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 2,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 2,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 2,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 2,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 2,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 2,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 2,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 2,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 2,
+      "place_id": 250,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 2,
+      "place_id": 251,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 2,
+      "place_id": 252,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 2,
+      "place_id": 253,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 2,
+      "place_id": 254,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 3,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 3,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 3,
+      "place_id": 25,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 3,
+      "place_id": 26,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 3,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 3,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 3,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 3,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 3,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 3,
+      "place_id": 34,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 3,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 3,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 3,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 3,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 3,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 3,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 3,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 3,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 3,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 3,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 3,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 3,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 3,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 3,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 3,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 3,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 3,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 3,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 3,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 4,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 4,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 4,
+      "place_id": 25,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 4,
+      "place_id": 26,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 4,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 4,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 4,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 4,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 4,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 4,
+      "place_id": 34,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 4,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 4,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 4,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 4,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 4,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 4,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 4,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 4,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 4,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 4,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 4,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 4,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 4,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 4,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 4,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 4,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 4,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 4,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 4,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 4,
+      "place_id": 250,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 4,
+      "place_id": 251,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 4,
+      "place_id": 252,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 4,
+      "place_id": 259,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 4,
+      "place_id": 260,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 5,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 5,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 5,
+      "place_id": 25,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 5,
+      "place_id": 26,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 5,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 5,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 5,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 5,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 5,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 5,
+      "place_id": 34,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 5,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 5,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 5,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 5,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 5,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 5,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 5,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 5,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 5,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 5,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 5,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 5,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 5,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 5,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 5,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 5,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 5,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 5,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 5,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 5,
+      "place_id": 250,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 5,
+      "place_id": 251,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 5,
+      "place_id": 252,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 5,
+      "place_id": 255,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 5,
+      "place_id": 256,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 5,
+      "place_id": 257,
+      "stop_order": 34
+    },
+    {
+      "bus_id": 5,
+      "place_id": 258,
+      "stop_order": 35
+    },
+    {
+      "bus_id": 6,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 6,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 6,
+      "place_id": 25,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 6,
+      "place_id": 26,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 6,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 6,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 6,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 6,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 6,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 6,
+      "place_id": 34,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 6,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 6,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 6,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 6,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 6,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 6,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 6,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 6,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 6,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 6,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 6,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 6,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 6,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 6,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 6,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 6,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 6,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 6,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 6,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 6,
+      "place_id": 250,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 6,
+      "place_id": 251,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 6,
+      "place_id": 252,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 6,
+      "place_id": 255,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 6,
+      "place_id": 256,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 7,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 7,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 7,
+      "place_id": 3,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 7,
+      "place_id": 4,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 7,
+      "place_id": 5,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 7,
+      "place_id": 7,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 7,
+      "place_id": 8,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 7,
+      "place_id": 9,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 7,
+      "place_id": 10,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 7,
+      "place_id": 23,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 7,
+      "place_id": 24,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 7,
+      "place_id": 201,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 7,
+      "place_id": 202,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 7,
+      "place_id": 203,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 7,
+      "place_id": 204,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 7,
+      "place_id": 205,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 7,
+      "place_id": 206,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 7,
+      "place_id": 207,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 7,
+      "place_id": 208,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 7,
+      "place_id": 209,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 7,
+      "place_id": 210,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 7,
+      "place_id": 211,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 7,
+      "place_id": 212,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 7,
+      "place_id": 213,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 7,
+      "place_id": 214,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 7,
+      "place_id": 215,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 7,
+      "place_id": 216,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 7,
+      "place_id": 217,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 7,
+      "place_id": 218,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 7,
+      "place_id": 219,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 8,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 8,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 8,
+      "place_id": 3,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 8,
+      "place_id": 4,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 8,
+      "place_id": 5,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 8,
+      "place_id": 7,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 8,
+      "place_id": 8,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 8,
+      "place_id": 9,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 8,
+      "place_id": 10,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 8,
+      "place_id": 23,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 8,
+      "place_id": 24,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 8,
+      "place_id": 201,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 8,
+      "place_id": 202,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 8,
+      "place_id": 203,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 8,
+      "place_id": 204,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 8,
+      "place_id": 205,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 8,
+      "place_id": 206,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 8,
+      "place_id": 207,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 8,
+      "place_id": 208,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 8,
+      "place_id": 209,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 8,
+      "place_id": 210,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 8,
+      "place_id": 211,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 8,
+      "place_id": 212,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 8,
+      "place_id": 213,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 8,
+      "place_id": 214,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 8,
+      "place_id": 215,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 8,
+      "place_id": 216,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 8,
+      "place_id": 217,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 8,
+      "place_id": 218,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 9,
+      "place_id": 1,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 9,
+      "place_id": 2,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 9,
+      "place_id": 5,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 9,
+      "place_id": 7,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 9,
+      "place_id": 8,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 9,
+      "place_id": 9,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 9,
+      "place_id": 10,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 9,
+      "place_id": 21,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 9,
+      "place_id": 22,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 9,
+      "place_id": 23,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 9,
+      "place_id": 24,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 9,
+      "place_id": 25,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 9,
+      "place_id": 26,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 9,
+      "place_id": 201,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 9,
+      "place_id": 202,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 9,
+      "place_id": 203,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 9,
+      "place_id": 204,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 9,
+      "place_id": 205,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 9,
+      "place_id": 206,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 9,
+      "place_id": 207,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 9,
+      "place_id": 208,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 9,
+      "place_id": 209,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 9,
+      "place_id": 210,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 9,
+      "place_id": 211,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 9,
+      "place_id": 212,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 9,
+      "place_id": 213,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 9,
+      "place_id": 214,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 9,
+      "place_id": 215,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 9,
+      "place_id": 216,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 9,
+      "place_id": 217,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 9,
+      "place_id": 218,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 10,
+      "place_id": 7,
+      "stop_order": 57
+    },
+    {
+      "bus_id": 10,
+      "place_id": 8,
+      "stop_order": 58
+    },
+    {
+      "bus_id": 10,
+      "place_id": 9,
+      "stop_order": 59
+    },
+    {
+      "bus_id": 10,
+      "place_id": 10,
+      "stop_order": 60
+    },
+    {
+      "bus_id": 10,
+      "place_id": 31,
+      "stop_order": 55
+    },
+    {
+      "bus_id": 10,
+      "place_id": 35,
+      "stop_order": 56
+    },
+    {
+      "bus_id": 10,
+      "place_id": 100,
+      "stop_order": 50
+    },
+    {
+      "bus_id": 10,
+      "place_id": 101,
+      "stop_order": 51
+    },
+    {
+      "bus_id": 10,
+      "place_id": 102,
+      "stop_order": 52
+    },
+    {
+      "bus_id": 10,
+      "place_id": 103,
+      "stop_order": 53
+    },
+    {
+      "bus_id": 10,
+      "place_id": 104,
+      "stop_order": 54
+    },
+    {
+      "bus_id": 10,
+      "place_id": 201,
+      "stop_order": 61
+    },
+    {
+      "bus_id": 10,
+      "place_id": 202,
+      "stop_order": 62
+    },
+    {
+      "bus_id": 10,
+      "place_id": 203,
+      "stop_order": 63
+    },
+    {
+      "bus_id": 10,
+      "place_id": 204,
+      "stop_order": 64
+    },
+    {
+      "bus_id": 10,
+      "place_id": 205,
+      "stop_order": 65
+    },
+    {
+      "bus_id": 10,
+      "place_id": 206,
+      "stop_order": 66
+    },
+    {
+      "bus_id": 10,
+      "place_id": 207,
+      "stop_order": 67
+    },
+    {
+      "bus_id": 10,
+      "place_id": 208,
+      "stop_order": 68
+    },
+    {
+      "bus_id": 10,
+      "place_id": 209,
+      "stop_order": 69
+    },
+    {
+      "bus_id": 10,
+      "place_id": 210,
+      "stop_order": 70
+    },
+    {
+      "bus_id": 10,
+      "place_id": 211,
+      "stop_order": 71
+    },
+    {
+      "bus_id": 10,
+      "place_id": 212,
+      "stop_order": 72
+    },
+    {
+      "bus_id": 10,
+      "place_id": 213,
+      "stop_order": 73
+    },
+    {
+      "bus_id": 10,
+      "place_id": 214,
+      "stop_order": 74
+    },
+    {
+      "bus_id": 10,
+      "place_id": 220,
+      "stop_order": 75
+    },
+    {
+      "bus_id": 11,
+      "place_id": 7,
+      "stop_order": 57
+    },
+    {
+      "bus_id": 11,
+      "place_id": 31,
+      "stop_order": 55
+    },
+    {
+      "bus_id": 11,
+      "place_id": 35,
+      "stop_order": 56
+    },
+    {
+      "bus_id": 11,
+      "place_id": 100,
+      "stop_order": 50
+    },
+    {
+      "bus_id": 11,
+      "place_id": 101,
+      "stop_order": 51
+    },
+    {
+      "bus_id": 11,
+      "place_id": 102,
+      "stop_order": 52
+    },
+    {
+      "bus_id": 11,
+      "place_id": 103,
+      "stop_order": 53
+    },
+    {
+      "bus_id": 11,
+      "place_id": 104,
+      "stop_order": 54
+    },
+    {
+      "bus_id": 12,
+      "place_id": 1,
+      "stop_order": 0
+    },
+    {
+      "bus_id": 12,
+      "place_id": 2,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 12,
+      "place_id": 16,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 12,
+      "place_id": 19,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 12,
+      "place_id": 20,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 12,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 12,
+      "place_id": 29,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 12,
+      "place_id": 30,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 12,
+      "place_id": 31,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 12,
+      "place_id": 35,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 12,
+      "place_id": 36,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 12,
+      "place_id": 37,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 12,
+      "place_id": 38,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 12,
+      "place_id": 39,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 12,
+      "place_id": 40,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 12,
+      "place_id": 83,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 12,
+      "place_id": 230,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 12,
+      "place_id": 231,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 12,
+      "place_id": 232,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 12,
+      "place_id": 233,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 12,
+      "place_id": 234,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 12,
+      "place_id": 235,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 12,
+      "place_id": 236,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 12,
+      "place_id": 237,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 12,
+      "place_id": 238,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 12,
+      "place_id": 239,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 12,
+      "place_id": 240,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 12,
+      "place_id": 241,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 12,
+      "place_id": 242,
+      "stop_order": 43
+    },
+    {
+      "bus_id": 13,
+      "place_id": 1,
+      "stop_order": 0
+    },
+    {
+      "bus_id": 13,
+      "place_id": 2,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 13,
+      "place_id": 16,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 13,
+      "place_id": 19,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 13,
+      "place_id": 20,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 13,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 13,
+      "place_id": 29,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 13,
+      "place_id": 30,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 13,
+      "place_id": 31,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 13,
+      "place_id": 35,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 13,
+      "place_id": 36,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 13,
+      "place_id": 37,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 13,
+      "place_id": 38,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 13,
+      "place_id": 39,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 13,
+      "place_id": 40,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 13,
+      "place_id": 83,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 13,
+      "place_id": 230,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 13,
+      "place_id": 231,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 13,
+      "place_id": 232,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 13,
+      "place_id": 233,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 13,
+      "place_id": 234,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 13,
+      "place_id": 235,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 13,
+      "place_id": 236,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 13,
+      "place_id": 237,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 13,
+      "place_id": 238,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 13,
+      "place_id": 239,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 14,
+      "place_id": 1,
+      "stop_order": 0
+    },
+    {
+      "bus_id": 14,
+      "place_id": 2,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 14,
+      "place_id": 16,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 14,
+      "place_id": 19,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 14,
+      "place_id": 20,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 14,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 14,
+      "place_id": 29,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 14,
+      "place_id": 30,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 14,
+      "place_id": 31,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 14,
+      "place_id": 35,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 14,
+      "place_id": 36,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 14,
+      "place_id": 37,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 14,
+      "place_id": 38,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 14,
+      "place_id": 39,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 14,
+      "place_id": 40,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 14,
+      "place_id": 83,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 14,
+      "place_id": 230,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 14,
+      "place_id": 231,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 14,
+      "place_id": 232,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 14,
+      "place_id": 233,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 14,
+      "place_id": 234,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 14,
+      "place_id": 235,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 14,
+      "place_id": 236,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 14,
+      "place_id": 237,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 14,
+      "place_id": 238,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 15,
+      "place_id": 10,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 15,
+      "place_id": 41,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 15,
+      "place_id": 86,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 15,
+      "place_id": 87,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 15,
+      "place_id": 88,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 15,
+      "place_id": 89,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 15,
+      "place_id": 90,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 16,
+      "place_id": 37,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 16,
+      "place_id": 38,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 16,
+      "place_id": 39,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 16,
+      "place_id": 85,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 16,
+      "place_id": 87,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 16,
+      "place_id": 90,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 16,
+      "place_id": 100,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 16,
+      "place_id": 101,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 16,
+      "place_id": 102,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 16,
+      "place_id": 230,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 16,
+      "place_id": 231,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 19,
+      "place_id": 1,
+      "stop_order": 0
+    },
+    {
+      "bus_id": 19,
+      "place_id": 2,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 19,
+      "place_id": 16,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 19,
+      "place_id": 19,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 19,
+      "place_id": 20,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 19,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 19,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 19,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 19,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 19,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 19,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 19,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 19,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 19,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 19,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 19,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 19,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 19,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 19,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 19,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 19,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 19,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 19,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 19,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 19,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 19,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 19,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 19,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 19,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 19,
+      "place_id": 244,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 19,
+      "place_id": 245,
+      "stop_order": 34
+    },
+    {
+      "bus_id": 19,
+      "place_id": 246,
+      "stop_order": 35
+    },
+    {
+      "bus_id": 19,
+      "place_id": 247,
+      "stop_order": 36
+    },
+    {
+      "bus_id": 19,
+      "place_id": 250,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 19,
+      "place_id": 251,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 19,
+      "place_id": 252,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 19,
+      "place_id": 253,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 19,
+      "place_id": 254,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 20,
+      "place_id": 1,
+      "stop_order": 0
+    },
+    {
+      "bus_id": 20,
+      "place_id": 2,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 20,
+      "place_id": 16,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 20,
+      "place_id": 19,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 20,
+      "place_id": 20,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 20,
+      "place_id": 27,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 20,
+      "place_id": 28,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 20,
+      "place_id": 29,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 20,
+      "place_id": 30,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 20,
+      "place_id": 31,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 20,
+      "place_id": 35,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 20,
+      "place_id": 36,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 20,
+      "place_id": 37,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 20,
+      "place_id": 38,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 20,
+      "place_id": 39,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 20,
+      "place_id": 40,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 20,
+      "place_id": 41,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 20,
+      "place_id": 42,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 20,
+      "place_id": 43,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 20,
+      "place_id": 44,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 20,
+      "place_id": 45,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 20,
+      "place_id": 46,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 20,
+      "place_id": 47,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 20,
+      "place_id": 48,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 20,
+      "place_id": 49,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 20,
+      "place_id": 50,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 20,
+      "place_id": 51,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 20,
+      "place_id": 52,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 20,
+      "place_id": 53,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 20,
+      "place_id": 244,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 20,
+      "place_id": 245,
+      "stop_order": 34
+    },
+    {
+      "bus_id": 20,
+      "place_id": 246,
+      "stop_order": 35
+    },
+    {
+      "bus_id": 20,
+      "place_id": 247,
+      "stop_order": 36
+    },
+    {
+      "bus_id": 20,
+      "place_id": 248,
+      "stop_order": 37
+    },
+    {
+      "bus_id": 20,
+      "place_id": 249,
+      "stop_order": 38
+    },
+    {
+      "bus_id": 20,
+      "place_id": 250,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 20,
+      "place_id": 251,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 20,
+      "place_id": 252,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 20,
+      "place_id": 253,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 20,
+      "place_id": 254,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 21,
+      "place_id": 5,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 21,
+      "place_id": 28,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 21,
+      "place_id": 29,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 21,
+      "place_id": 34,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 21,
+      "place_id": 78,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 21,
+      "place_id": 79,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 21,
+      "place_id": 80,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 21,
+      "place_id": 81,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 21,
+      "place_id": 101,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 21,
+      "place_id": 280,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 21,
+      "place_id": 281,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 21,
+      "place_id": 282,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 21,
+      "place_id": 283,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 21,
+      "place_id": 284,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 21,
+      "place_id": 285,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 21,
+      "place_id": 286,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 21,
+      "place_id": 287,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 21,
+      "place_id": 288,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 21,
+      "place_id": 289,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 21,
+      "place_id": 290,
+      "stop_order": 34
+    },
+    {
+      "bus_id": 22,
+      "place_id": 7,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 22,
+      "place_id": 8,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 22,
+      "place_id": 9,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 22,
+      "place_id": 10,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 22,
+      "place_id": 24,
+      "stop_order": 34
+    },
+    {
+      "bus_id": 22,
+      "place_id": 27,
+      "stop_order": 38
+    },
+    {
+      "bus_id": 22,
+      "place_id": 29,
+      "stop_order": 37
+    },
+    {
+      "bus_id": 22,
+      "place_id": 32,
+      "stop_order": 36
+    },
+    {
+      "bus_id": 22,
+      "place_id": 35,
+      "stop_order": 35
+    },
+    {
+      "bus_id": 22,
+      "place_id": 201,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 22,
+      "place_id": 202,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 22,
+      "place_id": 203,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 22,
+      "place_id": 204,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 22,
+      "place_id": 205,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 22,
+      "place_id": 206,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 22,
+      "place_id": 207,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 22,
+      "place_id": 208,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 22,
+      "place_id": 209,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 22,
+      "place_id": 210,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 22,
+      "place_id": 211,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 22,
+      "place_id": 212,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 22,
+      "place_id": 213,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 22,
+      "place_id": 214,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 22,
+      "place_id": 215,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 23,
+      "place_id": 7,
+      "stop_order": 33
+    },
+    {
+      "bus_id": 23,
+      "place_id": 8,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 23,
+      "place_id": 9,
+      "stop_order": 31
+    },
+    {
+      "bus_id": 23,
+      "place_id": 10,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 23,
+      "place_id": 24,
+      "stop_order": 34
+    },
+    {
+      "bus_id": 23,
+      "place_id": 27,
+      "stop_order": 38
+    },
+    {
+      "bus_id": 23,
+      "place_id": 29,
+      "stop_order": 37
+    },
+    {
+      "bus_id": 23,
+      "place_id": 32,
+      "stop_order": 36
+    },
+    {
+      "bus_id": 23,
+      "place_id": 35,
+      "stop_order": 35
+    },
+    {
+      "bus_id": 23,
+      "place_id": 201,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 23,
+      "place_id": 202,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 23,
+      "place_id": 203,
+      "stop_order": 27
+    },
+    {
+      "bus_id": 23,
+      "place_id": 204,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 23,
+      "place_id": 205,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 23,
+      "place_id": 206,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 23,
+      "place_id": 207,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 23,
+      "place_id": 208,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 23,
+      "place_id": 209,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 23,
+      "place_id": 210,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 23,
+      "place_id": 211,
+      "stop_order": 19
+    },
+    {
+      "bus_id": 24,
+      "place_id": 5,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 24,
+      "place_id": 27,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 24,
+      "place_id": 28,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 24,
+      "place_id": 77,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 24,
+      "place_id": 80,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 25,
+      "place_id": 5,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 25,
+      "place_id": 27,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 25,
+      "place_id": 28,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 25,
+      "place_id": 80,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 25,
+      "place_id": 100,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 26,
+      "place_id": 53,
+      "stop_order": 17
+    },
+    {
+      "bus_id": 26,
+      "place_id": 207,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 26,
+      "place_id": 235,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 26,
+      "place_id": 274,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 26,
+      "place_id": 275,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 26,
+      "place_id": 276,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 27,
+      "place_id": 100,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 27,
+      "place_id": 251,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 27,
+      "place_id": 252,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 27,
+      "place_id": 280,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 27,
+      "place_id": 281,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 27,
+      "place_id": 282,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 27,
+      "place_id": 283,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 27,
+      "place_id": 284,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 27,
+      "place_id": 291,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 27,
+      "place_id": 292,
+      "stop_order": 16
+    },
+    {
+      "bus_id": 28,
+      "place_id": 45,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 28,
+      "place_id": 203,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 28,
+      "place_id": 204,
+      "stop_order": 4
+    },
+    {
+      "bus_id": 28,
+      "place_id": 205,
+      "stop_order": 3
+    },
+    {
+      "bus_id": 28,
+      "place_id": 206,
+      "stop_order": 2
+    },
+    {
+      "bus_id": 28,
+      "place_id": 207,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 28,
+      "place_id": 231,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 28,
+      "place_id": 277,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 28,
+      "place_id": 278,
+      "stop_order": 13
+    },
+    {
+      "bus_id": 28,
+      "place_id": 279,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 28,
+      "place_id": 282,
+      "stop_order": 26
+    },
+    {
+      "bus_id": 28,
+      "place_id": 283,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 28,
+      "place_id": 284,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 29,
+      "place_id": 45,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 29,
+      "place_id": 76,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 29,
+      "place_id": 77,
+      "stop_order": 29
+    },
+    {
+      "bus_id": 29,
+      "place_id": 78,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 29,
+      "place_id": 79,
+      "stop_order": 23
+    },
+    {
+      "bus_id": 29,
+      "place_id": 100,
+      "stop_order": 25
+    },
+    {
+      "bus_id": 29,
+      "place_id": 101,
+      "stop_order": 24
+    },
+    {
+      "bus_id": 29,
+      "place_id": 231,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 29,
+      "place_id": 271,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 29,
+      "place_id": 272,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 29,
+      "place_id": 273,
+      "stop_order": 18
+    },
+    {
+      "bus_id": 29,
+      "place_id": 276,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 29,
+      "place_id": 277,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 29,
+      "place_id": 278,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 29,
+      "place_id": 280,
+      "stop_order": 21
+    },
+    {
+      "bus_id": 29,
+      "place_id": 281,
+      "stop_order": 20
+    },
+    {
+      "bus_id": 30,
+      "place_id": 1,
+      "stop_order": 14
+    },
+    {
+      "bus_id": 30,
+      "place_id": 2,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 30,
+      "place_id": 76,
+      "stop_order": 10
+    },
+    {
+      "bus_id": 30,
+      "place_id": 77,
+      "stop_order": 11
+    },
+    {
+      "bus_id": 30,
+      "place_id": 90,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 30,
+      "place_id": 100,
+      "stop_order": 7
+    },
+    {
+      "bus_id": 30,
+      "place_id": 101,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 30,
+      "place_id": 102,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 31,
+      "place_id": 2,
+      "stop_order": 1
+    },
+    {
+      "bus_id": 31,
+      "place_id": 74,
+      "stop_order": 6
+    },
+    {
+      "bus_id": 31,
+      "place_id": 75,
+      "stop_order": 5
+    },
+    {
+      "bus_id": 31,
+      "place_id": 295,
+      "stop_order": 8
+    },
+    {
+      "bus_id": 31,
+      "place_id": 296,
+      "stop_order": 9
+    },
+    {
+      "bus_id": 31,
+      "place_id": 297,
+      "stop_order": 12
+    },
+    {
+      "bus_id": 31,
+      "place_id": 298,
+      "stop_order": 15
+    },
+    {
+      "bus_id": 31,
+      "place_id": 299,
+      "stop_order": 22
+    },
+    {
+      "bus_id": 31,
+      "place_id": 300,
+      "stop_order": 28
+    },
+    {
+      "bus_id": 31,
+      "place_id": 301,
+      "stop_order": 30
+    },
+    {
+      "bus_id": 31,
+      "place_id": 302,
+      "stop_order": 32
+    },
+    {
+      "bus_id": 31,
+      "place_id": 303,
+      "stop_order": 42
+    }
+  ]
+}

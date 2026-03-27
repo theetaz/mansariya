@@ -30,16 +30,23 @@ import (
 )
 
 type RawRoute struct {
-	ID          string   `json:"id"`
-	NameEN      string   `json:"name_en"`
-	NameSI      string   `json:"name_si"`
-	NameTA      string   `json:"name_ta"`
-	Operator    string   `json:"operator"`
-	ServiceType string   `json:"service_type"`
-	FareLKR     int      `json:"fare_lkr"`
-	Frequency   int      `json:"frequency_minutes"`
-	Hours       string   `json:"operating_hours"`
-	Stops       []string `json:"stops"` // ordered stop names in English
+	ID          string          `json:"id"`
+	NameEN      string          `json:"name_en"`
+	NameSI      string          `json:"name_si"`
+	NameTA      string          `json:"name_ta"`
+	Operator    string          `json:"operator"`
+	ServiceType string          `json:"service_type"`
+	FareLKR     int             `json:"fare_lkr"`
+	Frequency   int             `json:"frequency_minutes"`
+	Hours       string          `json:"operating_hours"`
+	Stops       []string        `json:"stops"`       // ordered stop names in English
+	StopCoords  []StopCoordJSON `json:"stop_coords"` // pre-geocoded GPS coords (optional)
+}
+
+type StopCoordJSON struct {
+	Name string  `json:"name"`
+	Lat  float64 `json:"lat"`
+	Lng  float64 `json:"lng"`
 }
 
 type GeocodedStop struct {
@@ -77,6 +84,33 @@ func main() {
 
 	ctx := context.Background()
 
+	// Pre-flight: check Nominatim is reachable
+	if err := checkService(*nominatimURL+"/status", "Nominatim"); err != nil {
+		slog.Error("Nominatim is not reachable",
+			"url", *nominatimURL,
+			"error", err,
+		)
+		fmt.Fprintf(os.Stderr, "\n  Nominatim is required for geocoding bus stops.\n\n")
+		fmt.Fprintf(os.Stderr, "  Options:\n")
+		fmt.Fprintf(os.Stderr, "    1. Start local Nominatim:  make nominatim-up  (first run takes ~10 min)\n")
+		fmt.Fprintf(os.Stderr, "    2. Use public Nominatim:   -nominatim https://nominatim.openstreetmap.org\n\n")
+		os.Exit(1)
+	}
+
+	// Pre-flight: check database is reachable
+	testPool, err := pgxpool.New(ctx, *dbURL)
+	if err != nil {
+		slog.Error("database is not reachable",
+			"url", *dbURL,
+			"error", err,
+		)
+		fmt.Fprintf(os.Stderr, "\n  PostgreSQL is required. Start it with:  make infra-up\n\n")
+		os.Exit(1)
+	}
+	testPool.Close()
+
+	slog.Info("pre-flight checks passed", "nominatim", *nominatimURL, "osrm", *osrmBaseURL)
+
 	// Load route data
 	raw, err := os.ReadFile(*dataFile)
 	if err != nil {
@@ -112,8 +146,16 @@ func main() {
 			"stops", len(route.Stops),
 		)
 
-		// Geocode stops
-		geocoded := geocodeStops(route.Stops, *nominatimURL)
+		// Use pre-geocoded coords if available, otherwise geocode via Nominatim
+		var geocoded []GeocodedStop
+		if len(route.StopCoords) >= 2 {
+			for _, sc := range route.StopCoords {
+				geocoded = append(geocoded, GeocodedStop{Name: sc.Name, Lat: sc.Lat, Lng: sc.Lng})
+			}
+			slog.Info("using pre-geocoded stop coords", "route", route.ID, "stops", len(geocoded))
+		} else {
+			geocoded = geocodeStops(route.Stops, *nominatimURL)
+		}
 		if len(geocoded) < 2 {
 			slog.Warn("insufficient geocoded stops, skipping", "route", route.ID, "geocoded", len(geocoded))
 			skipped++
@@ -305,4 +347,17 @@ func insertRoute(ctx context.Context, pool *pgxpool.Pool, route RawRoute, stops 
 	}
 
 	return tx.Commit(ctx)
+}
+
+func checkService(url, name string) error {
+	client := &http.Client{Timeout: 5 * time.Second}
+	resp, err := client.Get(url)
+	if err != nil {
+		return err
+	}
+	resp.Body.Close()
+	if resp.StatusCode >= 500 {
+		return fmt.Errorf("%s returned status %d", name, resp.StatusCode)
+	}
+	return nil
 }
