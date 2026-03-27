@@ -3,15 +3,15 @@ services:
     image: postgis/postgis:16-3.4
     container_name: masariya-postgres
     environment:
-      POSTGRES_USER: masariya
-      POSTGRES_PASSWORD: masariya
-      POSTGRES_DB: masariya
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5433:5432"
+      - "${POSTGRES_PORT:-5433}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U masariya"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-masariya}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -20,7 +20,7 @@ services:
     image: redis:7-alpine
     container_name: masariya-redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redisdata:/data
     healthcheck:
@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile.valhalla
     container_name: masariya-valhalla
     ports:
-      - "9992:9992"
+      - "${VALHALLA_PORT:-9992}:9992"
     volumes:
       - valhalla_tiles:/custom_files
     healthcheck:
@@ -49,17 +49,17 @@ services:
     image: mediagis/nominatim:4.4
     container_name: masariya-nominatim
     environment:
-      PBF_URL: https://download.geofabrik.de/asia/sri-lanka-latest.osm.pbf
-      REPLICATION_URL: https://download.geofabrik.de/asia/sri-lanka-updates/
-      NOMINATIM_PASSWORD: masariya
+      PBF_URL: ${PBF_URL:-https://download.geofabrik.de/asia/sri-lanka-latest.osm.pbf}
+      REPLICATION_URL: ${REPLICATION_URL:-https://download.geofabrik.de/asia/sri-lanka-updates/}
+      NOMINATIM_PASSWORD: ${NOMINATIM_PASSWORD}
       IMPORT_STYLE: full
     ports:
-      - "9990:9990"
+      - "${NOMINATIM_PORT:-9990}:8080"
     volumes:
       - nominatim_data:/var/lib/postgresql/14/main
     shm_size: 1g
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:9990/status"]
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/status"]
       interval: 30s
       timeout: 10s
       retries: 10
