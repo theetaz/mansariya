@@ -1,0 +1,117 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Mansariya",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#1D9E75",
+    "light": "#E1F5EE",
+    "dark": "#0F6E56",
+    "anchors": {
+      "from": "#1D9E75",
+      "to": "#378ADD"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "API Playground",
+      "url": "https://api.masariya.lk/docs"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "GitHub",
+    "url": "https://github.com/theetaz/mansariya"
+  },
+  "anchors": [
+    {
+      "name": "API Reference",
+      "icon": "code",
+      "url": "/api-reference"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/theetaz/mansariya"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "architecture",
+        "quickstart"
+      ]
+    },
+    {
+      "group": "How It Works",
+      "pages": [
+        "how-it-works/gps-pipeline",
+        "how-it-works/map-matching",
+        "how-it-works/real-time-tracking",
+        "how-it-works/journey-planning"
+      ]
+    },
+    {
+      "group": "Mobile App",
+      "pages": [
+        "mobile/overview",
+        "mobile/offline-first",
+        "mobile/contributing-gps"
+      ]
+    },
+    {
+      "group": "Infrastructure",
+      "pages": [
+        "infra/deployment",
+        "infra/services",
+        "infra/environment-variables"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/overview"
+      ]
+    },
+    {
+      "group": "Public Endpoints",
+      "pages": [
+        "api-reference/gps/batch",
+        "api-reference/routes/list",
+        "api-reference/routes/get",
+        "api-reference/routes/polyline",
+        "api-reference/routes/stops",
+        "api-reference/routes/sync",
+        "api-reference/search/routes",
+        "api-reference/stops/nearby",
+        "api-reference/stops/search",
+        "api-reference/eta/get",
+        "api-reference/journey/search",
+        "api-reference/buses/active",
+        "api-reference/buses/nearby",
+        "api-reference/websocket/track"
+      ]
+    },
+    {
+      "group": "Admin Endpoints",
+      "pages": [
+        "api-reference/admin/create-route",
+        "api-reference/admin/update-route",
+        "api-reference/admin/delete-route",
+        "api-reference/admin/validate-route",
+        "api-reference/admin/set-route-stops",
+        "api-reference/admin/set-timetable",
+        "api-reference/admin/create-stop",
+        "api-reference/admin/update-stop"
+      ]
+    }
+  ],
+  "openapi": ["/openapi.yaml"],
+  "footerSocials": {
+    "github": "https://github.com/theetaz/mansariya"
+  }
+}

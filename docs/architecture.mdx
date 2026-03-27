@@ -1,0 +1,177 @@
+---
+title: "Architecture"
+description: "System design, data flow, and tech stack"
+---
+
+# Architecture
+
+Mansariya is a monorepo with three layers: a Go backend, a React Native mobile app, and Docker-based infrastructure.
+
+## System Overview
+
+```mermaid
+graph TB
+    subgraph Mobile["📱 Mobile App (React Native)"]
+        GPS[GPS Collector]
+        UI[Map + Route UI]
+        WS_CLIENT[WebSocket Client]
+        OFFLINE[Offline Cache - SQLite]
+    end
+
+    subgraph Backend["⚙️ Go Backend"]
+        API[Chi HTTP Router]
+        PIPELINE[Processing Pipeline]
+        WSH[WebSocket Hub]
+    end
+
+    subgraph Pipeline["🔄 Pipeline Workers"]
+        ING[Ingester]
+        MM[Map Matcher]
+        INF[Route Inferrer + DBSCAN]
+        BC[Broadcaster]
+    end
+
+    subgraph Data["💾 Data Layer"]
+        PG[(PostgreSQL + PostGIS)]
+        REDIS[(Redis)]
+        VAL[Valhalla]
+    end
+
+    GPS -->|POST /gps/batch| API
+    API --> ING
+    ING -->|Redis Stream: gps:raw| MM
+    MM -->|Valhalla trace_route| VAL
+    MM -->|Redis Stream: gps:matched| INF
+    INF -->|Redis Pub/Sub| BC
+    BC --> WSH
+    WSH -->|WebSocket| WS_CLIENT
+    UI -->|REST API| API
+    API --> PG
+    API --> REDIS
+    OFFLINE -->|Sync weekly| API
+```
+
+## Tech Stack
+
+<CardGroup cols={2}>
+  <Card title="Backend" icon="server">
+    **Go 1.23+** with Chi v5 router, pgx v5 for PostgreSQL, go-redis v9.
+    Single binary, ~15MB. Handles HTTP, WebSocket, and pipeline workers in one process.
+  </Card>
+  <Card title="Mobile" icon="mobile">
+    **React Native** (bare workflow) with TypeScript.
+    MapLibre for maps, Zustand for state, op-sqlite for offline data.
+    Trilingual: Sinhala, Tamil, English.
+  </Card>
+  <Card title="Database" icon="database">
+    **PostgreSQL 16 + PostGIS** for spatial queries.
+    pg_trgm for fuzzy trilingual search.
+    golang-migrate for schema migrations.
+  </Card>
+  <Card title="Real-time" icon="bolt">
+    **Redis** Streams for pipeline processing,
+    Pub/Sub for live broadcast,
+    Hash for bus positions (5min TTL).
+  </Card>
+</CardGroup>
+
+## Data Flow
+
+### GPS Ingestion Pipeline
+
+The pipeline runs as goroutines inside the Go binary, connected by Redis Streams:
+
+```mermaid
+sequenceDiagram
+    participant Phone as 📱 Phone
+    participant API as HTTP API
+    participant RS1 as Redis Stream (gps:raw)
+    participant MM as Map Matcher
+    participant VAL as Valhalla
+    participant RS2 as Redis Stream (gps:matched)
+    participant PROC as Processor
+    participant PS as Redis Pub/Sub
+    participant WS as WebSocket Hub
+    participant APP as 📱 Passenger
+
+    Phone->>API: POST /gps/batch
+    API->>RS1: XADD gps:raw
+    API-->>Phone: 200 OK (async)
+    RS1->>MM: XREADGROUP
+    MM->>VAL: trace_route (map-match)
+    VAL-->>MM: snapped coordinates
+    MM->>RS2: XADD gps:matched
+    RS2->>PROC: XREADGROUP
+    Note over PROC: Route inference via<br/>spatial index + Hausdorff
+    Note over PROC: DBSCAN clustering to<br/>fuse multiple contributors
+    PROC->>PS: PUBLISH route:{id}
+    PS->>WS: Forward to subscribers
+    WS->>APP: WebSocket message
+```
+
+### Pipeline Stages
+
+| Stage | Input | Output | What It Does |
+|-------|-------|--------|--------------|
+| **Ingester** | GPS batch (HTTP) | `gps:raw` stream | Validates, serializes, pushes to Redis Stream |
+| **Map Matcher** | `gps:raw` stream | `gps:matched` stream | Snaps GPS to roads via Valhalla Meili |
+| **Processor** | `gps:matched` stream | Redis Pub/Sub | Infers route, clusters contributors, calculates speed/bearing |
+| **Broadcaster** | Pub/Sub messages | WebSocket clients | Forwards to all subscribers of that route |
+
+## Monorepo Layout
+
+```
+mansariya/
+├── backend/              # Go backend (single binary)
+│   ├── cmd/server/       # Main entry point
+│   ├── cmd/bootstrap/    # Route data bootstrapper
+│   ├── cmd/simulator/    # GPS traffic simulator
+│   ├── internal/
+│   │   ├── config/       # Environment config
+│   │   ├── handler/      # HTTP handlers
+│   │   ├── model/        # Domain types
+│   │   ├── pipeline/     # Stream workers
+│   │   ├── server/       # Router + middleware
+│   │   ├── service/      # Business logic (ETA)
+│   │   ├── spatial/      # R-tree, Hausdorff, DBSCAN
+│   │   ├── store/        # PostgreSQL queries
+│   │   ├── valhalla/     # Valhalla client
+│   │   └── ws/           # WebSocket hub
+│   ├── migrations/       # SQL migrations
+│   └── api/              # OpenAPI spec
+├── mobile/               # React Native app
+│   └── src/
+│       ├── components/   # UI components
+│       ├── screens/      # App screens
+│       ├── stores/       # Zustand state
+│       ├── services/     # API, WS, location
+│       └── i18n/         # Translations
+├── infra/                # Docker, nginx, Valhalla config
+├── data/                 # NTC route data files
+└── docs/                 # This documentation (Mintlify)
+```
+
+## Infrastructure
+
+```mermaid
+graph LR
+    subgraph Hetzner["Hetzner CX32 (~$9/mo)"]
+        NG[Nginx :9000]
+        GO[Go Backend :9900]
+        PG[PostgreSQL :5433]
+        RD[Redis :6379]
+        VH[Valhalla :9992]
+        NM[Nominatim :9990]
+    end
+
+    CF[Cloudflare CDN/SSL] --> NG
+    NG --> GO
+    GO --> PG
+    GO --> RD
+    GO --> VH
+
+    OFM[OpenFreeMap Tiles] -.->|Map tiles| PHONE[📱 Mobile]
+    CF -.->|API| PHONE
+```
+
+All services run on a single $9/month Hetzner CX32 VPS via Docker Compose. Cloudflare provides CDN and SSL termination.

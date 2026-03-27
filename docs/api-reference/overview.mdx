@@ -1,0 +1,74 @@
+---
+title: "API Overview"
+description: "Mansariya REST API and WebSocket reference"
+---
+
+# API Overview
+
+The Mansariya API provides real-time bus tracking, route discovery, journey planning, and admin management for Sri Lanka's crowdsource-powered bus system.
+
+## Base URL
+
+| Environment | URL |
+|-------------|-----|
+| Production | `https://api.masariya.lk` |
+| Local Development | `http://localhost:9900` |
+
+## Authentication
+
+Most endpoints are **public** and require no authentication.
+
+**Admin endpoints** (`/api/v1/admin/*`) require an API key in the `X-API-Key` header:
+
+```bash
+curl -H "X-API-Key: your-key" https://api.masariya.lk/api/v1/admin/routes
+```
+
+## Response Format
+
+All responses are JSON. Errors follow a consistent format:
+
+```json
+{
+  "error": "descriptive error message"
+}
+```
+
+## Endpoint Groups
+
+<CardGroup cols={2}>
+  <Card title="GPS Ingestion" icon="satellite-dish" href="/api-reference/gps/batch">
+    Submit GPS observations from mobile devices
+  </Card>
+  <Card title="Routes" icon="route" href="/api-reference/routes/list">
+    Browse and search bus routes with polylines
+  </Card>
+  <Card title="Stops" icon="location-dot" href="/api-reference/stops/nearby">
+    Find bus stops nearby or by name
+  </Card>
+  <Card title="ETA" icon="clock" href="/api-reference/eta/get">
+    Get estimated arrival times for buses
+  </Card>
+  <Card title="Journey Planning" icon="map-location-dot" href="/api-reference/journey/search">
+    Plan trips between two stops
+  </Card>
+  <Card title="Live Buses" icon="bus" href="/api-reference/buses/active">
+    View all active bus positions
+  </Card>
+  <Card title="WebSocket" icon="bolt" href="/api-reference/websocket/track">
+    Stream real-time bus positions
+  </Card>
+  <Card title="Admin" icon="shield" href="/api-reference/admin/create-route">
+    Manage routes, stops, and timetables
+  </Card>
+</CardGroup>
+
+## Interactive Docs
+
+The backend also serves an interactive Swagger UI at:
+- Local: [http://localhost:9900/docs](http://localhost:9900/docs)
+- Production: [https://api.masariya.lk/docs](https://api.masariya.lk/docs)
+
+## Rate Limits
+
+No rate limits are enforced in the current version. The system is designed for mobile app traffic patterns.

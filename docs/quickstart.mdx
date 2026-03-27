@@ -1,0 +1,133 @@
+---
+title: "Quickstart"
+description: "Run Mansariya locally in 5 minutes"
+---
+
+# Quickstart
+
+Get the full Mansariya stack running on your machine.
+
+## Prerequisites
+
+- **Go** 1.23+
+- **Docker** and Docker Compose
+- **Node.js** 22+ and npm
+- **Xcode** or **Android Studio** (for mobile)
+
+## 1. Clone and Configure
+
+```bash
+git clone https://github.com/theetaz/mansariya.git
+cd mansariya
+```
+
+Create environment files from the templates:
+
+```bash
+cp infra/.env.example infra/.env
+cp backend/.env.example backend/.env
+cp mobile/.env.example mobile/.env
+```
+
+## 2. Start Infrastructure
+
+Boot PostgreSQL, Redis, and Valhalla:
+
+```bash
+make infra-up-all
+```
+
+<Note>
+  Valhalla downloads ~120MB of Sri Lanka OSM data on first run. This takes 5-10 minutes.
+  Check progress: `docker logs -f masariya-valhalla`
+</Note>
+
+## 3. Run Database Migrations
+
+```bash
+make migrate-up
+```
+
+## 4. Bootstrap Route Data
+
+Load NTC bus routes into the database:
+
+```bash
+make bootstrap
+```
+
+This geocodes stop names via Nominatim and builds road-snapped polylines via OSRM.
+
+## 5. Start the Backend
+
+```bash
+make backend-dev
+```
+
+The API is now running at `http://localhost:9900`. Check the health endpoint:
+
+```bash
+curl http://localhost:9900/health
+```
+
+```json
+{"status": "ok", "service": "masariya"}
+```
+
+## 6. Open API Docs
+
+Visit [http://localhost:9900/docs](http://localhost:9900/docs) to see the interactive Swagger UI.
+
+## 7. Simulate Bus Traffic
+
+In a separate terminal, start the GPS simulator:
+
+```bash
+make simulate
+```
+
+This creates virtual buses that move along real routes, pushing GPS data to the backend.
+
+## 8. Run the Mobile App
+
+```bash
+cd mobile
+npm install
+npx react-native run-ios    # or run-android
+```
+
+## Environment Variables
+
+<Accordion title="Backend (.env)">
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `9900` | HTTP server port |
+| `DATABASE_URL` | — | PostgreSQL connection string (required) |
+| `REDIS_ADDR` | `localhost:6379` | Redis address |
+| `VALHALLA_URL` | `http://localhost:9992` | Valhalla map-matching service |
+| `NOMINATIM_URL` | `http://localhost:9990` | Nominatim geocoding service |
+| `OSRM_URL` | `https://router.project-osrm.org` | OSRM routing service |
+| `ADMIN_API_KEY` | — | API key for admin endpoints (required) |
+</Accordion>
+
+<Accordion title="Infrastructure (infra/.env)">
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `POSTGRES_USER` | `masariya` | Database user |
+| `POSTGRES_PASSWORD` | `masariya` | Database password |
+| `POSTGRES_PORT` | `5433` | Host port for PostgreSQL |
+| `REDIS_PORT` | `6379` | Host port for Redis |
+| `VALHALLA_PORT` | `9992` | Host port for Valhalla |
+| `NOMINATIM_PORT` | `9990` | Host port for Nominatim |
+</Accordion>
+
+## Service Ports
+
+| Port | Service | Description |
+|------|---------|-------------|
+| 9900 | Go Backend | REST API + WebSocket |
+| 5433 | PostgreSQL | Database |
+| 6379 | Redis | Cache + Streams + Pub/Sub |
+| 9992 | Valhalla | Map matching |
+| 9990 | Nominatim | Geocoding |
+| 9000 | Nginx | Reverse proxy (production) |
