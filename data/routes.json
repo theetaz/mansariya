@@ -1,58 +1,7606 @@
 [
-  {"id":"1","name_en":"Colombo - Kandy","name_si":"කොළඹ - මහනුවර","name_ta":"கொழும்பு - கண்டி","operator":"SLTB","service_type":"Normal","fare_lkr":350,"frequency_minutes":15,"operating_hours":"04:30-22:00","stops":["Colombo Fort","Pettah","Peliyagoda","Kiribathgoda","Kadawatha","Ganemulla","Nittambuwa","Warakapola","Kegalle","Mawanella","Kadugannawa","Peradeniya","Kandy"]},
-  {"id":"1-1","name_en":"Colombo - Kandy (Intercity)","name_si":"කොළඹ - මහනුවර (අන්තර් නගර)","name_ta":"கொழும்பு - கண்டி (நகரிடை)","operator":"SLTB","service_type":"Semi Luxury","fare_lkr":600,"frequency_minutes":30,"operating_hours":"05:00-20:00","stops":["Colombo Fort","Kadawatha","Warakapola","Kegalle","Kandy"]},
-  {"id":"1-AC","name_en":"Colombo - Kandy (AC Luxury)","name_si":"කොළඹ - මහනුවර (වායු සමීකරණ)","name_ta":"கொழும்பு - கண்டி (குளிரூட்டி)","operator":"Private","service_type":"AC Luxury","fare_lkr":900,"frequency_minutes":30,"operating_hours":"05:30-20:00","stops":["Colombo Fort","Kadawatha","Kegalle","Kandy"]},
-  {"id":"2","name_en":"Colombo - Galle","name_si":"කොළඹ - ගාල්ල","name_ta":"கொழும்பு - காலி","operator":"SLTB","service_type":"Normal","fare_lkr":320,"frequency_minutes":15,"operating_hours":"04:30-21:00","stops":["Colombo Fort","Slave Island","Bambalapitiya","Wellawatte","Dehiwala","Mount Lavinia","Ratmalana","Moratuwa","Panadura","Kalutara","Beruwala","Aluthgama","Bentota","Ambalangoda","Hikkaduwa","Galle"]},
-  {"id":"2-AC","name_en":"Colombo - Galle (AC Luxury)","name_si":"කොළඹ - ගාල්ල (වායු සමීකරණ)","name_ta":"கொழும்பு - காலி (குளிரூட்டி)","operator":"Private","service_type":"AC Luxury","fare_lkr":700,"frequency_minutes":30,"operating_hours":"05:30-20:00","stops":["Colombo Fort","Moratuwa","Panadura","Kalutara","Ambalangoda","Hikkaduwa","Galle"]},
-  {"id":"4","name_en":"Colombo - Matara","name_si":"කොළඹ - මාතර","name_ta":"கொழும்பு - மாத்தறை","operator":"SLTB","service_type":"Normal","fare_lkr":450,"frequency_minutes":30,"operating_hours":"04:00-20:00","stops":["Colombo Fort","Moratuwa","Panadura","Kalutara","Aluthgama","Ambalangoda","Hikkaduwa","Galle","Unawatuna","Weligama","Mirissa","Matara"]},
-  {"id":"5","name_en":"Colombo - Tangalle","name_si":"කොළඹ - තංගල්ල","name_ta":"கொழும்பு - தங்கல்லை","operator":"SLTB","service_type":"Normal","fare_lkr":520,"frequency_minutes":60,"operating_hours":"05:00-18:00","stops":["Colombo Fort","Panadura","Kalutara","Galle","Matara","Dikwella","Tangalle"]},
-  {"id":"6","name_en":"Colombo - Hambantota","name_si":"කොළඹ - හම්බන්තොට","name_ta":"கொழும்பு - அம்பாந்தோட்டை","operator":"SLTB","service_type":"Normal","fare_lkr":600,"frequency_minutes":60,"operating_hours":"05:00-17:00","stops":["Colombo Fort","Panadura","Kalutara","Galle","Matara","Tangalle","Hambantota"]},
-  {"id":"9","name_en":"Colombo - Badulla","name_si":"කොළඹ - බදුල්ල","name_ta":"கொழும்பு - பதுளை","operator":"SLTB","service_type":"Normal","fare_lkr":520,"frequency_minutes":60,"operating_hours":"05:00-17:00","stops":["Colombo Fort","Kadawatha","Nittambuwa","Kegalle","Kandy","Gampola","Nawalapitiya","Hatton","Nuwara Eliya","Welimada","Badulla"]},
-  {"id":"10","name_en":"Kandy - Kataragama","name_si":"මහනුවර - කතරගම","name_ta":"கண்டி - கதிர்காமம்","operator":"SLTB","service_type":"Normal","fare_lkr":650,"frequency_minutes":120,"operating_hours":"05:30-15:00","stops":["Kandy","Peradeniya","Gampola","Nawalapitiya","Hatton","Nuwara Eliya","Welimada","Badulla","Wellawaya","Buttala","Kataragama"]},
-  {"id":"15","name_en":"Colombo - Jaffna","name_si":"කොළඹ - යාපනය","name_ta":"கொழும்பு - யாழ்ப்பாணம்","operator":"SLTB","service_type":"AC Luxury","fare_lkr":1800,"frequency_minutes":120,"operating_hours":"06:00-20:00","stops":["Colombo Fort","Kurunegala","Dambulla","Anuradhapura","Vavuniya","Kilinochchi","Chavakachcheri","Jaffna"]},
-  {"id":"21","name_en":"Colombo - Walapane","name_si":"කොළඹ - වලපනේ","name_ta":"கொழும்பு - வாலப்பனை","operator":"SLTB","service_type":"Normal","fare_lkr":420,"frequency_minutes":60,"operating_hours":"05:30-16:00","stops":["Colombo Fort","Kadawatha","Nittambuwa","Kegalle","Kandy","Hanguranketha","Walapane"]},
-  {"id":"32","name_en":"Kandy - Anuradhapura","name_si":"මහනුවර - අනුරාධපුර","name_ta":"கண்டி - அனுராதபுரம்","operator":"SLTB","service_type":"Normal","fare_lkr":350,"frequency_minutes":30,"operating_hours":"05:00-18:00","stops":["Kandy","Katugastota","Matale","Dambulla","Kekirawa","Anuradhapura"]},
-  {"id":"34","name_en":"Kurunegala - Negombo","name_si":"කුරුණෑගල - මීගමුව","name_ta":"குருநாகல் - நீர்கொழும்பு","operator":"SLTB","service_type":"Normal","fare_lkr":200,"frequency_minutes":30,"operating_hours":"05:00-19:00","stops":["Kurunegala","Narammala","Kuliyapitiya","Dankotuwa","Negombo"]},
-  {"id":"38","name_en":"Kandy - Dehiattakandiya","name_si":"මහනුවර - දෙහිඅත්තකන්දිය","name_ta":"கண்டி - தெஹியாத்தகண்டியா","operator":"SLTB","service_type":"Normal","fare_lkr":300,"frequency_minutes":60,"operating_hours":"05:30-17:00","stops":["Kandy","Kundasale","Teldeniya","Mahiyangana","Dehiattakandiya"]},
-  {"id":"46","name_en":"Galle - Matara","name_si":"ගාල්ල - මාතර","name_ta":"காலி - மாத்தறை","operator":"SLTB","service_type":"Normal","fare_lkr":100,"frequency_minutes":10,"operating_hours":"05:00-21:00","stops":["Galle","Unawatuna","Thalpe","Habaraduwa","Weligama","Mirissa","Kamburugamuwa","Matara"]},
-  {"id":"47","name_en":"Kandy - Nuwara Eliya","name_si":"මහනුවර - නුවරඑළිය","name_ta":"கண்டி - நுவரெலியா","operator":"SLTB","service_type":"Normal","fare_lkr":180,"frequency_minutes":30,"operating_hours":"05:30-18:00","stops":["Kandy","Peradeniya","Gampola","Nawalapitiya","Ginigathena","Hatton","Dickoya","Nuwara Eliya"]},
-  {"id":"48","name_en":"Colombo - Ratnapura","name_si":"කොළඹ - රත්නපුර","name_ta":"கொழும்பு - இரத்தினபுரி","operator":"SLTB","service_type":"Normal","fare_lkr":260,"frequency_minutes":20,"operating_hours":"05:00-19:00","stops":["Colombo Fort","Nugegoda","Maharagama","Kottawa","Horana","Ingiriya","Ratnapura"]},
-  {"id":"49","name_en":"Colombo - Trincomalee","name_si":"කොළඹ - ත්‍රිකුණාමලය","name_ta":"கொழும்பு - திருகோணமலை","operator":"SLTB","service_type":"Normal","fare_lkr":550,"frequency_minutes":60,"operating_hours":"05:30-17:00","stops":["Colombo Fort","Kurunegala","Dambulla","Habarana","Kantale","Trincomalee"]},
-  {"id":"79","name_en":"Colombo - Embilipitiya","name_si":"කොළඹ - ඇඹිලිපිටිය","name_ta":"கொழும்பு - எம்பிலிப்பிட்டியா","operator":"SLTB","service_type":"Normal","fare_lkr":400,"frequency_minutes":60,"operating_hours":"05:30-17:00","stops":["Colombo Fort","Ratnapura","Pelmadulla","Balangoda","Embilipitiya"]},
-  {"id":"87","name_en":"Colombo - Jaffna (Normal)","name_si":"කොළඹ - යාපනය (සාමාන්‍ය)","name_ta":"கொழும்பு - யாழ்ப்பாணம் (சாதாரண)","operator":"SLTB","service_type":"Normal","fare_lkr":1200,"frequency_minutes":120,"operating_hours":"06:00-18:00","stops":["Colombo Fort","Kurunegala","Dambulla","Anuradhapura","Medawachchiya","Vavuniya","Kilinochchi","Jaffna"]},
-  {"id":"98","name_en":"Colombo - Avissawella","name_si":"කොළඹ - අවිස්සාවේල්ල","name_ta":"கொழும்பு - அவிசாவளை","operator":"Private","service_type":"Normal","fare_lkr":80,"frequency_minutes":10,"operating_hours":"05:00-21:00","stops":["Colombo Fort","Nugegoda","Kottawa","Padukka","Avissawella"]},
-  {"id":"100","name_en":"Colombo Fort - Panadura","name_si":"කොළඹ කොටුව - පානදුර","name_ta":"கொழும்பு கோட்டை - பாணந்துறை","operator":"Private","service_type":"Normal","fare_lkr":60,"frequency_minutes":5,"operating_hours":"04:30-23:00","stops":["Colombo Fort","Pettah","Slave Island","Bambalapitiya","Wellawatte","Dehiwala","Mount Lavinia","Ratmalana","Moratuwa","Panadura"]},
-  {"id":"101","name_en":"Colombo Fort - Piliyandala","name_si":"කොළඹ කොටුව - පිළියන්දල","name_ta":"கொழும்பு கோட்டை - பிலியந்தலை","operator":"Private","service_type":"Normal","fare_lkr":50,"frequency_minutes":5,"operating_hours":"05:00-22:00","stops":["Colombo Fort","Pettah","Maradana","Borella","Narahenpita","Nugegoda","Maharagama","Piliyandala"]},
-  {"id":"103","name_en":"Colombo Fort - Borella - Narahenpita","name_si":"කොළඹ කොටුව - බොරැල්ල - නාරාහේන්පිට","name_ta":"கொழும்பு கோட்டை - பொரெல்ல - நாரஹேன்பிட்ட","operator":"Private","service_type":"Normal","fare_lkr":40,"frequency_minutes":5,"operating_hours":"04:30-23:00","stops":["Colombo Fort","Pettah","Maradana","Borella","Narahenpita"]},
-  {"id":"117","name_en":"Nugegoda - Ratmalana","name_si":"නුගේගොඩ - රත්මලාන","name_ta":"நுகேகொடா - இரத்மலானை","operator":"Private","service_type":"Normal","fare_lkr":35,"frequency_minutes":20,"operating_hours":"05:30-21:00","stops":["Nugegoda","Wijerama","Gangodawila","Dehiwala","Ratmalana"]},
-  {"id":"120","name_en":"Colombo Fort - Negombo","name_si":"කොළඹ කොටුව - මීගමුව","name_ta":"கொழும்பு கோட்டை - நீர்கொழும்பு","operator":"SLTB","service_type":"Normal","fare_lkr":100,"frequency_minutes":10,"operating_hours":"04:30-22:00","stops":["Colombo Fort","Peliyagoda","Wattala","Hendala","Ja-Ela","Seeduwa","Katunayake","Negombo"]},
-  {"id":"128","name_en":"Colombo - Chilaw","name_si":"කොළඹ - හලාවත","name_ta":"கொழும்பு - சிலாபம்","operator":"SLTB","service_type":"Normal","fare_lkr":200,"frequency_minutes":30,"operating_hours":"05:00-20:00","stops":["Colombo Fort","Wattala","Negombo","Wennappuwa","Marawila","Chilaw"]},
-  {"id":"138","name_en":"Colombo - Kurunegala","name_si":"කොළඹ - කුරුණෑගල","name_ta":"கொழும்பு - குருநாகல்","operator":"SLTB","service_type":"Normal","fare_lkr":280,"frequency_minutes":20,"operating_hours":"05:00-20:00","stops":["Colombo Fort","Peliyagoda","Kadawatha","Kirillawala","Nittambuwa","Alawwa","Polgahawela","Kurunegala"]},
-  {"id":"141","name_en":"Wellawatte - Narahenpita","name_si":"වැල්ලවත්ත - නාරාහේන්පිට","name_ta":"வெள்ளவத்தை - நாரஹேன்பிட்ட","operator":"Private","service_type":"Normal","fare_lkr":30,"frequency_minutes":10,"operating_hours":"05:30-21:00","stops":["Wellawatte","Bambalapitiya","Havelock Town","Narahenpita"]},
-  {"id":"147","name_en":"Mount Lavinia - Bakery Junction","name_si":"ගල්කිස්ස - බේකරි හංදිය","name_ta":"கல்கிஸ்ஸை - பேக்கரி சந்தி","operator":"Private","service_type":"Normal","fare_lkr":35,"frequency_minutes":15,"operating_hours":"05:30-21:00","stops":["Mount Lavinia","Dehiwala","Wellawatte","Bambalapitiya","Bakery Junction"]},
-  {"id":"152","name_en":"Gothatuwa - Pettah","name_si":"ගෝතටුව - පිටකොටුව","name_ta":"கோதட்டுவ - புறக்கோட்டை","operator":"Private","service_type":"Normal","fare_lkr":35,"frequency_minutes":10,"operating_hours":"05:00-22:00","stops":["Gothatuwa","Rajagiriya","Borella","Maradana","Pettah"]},
-  {"id":"154","name_en":"Colombo - Anuradhapura","name_si":"කොළඹ - අනුරාධපුර","name_ta":"கொழும்பு - அனுராதபுரம்","operator":"SLTB","service_type":"Normal","fare_lkr":480,"frequency_minutes":45,"operating_hours":"05:00-18:00","stops":["Colombo Fort","Kadawatha","Nittambuwa","Kurunegala","Wariyapola","Dambulla","Kekirawa","Anuradhapura"]},
-  {"id":"155","name_en":"Mattakkuliya - Soysapura","name_si":"මට්ටක්කුලිය - සෝයිසාපුර","name_ta":"மட்டக்குளியா - சொய்சாபுரா","operator":"Private","service_type":"Normal","fare_lkr":30,"frequency_minutes":10,"operating_hours":"05:30-21:00","stops":["Mattakkuliya","Grandpass","Kotahena","Pettah","Maradana","Soysapura"]},
-  {"id":"163","name_en":"Colombo Fort - Jayawardanapura","name_si":"කොළඹ කොටුව - ජයවර්ධනපුර","name_ta":"கொழும்பு கோட்டை - ஜயவர்தனபுரா","operator":"Private","service_type":"Normal","fare_lkr":40,"frequency_minutes":10,"operating_hours":"05:00-22:00","stops":["Colombo Fort","Borella","Rajagiriya","Battaramulla","Jayawardanapura"]},
-  {"id":"174","name_en":"Kottawa - Borella","name_si":"කොට්ටාව - බොරැල්ල","name_ta":"கொட்டாவ - பொரெல்ல","operator":"Private","service_type":"Normal","fare_lkr":45,"frequency_minutes":10,"operating_hours":"05:00-22:00","stops":["Kottawa","Maharagama","Nugegoda","Narahenpita","Borella"]},
-  {"id":"175","name_en":"Kohilawatte - Kollupitiya","name_si":"කොහිලවත්ත - කොල්ලුපිටිය","name_ta":"கொஹிலவத்த - கொள்ளுப்பிட்டி","operator":"Private","service_type":"Normal","fare_lkr":30,"frequency_minutes":15,"operating_hours":"06:00-21:00","stops":["Kohilawatte","Kirulapone","Havelock Town","Kollupitiya"]},
-  {"id":"176","name_en":"Dehiwala - Hettiyawatta","name_si":"දෙහිවල - හෙට්ටියාවත්ත","name_ta":"தெஹிவளா - ஹெட்டியாவத்த","operator":"Private","service_type":"Normal","fare_lkr":30,"frequency_minutes":15,"operating_hours":"05:30-21:00","stops":["Dehiwala","Wellawatte","Bambalapitiya","Slave Island","Hettiyawatta"]},
-  {"id":"177","name_en":"Colombo - Trincomalee","name_si":"කොළඹ - ත්‍රිකුණාමලය","name_ta":"கொழும்பு - திருகோணமலை","operator":"SLTB","service_type":"Normal","fare_lkr":550,"frequency_minutes":60,"operating_hours":"05:30-17:00","stops":["Colombo Fort","Kurunegala","Dambulla","Habarana","Kantale","Trincomalee"]},
-  {"id":"187","name_en":"Colombo - Airport (Katunayake)","name_si":"කොළඹ - ගුවන්තොටුපළ","name_ta":"கொழும்பு - விமான நிலையம்","operator":"SLTB","service_type":"Normal","fare_lkr":80,"frequency_minutes":15,"operating_hours":"04:00-22:00","stops":["Colombo Fort","Peliyagoda","Wattala","Ja-Ela","Seeduwa","Katunayake Airport"]},
-  {"id":"190","name_en":"Colombo - Polonnaruwa","name_si":"කොළඹ - පොළොන්නරුව","name_ta":"கொழும்பு - பொலன்னறுவை","operator":"SLTB","service_type":"Normal","fare_lkr":420,"frequency_minutes":60,"operating_hours":"05:30-17:00","stops":["Colombo Fort","Kurunegala","Dambulla","Habarana","Medirigiriya","Polonnaruwa"]},
-  {"id":"228/1","name_en":"Kaduwela - Gampaha","name_si":"කඩුවෙල - ගම්පහ","name_ta":"கடுவெல - கம்பஹா","operator":"SLTB","service_type":"Normal","fare_lkr":80,"frequency_minutes":30,"operating_hours":"05:30-20:00","stops":["Kaduwela","Malabe","Delgoda","Weliweriya","Gampaha"]},
-  {"id":"240","name_en":"Kandy - Nuwara Eliya (via Hanguranketha)","name_si":"මහනුවර - නුවරඑළිය (හඟුරන්කෙත මාර්ගයෙන්)","name_ta":"கண்டி - நுவரெலியா","operator":"SLTB","service_type":"Normal","fare_lkr":200,"frequency_minutes":60,"operating_hours":"06:00-17:00","stops":["Kandy","Teldeniya","Hanguranketha","Rikillagaskada","Nuwara Eliya"]},
-  {"id":"255","name_en":"Kandy - Matale","name_si":"මහනුවර - මාතලේ","name_ta":"கண்டி - மாத்தளை","operator":"SLTB","service_type":"Normal","fare_lkr":80,"frequency_minutes":15,"operating_hours":"05:00-21:00","stops":["Kandy","Katugastota","Wattegama","Akurana","Matale"]},
-  {"id":"280","name_en":"Maharagama - Horana","name_si":"මහරගම - හොරණ","name_ta":"மஹரகம - ஹொரணா","operator":"Private","service_type":"Normal","fare_lkr":60,"frequency_minutes":15,"operating_hours":"05:00-21:00","stops":["Maharagama","Kottawa","Bandaragama","Horana"]},
-  {"id":"284","name_en":"Horana - Morontuduwa","name_si":"හොරණ - මොරොන්තුඩුව","name_ta":"ஹொரணா - மொரொந்துடுவ","operator":"Private","service_type":"Normal","fare_lkr":40,"frequency_minutes":20,"operating_hours":"06:00-20:00","stops":["Horana","Poruwedanda","Morontuduwa"]},
-  {"id":"296","name_en":"Kottawa - Piliyandala","name_si":"කොට්ටාව - පිළියන්දල","name_ta":"கொட்டாவ - பிலியந்தலை","operator":"Private","service_type":"Normal","fare_lkr":30,"frequency_minutes":10,"operating_hours":"05:30-21:00","stops":["Kottawa","Makumbura","Piliyandala"]},
-  {"id":"342","name_en":"Kottawa - Piliyandala (via Kesbewa)","name_si":"කොට්ටාව - පිළියන්දල (කැස්බෑව)","name_ta":"கொட்டாவ - பிலியந்தலை","operator":"Private","service_type":"Normal","fare_lkr":30,"frequency_minutes":15,"operating_hours":"05:30-21:00","stops":["Kottawa","Kesbewa","Piliyandala"]},
-  {"id":"425","name_en":"Kalutara - Bandaragama","name_si":"කළුතර - බණ්ඩාරගම","name_ta":"களுத்துறை - பண்டாரகம","operator":"Private","service_type":"Normal","fare_lkr":45,"frequency_minutes":20,"operating_hours":"06:00-20:00","stops":["Kalutara","Matugama Road","Bandaragama"]},
-  {"id":"608","name_en":"Avissawella - Panawala","name_si":"අවිස්සාවේල්ල - පනාවල","name_ta":"அவிசாவளை - பனாவல","operator":"Private","service_type":"Normal","fare_lkr":40,"frequency_minutes":30,"operating_hours":"06:00-19:00","stops":["Avissawella","Deraniyagala","Panawala"]},
-  {"id":"644","name_en":"Kandy - Pilimatalawa","name_si":"මහනුවර - පිළිමතලාව","name_ta":"கண்டி - பிலிமத்தலாவ","operator":"Private","service_type":"Normal","fare_lkr":25,"frequency_minutes":10,"operating_hours":"05:30-21:00","stops":["Kandy","Asgiriya","Pilimatalawa"]},
-  {"id":"654","name_en":"Kandy - Badulla","name_si":"මහනුවර - බදුල්ල","name_ta":"கண்டி - பதுளை","operator":"SLTB","service_type":"Normal","fare_lkr":300,"frequency_minutes":30,"operating_hours":"05:00-18:00","stops":["Kandy","Peradeniya","Gampola","Nawalapitiya","Hatton","Nuwara Eliya","Welimada","Badulla"]},
-  {"id":"662","name_en":"Kandy - Kegalle","name_si":"මහනුවර - කෑගල්ල","name_ta":"கண்டி - கேகாலை","operator":"SLTB","service_type":"Normal","fare_lkr":120,"frequency_minutes":30,"operating_hours":"05:30-20:00","stops":["Kandy","Kadugannawa","Mawanella","Kegalle"]},
-  {"id":"750","name_en":"Jaffna - Point Pedro (via Nelliady)","name_si":"යාපනය - පොයින්ට් පේද්‍රෝ","name_ta":"யாழ்ப்பாணம் - பருத்தித்துறை","operator":"SLTB","service_type":"Normal","fare_lkr":60,"frequency_minutes":20,"operating_hours":"05:30-20:00","stops":["Jaffna","Kopay","Nelliady","Point Pedro"]},
-  {"id":"751","name_en":"Jaffna - Point Pedro (via Valvettiturai)","name_si":"යාපනය - පොයින්ට් පේද්‍රෝ (වල්වෙට්ටිතුරයි)","name_ta":"யாழ்ப்பாணம் - பருத்தித்துறை (வல்வெட்டித்துறை)","operator":"SLTB","service_type":"Normal","fare_lkr":60,"frequency_minutes":20,"operating_hours":"05:30-20:00","stops":["Jaffna","Chunnakam","Valvettiturai","Point Pedro"]},
-  {"id":"905","name_en":"Colombo - Batticaloa","name_si":"කොළඹ - මඩකලපුව","name_ta":"கொழும்பு - மட்டக்களப்பு","operator":"SLTB","service_type":"Normal","fare_lkr":600,"frequency_minutes":120,"operating_hours":"06:00-15:00","stops":["Colombo Fort","Kadawatha","Kandy","Mahiyangana","Padiyatalawa","Chenkalady","Batticaloa"]}
+  {
+    "id": "00",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1122,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "01",
+    "name_en": "Kandy - Negombo",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1",
+    "name_en": "Colombo - Kandy",
+    "name_si": "කොළඹ - මහනුවර",
+    "name_ta": "கொழும்பு - கண்டி",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 350,
+    "frequency_minutes": 15,
+    "operating_hours": "04:30-22:00",
+    "stops": [
+      "Colombo Fort",
+      "Pettah",
+      "Peliyagoda",
+      "Kiribathgoda",
+      "Kadawatha",
+      "Ganemulla",
+      "Nittambuwa",
+      "Warakapola",
+      "Kegalle",
+      "Mawanella",
+      "Kadugannawa",
+      "Peradeniya",
+      "Kandy"
+    ]
+  },
+  {
+    "id": "1-1",
+    "name_en": "Colombo - Kandy (Intercity)",
+    "name_si": "කොළඹ - මහනුවර (අන්තර් නගර)",
+    "name_ta": "கொழும்பு - கண்டி (நகரிடை)",
+    "operator": "SLTB",
+    "service_type": "Semi Luxury",
+    "fare_lkr": 600,
+    "frequency_minutes": 30,
+    "operating_hours": "05:00-20:00",
+    "stops": [
+      "Colombo Fort",
+      "Kadawatha",
+      "Warakapola",
+      "Kegalle",
+      "Kandy"
+    ]
+  },
+  {
+    "id": "1-1/245",
+    "name_en": "Colombo - (via 1-1/245)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 282,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1-2",
+    "name_en": "Colombo - (via 1-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 345,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1-3",
+    "name_en": "Colombo - (via 1-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 223,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1-4",
+    "name_en": "Colombo - (via 1-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 263,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1-AC",
+    "name_en": "Colombo - Kandy (AC Luxury)",
+    "name_si": "කොළඹ - මහනුවර (වායු සමීකරණ)",
+    "name_ta": "கொழும்பு - கண்டி (குளிரூட்டி)",
+    "operator": "Private",
+    "service_type": "AC Luxury",
+    "fare_lkr": 900,
+    "frequency_minutes": 30,
+    "operating_hours": "05:30-20:00",
+    "stops": [
+      "Colombo Fort",
+      "Kadawatha",
+      "Kegalle",
+      "Kandy"
+    ]
+  },
+  {
+    "id": "1/245",
+    "name_en": "Colombo - (via 1/245)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 423,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1/625",
+    "name_en": "Colombo - (via 1/625)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 490,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1/627",
+    "name_en": "Colombo - (via 1/627)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 692,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1/744",
+    "name_en": "Colombo - (via 1/744)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 592,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2",
+    "name_en": "Colombo - Matara",
+    "name_si": "කොළඹ - ගාල්ල",
+    "name_ta": "கொழும்பு - காலி",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 320,
+    "frequency_minutes": 15,
+    "operating_hours": "04:30-21:00",
+    "stops": [
+      "Colombo Fort",
+      "Slave Island",
+      "Bambalapitiya",
+      "Wellawatte",
+      "Dehiwala",
+      "Mount Lavinia",
+      "Ratmalana",
+      "Moratuwa",
+      "Panadura",
+      "Kalutara",
+      "Beruwala",
+      "Aluthgama",
+      "Bentota",
+      "Ambalangoda",
+      "Hikkaduwa",
+      "Galle"
+    ]
+  },
+  {
+    "id": "2-1",
+    "name_en": "Colombo - (via 2-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2-10",
+    "name_en": "Colombo - (via 2-10)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 661,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2-12",
+    "name_en": "Colombo - (via 2-12)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 636,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2-3",
+    "name_en": "Colombo - (via 2-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 314,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2-4",
+    "name_en": "Colombo - (via 2-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 605,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2-6",
+    "name_en": "Colombo - (via 2-6)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 667,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2-9",
+    "name_en": "Colombo - (via 2-9)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 648,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2-AC",
+    "name_en": "Colombo - Galle (AC Luxury)",
+    "name_si": "කොළඹ - ගාල්ල (වායු සමීකරණ)",
+    "name_ta": "கொழும்பு - காலி (குளிரூட்டி)",
+    "operator": "Private",
+    "service_type": "AC Luxury",
+    "fare_lkr": 700,
+    "frequency_minutes": 30,
+    "operating_hours": "05:30-20:00",
+    "stops": [
+      "Colombo Fort",
+      "Moratuwa",
+      "Panadura",
+      "Kalutara",
+      "Ambalangoda",
+      "Hikkaduwa",
+      "Galle"
+    ]
+  },
+  {
+    "id": "2/13",
+    "name_en": "Colombo - (via 2/13)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 674,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2/187",
+    "name_en": "Colombo - (via 2/187)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 643,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2/366",
+    "name_en": "Colombo - (via 2/366)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 567,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2/368",
+    "name_en": "Colombo - (via 2/368)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 737,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2/382",
+    "name_en": "Colombo - (via 2/382)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 541,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2/4-3",
+    "name_en": "Colombo - (via 2/4-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1179,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2/48",
+    "name_en": "Colombo - (via 2/48)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1255,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "2/8",
+    "name_en": "Colombo - (via 2/8)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1008,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "3",
+    "name_en": "Colombo - Badulla",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 908,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "3-1",
+    "name_en": "Colombo - (via 3-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 579,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "3-4",
+    "name_en": "Colombo - (via 3-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 750,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "3/15/87",
+    "name_en": "Colombo - (via 3/15/87)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1874,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "3/363",
+    "name_en": "Colombo - (via 3/363)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 730,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "3/461-5",
+    "name_en": "Colombo - (via 3/461-5)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 661,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "3/497",
+    "name_en": "Colombo - (via 3/497)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 648,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4",
+    "name_en": "Colombo - Jaffna",
+    "name_si": "කොළඹ - මාතර",
+    "name_ta": "கொழும்பு - மாத்தறை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 450,
+    "frequency_minutes": 30,
+    "operating_hours": "04:00-20:00",
+    "stops": [
+      "Colombo Fort",
+      "Moratuwa",
+      "Panadura",
+      "Kalutara",
+      "Aluthgama",
+      "Ambalangoda",
+      "Hikkaduwa",
+      "Galle",
+      "Unawatuna",
+      "Weligama",
+      "Mirissa",
+      "Matara"
+    ]
+  },
+  {
+    "id": "4-1",
+    "name_en": "Colombo - (via 4-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1135,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-10",
+    "name_en": "Colombo - (via 4-10)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 547,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-11",
+    "name_en": "Colombo - (via 4-11)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 289,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-13",
+    "name_en": "Colombo - (via 4-13)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 630,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-3",
+    "name_en": "Colombo - (via 4-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 679,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-3/141",
+    "name_en": "Colombo - (via 4-3/141)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 756,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-3/842-1",
+    "name_en": "Colombo - (via 4-3/842-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1028,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-7",
+    "name_en": "Colombo - (via 4-7)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 452,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-9",
+    "name_en": "Colombo - (via 4-9)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 434,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4/844",
+    "name_en": "Colombo - (via 4/844)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1021,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4/86",
+    "name_en": "Colombo - (via 4/86)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1041,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4/86-10",
+    "name_en": "Colombo - (via 4/86-10)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1375,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "5",
+    "name_en": "Colombo - Batticaloa",
+    "name_si": "කොළඹ - තංගල්ල",
+    "name_ta": "கொழும்பு - தங்கல்லை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 520,
+    "frequency_minutes": 60,
+    "operating_hours": "05:00-18:00",
+    "stops": [
+      "Colombo Fort",
+      "Panadura",
+      "Kalutara",
+      "Galle",
+      "Matara",
+      "Dikwella",
+      "Tangalle"
+    ]
+  },
+  {
+    "id": "5-11",
+    "name_en": "Colombo - (via 5-11)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "5/245",
+    "name_en": "Colombo - (via 5/245)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 276,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "5/57/540",
+    "name_en": "Colombo - (via 5/57/540)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 643,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "06",
+    "name_en": "Colombo - Kurunegala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "6",
+    "name_en": "Colombo - Trincomalee",
+    "name_si": "කොළඹ - හම්බන්තොට",
+    "name_ta": "கொழும்பு - அம்பாந்தோட்டை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 600,
+    "frequency_minutes": 60,
+    "operating_hours": "05:00-17:00",
+    "stops": [
+      "Colombo Fort",
+      "Panadura",
+      "Kalutara",
+      "Galle",
+      "Matara",
+      "Tangalle",
+      "Hambantota"
+    ]
+  },
+  {
+    "id": "6/57/540",
+    "name_en": "Colombo - (via 6/57/540)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 712,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "7",
+    "name_en": "Colombo - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 567,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "7-1",
+    "name_en": "Colombo - (via 7-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 459,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "8",
+    "name_en": "Colombo - Polonnaruwa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 510,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "9",
+    "name_en": "Colombo - Ratnapura",
+    "name_si": "කොළඹ - බදුල්ල",
+    "name_ta": "கொழும்பு - பதுளை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 520,
+    "frequency_minutes": 60,
+    "operating_hours": "05:00-17:00",
+    "stops": [
+      "Colombo Fort",
+      "Kadawatha",
+      "Nittambuwa",
+      "Kegalle",
+      "Kandy",
+      "Gampola",
+      "Nawalapitiya",
+      "Hatton",
+      "Nuwara Eliya",
+      "Welimada",
+      "Badulla"
+    ]
+  },
+  {
+    "id": "9-1",
+    "name_en": "Colombo - (via 9-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 472,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "9-2",
+    "name_en": "Colombo - (via 9-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 485,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "10",
+    "name_en": "Colombo - Hambantota",
+    "name_si": "මහනුවර - කතරගම",
+    "name_ta": "கண்டி - கதிர்காமம்",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 650,
+    "frequency_minutes": 120,
+    "operating_hours": "05:30-15:00",
+    "stops": [
+      "Kandy",
+      "Peradeniya",
+      "Gampola",
+      "Nawalapitiya",
+      "Hatton",
+      "Nuwara Eliya",
+      "Welimada",
+      "Badulla",
+      "Wellawaya",
+      "Buttala",
+      "Kataragama"
+    ]
+  },
+  {
+    "id": "11",
+    "name_en": "Matara - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 598,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "11-1",
+    "name_en": "Matara - (via 11-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 345,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "11-1-1",
+    "name_en": "Matara - (via 11-1-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 332,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "11-3",
+    "name_en": "Matara - (via 11-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 429,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "11/342",
+    "name_en": "Matara - (via 11/342)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 345,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "13-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 598,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "14",
+    "name_en": "Kandy - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 605,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15",
+    "name_en": "Colombo - Puttalam",
+    "name_si": "කොළඹ - යාපනය",
+    "name_ta": "கொழும்பு - யாழ்ப்பாணம்",
+    "operator": "SLTB",
+    "service_type": "AC Luxury",
+    "fare_lkr": 1800,
+    "frequency_minutes": 120,
+    "operating_hours": "06:00-20:00",
+    "stops": [
+      "Colombo Fort",
+      "Kurunegala",
+      "Dambulla",
+      "Anuradhapura",
+      "Vavuniya",
+      "Kilinochchi",
+      "Chavakachcheri",
+      "Jaffna"
+    ]
+  },
+  {
+    "id": "15-1",
+    "name_en": "Colombo - (via 15-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 776,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-1-1",
+    "name_en": "Colombo - (via 15-1-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 750,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-11",
+    "name_en": "Colombo - (via 15-11)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1166,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-17",
+    "name_en": "Colombo - (via 15-17)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 478,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-18",
+    "name_en": "Colombo - (via 15-18)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 679,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-22/87/769",
+    "name_en": "Colombo - (via 15-22/87/769)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1444,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-4",
+    "name_en": "Colombo - (via 15-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 674,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-5",
+    "name_en": "Colombo - (via 15-5)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 301,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-5/544-1",
+    "name_en": "Colombo - (via 15-5/544-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 332,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-6",
+    "name_en": "Colombo - (via 15-6)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 712,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-7",
+    "name_en": "Colombo - (via 15-7)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 870,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15/819",
+    "name_en": "Colombo - (via 15/819)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1319,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15/82",
+    "name_en": "Colombo - (via 15/82)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1186,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15/825",
+    "name_en": "Colombo - (via 15/825)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 763,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15/835",
+    "name_en": "Colombo - (via 15/835)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 870,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15/87/759",
+    "name_en": "Colombo - (via 15/87/759)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1331,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15/968",
+    "name_en": "Colombo - (via 15/968)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 598,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "16",
+    "name_en": "Colombo - Chilaw",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 510,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "16-2",
+    "name_en": "Colombo - (via 16-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1145,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "17",
+    "name_en": "Panadura - Ratnapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 516,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "17-1",
+    "name_en": "Panadura - (via 17-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 434,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "17/15-1",
+    "name_en": "Panadura - (via 17/15-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 837,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "17/255",
+    "name_en": "Panadura - (via 17/255)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 521,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "17/48",
+    "name_en": "Panadura - (via 17/48)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 845,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "17/49",
+    "name_en": "Panadura - (via 17/49)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 964,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "17/6",
+    "name_en": "Panadura - (via 17/6)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 345,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "18-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 447,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "18-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 529,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "18-7",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 503,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "18/727",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 756,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "19-2",
+    "name_en": "Kandy - (via 19-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 452,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "21",
+    "name_en": "Colombo - Walapane",
+    "name_si": "කොළඹ - වලපනේ",
+    "name_ta": "கொழும்பு - வாலப்பனை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 420,
+    "frequency_minutes": 60,
+    "operating_hours": "05:30-16:00",
+    "stops": [
+      "Colombo Fort",
+      "Kadawatha",
+      "Nittambuwa",
+      "Kegalle",
+      "Kandy",
+      "Hanguranketha",
+      "Walapane"
+    ]
+  },
+  {
+    "id": "21-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 857,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "21/1/245",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 825,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "21/910-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1204,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 806,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 717,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 567,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 429,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-5",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 340,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 498,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-6-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 472,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-6-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 529,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-7",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1186,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-8",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1097,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-9",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1179,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22/218",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 521,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22/218/75",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1102,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22/75",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 737,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22/756/48",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 857,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "23",
+    "name_en": "Avissawella - Embilipitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 173,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "25",
+    "name_en": "Colombo - Weerawila",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 554,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "25-1",
+    "name_en": "Colombo - (via 25-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 845,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "25/27/218",
+    "name_en": "Colombo - (via 25/27/218)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 952,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "25/363",
+    "name_en": "Colombo - (via 25/363)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 605,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "25/76",
+    "name_en": "Colombo - (via 25/76)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1375,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "26",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 623,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "26-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 750,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "26-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 667,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "27/218/49",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1380,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "27/218/58",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1053,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "27/218/75",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1217,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "31",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 730,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "31-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 914,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "31-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 776,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32",
+    "name_en": "Colombo - Kurunegala",
+    "name_si": "මහනුවර - අනුරාධපුර",
+    "name_ta": "கண்டி - அனுராதபுரம்",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 350,
+    "frequency_minutes": 30,
+    "operating_hours": "05:00-18:00",
+    "stops": [
+      "Kandy",
+      "Katugastota",
+      "Matale",
+      "Dambulla",
+      "Kekirawa",
+      "Anuradhapura"
+    ]
+  },
+  {
+    "id": "32-1",
+    "name_en": "Colombo - (via 32-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 812,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-2",
+    "name_en": "Colombo - (via 32-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 939,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-4",
+    "name_en": "Colombo - (via 32-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 679,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-4/87",
+    "name_en": "Colombo - (via 32-4/87)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1956,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-5",
+    "name_en": "Colombo - (via 32-5)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 812,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-6",
+    "name_en": "Colombo - (via 32-6)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 768,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-7",
+    "name_en": "Colombo - (via 32-7)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 610,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-7/1",
+    "name_en": "Colombo - (via 32-7/1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1084,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32-87-3",
+    "name_en": "Colombo - (via 32-87-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1803,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32/49",
+    "name_en": "Colombo - (via 32/49)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1507,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32/493",
+    "name_en": "Colombo - (via 32/493)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 743,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "32/574",
+    "name_en": "Colombo - (via 32/574)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 799,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "34",
+    "name_en": "Kurunegala - Negombo",
+    "name_si": "කුරුණෑගල - මීගමුව",
+    "name_ta": "குருநாகல் - நீர்கொழும்பு",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 200,
+    "frequency_minutes": 30,
+    "operating_hours": "05:00-19:00",
+    "stops": [
+      "Kurunegala",
+      "Narammala",
+      "Kuliyapitiya",
+      "Dankotuwa",
+      "Negombo"
+    ]
+  },
+  {
+    "id": "34-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 282,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "34-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 180,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "35-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1003,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "35-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 692,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "35/881-5",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1141,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "35/881-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1280,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "35/935",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1306,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "38",
+    "name_en": "Kandy - Dehiattakandiya",
+    "name_si": "මහනුවර - දෙහිඅත්තකන්දිය",
+    "name_ta": "கண்டி - தெஹியாத்தகண்டியா",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 300,
+    "frequency_minutes": 60,
+    "operating_hours": "05:30-17:00",
+    "stops": [
+      "Kandy",
+      "Kundasale",
+      "Teldeniya",
+      "Mahiyangana",
+      "Dehiattakandiya"
+    ]
+  },
+  {
+    "id": "38-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 717,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "38-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 850,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "38-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1115,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "38-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 863,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "38/75",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1115,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-1/962",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 618,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-10",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 541,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-11",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 636,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-12/48",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 857,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 498,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-2/686",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 605,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-2/962",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 572,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-2/962-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 529,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 498,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41/48",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 788,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42-14",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 256,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 516,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42-5",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 572,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42-8",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42-9",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 429,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42/369",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 510,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42/384-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 674,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42/410",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 459,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42/430",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 516,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42/825",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 547,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "42/825/835",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 679,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "43",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 490,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "43-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 799,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "43/857",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 610,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "43/87",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1090,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "45",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 618,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "45/950",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 705,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "46",
+    "name_en": "Galle - Matara",
+    "name_si": "ගාල්ල - මාතර",
+    "name_ta": "காலி - மாத்தறை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 100,
+    "frequency_minutes": 10,
+    "operating_hours": "05:00-21:00",
+    "stops": [
+      "Galle",
+      "Unawatuna",
+      "Thalpe",
+      "Habaraduwa",
+      "Weligama",
+      "Mirissa",
+      "Kamburugamuwa",
+      "Matara"
+    ]
+  },
+  {
+    "id": "47",
+    "name_en": "Kandy - Nuwara Eliya",
+    "name_si": "මහනුවර - නුවරඑළිය",
+    "name_ta": "கண்டி - நுவரெலியா",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 180,
+    "frequency_minutes": 30,
+    "operating_hours": "05:30-18:00",
+    "stops": [
+      "Kandy",
+      "Peradeniya",
+      "Gampola",
+      "Nawalapitiya",
+      "Ginigathena",
+      "Hatton",
+      "Dickoya",
+      "Nuwara Eliya"
+    ]
+  },
+  {
+    "id": "47-1/43/87",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1584,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "47-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 429,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "47-3/328",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 465,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48",
+    "name_en": "Colombo - Vavuniya",
+    "name_si": "කොළඹ - රත්නපුර",
+    "name_ta": "கொழும்பு - இரத்தினபுரி",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 260,
+    "frequency_minutes": 20,
+    "operating_hours": "05:00-19:00",
+    "stops": [
+      "Colombo Fort",
+      "Nugegoda",
+      "Maharagama",
+      "Kottawa",
+      "Horana",
+      "Ingiriya",
+      "Ratnapura"
+    ]
+  },
+  {
+    "id": "48-1",
+    "name_en": "Colombo - (via 48-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1046,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-10",
+    "name_en": "Colombo - (via 48-10)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 340,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-12",
+    "name_en": "Colombo - (via 48-12)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1242,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-12/962",
+    "name_en": "Colombo - (via 48-12/962)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 630,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-13",
+    "name_en": "Colombo - (via 48-13)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1286,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-14",
+    "name_en": "Colombo - (via 48-14)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1072,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-15",
+    "name_en": "Colombo - (via 48-15)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 832,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-16",
+    "name_en": "Colombo - (via 48-16)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 921,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-17",
+    "name_en": "Colombo - (via 48-17)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 832,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-19",
+    "name_en": "Colombo - (via 48-19)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 365,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-2",
+    "name_en": "Colombo - (via 48-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 788,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-20",
+    "name_en": "Colombo - (via 48-20)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 837,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-27",
+    "name_en": "Colombo - (via 48-27)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 534,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-27/218",
+    "name_en": "Colombo - (via 48-27/218)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-29",
+    "name_en": "Colombo - (via 48-29)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 465,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-3",
+    "name_en": "Colombo - (via 48-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 756,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-31",
+    "name_en": "Colombo - (via 48-31)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1122,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-33",
+    "name_en": "Colombo - (via 48-33)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 825,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-4",
+    "name_en": "Colombo - (via 48-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 768,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-5",
+    "name_en": "Colombo - (via 48-5)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 939,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-8",
+    "name_en": "Colombo - (via 48-8)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 459,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-9",
+    "name_en": "Colombo - (via 48-9)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48/217/29",
+    "name_en": "Colombo - (via 48/217/29)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1210,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48/218",
+    "name_en": "Colombo - (via 48/218)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 914,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48/218-1",
+    "name_en": "Colombo - (via 48/218-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 888,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48/218-2",
+    "name_en": "Colombo - (via 48/218-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 990,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48/962",
+    "name_en": "Colombo - (via 48/962)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 559,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "49",
+    "name_en": "Colombo - Trincomalee",
+    "name_si": "කොළඹ - ත්‍රිකුණාමලය",
+    "name_ta": "கொழும்பு - திருகோணமலை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 550,
+    "frequency_minutes": 60,
+    "operating_hours": "05:30-17:00",
+    "stops": [
+      "Colombo Fort",
+      "Kurunegala",
+      "Dambulla",
+      "Habarana",
+      "Kantale",
+      "Trincomalee"
+    ]
+  },
+  {
+    "id": "49-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 579,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "49/866",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 863,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "49/867",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1066,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "49/900",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 990,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "49/950",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 964,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "49/950-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 901,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "52-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 447,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "52-3/996-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 547,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "52-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 579,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "52-8",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 529,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57",
+    "name_en": "Colombo - Embilipitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 705,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57-1",
+    "name_en": "Colombo - (via 57-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 559,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57-10",
+    "name_en": "Colombo - (via 57-10)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 498,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57-18",
+    "name_en": "Colombo - (via 57-18)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 825,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57-2",
+    "name_en": "Colombo - (via 57-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 572,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57-5",
+    "name_en": "Colombo - (via 57-5)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57-9",
+    "name_en": "Colombo - (via 57-9)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 516,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/221/420",
+    "name_en": "Colombo - (via 57/221/420)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 837,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/3",
+    "name_en": "Colombo - (via 57/3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 870,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/87",
+    "name_en": "Colombo - (via 57/87)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1349,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/904",
+    "name_en": "Colombo - (via 57/904)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 610,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/928",
+    "name_en": "Colombo - (via 57/928)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 636,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/978",
+    "name_en": "Colombo - (via 57/978)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 705,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "60",
+    "name_en": "Colombo - Monaragala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 687,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "60-1",
+    "name_en": "Colombo - (via 60-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 529,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "60-3",
+    "name_en": "Colombo - (via 60-3)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 605,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "60-4",
+    "name_en": "Colombo - (via 60-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 725,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "60-6",
+    "name_en": "Colombo - (via 60-6)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 705,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "60/32",
+    "name_en": "Colombo - (via 60/32)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 674,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "60/369",
+    "name_en": "Colombo - (via 60/369)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 592,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "67",
+    "name_en": "Colombo - Ratnapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 498,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "67-1",
+    "name_en": "Colombo - (via 67-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 610,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "68/580",
+    "name_en": "Kataragama - (via 68/580)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1658,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "69",
+    "name_en": "Kandy - Ratnapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 478,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "69-4",
+    "name_en": "Kandy - (via 69-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 340,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "69/15-7",
+    "name_en": "Kandy - (via 69/15-7)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1222,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "69/15-7/87",
+    "name_en": "Kandy - (via 69/15-7/87)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1842,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "75-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 534,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "76/218/314",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 995,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "78",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 416,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "79",
+    "name_en": "Colombo - Nuwara Eliya",
+    "name_si": "කොළඹ - ඇඹිලිපිටිය",
+    "name_ta": "கொழும்பு - எம்பிலிப்பிட்டியா",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 400,
+    "frequency_minutes": 60,
+    "operating_hours": "05:30-17:00",
+    "stops": [
+      "Colombo Fort",
+      "Ratnapura",
+      "Pelmadulla",
+      "Balangoda",
+      "Embilipitiya"
+    ]
+  },
+  {
+    "id": "79-1",
+    "name_en": "Colombo - (via 79-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 768,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "79/743-1",
+    "name_en": "Colombo - (via 79/743-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 806,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "83",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 301,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "84/580/314",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1280,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "86",
+    "name_en": "Colombo - Vavuniya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 1293,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "86-1",
+    "name_en": "Colombo - (via 86-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 812,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "86-7",
+    "name_en": "Colombo - (via 86-7)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1533,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "86-9",
+    "name_en": "Colombo - (via 86-9)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1053,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "86/218/22",
+    "name_en": "Colombo - (via 86/218/22)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1191,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "87",
+    "name_en": "Colombo - Jaffna",
+    "name_si": "කොළඹ - යාපනය (සාමාන්‍ය)",
+    "name_ta": "கொழும்பு - யாழ்ப்பாணம் (சாதாரண)",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 1200,
+    "frequency_minutes": 120,
+    "operating_hours": "06:00-18:00",
+    "stops": [
+      "Colombo Fort",
+      "Kurunegala",
+      "Dambulla",
+      "Anuradhapura",
+      "Medawachchiya",
+      "Vavuniya",
+      "Kilinochchi",
+      "Jaffna"
+    ]
+  },
+  {
+    "id": "87/769",
+    "name_en": "Colombo - (via 87/769)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1368,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "88-6",
+    "name_en": "Colombo - (via 88-6)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 623,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "89",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1008,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "92-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 314,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "92-5",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 205,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "92/929-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 383,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98",
+    "name_en": "Colombo - Mannar",
+    "name_si": "කොළඹ - අවිස්සාවේල්ල",
+    "name_ta": "கொழும்பு - அவிசாவளை",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 80,
+    "frequency_minutes": 10,
+    "operating_hours": "05:00-21:00",
+    "stops": [
+      "Colombo Fort",
+      "Nugegoda",
+      "Kottawa",
+      "Padukka",
+      "Avissawella"
+    ]
+  },
+  {
+    "id": "98-1",
+    "name_en": "Colombo - (via 98-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1210,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98-11",
+    "name_en": "Colombo - (via 98-11)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 875,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98-17",
+    "name_en": "Colombo - (via 98-17)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1293,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98-19",
+    "name_en": "Colombo - (via 98-19)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1331,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98-2",
+    "name_en": "Colombo - (via 98-2)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 901,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98-4",
+    "name_en": "Colombo - (via 98-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1128,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98-8",
+    "name_en": "Colombo - (via 98-8)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1186,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98/486-1",
+    "name_en": "Colombo - (via 98/486-1)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 598,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "99-10",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 845,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "99-8",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 944,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "99/314",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 964,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "99/318",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 995,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "100",
+    "name_en": "Pettah - Panadura",
+    "name_si": "කොළඹ කොටුව - පානදුර",
+    "name_ta": "கொழும்பு கோட்டை - பாணந்துறை",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 60,
+    "frequency_minutes": 5,
+    "operating_hours": "04:30-23:00",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Lotus Road",
+      "Galle Face Green",
+      "Kollupitiya Junc.",
+      "Mahanama College",
+      "British Council",
+      "Bambalapitiya Junc.",
+      "Holy Family Convent, Bambalapitiya",
+      "Savoy Cinema, Wellawatte",
+      "Wellawatte Junc.",
+      "Delmon Hospital",
+      "Ramakrishna Road",
+      "William Grinding Mills",
+      "Dehiwala Municipal Council",
+      "Holy Family Convent, Dehiwala",
+      "Dehiwala Junc.",
+      "Dehiwala Cemetery",
+      "Hotel Road, Mt. Lavinia",
+      "Mount Lavinia Junc.",
+      "Maliban Junc.",
+      "Belekkade Junc., Rathmalana",
+      "Rathmalana Airport",
+      "Soysapura",
+      "Katubedda Junc.",
+      "Rawatawatta",
+      "Moratuwa",
+      "Panadura"
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Lotus Road",
+        "lat": 6.933978,
+        "lng": 79.846991
+      },
+      {
+        "name": "Galle Face Green",
+        "lat": 6.921959,
+        "lng": 79.846085
+      },
+      {
+        "name": "Kollupitiya Junc.",
+        "lat": 6.911159,
+        "lng": 79.849652
+      },
+      {
+        "name": "Mahanama College",
+        "lat": 6.905679,
+        "lng": 79.853579
+      },
+      {
+        "name": "British Council",
+        "lat": 6.899832,
+        "lng": 79.855542
+      },
+      {
+        "name": "Bambalapitiya Junc.",
+        "lat": 6.893686,
+        "lng": 79.855456
+      },
+      {
+        "name": "Holy Family Convent, Bambalapitiya",
+        "lat": 6.887812,
+        "lng": 79.857318
+      },
+      {
+        "name": "Savoy Cinema, Wellawatte",
+        "lat": 6.88027,
+        "lng": 79.85956
+      },
+      {
+        "name": "Wellawatte Junc.",
+        "lat": 6.875344,
+        "lng": 79.861014
+      },
+      {
+        "name": "Delmon Hospital",
+        "lat": 6.870711,
+        "lng": 79.86206
+      },
+      {
+        "name": "Ramakrishna Road",
+        "lat": 6.865896,
+        "lng": 79.863047
+      },
+      {
+        "name": "William Grinding Mills",
+        "lat": 6.862514,
+        "lng": 79.863766
+      },
+      {
+        "name": "Dehiwala Municipal Council",
+        "lat": 6.861033,
+        "lng": 79.864125
+      },
+      {
+        "name": "Holy Family Convent, Dehiwala",
+        "lat": 6.857172,
+        "lng": 79.865016
+      },
+      {
+        "name": "Dehiwala Junc.",
+        "lat": 6.850823,
+        "lng": 79.865992
+      },
+      {
+        "name": "Dehiwala Cemetery",
+        "lat": 6.844933,
+        "lng": 79.866217
+      },
+      {
+        "name": "Hotel Road, Mt. Lavinia",
+        "lat": 6.841971,
+        "lng": 79.866904
+      },
+      {
+        "name": "Mount Lavinia Junc.",
+        "lat": 6.832959,
+        "lng": 79.867301
+      },
+      {
+        "name": "Maliban Junc.",
+        "lat": 6.81943,
+        "lng": 79.873706
+      },
+      {
+        "name": "Belekkade Junc., Rathmalana",
+        "lat": 6.814743,
+        "lng": 79.87877
+      },
+      {
+        "name": "Rathmalana Airport",
+        "lat": 6.812442,
+        "lng": 79.881152
+      },
+      {
+        "name": "Soysapura",
+        "lat": 6.804622,
+        "lng": 79.886688
+      },
+      {
+        "name": "Katubedda Junc.",
+        "lat": 6.797325,
+        "lng": 79.888533
+      },
+      {
+        "name": "Rawatawatta",
+        "lat": 6.788035,
+        "lng": 79.885111
+      },
+      {
+        "name": "Moratuwa",
+        "lat": 6.774494,
+        "lng": 79.88245
+      },
+      {
+        "name": "Panadura",
+        "lat": 6.711376,
+        "lng": 79.907609
+      }
+    ]
+  },
+  {
+    "id": "101",
+    "name_en": "Pettah - Moratuwa",
+    "name_si": "කොළඹ කොටුව - පිළියන්දල",
+    "name_ta": "கொழும்பு கோட்டை - பிலியந்தலை",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 50,
+    "frequency_minutes": 5,
+    "operating_hours": "05:00-22:00",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Regal Cinema",
+      "Slave Island",
+      "Gangarama",
+      "Kollupitiya Junc.",
+      "Mahanama College",
+      "British Council",
+      "Bambalapitiya Junc.",
+      "Holy Family Convent, Bambalapitiya",
+      "Savoy Cinema, Wellawatte",
+      "Wellawatte Junc.",
+      "Delmon Hospital",
+      "Ramakrishna Road",
+      "William Grinding Mills",
+      "Dehiwala Municipal Council",
+      "Holy Family Convent, Dehiwala",
+      "Dehiwala Junc.",
+      "Dehiwala Cemetery",
+      "Hotel Road, Mt. Lavinia",
+      "Mount Lavinia Junc.",
+      "Maliban Junc.",
+      "Belekkade Junc., Rathmalana",
+      "Rathmalana Airport",
+      "Soysapura",
+      "Katubedda Junc.",
+      "Rawatawatta",
+      "Moratuwa"
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Regal Cinema",
+        "lat": 6.931283,
+        "lng": 79.846959
+      },
+      {
+        "name": "Slave Island",
+        "lat": 6.923296,
+        "lng": 79.851626
+      },
+      {
+        "name": "Gangarama",
+        "lat": 6.918109,
+        "lng": 79.854341
+      },
+      {
+        "name": "Kollupitiya Junc.",
+        "lat": 6.911159,
+        "lng": 79.849652
+      },
+      {
+        "name": "Mahanama College",
+        "lat": 6.905679,
+        "lng": 79.853579
+      },
+      {
+        "name": "British Council",
+        "lat": 6.899832,
+        "lng": 79.855542
+      },
+      {
+        "name": "Bambalapitiya Junc.",
+        "lat": 6.893686,
+        "lng": 79.855456
+      },
+      {
+        "name": "Holy Family Convent, Bambalapitiya",
+        "lat": 6.887812,
+        "lng": 79.857318
+      },
+      {
+        "name": "Savoy Cinema, Wellawatte",
+        "lat": 6.88027,
+        "lng": 79.85956
+      },
+      {
+        "name": "Wellawatte Junc.",
+        "lat": 6.875344,
+        "lng": 79.861014
+      },
+      {
+        "name": "Delmon Hospital",
+        "lat": 6.870711,
+        "lng": 79.86206
+      },
+      {
+        "name": "Ramakrishna Road",
+        "lat": 6.865896,
+        "lng": 79.863047
+      },
+      {
+        "name": "William Grinding Mills",
+        "lat": 6.862514,
+        "lng": 79.863766
+      },
+      {
+        "name": "Dehiwala Municipal Council",
+        "lat": 6.861033,
+        "lng": 79.864125
+      },
+      {
+        "name": "Holy Family Convent, Dehiwala",
+        "lat": 6.857172,
+        "lng": 79.865016
+      },
+      {
+        "name": "Dehiwala Junc.",
+        "lat": 6.850823,
+        "lng": 79.865992
+      },
+      {
+        "name": "Dehiwala Cemetery",
+        "lat": 6.844933,
+        "lng": 79.866217
+      },
+      {
+        "name": "Hotel Road, Mt. Lavinia",
+        "lat": 6.841971,
+        "lng": 79.866904
+      },
+      {
+        "name": "Mount Lavinia Junc.",
+        "lat": 6.832959,
+        "lng": 79.867301
+      },
+      {
+        "name": "Maliban Junc.",
+        "lat": 6.81943,
+        "lng": 79.873706
+      },
+      {
+        "name": "Belekkade Junc., Rathmalana",
+        "lat": 6.814743,
+        "lng": 79.87877
+      },
+      {
+        "name": "Rathmalana Airport",
+        "lat": 6.812442,
+        "lng": 79.881152
+      },
+      {
+        "name": "Soysapura",
+        "lat": 6.804622,
+        "lng": 79.886688
+      },
+      {
+        "name": "Katubedda Junc.",
+        "lat": 6.797325,
+        "lng": 79.888533
+      },
+      {
+        "name": "Rawatawatta",
+        "lat": 6.788035,
+        "lng": 79.885111
+      },
+      {
+        "name": "Moratuwa",
+        "lat": 6.774494,
+        "lng": 79.88245
+      }
+    ]
+  },
+  {
+    "id": "103",
+    "name_en": "Narahenpita - Fort",
+    "name_si": "කොළඹ කොටුව - බොරැල්ල - නාරාහේන්පිට",
+    "name_ta": "கொழும்பு கோட்டை - பொரெல்ல - நாரஹேன்பிட்ட",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 40,
+    "frequency_minutes": 5,
+    "operating_hours": "04:30-23:00",
+    "stops": [
+      "Narahenpita Junc.",
+      "Borella Cemetery Junc.",
+      "Horton Place - Baseline Junc.",
+      "Borella",
+      "Ananda College",
+      "Maradana",
+      "Pettah",
+      "Fort Railway Station"
+    ],
+    "stop_coords": [
+      {
+        "name": "Narahenpita Junc.",
+        "lat": 6.891886,
+        "lng": 79.877011
+      },
+      {
+        "name": "Borella Cemetery Junc.",
+        "lat": 6.908587,
+        "lng": 79.877279
+      },
+      {
+        "name": "Horton Place - Baseline Junc.",
+        "lat": 6.91126,
+        "lng": 79.877472
+      },
+      {
+        "name": "Borella",
+        "lat": 6.914743,
+        "lng": 79.877601
+      },
+      {
+        "name": "Ananda College",
+        "lat": 6.924499,
+        "lng": 79.868031
+      },
+      {
+        "name": "Maradana",
+        "lat": 6.928237,
+        "lng": 79.864619
+      },
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      }
+    ]
+  },
+  {
+    "id": "117",
+    "name_en": "Nugegoda - Ratmalana",
+    "name_si": "නුගේගොඩ - රත්මලාන",
+    "name_ta": "நுகேகொடா - இரத்மலானை",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 35,
+    "frequency_minutes": 20,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Nugegoda",
+      "Wijerama",
+      "Gangodawila",
+      "Dehiwala",
+      "Ratmalana"
+    ],
+    "stop_coords": [
+      {
+        "name": "Kattiya Junction Bus Stop",
+        "lat": 6.8692248,
+        "lng": 79.8978595
+      }
+    ]
+  },
+  {
+    "id": "119",
+    "name_en": "Dehiwala - Maharagama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [
+      "Dehiwala Junc.",
+      "Karagampitiya",
+      "Nandimala",
+      "Bellanthota Junc.",
+      "Boralesgamuwa",
+      "Maharagama"
+    ],
+    "stop_coords": [
+      {
+        "name": "Dehiwala Junc.",
+        "lat": 6.850823,
+        "lng": 79.865992
+      },
+      {
+        "name": "Karagampitiya",
+        "lat": 6.850253,
+        "lng": 79.872022
+      },
+      {
+        "name": "Nandimala",
+        "lat": 6.849859,
+        "lng": 79.879398
+      },
+      {
+        "name": "Bellanthota Junc.",
+        "lat": 6.848315,
+        "lng": 79.885433
+      },
+      {
+        "name": "Boralesgamuwa",
+        "lat": 6.841242,
+        "lng": 79.901612
+      },
+      {
+        "name": "Maharagama",
+        "lat": 6.846083,
+        "lng": 79.928144
+      }
+    ]
+  },
+  {
+    "id": "120",
+    "name_en": "Pettah - Horana",
+    "name_si": "කොළඹ කොටුව - මීගමුව",
+    "name_ta": "கொழும்பு கோட்டை - நீர்கொழும்பு",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 100,
+    "frequency_minutes": 10,
+    "operating_hours": "04:30-22:00",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Lake House",
+      "Gamini Hall Junc.",
+      "Darley Road/Excel World",
+      "Town Hall",
+      "Race Course Grounds",
+      "Campus (Arts Faculty)",
+      "Thunmulla",
+      "Police Park",
+      "Thimbirigasyaya",
+      "BRC Grounds",
+      "Redimola Junc.",
+      "Maya Ave.",
+      "Stratford Avenue",
+      "Dutugemunu Street",
+      "Kohuwala",
+      "Woodlands",
+      "Pepiliyana",
+      "Raththanapitiya",
+      "Boralesgamuwa",
+      "Werahera",
+      "Bokundara",
+      "Piliyandala",
+      "Kesbewa",
+      "Polgasovita",
+      "Kahathuduwa",
+      "Horana"
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Lake House",
+        "lat": 6.932609,
+        "lng": 79.847989
+      },
+      {
+        "name": "Gamini Hall Junc.",
+        "lat": 6.926533,
+        "lng": 79.861813
+      },
+      {
+        "name": "Darley Road/Excel World",
+        "lat": 6.921661,
+        "lng": 79.862167
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Race Course Grounds",
+        "lat": 6.90618,
+        "lng": 79.863685
+      },
+      {
+        "name": "Campus (Arts Faculty)",
+        "lat": 6.90258,
+        "lng": 79.862237
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Police Park",
+        "lat": 6.892876,
+        "lng": 79.861979
+      },
+      {
+        "name": "Thimbirigasyaya",
+        "lat": 6.889979,
+        "lng": 79.863793
+      },
+      {
+        "name": "BRC Grounds",
+        "lat": 6.887529,
+        "lng": 79.864501
+      },
+      {
+        "name": "Redimola Junc.",
+        "lat": 6.883631,
+        "lng": 79.868277
+      },
+      {
+        "name": "Maya Ave.",
+        "lat": 6.880766,
+        "lng": 79.870402
+      },
+      {
+        "name": "Stratford Avenue",
+        "lat": 6.877613,
+        "lng": 79.873019
+      },
+      {
+        "name": "Dutugemunu Street",
+        "lat": 6.870593,
+        "lng": 79.877359
+      },
+      {
+        "name": "Kohuwala",
+        "lat": 6.867068,
+        "lng": 79.884574
+      },
+      {
+        "name": "Woodlands",
+        "lat": 6.862301,
+        "lng": 79.888394
+      },
+      {
+        "name": "Pepiliyana",
+        "lat": 6.856661,
+        "lng": 79.890647
+      },
+      {
+        "name": "Raththanapitiya",
+        "lat": 6.848336,
+        "lng": 79.897599
+      },
+      {
+        "name": "Boralesgamuwa",
+        "lat": 6.841242,
+        "lng": 79.901612
+      },
+      {
+        "name": "Werahera",
+        "lat": 6.829721,
+        "lng": 79.911391
+      },
+      {
+        "name": "Bokundara",
+        "lat": 6.818621,
+        "lng": 79.917727
+      },
+      {
+        "name": "Piliyandala",
+        "lat": 6.801219,
+        "lng": 79.923338
+      },
+      {
+        "name": "Kesbewa",
+        "lat": 6.795519,
+        "lng": 79.940804
+      },
+      {
+        "name": "Polgasovita",
+        "lat": 6.78698,
+        "lng": 79.964896
+      },
+      {
+        "name": "Kahathuduwa",
+        "lat": 6.783465,
+        "lng": 79.983408
+      },
+      {
+        "name": "Horana",
+        "lat": 6.716624,
+        "lng": 80.063826
+      }
+    ]
+  },
+  {
+    "id": "122",
+    "name_en": "Pettah - Avissawella",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 378,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/210-4",
+    "name_en": "Pettah - (via 122/210-4)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 756,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/210-5",
+    "name_en": "Pettah - (via 122/210-5)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 661,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/210/168",
+    "name_en": "Pettah - (via 122/210/168)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 743,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/210/211",
+    "name_en": "Pettah - (via 122/210/211)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 781,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/98-19",
+    "name_en": "Pettah - (via 122/98-19)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 970,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/98/199/02",
+    "name_en": "Pettah - (via 122/98/199/02)",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1033,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "125",
+    "name_en": "Pettah - Padukka",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Lake House",
+      "Gamini Hall Junc.",
+      "Darley Road/Excel World",
+      "Town Hall",
+      "Public Library",
+      "Race Course Grounds",
+      "Campus (Arts Faculty)",
+      "Thunmulla",
+      "Police Park",
+      "Thimbirigasyaya",
+      "BRC Grounds",
+      "Redimola Junc.",
+      "Maya Ave.",
+      "Kirulapone Junc.",
+      "Kirulapone South",
+      "Balapokuna Road",
+      "Anula Vidyalaya",
+      "Nugegoda",
+      "Seventh Mile Post",
+      "Gansabha Junc.",
+      "Delkanda",
+      "Wijerama",
+      "Navinna",
+      "Wattegedara Junc.",
+      "Maharagama",
+      "Pannipitiya",
+      "Kottawa",
+      "Makumbura",
+      "Panagoda",
+      "Homagama",
+      "Godagama",
+      "Migoda",
+      "Padukka"
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Lake House",
+        "lat": 6.932609,
+        "lng": 79.847989
+      },
+      {
+        "name": "Gamini Hall Junc.",
+        "lat": 6.926533,
+        "lng": 79.861813
+      },
+      {
+        "name": "Darley Road/Excel World",
+        "lat": 6.921661,
+        "lng": 79.862167
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Race Course Grounds",
+        "lat": 6.90618,
+        "lng": 79.863685
+      },
+      {
+        "name": "Campus (Arts Faculty)",
+        "lat": 6.90258,
+        "lng": 79.862237
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Police Park",
+        "lat": 6.892876,
+        "lng": 79.861979
+      },
+      {
+        "name": "Thimbirigasyaya",
+        "lat": 6.889979,
+        "lng": 79.863793
+      },
+      {
+        "name": "BRC Grounds",
+        "lat": 6.887529,
+        "lng": 79.864501
+      },
+      {
+        "name": "Redimola Junc.",
+        "lat": 6.883631,
+        "lng": 79.868277
+      },
+      {
+        "name": "Maya Ave.",
+        "lat": 6.880766,
+        "lng": 79.870402
+      },
+      {
+        "name": "Kirulapone Junc.",
+        "lat": 6.878582,
+        "lng": 79.874629
+      },
+      {
+        "name": "Kirulapone South",
+        "lat": 6.877719,
+        "lng": 79.878631
+      },
+      {
+        "name": "Balapokuna Road",
+        "lat": 6.873842,
+        "lng": 79.881849
+      },
+      {
+        "name": "Anula Vidyalaya",
+        "lat": 6.871946,
+        "lng": 79.884317
+      },
+      {
+        "name": "Nugegoda",
+        "lat": 6.869315,
+        "lng": 79.889628
+      },
+      {
+        "name": "Seventh Mile Post",
+        "lat": 6.866855,
+        "lng": 79.893297
+      },
+      {
+        "name": "Gansabha Junc.",
+        "lat": 6.865108,
+        "lng": 79.896559
+      },
+      {
+        "name": "Delkanda",
+        "lat": 6.862818,
+        "lng": 79.901794
+      },
+      {
+        "name": "Wijerama",
+        "lat": 6.857641,
+        "lng": 79.908607
+      },
+      {
+        "name": "Navinna",
+        "lat": 6.855105,
+        "lng": 79.913392
+      },
+      {
+        "name": "Wattegedara Junc.",
+        "lat": 6.851228,
+        "lng": 79.921106
+      },
+      {
+        "name": "Maharagama",
+        "lat": 6.846083,
+        "lng": 79.928144
+      },
+      {
+        "name": "Pannipitiya",
+        "lat": 6.8462,
+        "lng": 79.949698
+      },
+      {
+        "name": "Kottawa",
+        "lat": 6.841673,
+        "lng": 79.963989
+      },
+      {
+        "name": "Makumbura",
+        "lat": 6.838616,
+        "lng": 79.979954
+      },
+      {
+        "name": "Panagoda",
+        "lat": 6.848267,
+        "lng": 80.018798
+      },
+      {
+        "name": "Homagama",
+        "lat": 6.84113,
+        "lng": 80.002012
+      },
+      {
+        "name": "Godagama",
+        "lat": 6.851478,
+        "lng": 80.031608
+      },
+      {
+        "name": "Migoda",
+        "lat": 6.84423,
+        "lng": 80.046719
+      },
+      {
+        "name": "Padukka",
+        "lat": 6.841465,
+        "lng": 80.090777
+      }
+    ]
+  },
+  {
+    "id": "128",
+    "name_en": "Colombo - Horana",
+    "name_si": "කොළඹ - හලාවත",
+    "name_ta": "கொழும்பு - சிலாபம்",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 200,
+    "frequency_minutes": 30,
+    "operating_hours": "05:00-20:00",
+    "stops": [
+      "Colombo Fort",
+      "Wattala",
+      "Negombo",
+      "Wennappuwa",
+      "Marawila",
+      "Chilaw"
+    ]
+  },
+  {
+    "id": "131, 140, 152, 164, 166",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "135",
+    "name_en": "Kohuwala - Kelaniya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [
+      "Kohuwala",
+      "Dutugemunu Street",
+      "Pamankada",
+      "Suwisuddharamaya",
+      "Redimola Junc.",
+      "BRC Grounds",
+      "Thimbirigasyaya",
+      "Narahenpita Junc.",
+      "Borella Cemetery Junc.",
+      "Horton Place - Baseline Junc.",
+      "Borella"
+    ],
+    "stop_coords": [
+      {
+        "name": "Kohuwala",
+        "lat": 6.867068,
+        "lng": 79.884574
+      },
+      {
+        "name": "Dutugemunu Street",
+        "lat": 6.870593,
+        "lng": 79.877359
+      },
+      {
+        "name": "Pamankada",
+        "lat": 6.876984,
+        "lng": 79.869661
+      },
+      {
+        "name": "Suwisuddharamaya",
+        "lat": 6.880127,
+        "lng": 79.869554
+      },
+      {
+        "name": "Redimola Junc.",
+        "lat": 6.883631,
+        "lng": 79.868277
+      },
+      {
+        "name": "BRC Grounds",
+        "lat": 6.887529,
+        "lng": 79.864501
+      },
+      {
+        "name": "Thimbirigasyaya",
+        "lat": 6.889979,
+        "lng": 79.863793
+      },
+      {
+        "name": "Narahenpita Junc.",
+        "lat": 6.891886,
+        "lng": 79.877011
+      },
+      {
+        "name": "Borella Cemetery Junc.",
+        "lat": 6.908587,
+        "lng": 79.877279
+      },
+      {
+        "name": "Horton Place - Baseline Junc.",
+        "lat": 6.91126,
+        "lng": 79.877472
+      },
+      {
+        "name": "Borella",
+        "lat": 6.914743,
+        "lng": 79.877601
+      }
+    ]
+  },
+  {
+    "id": "138",
+    "name_en": "Pettah - Kottawa",
+    "name_si": "කොළඹ - කුරුණෑගල",
+    "name_ta": "கொழும்பு - குருநாகல்",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 280,
+    "frequency_minutes": 20,
+    "operating_hours": "05:00-20:00",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Regal Cinema",
+      "Slave Island",
+      "Town Hall",
+      "Public Library",
+      "Glass House",
+      "Race Course Grounds",
+      "Campus (Arts Faculty)",
+      "Thunmulla",
+      "Police Park",
+      "Thimbirigasyaya",
+      "BRC Grounds",
+      "Redimola Junc.",
+      "Maya Ave.",
+      "Kirulapone Junc.",
+      "Kirulapone South",
+      "Balapokuna Road",
+      "Anula Vidyalaya",
+      "Nugegoda",
+      "Seventh Mile Post",
+      "Gansabha Junc.",
+      "Delkanda",
+      "Wijerama",
+      "Navinna",
+      "Wattegedara Junc.",
+      "Maharagama",
+      "Pannipitiya",
+      "Kottawa"
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Regal Cinema",
+        "lat": 6.931283,
+        "lng": 79.846959
+      },
+      {
+        "name": "Slave Island",
+        "lat": 6.923296,
+        "lng": 79.851626
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Glass House",
+        "lat": 6.910941,
+        "lng": 79.858342
+      },
+      {
+        "name": "Race Course Grounds",
+        "lat": 6.90618,
+        "lng": 79.863685
+      },
+      {
+        "name": "Campus (Arts Faculty)",
+        "lat": 6.90258,
+        "lng": 79.862237
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Police Park",
+        "lat": 6.892876,
+        "lng": 79.861979
+      },
+      {
+        "name": "Thimbirigasyaya",
+        "lat": 6.889979,
+        "lng": 79.863793
+      },
+      {
+        "name": "BRC Grounds",
+        "lat": 6.887529,
+        "lng": 79.864501
+      },
+      {
+        "name": "Redimola Junc.",
+        "lat": 6.883631,
+        "lng": 79.868277
+      },
+      {
+        "name": "Maya Ave.",
+        "lat": 6.880766,
+        "lng": 79.870402
+      },
+      {
+        "name": "Kirulapone Junc.",
+        "lat": 6.878582,
+        "lng": 79.874629
+      },
+      {
+        "name": "Kirulapone South",
+        "lat": 6.877719,
+        "lng": 79.878631
+      },
+      {
+        "name": "Balapokuna Road",
+        "lat": 6.873842,
+        "lng": 79.881849
+      },
+      {
+        "name": "Anula Vidyalaya",
+        "lat": 6.871946,
+        "lng": 79.884317
+      },
+      {
+        "name": "Nugegoda",
+        "lat": 6.869315,
+        "lng": 79.889628
+      },
+      {
+        "name": "Seventh Mile Post",
+        "lat": 6.866855,
+        "lng": 79.893297
+      },
+      {
+        "name": "Gansabha Junc.",
+        "lat": 6.865108,
+        "lng": 79.896559
+      },
+      {
+        "name": "Delkanda",
+        "lat": 6.862818,
+        "lng": 79.901794
+      },
+      {
+        "name": "Wijerama",
+        "lat": 6.857641,
+        "lng": 79.908607
+      },
+      {
+        "name": "Navinna",
+        "lat": 6.855105,
+        "lng": 79.913392
+      },
+      {
+        "name": "Wattegedara Junc.",
+        "lat": 6.851228,
+        "lng": 79.921106
+      },
+      {
+        "name": "Maharagama",
+        "lat": 6.846083,
+        "lng": 79.928144
+      },
+      {
+        "name": "Pannipitiya",
+        "lat": 6.8462,
+        "lng": 79.949698
+      },
+      {
+        "name": "Kottawa",
+        "lat": 6.841673,
+        "lng": 79.963989
+      }
+    ]
+  },
+  {
+    "id": "138/2",
+    "name_en": "Pettah - Mattegoda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Regal Cinema",
+      "Slave Island",
+      "Town Hall",
+      "Public Library",
+      "Glass House",
+      "Race Course Grounds",
+      "Campus (Arts Faculty)",
+      "Thunmulla",
+      "Police Park",
+      "Thimbirigasyaya",
+      "BRC Grounds",
+      "Redimola Junc.",
+      "Maya Ave.",
+      "Kirulapone Junc.",
+      "Kirulapone South",
+      "Balapokuna Road",
+      "Anula Vidyalaya",
+      "Nugegoda",
+      "Seventh Mile Post",
+      "Gansabha Junc.",
+      "Delkanda",
+      "Wijerama",
+      "Navinna",
+      "Wattegedara Junc.",
+      "Maharagama",
+      "Pannipitiya",
+      "Kottawa",
+      "Pinhena Junc.",
+      "Mattegoda"
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Regal Cinema",
+        "lat": 6.931283,
+        "lng": 79.846959
+      },
+      {
+        "name": "Slave Island",
+        "lat": 6.923296,
+        "lng": 79.851626
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Glass House",
+        "lat": 6.910941,
+        "lng": 79.858342
+      },
+      {
+        "name": "Race Course Grounds",
+        "lat": 6.90618,
+        "lng": 79.863685
+      },
+      {
+        "name": "Campus (Arts Faculty)",
+        "lat": 6.90258,
+        "lng": 79.862237
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Police Park",
+        "lat": 6.892876,
+        "lng": 79.861979
+      },
+      {
+        "name": "Thimbirigasyaya",
+        "lat": 6.889979,
+        "lng": 79.863793
+      },
+      {
+        "name": "BRC Grounds",
+        "lat": 6.887529,
+        "lng": 79.864501
+      },
+      {
+        "name": "Redimola Junc.",
+        "lat": 6.883631,
+        "lng": 79.868277
+      },
+      {
+        "name": "Maya Ave.",
+        "lat": 6.880766,
+        "lng": 79.870402
+      },
+      {
+        "name": "Kirulapone Junc.",
+        "lat": 6.878582,
+        "lng": 79.874629
+      },
+      {
+        "name": "Kirulapone South",
+        "lat": 6.877719,
+        "lng": 79.878631
+      },
+      {
+        "name": "Balapokuna Road",
+        "lat": 6.873842,
+        "lng": 79.881849
+      },
+      {
+        "name": "Anula Vidyalaya",
+        "lat": 6.871946,
+        "lng": 79.884317
+      },
+      {
+        "name": "Nugegoda",
+        "lat": 6.869315,
+        "lng": 79.889628
+      },
+      {
+        "name": "Seventh Mile Post",
+        "lat": 6.866855,
+        "lng": 79.893297
+      },
+      {
+        "name": "Gansabha Junc.",
+        "lat": 6.865108,
+        "lng": 79.896559
+      },
+      {
+        "name": "Delkanda",
+        "lat": 6.862818,
+        "lng": 79.901794
+      },
+      {
+        "name": "Wijerama",
+        "lat": 6.857641,
+        "lng": 79.908607
+      },
+      {
+        "name": "Navinna",
+        "lat": 6.855105,
+        "lng": 79.913392
+      },
+      {
+        "name": "Wattegedara Junc.",
+        "lat": 6.851228,
+        "lng": 79.921106
+      },
+      {
+        "name": "Maharagama",
+        "lat": 6.846083,
+        "lng": 79.928144
+      },
+      {
+        "name": "Pannipitiya",
+        "lat": 6.8462,
+        "lng": 79.949698
+      },
+      {
+        "name": "Kottawa",
+        "lat": 6.841673,
+        "lng": 79.963989
+      },
+      {
+        "name": "Pinhena Junc.",
+        "lat": 6.832778,
+        "lng": 79.964654
+      },
+      {
+        "name": "Mattegoda",
+        "lat": 6.811579,
+        "lng": 79.975083
+      }
+    ]
+  },
+  {
+    "id": "138/3",
+    "name_en": "Pettah - Rukmalgama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Regal Cinema",
+      "Slave Island",
+      "Town Hall",
+      "Public Library",
+      "Glass House",
+      "Race Course Grounds",
+      "Campus (Arts Faculty)",
+      "Thunmulla",
+      "Police Park",
+      "Thimbirigasyaya",
+      "BRC Grounds",
+      "Redimola Junc.",
+      "Maya Ave.",
+      "Kirulapone Junc.",
+      "Kirulapone South",
+      "Balapokuna Road",
+      "Anula Vidyalaya",
+      "Nugegoda",
+      "Seventh Mile Post",
+      "Gansabha Junc.",
+      "Delkanda",
+      "Wijerama",
+      "Navinna",
+      "Wattegedara Junc.",
+      "Maharagama",
+      "Pannipitiya",
+      "Kottawa",
+      "Kottawa Railway Station",
+      "Rukmalgama"
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Regal Cinema",
+        "lat": 6.931283,
+        "lng": 79.846959
+      },
+      {
+        "name": "Slave Island",
+        "lat": 6.923296,
+        "lng": 79.851626
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Glass House",
+        "lat": 6.910941,
+        "lng": 79.858342
+      },
+      {
+        "name": "Race Course Grounds",
+        "lat": 6.90618,
+        "lng": 79.863685
+      },
+      {
+        "name": "Campus (Arts Faculty)",
+        "lat": 6.90258,
+        "lng": 79.862237
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Police Park",
+        "lat": 6.892876,
+        "lng": 79.861979
+      },
+      {
+        "name": "Thimbirigasyaya",
+        "lat": 6.889979,
+        "lng": 79.863793
+      },
+      {
+        "name": "BRC Grounds",
+        "lat": 6.887529,
+        "lng": 79.864501
+      },
+      {
+        "name": "Redimola Junc.",
+        "lat": 6.883631,
+        "lng": 79.868277
+      },
+      {
+        "name": "Maya Ave.",
+        "lat": 6.880766,
+        "lng": 79.870402
+      },
+      {
+        "name": "Kirulapone Junc.",
+        "lat": 6.878582,
+        "lng": 79.874629
+      },
+      {
+        "name": "Kirulapone South",
+        "lat": 6.877719,
+        "lng": 79.878631
+      },
+      {
+        "name": "Balapokuna Road",
+        "lat": 6.873842,
+        "lng": 79.881849
+      },
+      {
+        "name": "Anula Vidyalaya",
+        "lat": 6.871946,
+        "lng": 79.884317
+      },
+      {
+        "name": "Nugegoda",
+        "lat": 6.869315,
+        "lng": 79.889628
+      },
+      {
+        "name": "Seventh Mile Post",
+        "lat": 6.866855,
+        "lng": 79.893297
+      },
+      {
+        "name": "Gansabha Junc.",
+        "lat": 6.865108,
+        "lng": 79.896559
+      },
+      {
+        "name": "Delkanda",
+        "lat": 6.862818,
+        "lng": 79.901794
+      },
+      {
+        "name": "Wijerama",
+        "lat": 6.857641,
+        "lng": 79.908607
+      },
+      {
+        "name": "Navinna",
+        "lat": 6.855105,
+        "lng": 79.913392
+      },
+      {
+        "name": "Wattegedara Junc.",
+        "lat": 6.851228,
+        "lng": 79.921106
+      },
+      {
+        "name": "Maharagama",
+        "lat": 6.846083,
+        "lng": 79.928144
+      },
+      {
+        "name": "Pannipitiya",
+        "lat": 6.8462,
+        "lng": 79.949698
+      },
+      {
+        "name": "Kottawa",
+        "lat": 6.841673,
+        "lng": 79.963989
+      },
+      {
+        "name": "Kottawa Railway Station",
+        "lat": 6.844006,
+        "lng": 79.968152
+      },
+      {
+        "name": "Rukmalgama",
+        "lat": 6.856916,
+        "lng": 79.985855
+      }
+    ]
+  },
+  {
+    "id": "138/4",
+    "name_en": "Pettah - Athurugiriya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [
+      "Pettah",
+      "Fort Railway Station",
+      "Regal Cinema",
+      "Slave Island",
+      "Town Hall",
+      "Public Library",
+      "Glass House",
+      "Race Course Grounds",
+      "Campus (Arts Faculty)",
+      "Thunmulla",
+      "Police Park",
+      "Thimbirigasyaya",
+      "BRC Grounds",
+      "Redimola Junc.",
+      "Maya Ave.",
+      "Kirulapone Junc.",
+      "Kirulapone South",
+      "Balapokuna Road",
+      "Anula Vidyalaya",
+      "Nugegoda",
+      "Seventh Mile Post",
+      "Gansabha Junc.",
+      "Delkanda",
+      "Wijerama",
+      "Navinna",
+      "Wattegedara Junc.",
+      "Maharagama",
+      "Pannipitiya",
+      "Kottawa",
+      "Kottawa Railway Station",
+      "Rukmalgama",
+      "Walgama Junc., Athurugiriya",
+      "Athurugiriya Junc."
+    ],
+    "stop_coords": [
+      {
+        "name": "Pettah",
+        "lat": 6.933211,
+        "lng": 79.855435
+      },
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Regal Cinema",
+        "lat": 6.931283,
+        "lng": 79.846959
+      },
+      {
+        "name": "Slave Island",
+        "lat": 6.923296,
+        "lng": 79.851626
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Glass House",
+        "lat": 6.910941,
+        "lng": 79.858342
+      },
+      {
+        "name": "Race Course Grounds",
+        "lat": 6.90618,
+        "lng": 79.863685
+      },
+      {
+        "name": "Campus (Arts Faculty)",
+        "lat": 6.90258,
+        "lng": 79.862237
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Police Park",
+        "lat": 6.892876,
+        "lng": 79.861979
+      },
+      {
+        "name": "Thimbirigasyaya",
+        "lat": 6.889979,
+        "lng": 79.863793
+      },
+      {
+        "name": "BRC Grounds",
+        "lat": 6.887529,
+        "lng": 79.864501
+      },
+      {
+        "name": "Redimola Junc.",
+        "lat": 6.883631,
+        "lng": 79.868277
+      },
+      {
+        "name": "Maya Ave.",
+        "lat": 6.880766,
+        "lng": 79.870402
+      },
+      {
+        "name": "Kirulapone Junc.",
+        "lat": 6.878582,
+        "lng": 79.874629
+      },
+      {
+        "name": "Kirulapone South",
+        "lat": 6.877719,
+        "lng": 79.878631
+      },
+      {
+        "name": "Balapokuna Road",
+        "lat": 6.873842,
+        "lng": 79.881849
+      },
+      {
+        "name": "Anula Vidyalaya",
+        "lat": 6.871946,
+        "lng": 79.884317
+      },
+      {
+        "name": "Nugegoda",
+        "lat": 6.869315,
+        "lng": 79.889628
+      },
+      {
+        "name": "Seventh Mile Post",
+        "lat": 6.866855,
+        "lng": 79.893297
+      },
+      {
+        "name": "Gansabha Junc.",
+        "lat": 6.865108,
+        "lng": 79.896559
+      },
+      {
+        "name": "Delkanda",
+        "lat": 6.862818,
+        "lng": 79.901794
+      },
+      {
+        "name": "Wijerama",
+        "lat": 6.857641,
+        "lng": 79.908607
+      },
+      {
+        "name": "Navinna",
+        "lat": 6.855105,
+        "lng": 79.913392
+      },
+      {
+        "name": "Wattegedara Junc.",
+        "lat": 6.851228,
+        "lng": 79.921106
+      },
+      {
+        "name": "Maharagama",
+        "lat": 6.846083,
+        "lng": 79.928144
+      },
+      {
+        "name": "Pannipitiya",
+        "lat": 6.8462,
+        "lng": 79.949698
+      },
+      {
+        "name": "Kottawa",
+        "lat": 6.841673,
+        "lng": 79.963989
+      },
+      {
+        "name": "Kottawa Railway Station",
+        "lat": 6.844006,
+        "lng": 79.968152
+      },
+      {
+        "name": "Rukmalgama",
+        "lat": 6.856916,
+        "lng": 79.985855
+      },
+      {
+        "name": "Walgama Junc., Athurugiriya",
+        "lat": 6.864948,
+        "lng": 79.995832
+      },
+      {
+        "name": "Athurugiriya Junc.",
+        "lat": 6.877453,
+        "lng": 79.989502
+      }
+    ]
+  },
+  {
+    "id": "140",
+    "name_en": "Kollupitiya - Wellampitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [
+      "Kollupitiya Junc.",
+      "Alwis Place, Kollupitiya",
+      "Public Library",
+      "Town Hall",
+      "Maradana"
+    ],
+    "stop_coords": [
+      {
+        "name": "Kollupitiya Junc.",
+        "lat": 6.911159,
+        "lng": 79.849652
+      },
+      {
+        "name": "Alwis Place, Kollupitiya",
+        "lat": 6.912645,
+        "lng": 79.853911
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Maradana",
+        "lat": 6.928237,
+        "lng": 79.864619
+      }
+    ]
+  },
+  {
+    "id": "141",
+    "name_en": "Narahenpita - Wellawatte",
+    "name_si": "වැල්ලවත්ත - නාරාහේන්පිට",
+    "name_ta": "வெள்ளவத்தை - நாரஹேன்பிட்ட",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 30,
+    "frequency_minutes": 10,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Narahenpita Junc.",
+      "Apollo Hospital",
+      "Vijaya Kumaratunge Mw.",
+      "Kirulapone Junc.",
+      "Pamankada",
+      "Sapphire Halt",
+      "Wellawatte Junc."
+    ],
+    "stop_coords": [
+      {
+        "name": "Narahenpita Junc.",
+        "lat": 6.891886,
+        "lng": 79.877011
+      },
+      {
+        "name": "Apollo Hospital",
+        "lat": 6.889223,
+        "lng": 79.876893
+      },
+      {
+        "name": "Vijaya Kumaratunge Mw.",
+        "lat": 6.885527,
+        "lng": 79.876742
+      },
+      {
+        "name": "Kirulapone Junc.",
+        "lat": 6.878582,
+        "lng": 79.874629
+      },
+      {
+        "name": "Pamankada",
+        "lat": 6.876984,
+        "lng": 79.869661
+      },
+      {
+        "name": "Sapphire Halt",
+        "lat": 6.876697,
+        "lng": 79.866421
+      },
+      {
+        "name": "Wellawatte Junc.",
+        "lat": 6.875344,
+        "lng": 79.861014
+      }
+    ]
+  },
+  {
+    "id": "147",
+    "name_en": "Mount Lavinia - Bakery Junction",
+    "name_si": "ගල්කිස්ස - බේකරි හංදිය",
+    "name_ta": "கல்கிஸ்ஸை - பேக்கரி சந்தி",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 35,
+    "frequency_minutes": 15,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Mount Lavinia",
+      "Dehiwala",
+      "Wellawatte",
+      "Bambalapitiya",
+      "Bakery Junction"
+    ]
+  },
+  {
+    "id": "152",
+    "name_en": "Gothatuwa - Pettah",
+    "name_si": "ගෝතටුව - පිටකොටුව",
+    "name_ta": "கோதட்டுவ - புறக்கோட்டை",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 35,
+    "frequency_minutes": 10,
+    "operating_hours": "05:00-22:00",
+    "stops": [
+      "Gothatuwa",
+      "Rajagiriya",
+      "Borella",
+      "Maradana",
+      "Pettah"
+    ]
+  },
+  {
+    "id": "154",
+    "name_en": "Kiribathgoda - Angulana",
+    "name_si": "කොළඹ - අනුරාධපුර",
+    "name_ta": "கொழும்பு - அனுராதபுரம்",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 480,
+    "frequency_minutes": 45,
+    "operating_hours": "05:00-18:00",
+    "stops": [
+      "Borella",
+      "Horton Place - Baseline Junc.",
+      "Borella Cemetery Junc.",
+      "Sarana Road",
+      "Maitland Place",
+      "Campus (Arts Faculty)",
+      "Thunmulla",
+      "Bambalapitiya Junc.",
+      "Holy Family Convent, Bambalapitiya",
+      "Savoy Cinema, Wellawatte",
+      "Wellawatte Junc.",
+      "Delmon Hospital",
+      "Ramakrishna Road",
+      "William Grinding Mills",
+      "Dehiwala Municipal Council",
+      "Holy Family Convent, Dehiwala",
+      "Dehiwala Junc.",
+      "Dehiwala Cemetery",
+      "Hotel Road, Mt. Lavinia",
+      "Mount Lavinia Junc.",
+      "Maliban Junc.",
+      "Belekkade Junc., Rathmalana",
+      "Rathmalana Airport",
+      "Angulana"
+    ],
+    "stop_coords": [
+      {
+        "name": "Borella",
+        "lat": 6.914743,
+        "lng": 79.877601
+      },
+      {
+        "name": "Horton Place - Baseline Junc.",
+        "lat": 6.91126,
+        "lng": 79.877472
+      },
+      {
+        "name": "Borella Cemetery Junc.",
+        "lat": 6.908587,
+        "lng": 79.877279
+      },
+      {
+        "name": "Sarana Road",
+        "lat": 6.905583,
+        "lng": 79.87347
+      },
+      {
+        "name": "Maitland Place",
+        "lat": 6.902899,
+        "lng": 79.870487
+      },
+      {
+        "name": "Campus (Arts Faculty)",
+        "lat": 6.90258,
+        "lng": 79.862237
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Bambalapitiya Junc.",
+        "lat": 6.893686,
+        "lng": 79.855456
+      },
+      {
+        "name": "Holy Family Convent, Bambalapitiya",
+        "lat": 6.887812,
+        "lng": 79.857318
+      },
+      {
+        "name": "Savoy Cinema, Wellawatte",
+        "lat": 6.88027,
+        "lng": 79.85956
+      },
+      {
+        "name": "Wellawatte Junc.",
+        "lat": 6.875344,
+        "lng": 79.861014
+      },
+      {
+        "name": "Delmon Hospital",
+        "lat": 6.870711,
+        "lng": 79.86206
+      },
+      {
+        "name": "Ramakrishna Road",
+        "lat": 6.865896,
+        "lng": 79.863047
+      },
+      {
+        "name": "William Grinding Mills",
+        "lat": 6.862514,
+        "lng": 79.863766
+      },
+      {
+        "name": "Dehiwala Municipal Council",
+        "lat": 6.861033,
+        "lng": 79.864125
+      },
+      {
+        "name": "Holy Family Convent, Dehiwala",
+        "lat": 6.857172,
+        "lng": 79.865016
+      },
+      {
+        "name": "Dehiwala Junc.",
+        "lat": 6.850823,
+        "lng": 79.865992
+      },
+      {
+        "name": "Dehiwala Cemetery",
+        "lat": 6.844933,
+        "lng": 79.866217
+      },
+      {
+        "name": "Hotel Road, Mt. Lavinia",
+        "lat": 6.841971,
+        "lng": 79.866904
+      },
+      {
+        "name": "Mount Lavinia Junc.",
+        "lat": 6.832959,
+        "lng": 79.867301
+      },
+      {
+        "name": "Maliban Junc.",
+        "lat": 6.81943,
+        "lng": 79.873706
+      },
+      {
+        "name": "Belekkade Junc., Rathmalana",
+        "lat": 6.814743,
+        "lng": 79.87877
+      },
+      {
+        "name": "Rathmalana Airport",
+        "lat": 6.812442,
+        "lng": 79.881152
+      },
+      {
+        "name": "Angulana",
+        "lat": 6.798188,
+        "lng": 79.873009
+      }
+    ]
+  },
+  {
+    "id": "155",
+    "name_en": "Soysapura - Mattakkuliya",
+    "name_si": "මට්ටක්කුලිය - සෝයිසාපුර",
+    "name_ta": "மட்டக்குளியா - சொய்சாபுரா",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 30,
+    "frequency_minutes": 10,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Soysapura",
+      "Rathmalana Airport",
+      "Belekkade Junc., Rathmalana",
+      "Maliban Junc.",
+      "Mount Lavinia Junc.",
+      "Hotel Road, Mt. Lavinia",
+      "Dehiwala Cemetery",
+      "Dehiwala Junc.",
+      "Holy Family Convent, Dehiwala",
+      "Dehiwala Municipal Council",
+      "William Grinding Mills",
+      "Ramakrishna Road",
+      "Delmon Hospital",
+      "Wellawatte Junc.",
+      "Savoy Cinema, Wellawatte",
+      "Holy Family Convent, Bambalapitiya",
+      "Bambalapitiya Junc.",
+      "British Council",
+      "Thunmulla",
+      "Campus (near Wycherley)",
+      "Town Hall"
+    ],
+    "stop_coords": [
+      {
+        "name": "Soysapura",
+        "lat": 6.804622,
+        "lng": 79.886688
+      },
+      {
+        "name": "Rathmalana Airport",
+        "lat": 6.812442,
+        "lng": 79.881152
+      },
+      {
+        "name": "Belekkade Junc., Rathmalana",
+        "lat": 6.814743,
+        "lng": 79.87877
+      },
+      {
+        "name": "Maliban Junc.",
+        "lat": 6.81943,
+        "lng": 79.873706
+      },
+      {
+        "name": "Mount Lavinia Junc.",
+        "lat": 6.832959,
+        "lng": 79.867301
+      },
+      {
+        "name": "Hotel Road, Mt. Lavinia",
+        "lat": 6.841971,
+        "lng": 79.866904
+      },
+      {
+        "name": "Dehiwala Cemetery",
+        "lat": 6.844933,
+        "lng": 79.866217
+      },
+      {
+        "name": "Dehiwala Junc.",
+        "lat": 6.850823,
+        "lng": 79.865992
+      },
+      {
+        "name": "Holy Family Convent, Dehiwala",
+        "lat": 6.857172,
+        "lng": 79.865016
+      },
+      {
+        "name": "Dehiwala Municipal Council",
+        "lat": 6.861033,
+        "lng": 79.864125
+      },
+      {
+        "name": "William Grinding Mills",
+        "lat": 6.862514,
+        "lng": 79.863766
+      },
+      {
+        "name": "Ramakrishna Road",
+        "lat": 6.865896,
+        "lng": 79.863047
+      },
+      {
+        "name": "Delmon Hospital",
+        "lat": 6.870711,
+        "lng": 79.86206
+      },
+      {
+        "name": "Wellawatte Junc.",
+        "lat": 6.875344,
+        "lng": 79.861014
+      },
+      {
+        "name": "Savoy Cinema, Wellawatte",
+        "lat": 6.88027,
+        "lng": 79.85956
+      },
+      {
+        "name": "Holy Family Convent, Bambalapitiya",
+        "lat": 6.887812,
+        "lng": 79.857318
+      },
+      {
+        "name": "Bambalapitiya Junc.",
+        "lat": 6.893686,
+        "lng": 79.855456
+      },
+      {
+        "name": "British Council",
+        "lat": 6.899832,
+        "lng": 79.855542
+      },
+      {
+        "name": "Thunmulla",
+        "lat": 6.896189,
+        "lng": 79.860263
+      },
+      {
+        "name": "Campus (near Wycherley)",
+        "lat": 6.900023,
+        "lng": 79.859544
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      }
+    ]
+  },
+  {
+    "id": "163",
+    "name_en": "Dehiwala - Battaramulla",
+    "name_si": "කොළඹ කොටුව - ජයවර්ධනපුර",
+    "name_ta": "கொழும்பு கோட்டை - ஜயவர்தனபுரா",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 40,
+    "frequency_minutes": 10,
+    "operating_hours": "05:00-22:00",
+    "stops": [
+      "Dehiwala Junc.",
+      "Holy Family Convent, Dehiwala",
+      "Dehiwala Municipal Council",
+      "William Grinding Mills",
+      "Kalubowila Hospital",
+      "Kohuwala",
+      "Nugegoda",
+      "Nugegoda Supermarket",
+      "Pita Kotte",
+      "Ethul Kotte Junc.",
+      "Sethsiripaya",
+      "Battaramulla"
+    ],
+    "stop_coords": [
+      {
+        "name": "Dehiwala Junc.",
+        "lat": 6.850823,
+        "lng": 79.865992
+      },
+      {
+        "name": "Holy Family Convent, Dehiwala",
+        "lat": 6.857172,
+        "lng": 79.865016
+      },
+      {
+        "name": "Dehiwala Municipal Council",
+        "lat": 6.861033,
+        "lng": 79.864125
+      },
+      {
+        "name": "William Grinding Mills",
+        "lat": 6.862514,
+        "lng": 79.863766
+      },
+      {
+        "name": "Kalubowila Hospital",
+        "lat": 6.866466,
+        "lng": 79.8773
+      },
+      {
+        "name": "Kohuwala",
+        "lat": 6.867068,
+        "lng": 79.884574
+      },
+      {
+        "name": "Nugegoda",
+        "lat": 6.869315,
+        "lng": 79.889628
+      },
+      {
+        "name": "Nugegoda Supermarket",
+        "lat": 6.873469,
+        "lng": 79.891355
+      },
+      {
+        "name": "Pita Kotte",
+        "lat": 6.883897,
+        "lng": 79.901891
+      },
+      {
+        "name": "Ethul Kotte Junc.",
+        "lat": 6.905509,
+        "lng": 79.905217
+      },
+      {
+        "name": "Sethsiripaya",
+        "lat": 6.902441,
+        "lng": 79.914347
+      },
+      {
+        "name": "Battaramulla",
+        "lat": 6.90209,
+        "lng": 79.918059
+      }
+    ]
+  },
+  {
+    "id": "168-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 116,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "174",
+    "name_en": "Kottawa - Borella",
+    "name_si": "කොට්ටාව - බොරැල්ල",
+    "name_ta": "கொட்டாவ - பொரெல்ல",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 45,
+    "frequency_minutes": 10,
+    "operating_hours": "05:00-22:00",
+    "stops": [
+      "Kottawa",
+      "Pannipitiya",
+      "Thalawathugoda",
+      "Pelawatta/Isurupaya",
+      "Battaramulla",
+      "Sethsiripaya",
+      "Ethul Kotte Junc.",
+      "Rajagiriya Junc.",
+      "Impala Cinema, Rajagiriya",
+      "Borella"
+    ],
+    "stop_coords": [
+      {
+        "name": "Kottawa",
+        "lat": 6.841673,
+        "lng": 79.963989
+      },
+      {
+        "name": "Pannipitiya",
+        "lat": 6.8462,
+        "lng": 79.949698
+      },
+      {
+        "name": "Thalawathugoda",
+        "lat": 6.876281,
+        "lng": 79.935343
+      },
+      {
+        "name": "Pelawatta/Isurupaya",
+        "lat": 6.890597,
+        "lng": 79.928927
+      },
+      {
+        "name": "Battaramulla",
+        "lat": 6.90209,
+        "lng": 79.918059
+      },
+      {
+        "name": "Sethsiripaya",
+        "lat": 6.902441,
+        "lng": 79.914347
+      },
+      {
+        "name": "Ethul Kotte Junc.",
+        "lat": 6.905509,
+        "lng": 79.905217
+      },
+      {
+        "name": "Rajagiriya Junc.",
+        "lat": 6.910121,
+        "lng": 79.894434
+      },
+      {
+        "name": "Impala Cinema, Rajagiriya",
+        "lat": 6.910973,
+        "lng": 79.890743
+      },
+      {
+        "name": "Borella",
+        "lat": 6.914743,
+        "lng": 79.877601
+      }
+    ]
+  },
+  {
+    "id": "175",
+    "name_en": "Kollupitiya - Kohilawatte",
+    "name_si": "කොහිලවත්ත - කොල්ලුපිටිය",
+    "name_ta": "கொஹிலவத்த - கொள்ளுப்பிட்டி",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 30,
+    "frequency_minutes": 15,
+    "operating_hours": "06:00-21:00",
+    "stops": [
+      "Kollupitiya Junc.",
+      "Alwis Place, Kollupitiya",
+      "Public Library",
+      "Town Hall",
+      "Borella"
+    ],
+    "stop_coords": [
+      {
+        "name": "Kollupitiya Junc.",
+        "lat": 6.911159,
+        "lng": 79.849652
+      },
+      {
+        "name": "Alwis Place, Kollupitiya",
+        "lat": 6.912645,
+        "lng": 79.853911
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Town Hall",
+        "lat": 6.916799,
+        "lng": 79.863364
+      },
+      {
+        "name": "Borella",
+        "lat": 6.914743,
+        "lng": 79.877601
+      }
+    ]
+  },
+  {
+    "id": "176",
+    "name_en": "Karagampitiya - Hettiyawatte",
+    "name_si": "දෙහිවල - හෙට්ටියාවත්ත",
+    "name_ta": "தெஹிவளா - ஹெட்டியாவத்த",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 30,
+    "frequency_minutes": 15,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Karagampitiya",
+      "Kalubowila Hospital",
+      "Kohuwala",
+      "Nugegoda",
+      "Nugegoda Supermarket",
+      "Open University, Nawala",
+      "Nawala Junc.",
+      "Koswatte, Nawala",
+      "Rajagiriya Junc.",
+      "Impala Cinema, Rajagiriya",
+      "Castle Street Hospital",
+      "Devi Balika Vidyalaya",
+      "Horton Place - Baseline Junc.",
+      "Borella",
+      "Ananda College",
+      "Maradana"
+    ],
+    "stop_coords": [
+      {
+        "name": "Karagampitiya",
+        "lat": 6.850253,
+        "lng": 79.872022
+      },
+      {
+        "name": "Kalubowila Hospital",
+        "lat": 6.866466,
+        "lng": 79.8773
+      },
+      {
+        "name": "Kohuwala",
+        "lat": 6.867068,
+        "lng": 79.884574
+      },
+      {
+        "name": "Nugegoda",
+        "lat": 6.869315,
+        "lng": 79.889628
+      },
+      {
+        "name": "Nugegoda Supermarket",
+        "lat": 6.873469,
+        "lng": 79.891355
+      },
+      {
+        "name": "Open University, Nawala",
+        "lat": 6.883024,
+        "lng": 79.886795
+      },
+      {
+        "name": "Nawala Junc.",
+        "lat": 6.887029,
+        "lng": 79.887203
+      },
+      {
+        "name": "Koswatte, Nawala",
+        "lat": 6.900034,
+        "lng": 79.893994
+      },
+      {
+        "name": "Rajagiriya Junc.",
+        "lat": 6.910121,
+        "lng": 79.894434
+      },
+      {
+        "name": "Impala Cinema, Rajagiriya",
+        "lat": 6.910973,
+        "lng": 79.890743
+      },
+      {
+        "name": "Castle Street Hospital",
+        "lat": 6.910973,
+        "lng": 79.88525
+      },
+      {
+        "name": "Devi Balika Vidyalaya",
+        "lat": 6.911015,
+        "lng": 79.882118
+      },
+      {
+        "name": "Horton Place - Baseline Junc.",
+        "lat": 6.91126,
+        "lng": 79.877472
+      },
+      {
+        "name": "Borella",
+        "lat": 6.914743,
+        "lng": 79.877601
+      },
+      {
+        "name": "Ananda College",
+        "lat": 6.924499,
+        "lng": 79.868031
+      },
+      {
+        "name": "Maradana",
+        "lat": 6.928237,
+        "lng": 79.864619
+      }
+    ]
+  },
+  {
+    "id": "177",
+    "name_en": "Kollupitiya - Kaduwela",
+    "name_si": "කොළඹ - ත්‍රිකුණාමලය",
+    "name_ta": "கொழும்பு - திருகோணமலை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 550,
+    "frequency_minutes": 60,
+    "operating_hours": "05:30-17:00",
+    "stops": [
+      "Kollupitiya Junc.",
+      "Alwis Place, Kollupitiya",
+      "Public Library",
+      "Glass House",
+      "Arts Fac. Horton Place",
+      "Horton Place - Baseline Junc.",
+      "Devi Balika Vidyalaya",
+      "Castle Street Hospital",
+      "Impala Cinema, Rajagiriya",
+      "Rajagiriya Junc.",
+      "Ethul Kotte Junc.",
+      "Sethsiripaya",
+      "Battaramulla",
+      "Thalangama",
+      "Thalahena",
+      "Malabe",
+      "Pittugala",
+      "SLIIT, Malabe",
+      "Kaduwela"
+    ],
+    "stop_coords": [
+      {
+        "name": "Kollupitiya Junc.",
+        "lat": 6.911159,
+        "lng": 79.849652
+      },
+      {
+        "name": "Alwis Place, Kollupitiya",
+        "lat": 6.912645,
+        "lng": 79.853911
+      },
+      {
+        "name": "Public Library",
+        "lat": 6.912869,
+        "lng": 79.857945
+      },
+      {
+        "name": "Glass House",
+        "lat": 6.910941,
+        "lng": 79.858342
+      },
+      {
+        "name": "Arts Fac. Horton Place",
+        "lat": 6.911548,
+        "lng": 79.868717
+      },
+      {
+        "name": "Horton Place - Baseline Junc.",
+        "lat": 6.91126,
+        "lng": 79.877472
+      },
+      {
+        "name": "Devi Balika Vidyalaya",
+        "lat": 6.911015,
+        "lng": 79.882118
+      },
+      {
+        "name": "Castle Street Hospital",
+        "lat": 6.910973,
+        "lng": 79.88525
+      },
+      {
+        "name": "Impala Cinema, Rajagiriya",
+        "lat": 6.910973,
+        "lng": 79.890743
+      },
+      {
+        "name": "Rajagiriya Junc.",
+        "lat": 6.910121,
+        "lng": 79.894434
+      },
+      {
+        "name": "Ethul Kotte Junc.",
+        "lat": 6.905509,
+        "lng": 79.905217
+      },
+      {
+        "name": "Sethsiripaya",
+        "lat": 6.902441,
+        "lng": 79.914347
+      },
+      {
+        "name": "Battaramulla",
+        "lat": 6.90209,
+        "lng": 79.918059
+      },
+      {
+        "name": "Thalangama",
+        "lat": 6.905967,
+        "lng": 79.926234
+      },
+      {
+        "name": "Thalahena",
+        "lat": 6.908012,
+        "lng": 79.944999
+      },
+      {
+        "name": "Malabe",
+        "lat": 6.904081,
+        "lng": 79.954408
+      },
+      {
+        "name": "Pittugala",
+        "lat": 6.908693,
+        "lng": 79.969289
+      },
+      {
+        "name": "SLIIT, Malabe",
+        "lat": 6.914711,
+        "lng": 79.972175
+      },
+      {
+        "name": "Kaduwela",
+        "lat": 6.935703,
+        "lng": 79.984245
+      }
+    ]
+  },
+  {
+    "id": "187",
+    "name_en": "Fort - Airport",
+    "name_si": "කොළඹ - ගුවන්තොටුපළ",
+    "name_ta": "கொழும்பு - விமான நிலையம்",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 80,
+    "frequency_minutes": 15,
+    "operating_hours": "04:00-22:00",
+    "stops": [
+      "Fort Railway Station",
+      "Armour Street",
+      "Sugathadasa Stadium",
+      "Peliyagoda Junc.",
+      "Nawaloka Junc.",
+      "Wattala",
+      "Handala",
+      "Welisara",
+      "Kandana",
+      "Kapuwatta",
+      "Ja-Ela",
+      "Katunayake Airport"
+    ],
+    "stop_coords": [
+      {
+        "name": "Fort Railway Station",
+        "lat": 6.934085,
+        "lng": 79.850221
+      },
+      {
+        "name": "Armour Street",
+        "lat": 6.943425,
+        "lng": 79.864254
+      },
+      {
+        "name": "Sugathadasa Stadium",
+        "lat": 6.946662,
+        "lng": 79.869146
+      },
+      {
+        "name": "Peliyagoda Junc.",
+        "lat": 6.955758,
+        "lng": 79.883115
+      },
+      {
+        "name": "Nawaloka Junc.",
+        "lat": 6.960678,
+        "lng": 79.880841
+      },
+      {
+        "name": "Wattala",
+        "lat": 6.981253,
+        "lng": 79.888029
+      },
+      {
+        "name": "Handala",
+        "lat": 6.990688,
+        "lng": 79.893136
+      },
+      {
+        "name": "Welisara",
+        "lat": 7.021782,
+        "lng": 79.899552
+      },
+      {
+        "name": "Kandana",
+        "lat": 7.047827,
+        "lng": 79.897041
+      },
+      {
+        "name": "Kapuwatta",
+        "lat": 7.064012,
+        "lng": 79.893222
+      },
+      {
+        "name": "Ja-Ela",
+        "lat": 7.078236,
+        "lng": 79.89054
+      },
+      {
+        "name": "Katunayake Airport",
+        "lat": 7.16564,
+        "lng": 79.884059
+      }
+    ]
+  },
+  {
+    "id": "190",
+    "name_en": "Colombo - Polonnaruwa",
+    "name_si": "කොළඹ - පොළොන්නරුව",
+    "name_ta": "கொழும்பு - பொலன்னறுவை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 420,
+    "frequency_minutes": 60,
+    "operating_hours": "05:30-17:00",
+    "stops": [
+      "Colombo Fort",
+      "Kurunegala",
+      "Dambulla",
+      "Habarana",
+      "Medirigiriya",
+      "Polonnaruwa"
+    ]
+  },
+  {
+    "id": "211",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 218,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "211/69/45",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1487,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "218-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 485,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "218-8",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "228/1",
+    "name_en": "Kaduwela - Gampaha",
+    "name_si": "කඩුවෙල - ගම්පහ",
+    "name_ta": "கடுவெல - கம்பஹா",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 80,
+    "frequency_minutes": 30,
+    "operating_hours": "05:30-20:00",
+    "stops": [
+      "Kaduwela",
+      "Malabe",
+      "Delgoda",
+      "Weliweriya",
+      "Gampaha"
+    ]
+  },
+  {
+    "id": "240",
+    "name_en": "Colombo - Maharagama",
+    "name_si": "මහනුවර - නුවරඑළිය (හඟුරන්කෙත මාර්ගයෙන්)",
+    "name_ta": "கண்டி - நுவரெலியா",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 200,
+    "frequency_minutes": 60,
+    "operating_hours": "06:00-17:00",
+    "stops": [
+      "Kandy",
+      "Teldeniya",
+      "Hanguranketha",
+      "Rikillagaskada",
+      "Nuwara Eliya"
+    ]
+  },
+  {
+    "id": "244",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "245-1/182/18-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 585,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "255",
+    "name_en": "Colombo - Kottawa",
+    "name_si": "මහනුවර - මාතලේ",
+    "name_ta": "கண்டி - மாத்தளை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 80,
+    "frequency_minutes": 15,
+    "operating_hours": "05:00-21:00",
+    "stops": [
+      "Kandy",
+      "Katugastota",
+      "Wattegama",
+      "Akurana",
+      "Matale"
+    ]
+  },
+  {
+    "id": "270/228/3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1028,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "280",
+    "name_en": "Maharagama - Horana",
+    "name_si": "මහරගම - හොරණ",
+    "name_ta": "மஹரகம - ஹொரணா",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 60,
+    "frequency_minutes": 15,
+    "operating_hours": "05:00-21:00",
+    "stops": [
+      "Maharagama",
+      "Kottawa",
+      "Bandaragama",
+      "Horana"
+    ]
+  },
+  {
+    "id": "284",
+    "name_en": "Horana - Morontuduwa",
+    "name_si": "හොරණ - මොරොන්තුඩුව",
+    "name_ta": "ஹொரணா - மொரொந்துடுவ",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 40,
+    "frequency_minutes": 20,
+    "operating_hours": "06:00-20:00",
+    "stops": [
+      "Horana",
+      "Poruwedanda",
+      "Morontuduwa"
+    ]
+  },
+  {
+    "id": "285/1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 623,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "285/6/15-12",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 944,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "296",
+    "name_en": "Kottawa - Piliyandala",
+    "name_si": "කොට්ටාව - පිළියන්දල",
+    "name_ta": "கொட்டாவ - பிலியந்தலை",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 30,
+    "frequency_minutes": 10,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Kottawa",
+      "Makumbura",
+      "Piliyandala"
+    ]
+  },
+  {
+    "id": "301/218",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 465,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "303-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 332,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "311-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 147,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "314/580/42",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 863,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "314/580/87",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1438,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "315/1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 485,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "333",
+    "name_en": "Matara - Kataragama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 485,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "335-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 142,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "339-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 136,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "342",
+    "name_en": "Kottawa - Piliyandala (via Kesbewa)",
+    "name_si": "කොට්ටාව - පිළියන්දල (කැස්බෑව)",
+    "name_ta": "கொட்டாவ - பிலியந்தலை",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 30,
+    "frequency_minutes": 15,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Kottawa",
+      "Kesbewa",
+      "Piliyandala"
+    ]
+  },
+  {
+    "id": "345",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 459,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "348",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 147,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363-12",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 340,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363-13",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 465,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363-18",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 269,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 340,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363-5",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 365,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 142,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "366-2",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 636,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "401-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 142,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "403",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 231,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "425",
+    "name_en": "Kalutara - Bandaragama",
+    "name_si": "කළුතර - බණ්ඩාරගම",
+    "name_ta": "களுத்துறை - பண்டாரகம",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 45,
+    "frequency_minutes": 20,
+    "operating_hours": "06:00-20:00",
+    "stops": [
+      "Kalutara",
+      "Matugama Road",
+      "Bandaragama"
+    ]
+  },
+  {
+    "id": "449",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 154,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "482",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 185,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "488",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 289,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "493-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 218,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "493-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 256,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "493-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 465,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "497",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 116,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "549",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 231,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "549-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 301,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "549-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 307,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "549/499",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 294,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "556",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 223,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "564-6",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 198,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "566",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 102,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "581-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "581-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 423,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "608",
+    "name_en": "Avissawella - Panawala",
+    "name_si": "අවිස්සාවේල්ල - පනාවල",
+    "name_ta": "அவிசாவளை - பனாவல",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 40,
+    "frequency_minutes": 30,
+    "operating_hours": "06:00-19:00",
+    "stops": [
+      "Avissawella",
+      "Deraniyagala",
+      "Panawala"
+    ]
+  },
+  {
+    "id": "626/43/87",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1457,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "644",
+    "name_en": "Kandy - Pilimatalawa",
+    "name_si": "මහනුවර - පිළිමතලාව",
+    "name_ta": "கண்டி - பிலிமத்தலாவ",
+    "operator": "Private",
+    "service_type": "Normal",
+    "fare_lkr": 25,
+    "frequency_minutes": 10,
+    "operating_hours": "05:30-21:00",
+    "stops": [
+      "Kandy",
+      "Asgiriya",
+      "Pilimatalawa"
+    ]
+  },
+  {
+    "id": "654",
+    "name_en": "Kandy - Badulla",
+    "name_si": "මහනුවර - බදුල්ල",
+    "name_ta": "கண்டி - பதுளை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 300,
+    "frequency_minutes": 30,
+    "operating_hours": "05:00-18:00",
+    "stops": [
+      "Kandy",
+      "Peradeniya",
+      "Gampola",
+      "Nawalapitiya",
+      "Hatton",
+      "Nuwara Eliya",
+      "Welimada",
+      "Badulla"
+    ]
+  },
+  {
+    "id": "662",
+    "name_en": "Kandy - Kegalle",
+    "name_si": "මහනුවර - කෑගල්ල",
+    "name_ta": "கண்டி - கேகாலை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 120,
+    "frequency_minutes": 30,
+    "operating_hours": "05:30-20:00",
+    "stops": [
+      "Kandy",
+      "Kadugannawa",
+      "Mawanella",
+      "Kegalle"
+    ]
+  },
+  {
+    "id": "670",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 94,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "674-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 282,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "674-3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 211,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "677",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 294,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "677-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 154,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "725/43/87",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 1331,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "750",
+    "name_en": "Jaffna - Point Pedro (via Nelliady)",
+    "name_si": "යාපනය - පොයින්ට් පේද්‍රෝ",
+    "name_ta": "யாழ்ப்பாணம் - பருத்தித்துறை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 60,
+    "frequency_minutes": 20,
+    "operating_hours": "05:30-20:00",
+    "stops": [
+      "Jaffna",
+      "Kopay",
+      "Nelliady",
+      "Point Pedro"
+    ]
+  },
+  {
+    "id": "750/3",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 218,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "751",
+    "name_en": "Jaffna - Point Pedro (via Valvettiturai)",
+    "name_si": "යාපනය - පොයින්ට් පේද්‍රෝ (වල්වෙට්ටිතුරයි)",
+    "name_ta": "யாழ்ப்பாணம் - பருத்தித்துறை (வல்வெட்டித்துறை)",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 60,
+    "frequency_minutes": 20,
+    "operating_hours": "05:30-20:00",
+    "stops": [
+      "Jaffna",
+      "Chunnakam",
+      "Valvettiturai",
+      "Point Pedro"
+    ]
+  },
+  {
+    "id": "819-4",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 592,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "825",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 503,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "835",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "905",
+    "name_en": "Colombo - Batticaloa",
+    "name_si": "කොළඹ - මඩකලපුව",
+    "name_ta": "கொழும்பு - மட்டக்களப்பு",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 600,
+    "frequency_minutes": 120,
+    "operating_hours": "06:00-15:00",
+    "stops": [
+      "Colombo Fort",
+      "Kadawatha",
+      "Kandy",
+      "Mahiyangana",
+      "Padiyatalawa",
+      "Chenkalady",
+      "Batticaloa"
+    ]
+  },
+  {
+    "id": "909",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 352,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "929-1",
+    "name_en": "",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 142,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  }
 ]
