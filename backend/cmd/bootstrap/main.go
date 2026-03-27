@@ -84,6 +84,33 @@ func main() {
 
 	ctx := context.Background()
 
+	// Pre-flight: check Nominatim is reachable
+	if err := checkService(*nominatimURL+"/status", "Nominatim"); err != nil {
+		slog.Error("Nominatim is not reachable",
+			"url", *nominatimURL,
+			"error", err,
+		)
+		fmt.Fprintf(os.Stderr, "\n  Nominatim is required for geocoding bus stops.\n\n")
+		fmt.Fprintf(os.Stderr, "  Options:\n")
+		fmt.Fprintf(os.Stderr, "    1. Start local Nominatim:  make nominatim-up  (first run takes ~10 min)\n")
+		fmt.Fprintf(os.Stderr, "    2. Use public Nominatim:   -nominatim https://nominatim.openstreetmap.org\n\n")
+		os.Exit(1)
+	}
+
+	// Pre-flight: check database is reachable
+	testPool, err := pgxpool.New(ctx, *dbURL)
+	if err != nil {
+		slog.Error("database is not reachable",
+			"url", *dbURL,
+			"error", err,
+		)
+		fmt.Fprintf(os.Stderr, "\n  PostgreSQL is required. Start it with:  make infra-up\n\n")
+		os.Exit(1)
+	}
+	testPool.Close()
+
+	slog.Info("pre-flight checks passed", "nominatim", *nominatimURL, "osrm", *osrmBaseURL)
+
 	// Load route data
 	raw, err := os.ReadFile(*dataFile)
 	if err != nil {
@@ -320,4 +347,17 @@ func insertRoute(ctx context.Context, pool *pgxpool.Pool, route RawRoute, stops 
 	}
 
 	return tx.Commit(ctx)
+}
+
+func checkService(url, name string) error {
+	client := &http.Client{Timeout: 5 * time.Second}
+	resp, err := client.Get(url)
+	if err != nil {
+		return err
+	}
+	resp.Body.Close()
+	if resp.StatusCode >= 500 {
+		return fmt.Errorf("%s returned status %d", name, resp.StatusCode)
+	}
+	return nil
 }
