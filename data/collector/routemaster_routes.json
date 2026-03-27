@@ -1,0 +1,3517 @@
+[
+  {
+    "route_no": "224",
+    "name": "Sri Lanka bus route number: 224",
+    "waypoints": [
+      {
+        "lat": 6.9762687114502615,
+        "lng": 80.12070469558239,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.953308030683716,
+        "lng": 79.91916351020336,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/224/"
+  },
+  {
+    "route_no": "225",
+    "name": "Sri Lanka bus route number: 225",
+    "waypoints": [
+      {
+        "lat": 7.042742891932615,
+        "lng": 80.13003392145038,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.988770946600597,
+        "lng": 80.01404866576195,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.953169581613085,
+        "lng": 79.91933450102806,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/225/"
+  },
+  {
+    "route_no": "226",
+    "name": "Sri Lanka bus route number: 226",
+    "waypoints": [
+      {
+        "lat": 6.948217338032912,
+        "lng": 80.01585764810443,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.953105682028274,
+        "lng": 79.91924967616796,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/226/"
+  },
+  {
+    "route_no": "234",
+    "name": "Sri Lanka bus route number: 234",
+    "waypoints": [
+      {
+        "lat": 6.987578243528,
+        "lng": 80.01357726752758,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.987115005353423,
+        "lng": 79.9756994470954,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.975203769680506,
+        "lng": 79.94927935302258,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9770993643493355,
+        "lng": 79.92619089782238,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/234/"
+  },
+  {
+    "route_no": "400-1",
+    "name": "Sri Lanka bus route number: 400/1",
+    "waypoints": [
+      {
+        "lat": 6.584258854504222,
+        "lng": 79.96047387390138,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/400-1/"
+  },
+  {
+    "route_no": "03",
+    "name": "Sri Lanka bus route number: 03",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.954607319973443,
+        "lng": 80.20508766174316,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.716735580977222,
+        "lng": 80.38434505462646,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.3347061616951335,
+        "lng": 80.85323810577393,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.413246242205084,
+        "lng": 81.33221626281738,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/03/"
+  },
+  {
+    "route_no": "05",
+    "name": "Sri Lanka bus route number: 05",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.989984944816768,
+        "lng": 79.89268943667412,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.169813226624633,
+        "lng": 79.94730323553085,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/05/"
+  },
+  {
+    "route_no": "06",
+    "name": "Sri Lanka bus route number: 06",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.149864167060324,
+        "lng": 80.09997725486755,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/06/"
+  },
+  {
+    "route_no": "08",
+    "name": "Sri Lanka bus route number: 08",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.2930223238085645,
+        "lng": 80.6328758597374,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.477155253864091,
+        "lng": 80.62298387289047,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/08/"
+  },
+  {
+    "route_no": "15",
+    "name": "Sri Lanka bus route number: 15",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.149906748692532,
+        "lng": 80.10004699230194,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.87386083546406,
+        "lng": 80.65102502703667,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.041276571292686,
+        "lng": 80.59642598032951,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 8.34016969712004,
+        "lng": 80.4145011305809,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/15/"
+  },
+  {
+    "route_no": "87",
+    "name": "Sri Lanka bus route number: 87",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.576073740079267,
+        "lng": 79.79598708450794,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 8.028209646170739,
+        "lng": 79.83336634933949,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 8.340339543027508,
+        "lng": 80.41478343307972,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 9.666859505499836,
+        "lng": 80.01202292740345,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/87/"
+  },
+  {
+    "route_no": "200",
+    "name": "Sri Lanka bus route number: 200",
+    "waypoints": [
+      {
+        "lat": 7.0917684882256875,
+        "lng": 79.99255947768688,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.073977413786608,
+        "lng": 80.01568011939526,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.0345758910547405,
+        "lng": 79.99018622562289,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.977376248321531,
+        "lng": 79.92665156722069,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/200/"
+  },
+  {
+    "route_no": "144",
+    "name": "Sri Lanka bus route number: 144",
+    "waypoints": [
+      {
+        "lat": 6.910883429912009,
+        "lng": 79.89116559295655,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.918396275226547,
+        "lng": 79.87371616065502,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/144/"
+  },
+  {
+    "route_no": "141",
+    "name": "Sri Lanka bus route number: 141",
+    "waypoints": [],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/141/"
+  },
+  {
+    "route_no": "163",
+    "name": "Sri Lanka bus route number: 163",
+    "waypoints": [
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.862631165842304,
+        "lng": 79.86433982849121,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.902174955783664,
+        "lng": 79.91810739040375,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/163/"
+  },
+  {
+    "route_no": "190",
+    "name": "Sri Lanka bus route number: 190",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.917480312729845,
+        "lng": 79.86480385065079,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9148029396126525,
+        "lng": 79.87751851348878,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.904066813905176,
+        "lng": 79.95643983154298,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.86964140489929,
+        "lng": 80.00038514404298,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.8647881847088374,
+        "lng": 80.02360939979553,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.851703415125472,
+        "lng": 80.03287205963136,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/190/"
+  },
+  {
+    "route_no": "1382",
+    "name": "Sri Lanka bus route number: 138/2",
+    "waypoints": [
+      {
+        "lat": 6.8113191672023525,
+        "lng": 79.97526893882753,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.81132319863448,
+        "lng": 79.97528605163097,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.841981876270998,
+        "lng": 79.96243894100189,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.878731344755193,
+        "lng": 79.8736846446991,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9156483824070785,
+        "lng": 79.86476629972458,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.924765360652065,
+        "lng": 79.85049895942211,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.934281551291186,
+        "lng": 79.84856810420752,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/1382/"
+  },
+  {
+    "route_no": "1383",
+    "name": "Sri Lanka bus route number: 138/3",
+    "waypoints": [
+      {
+        "lat": 6.856884393808177,
+        "lng": 79.98565010726452,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.856809829118542,
+        "lng": 79.9857459962368,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.84204579084963,
+        "lng": 79.96250800788403,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.872404247178213,
+        "lng": 79.88356322050095,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9124744397992535,
+        "lng": 79.855837225914,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.920313400282151,
+        "lng": 79.85796958208084,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.924083723509972,
+        "lng": 79.85053852200508,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/1383/"
+  },
+  {
+    "route_no": "179",
+    "name": "Sri Lanka bus route number: 179",
+    "waypoints": [
+      {
+        "lat": 6.902174955783664,
+        "lng": 79.91810739040375,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9056152427107405,
+        "lng": 79.90474194288254,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.910088643402518,
+        "lng": 79.89446505904198,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.914668509783146,
+        "lng": 79.87780451774597,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9016210992043,
+        "lng": 79.86880235373974,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.894736411570967,
+        "lng": 79.85724101333619,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/179/"
+  },
+  {
+    "route_no": "180",
+    "name": "Sri Lanka bus route number: 180",
+    "waypoints": [
+      {
+        "lat": 7.141858749703716,
+        "lng": 80.09639382362366,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.084251816404032,
+        "lng": 80.0317069888115,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.033303444472379,
+        "lng": 79.98835410922766,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.99460662846191,
+        "lng": 79.9454065784812,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.956045053933032,
+        "lng": 79.88807134330273,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/180/"
+  },
+  {
+    "route_no": "187-1",
+    "name": "Sri Lanka bus route number: 187/1",
+    "waypoints": [
+      {
+        "lat": 7.100977840983885,
+        "lng": 79.91024851799011,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.06514017991852,
+        "lng": 79.89324264228344,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.048977187602684,
+        "lng": 79.89684753119946,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.023272823038847,
+        "lng": 79.9007099121809,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/187-1/"
+  },
+  {
+    "route_no": "188",
+    "name": "Sri Lanka bus route number: 188",
+    "waypoints": [
+      {
+        "lat": 7.138696997052416,
+        "lng": 79.9003129452467,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.130340070890376,
+        "lng": 79.87648420035839,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.068249201949716,
+        "lng": 79.89401545375586,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.0254663744565935,
+        "lng": 79.89946536719799,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.952839433664692,
+        "lng": 79.88068789243698,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/188/"
+  },
+  {
+    "route_no": "140",
+    "name": "Sri Lanka bus route number: 140",
+    "waypoints": [
+      {
+        "lat": 6.911148407127729,
+        "lng": 79.84917260706425,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9135927,
+        "lng": 79.85762720000002,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9208503,
+        "lng": 79.86601530000007,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.92467546900962,
+        "lng": 79.86779868423923,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.928419787729934,
+        "lng": 79.86820051937104,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.936984071795472,
+        "lng": 79.89642340689898,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/140/"
+  },
+  {
+    "route_no": "119",
+    "name": "Sri Lanka bus route number: 119",
+    "waypoints": [
+      {
+        "lat": 6.845531785532995,
+        "lng": 79.92612132802606,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/119/"
+  },
+  {
+    "route_no": "117",
+    "name": "Sri Lanka bus route number: 117",
+    "waypoints": [
+      {
+        "lat": 6.812601570477519,
+        "lng": 79.88085720688105,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/117/"
+  },
+  {
+    "route_no": "430",
+    "name": "Sri Lanka bus route number: 430",
+    "waypoints": [
+      {
+        "lat": 6.522985862555461,
+        "lng": 80.11438205838203,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.563617773782201,
+        "lng": 79.98403608798981,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.74848703621981,
+        "lng": 79.88971620798111,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.872569349279646,
+        "lng": 79.8616824299097,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.893281218932095,
+        "lng": 79.85551670193672,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/430/"
+  },
+  {
+    "route_no": "401",
+    "name": "Sri Lanka bus route number: 401",
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.343364712209721,
+        "lng": 80.08021473884583,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.893339800978602,
+        "lng": 79.85549725592136,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/401/"
+  },
+  {
+    "route_no": "153",
+    "name": "Sri Lanka bus route number: 153",
+    "waypoints": [
+      {
+        "lat": 6.914962701546732,
+        "lng": 79.87797985343934,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.911015271111825,
+        "lng": 79.89078238606453,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.884163634012892,
+        "lng": 79.90233331918716,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.876579714965934,
+        "lng": 79.92689162492752,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.8685279,
+        "lng": 79.9247087,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/153/"
+  },
+  {
+    "route_no": "240",
+    "name": "Sri Lanka bus route number: 240",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932167450552091,
+        "lng": 79.85795885324478,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.205717201690316,
+        "lng": 79.84970837831497,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.205195640404346,
+        "lng": 79.84141498804092,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/240/"
+  },
+  {
+    "route_no": "125",
+    "name": "Sri Lanka bus route number: 125",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932689320130129,
+        "lng": 79.8479387909174,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.902856624530077,
+        "lng": 79.86220076680183,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.849491780687786,
+        "lng": 79.923827201128,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.841672955686992,
+        "lng": 80.09087719023228,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/125/"
+  },
+  {
+    "route_no": "178",
+    "name": "Sri Lanka bus route number: 178",
+    "waypoints": [
+      {
+        "lat": 6.891997737732406,
+        "lng": 79.87694922834635,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.951529489518678,
+        "lng": 79.87422980368137,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9599002891924675,
+        "lng": 79.87451747059822,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.964543569178146,
+        "lng": 79.86934617161751,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.969905648390032,
+        "lng": 79.87361289560795,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.979080146084084,
+        "lng": 79.87582521513104,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/178/"
+  },
+  {
+    "route_no": "10",
+    "name": "Sri Lanka bus route number: 10",
+    "waypoints": [
+      {
+        "lat": 6.413246242205084,
+        "lng": 81.33221626281738,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.285263274617564,
+        "lng": 81.2814024835825,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.873426814109905,
+        "lng": 81.03117048740387,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.8300004048582075,
+        "lng": 80.99214065819979,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.877549014740644,
+        "lng": 80.93830302357674,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.105044802824429,
+        "lng": 80.63729479908943,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.19661108119229,
+        "lng": 80.59784151613712,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 7.291560334863875,
+        "lng": 80.63362250595094,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/10/"
+  },
+  {
+    "route_no": "101-mount-lavinia-to-fort",
+    "name": "Sri Lanka bus route number: 101 ↑",
+    "waypoints": [
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.86867611994743,
+        "lng": 79.86234426498413,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.893355777899136,
+        "lng": 79.85547948628664,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.91896076285707,
+        "lng": 79.85384702682495,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.923231675697523,
+        "lng": 79.85181927680969,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.924839914654705,
+        "lng": 79.85045671463013,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/101-mount-lavinia-to-fort/"
+  },
+  {
+    "route_no": "101",
+    "name": "Sri Lanka bus route number: 101 ↓",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.919040643127632,
+        "lng": 79.85393637791276,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.912953727801289,
+        "lng": 79.85800931230187,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.910189826976353,
+        "lng": 79.85216159373522,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.894735116673177,
+        "lng": 79.85724488273263,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.866614985634037,
+        "lng": 79.86294943839312,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/101/"
+  },
+  {
+    "route_no": "1381",
+    "name": "Sri Lanka bus route number: 138/1",
+    "waypoints": [
+      {
+        "lat": 7.034666399674631,
+        "lng": 79.99038085341454,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.002569341308265,
+        "lng": 79.95310083031654,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.931965092805098,
+        "lng": 79.85772952437401,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/1381/"
+  },
+  {
+    "route_no": "187-airport-to-colombo",
+    "name": "Sri Lanka bus route number: 187↓",
+    "waypoints": [
+      {
+        "lat": 7.166311026928108,
+        "lng": 79.88412380218506,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.076979905361333,
+        "lng": 79.8913972824812,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/187-airport-to-colombo/"
+  },
+  {
+    "route_no": "187-colombo-to-airport",
+    "name": "Sri Lanka bus route number: 187↑",
+    "waypoints": [
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.934563785684717,
+        "lng": 79.8657774925232,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.943333602652683,
+        "lng": 79.8641762137413,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.950837241137496,
+        "lng": 79.87576603889465,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.967221954046717,
+        "lng": 79.88319039344788,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.158699770661587,
+        "lng": 79.87444639205933,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.166311026928108,
+        "lng": 79.88412380218506,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/187-colombo-to-airport/"
+  },
+  {
+    "route_no": "02",
+    "name": "Sri Lanka bus route number: 02",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.920595643035603,
+        "lng": 79.8467767238617,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.880211916028131,
+        "lng": 79.862140417099,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.054382896806657,
+        "lng": 80.18155932426453,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/02/"
+  },
+  {
+    "route_no": "103",
+    "name": "Sri Lanka bus route number: 103",
+    "waypoints": [
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932255316388831,
+        "lng": 79.86014518886805,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.914498096945433,
+        "lng": 79.87762246280909,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.888189878871383,
+        "lng": 79.873660588637,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/103/"
+  },
+  {
+    "route_no": "104",
+    "name": "Sri Lanka bus route number: 104",
+    "waypoints": [
+      {
+        "lat": 7.078278849564235,
+        "lng": 79.89050226286054,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.909376363684447,
+        "lng": 79.87749874591827,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.896316824533653,
+        "lng": 79.85762625932693,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.894751093546664,
+        "lng": 79.85718922689557,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/104/"
+  },
+  {
+    "route_no": "183",
+    "name": "Sri Lanka bus route number: 183",
+    "waypoints": [
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.862519320153048,
+        "lng": 79.86382484436035,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.750234371389168,
+        "lng": 79.90032434463501,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.711627681626962,
+        "lng": 79.90790257720948,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/183/"
+  },
+  {
+    "route_no": "255",
+    "name": "Sri Lanka bus route number: 255",
+    "waypoints": [
+      {
+        "lat": 6.833125593273582,
+        "lng": 79.86719737319947,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.797505912355536,
+        "lng": 79.88903442397714,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.801383741385421,
+        "lng": 79.92366392165422,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.841285436607717,
+        "lng": 79.96403584747316,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/255/"
+  },
+  {
+    "route_no": "04",
+    "name": "Sri Lanka bus route number: 04",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.936036194448237,
+        "lng": 79.87286657094955,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.957546682480297,
+        "lng": 79.88224625587463,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.203918344924292,
+        "lng": 79.85192656517029,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.030376872601417,
+        "lng": 79.82896685600281,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 8.028390248814949,
+        "lng": 79.83368754386902,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 8.340148466376414,
+        "lng": 80.41462182998657,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/04/"
+  },
+  {
+    "route_no": "171",
+    "name": "Sri Lanka bus route number: 171",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.933482410621381,
+        "lng": 79.85645760867101,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.910248769889433,
+        "lng": 79.89447523928902,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.906136353737428,
+        "lng": 79.92859938913261,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/171/"
+  },
+  {
+    "route_no": "168",
+    "name": "Sri Lanka bus route number: 168",
+    "waypoints": [
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.950040428011562,
+        "lng": 79.8571343177764,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.922662352511695,
+        "lng": 79.85316233272897,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.915259144815867,
+        "lng": 79.87715432598634,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.911075786656936,
+        "lng": 79.89030141739931,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.898199301688519,
+        "lng": 79.90604897114736,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.875531735823366,
+        "lng": 79.89240536636316,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/168/"
+  },
+  {
+    "route_no": "60",
+    "name": "Sri Lanka bus route number: 60",
+    "waypoints": [
+      {
+        "lat": 6.342266406587228,
+        "lng": 80.56023493409157,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.037140286519716,
+        "lng": 80.3921716738189,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.03274574597285,
+        "lng": 80.2156025916338,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.584365002522173,
+        "lng": 79.96079633190675,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.865064892453584,
+        "lng": 79.86316660597367,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.884037026664677,
+        "lng": 79.85837618061169,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/60/"
+  },
+  {
+    "route_no": "400",
+    "name": "Sri Lanka bus route number: 400",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.885633536889501,
+        "lng": 79.85794644802809,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.71438077629978,
+        "lng": 79.90756681188941,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/400/"
+  },
+  {
+    "route_no": "401-3",
+    "name": "Sri Lanka bus route number: 401/3",
+    "waypoints": [
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.381585353396957,
+        "lng": 80.00987447798252,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.343189961908042,
+        "lng": 80.08030059537055,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/401-3/"
+  },
+  {
+    "route_no": "401-4",
+    "name": "Sri Lanka bus route number: 401/4",
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.343663280323841,
+        "lng": 80.0835782289505,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.364221411179015,
+        "lng": 80.10803997516632,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/401-4/"
+  },
+  {
+    "route_no": "64",
+    "name": "Sri Lanka bus route number: 64",
+    "waypoints": [
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.712185789734008,
+        "lng": 79.9074206314981,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.71664900747767,
+        "lng": 80.06350239738822,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.988081415507872,
+        "lng": 81.05769384652376,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/64/"
+  },
+  {
+    "route_no": "164",
+    "name": "Sri Lanka bus route number: 164",
+    "waypoints": [
+      {
+        "lat": 6.916734760548956,
+        "lng": 79.86306401900947,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9183802875796685,
+        "lng": 79.87079325026252,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.91503861310489,
+        "lng": 79.87741689232632,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.935978948985562,
+        "lng": 79.92574745323509,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9914057,
+        "lng": 79.99887560000002,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/164/"
+  },
+  {
+    "route_no": "166",
+    "name": "Sri Lanka bus route number: 166",
+    "waypoints": [
+      {
+        "lat": 6.918999335149678,
+        "lng": 79.85383997230531,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.918429195616834,
+        "lng": 79.87076317049286,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.921653446674681,
+        "lng": 79.87358698783282,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9358824894402575,
+        "lng": 79.91687454955354,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.924122029004779,
+        "lng": 79.92724933443242,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/166/"
+  },
+  {
+    "route_no": "177",
+    "name": "Sri Lanka bus route number: 177",
+    "waypoints": [
+      {
+        "lat": 6.911148407127729,
+        "lng": 79.84917260706425,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.910242703263392,
+        "lng": 79.89448194481156,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.909477895379088,
+        "lng": 79.89652444695594,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.907512320398111,
+        "lng": 79.90023756909977,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.902222023209447,
+        "lng": 79.91588329050046,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.903981490372648,
+        "lng": 79.95520660822763,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.936314690861787,
+        "lng": 79.9832732433697,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/177/"
+  },
+  {
+    "route_no": "145",
+    "name": "Sri Lanka bus route number: 145",
+    "waypoints": [
+      {
+        "lat": 6.918999335149678,
+        "lng": 79.85383997230531,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.979080146084084,
+        "lng": 79.87582521513104,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/145/"
+  },
+  {
+    "route_no": "152",
+    "name": "Sri Lanka bus route number: 152",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.940943302892722,
+        "lng": 79.86524809151888,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.932798486652445,
+        "lng": 79.89334611687809,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.929616671544348,
+        "lng": 79.9058782774955,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.928337282930011,
+        "lng": 79.92775975959376,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/152/"
+  },
+  {
+    "route_no": "01",
+    "name": "Sri Lanka bus route number: 01",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.972008929842565,
+        "lng": 79.91674298420548,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.23422892366997,
+        "lng": 80.2601602037048,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.291560334863875,
+        "lng": 80.63362250595094,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/01/"
+  },
+  {
+    "route_no": "102-north",
+    "name": "Sri Lanka bus route number: 102↑",
+    "waypoints": [
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.868664136634214,
+        "lng": 79.86236656084657,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.893319829827197,
+        "lng": 79.85551485791802,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.913865705018244,
+        "lng": 79.85579246655107,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.950207560474386,
+        "lng": 79.85718721523881,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/102-north/"
+  },
+  {
+    "route_no": "401-1",
+    "name": "Sri Lanka bus route number: 401/1",
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/401-1/"
+  },
+  {
+    "route_no": "401-2",
+    "name": "Sri Lanka bus route number: 401/2",
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.309828016251447,
+        "lng": 80.14462664723396,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.3265726,
+        "lng": 80.14269949999994,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/401-2/"
+  },
+  {
+    "route_no": "100-north",
+    "name": "Sri Lanka bus route number: 100 ↑",
+    "waypoints": [
+      {
+        "lat": 6.7143461102121345,
+        "lng": 79.90752907960416,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.868699420833389,
+        "lng": 79.86235742457211,
+        "name": "Pettah market"
+      },
+      {
+        "lat": 6.893302521495292,
+        "lng": 79.8555089905858,
+        "name": "Galle Face Green"
+      },
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/100-north/"
+  },
+  {
+    "route_no": "100-south",
+    "name": "Sri Lanka bus route number: 100 ↓",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.931395295524427,
+        "lng": 79.84337199479342,
+        "name": "Pettah market"
+      },
+      {
+        "lat": 6.910181838800249,
+        "lng": 79.8521594144404,
+        "name": "Galle Face Green"
+      },
+      {
+        "lat": 6.89474310511001,
+        "lng": 79.85725242644548,
+        "name": "Galle Face Hotel"
+      },
+      {
+        "lat": 6.866636289393529,
+        "lng": 79.86293384805322,
+        "name": "The Kingsbury Hotel"
+      },
+      {
+        "lat": 6.7143461102121345,
+        "lng": 79.90752907960416,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/100-south/"
+  },
+  {
+    "route_no": "143",
+    "name": "Sri Lanka bus route number: 143",
+    "waypoints": [
+      {
+        "lat": 6.909,
+        "lng": 80.08116730000006,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.935946392562062,
+        "lng": 79.92532887261405,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.946493964504187,
+        "lng": 79.87157959847536,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.941832352148399,
+        "lng": 79.86498514360392,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/143/"
+  },
+  {
+    "route_no": "193",
+    "name": "Sri Lanka bus route number: 193",
+    "waypoints": [
+      {
+        "lat": 6.916734760548956,
+        "lng": 79.86306401900947,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.917692842864507,
+        "lng": 79.868940304641,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.919487488615394,
+        "lng": 79.87284608898335,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.922060106837076,
+        "lng": 79.87346787345814,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.930495031359709,
+        "lng": 79.87770902503144,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.005159656247297,
+        "lng": 79.95463907718658,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/193/"
+  },
+  {
+    "route_no": "156",
+    "name": "Sri Lanka bus route number: 156",
+    "waypoints": [
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.85013599967969,
+        "lng": 79.8794154281859,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.864059822550446,
+        "lng": 79.88069424896241,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.87219783296071,
+        "lng": 79.89086518554689,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/156/"
+  },
+  {
+    "route_no": "154",
+    "name": "Sri Lanka bus route number: 154",
+    "waypoints": [
+      {
+        "lat": 6.801495601373788,
+        "lng": 79.88773355260491,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.878768625383453,
+        "lng": 79.85993027687073,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.900790313120173,
+        "lng": 79.85437273979187,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.908801177163824,
+        "lng": 79.8770893600464,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.97952741821897,
+        "lng": 79.93002662435174,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/154/"
+  },
+  {
+    "route_no": "174-5",
+    "name": "Sri Lanka bus route number: 174",
+    "waypoints": [
+      {
+        "lat": 6.914962701546732,
+        "lng": 79.87797985343934,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9107896655743914,
+        "lng": 79.88869728877035,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.909599669846757,
+        "lng": 79.89589097326643,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9021262997647215,
+        "lng": 79.918108891452,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.893654739496074,
+        "lng": 79.92562712340259,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.841285436607717,
+        "lng": 79.96403584747316,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/174-5/"
+  },
+  {
+    "route_no": "17",
+    "name": "Sri Lanka bus route number: 17",
+    "waypoints": [
+      {
+        "lat": 7.291560334863875,
+        "lng": 80.63362250595094,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.903725980526281,
+        "lng": 79.95472321777345,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.872986062173756,
+        "lng": 79.89103684692384,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.861656473156147,
+        "lng": 79.86399481563569,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.711627681626962,
+        "lng": 79.90790257720948,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/17/"
+  },
+  {
+    "route_no": "112",
+    "name": "Sri Lanka bus route number: 112",
+    "waypoints": [
+      {
+        "lat": 6.848346661055358,
+        "lng": 79.92527760565281,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.863083874316106,
+        "lng": 79.90102238953114,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.88515954696655,
+        "lng": 79.86673772335052,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.8863738123387295,
+        "lng": 79.85772550106049,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/112/"
+  },
+  {
+    "route_no": "113",
+    "name": "Sri Lanka bus route number: 113",
+    "waypoints": [
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9325002756048475,
+        "lng": 79.84668552875519,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.912925769347849,
+        "lng": 79.85801115632057,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.896146405085348,
+        "lng": 79.86932873725891,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.887348417823325,
+        "lng": 79.86461475491524,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.872233819142424,
+        "lng": 79.8839145898819,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.8746996938314755,
+        "lng": 79.89860638976097,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.86537403999687,
+        "lng": 79.91130547598004,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/113/"
+  },
+  {
+    "route_no": "31",
+    "name": "Sri Lanka bus route number: 31",
+    "waypoints": [
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.9680886174333905,
+        "lng": 80.70410255924799,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.217830678992716,
+        "lng": 81.2127519515343,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.875843781043258,
+        "lng": 81.03671793574904,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.8304820757748,
+        "lng": 80.98878750010044,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/31/"
+  },
+  {
+    "route_no": "32-4",
+    "name": "Sri Lanka bus route number: 32/4",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.140149425688483,
+        "lng": 80.0997693836689,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.032735076553057,
+        "lng": 80.2156213670969,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 5.962210977002987,
+        "lng": 80.41341215372086,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 5.946492664060527,
+        "lng": 80.53852513432503,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 5.928234100631442,
+        "lng": 80.58843567967415,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.04551155622552,
+        "lng": 80.73292091488838,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.028536643570933,
+        "lng": 80.79444793984294,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/32-4/"
+  },
+  {
+    "route_no": "79",
+    "name": "Sri Lanka bus route number: 79",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932146149740693,
+        "lng": 79.85793270170689,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.241192601962784,
+        "lng": 80.21190382540226,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.2572822727990856,
+        "lng": 80.59279728680849,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.116255377765996,
+        "lng": 80.62459386885166,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.971857174408197,
+        "lng": 80.76710231602192,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/79/"
+  },
+  {
+    "route_no": "21",
+    "name": "Sri Lanka bus route number: 21",
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.2864568620599055,
+        "lng": 80.66034564180882,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.988081415507872,
+        "lng": 81.05769384652376,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/21/"
+  },
+  {
+    "route_no": "602",
+    "name": "Sri Lanka bus route number: 602",
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.321753665616014,
+        "lng": 80.623704205791,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/602/"
+  },
+  {
+    "route_no": "120",
+    "name": "Sri Lanka bus route number: 120",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.918758399444478,
+        "lng": 79.86133575439453,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.907527094136373,
+        "lng": 79.86010193824768,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.801479621377047,
+        "lng": 79.92367029190063,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/120/"
+  },
+  {
+    "route_no": "57",
+    "name": "Sri Lanka bus route number: 57",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.143285257211712,
+        "lng": 80.09536419063807,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 8.340153774062442,
+        "lng": 80.41450716555119,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/57/"
+  },
+  {
+    "route_no": "155",
+    "name": "Sri Lanka bus route number: 155",
+    "waypoints": [
+      {
+        "lat": 6.979080146084084,
+        "lng": 79.87582521513104,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.910402844955751,
+        "lng": 79.86396197229624,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.8031415381911735,
+        "lng": 79.88190326839685,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/155/"
+  },
+  {
+    "route_no": "11",
+    "name": "Sri Lanka bus route number: 11",
+    "waypoints": [
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.082389700975776,
+        "lng": 80.64372153199656,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.683447602405589,
+        "lng": 80.40219783782959,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/11/"
+  },
+  {
+    "route_no": "22",
+    "name": "Sri Lanka bus route number: 22",
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.2992347516183544,
+        "lng": 80.73481621544488,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.290202174643763,
+        "lng": 81.67317179962993,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/22/"
+  },
+  {
+    "route_no": "41",
+    "name": "Sri Lanka bus route number: 41",
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.929036094532072,
+        "lng": 81.0332116484642,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/41/"
+  },
+  {
+    "route_no": "192",
+    "name": "Sri Lanka bus route number: 192",
+    "waypoints": [
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.8197524001163945,
+        "lng": 79.87399913370609,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.848266768885374,
+        "lng": 79.88564260303974,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.845531785532995,
+        "lng": 79.92612132802606,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/192/"
+  },
+  {
+    "route_no": "arugam-bay",
+    "name": "Sri Lanka bus route number: A-Bay",
+    "waypoints": [
+      {
+        "lat": 6.927802,
+        "lng": 79.86511560000008,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.95447952118625,
+        "lng": 80.20867444574833,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.680005726113635,
+        "lng": 80.40644243359566,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.73207882540736,
+        "lng": 81.10212162137032,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.8781242026828995,
+        "lng": 81.82872332632542,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.217989684738993,
+        "lng": 81.84986114501953,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/arugam-bay/"
+  },
+  {
+    "route_no": "45",
+    "name": "Sri Lanka bus route number: 45",
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 8.576576129261062,
+        "lng": 81.23481318354607,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/45/"
+  },
+  {
+    "route_no": "09",
+    "name": "Sri Lanka bus route number: 09",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.956150312109846,
+        "lng": 79.88808156169398,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.2642989642786,
+        "lng": 80.59454741280206,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.273129916612068,
+        "lng": 80.60826959444967,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.288128772269625,
+        "lng": 80.6286466565507,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.293089532167552,
+        "lng": 80.63604504971408,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.309140021000387,
+        "lng": 80.76579959310038,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/09/"
+  },
+  {
+    "route_no": "09-1",
+    "name": "Sri Lanka bus route number: 09/1",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.956466086501058,
+        "lng": 79.88850717181776,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.264144644808601,
+        "lng": 80.5934530718514,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.275072169868068,
+        "lng": 80.61231436548042,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.3100617172955005,
+        "lng": 80.63633923200541,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.324653152138924,
+        "lng": 80.62563421528466,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.350093170068508,
+        "lng": 80.68130614576148,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/09-1/"
+  },
+  {
+    "route_no": "09-2",
+    "name": "Sri Lanka bus route number: 09/2",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.956420642900102,
+        "lng": 79.88844516104109,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.264181893708245,
+        "lng": 80.59414508161353,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.272681267511298,
+        "lng": 80.60732395565424,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.28800015987222,
+        "lng": 80.62855782343831,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.290526035010704,
+        "lng": 80.64588317211019,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.299172359644936,
+        "lng": 80.73467180683565,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/09-2/"
+  },
+  {
+    "route_no": "14",
+    "name": "Sri Lanka bus route number: 14",
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.293009202199127,
+        "lng": 80.63744666410855,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.290721188618552,
+        "lng": 80.64663977540476,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.299166063096711,
+        "lng": 80.73475184242852,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.278872406088754,
+        "lng": 80.81048444466205,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.887800377073479,
+        "lng": 81.30152234371053,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.87177375086608,
+        "lng": 81.35189713148975,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/14/"
+  },
+  {
+    "route_no": "16",
+    "name": "Sri Lanka bus route number: 16",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.961878117415821,
+        "lng": 79.8939681495358,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.265620593851672,
+        "lng": 80.5926621404069,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.05580562311642,
+        "lng": 80.53419620908244,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/16/"
+  },
+  {
+    "route_no": "07",
+    "name": "Sri Lanka bus route number: 07",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 8.240425606293488,
+        "lng": 79.76373955607414,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/07/"
+  },
+  {
+    "route_no": "122",
+    "name": "Sri Lanka bus route number: 122",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932629411662006,
+        "lng": 79.84789822250605,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.918522752466591,
+        "lng": 79.86178401857615,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.885995686174439,
+        "lng": 79.86556828022003,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.865246217086455,
+        "lng": 79.89649415016174,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.841491864217226,
+        "lng": 80.0047467648983,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.902270815510477,
+        "lng": 80.08756399154663,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.955193063969733,
+        "lng": 80.20476210862398,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/122/"
+  },
+  {
+    "route_no": "48",
+    "name": "Sri Lanka bus route number: 48",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.93214348713924,
+        "lng": 79.8579803109169,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.325160125758177,
+        "lng": 80.28359323740005,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.561067238983083,
+        "lng": 80.45864894986153,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.036113592614099,
+        "lng": 80.75327217578888,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.9965073278728,
+        "lng": 80.92674404382706,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.4131170416970145,
+        "lng": 81.8269748669037,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/48/"
+  },
+  {
+    "route_no": "483",
+    "name": "Sri Lanka bus route number: 48/3",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932199401767356,
+        "lng": 79.85785558819771,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.329246355930262,
+        "lng": 80.2914172410965,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.561088510084105,
+        "lng": 80.45865967869759,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.03875883063914,
+        "lng": 80.75489223003387,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.996347960120193,
+        "lng": 80.92627599835396,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.929036094532072,
+        "lng": 81.0332116484642,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/483/"
+  },
+  {
+    "route_no": "49",
+    "name": "Sri Lanka bus route number: 49",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.145765666384255,
+        "lng": 80.09629055857658,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 8.576576129261062,
+        "lng": 81.23481318354607,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/49/"
+  },
+  {
+    "route_no": "99",
+    "name": "Sri Lanka bus route number: 99",
+    "waypoints": [
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.988081415507872,
+        "lng": 81.05769384652376,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/99/"
+  },
+  {
+    "route_no": "138",
+    "name": "Sri Lanka bus route number: 138",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.922613940071398,
+        "lng": 79.85358953475952,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.916527070803241,
+        "lng": 79.86315496265888,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.912943076962081,
+        "lng": 79.85802724957466,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.887316463576889,
+        "lng": 79.8646080493927,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.8412841967437386,
+        "lng": 80.00207822988591,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/138/"
+  },
+  {
+    "route_no": "450",
+    "name": "Sri Lanka bus route number: 450",
+    "waypoints": [
+      {
+        "lat": 6.7143461102121345,
+        "lng": 79.90752907960416,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.683447602405589,
+        "lng": 80.40219783782959,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/450/"
+  },
+  {
+    "route_no": "176",
+    "name": "Sri Lanka bus route number: 176",
+    "waypoints": [
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.927803426716846,
+        "lng": 79.86507374793291,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.912261422753437,
+        "lng": 79.87964183092117,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9101845015256425,
+        "lng": 79.89451602101326,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.873959400182261,
+        "lng": 79.89098221063614,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.862913442941204,
+        "lng": 79.86585058271885,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.855947008290062,
+        "lng": 79.87315490841866,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/176/"
+  },
+  {
+    "route_no": "187-e-03",
+    "name": "Sri Lanka bus route number: 187 E-03",
+    "waypoints": [
+      {
+        "lat": 7.166311026928108,
+        "lng": 79.88412380218506,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/187-e-03/"
+  },
+  {
+    "route_no": "ex-1-2",
+    "name": "Sri Lanka bus route number: EX 1-2",
+    "waypoints": [
+      {
+        "lat": 6.936314690861787,
+        "lng": 79.9832732433697,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/ex-1-2/"
+  },
+  {
+    "route_no": "ex-1-21",
+    "name": "Sri Lanka bus route number: EX 1-21",
+    "waypoints": [
+      {
+        "lat": 7.005159656247297,
+        "lng": 79.95463907718658,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/ex-1-21/"
+  },
+  {
+    "route_no": "ex-1-23",
+    "name": "Sri Lanka bus route number: EX 1-23",
+    "waypoints": [
+      {
+        "lat": 6.936314690861787,
+        "lng": 79.9832732433697,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/ex-1-23/"
+  },
+  {
+    "route_no": "ex-1-22",
+    "name": "Sri Lanka bus route number: EX 1-22",
+    "waypoints": [
+      {
+        "lat": 7.005159656247297,
+        "lng": 79.95463907718658,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/ex-1-22/"
+  },
+  {
+    "route_no": "18",
+    "name": "Sri Lanka bus route number: 18",
+    "waypoints": [
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.936462206975162,
+        "lng": 79.98326243832707,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.889223063179617,
+        "lng": 80.59887684881687,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/18/"
+  },
+  {
+    "route_no": "170",
+    "name": "Sri Lanka bus route number: 170",
+    "waypoints": [
+      {
+        "lat": 6.875812795061494,
+        "lng": 79.99076306819916,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9041933314870585,
+        "lng": 79.95386995375156,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.933520050102885,
+        "lng": 79.8553691804409,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/170/"
+  },
+  {
+    "route_no": "98",
+    "name": "Sri Lanka bus route number: 98",
+    "waypoints": [
+      {
+        "lat": 6.9232838,
+        "lng": 79.86943640000004,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.68238200861912,
+        "lng": 80.40089663118124,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.650519683403225,
+        "lng": 80.70211943238974,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.424483546180726,
+        "lng": 80.81879250705242,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.849140255883718,
+        "lng": 81.83022134006023,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.290202174643763,
+        "lng": 81.67317179962993,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/98/"
+  },
+  {
+    "route_no": "138-e01",
+    "name": "Sri Lanka bus route number: 138-E01",
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.914892176539354,
+        "lng": 79.86032322049141,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.911025921994467,
+        "lng": 79.85845573246479,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.887372383506736,
+        "lng": 79.86462581902742,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.869107519022314,
+        "lng": 79.89039279520512,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.841827416003961,
+        "lng": 79.96312156319618,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.835947236280976,
+        "lng": 79.98223699629307,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/138-e01/"
+  },
+  {
+    "route_no": "135",
+    "name": "Sri Lanka bus route number: 135",
+    "waypoints": [
+      {
+        "lat": 6.867084963095992,
+        "lng": 79.88451371459962,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.867787985961514,
+        "lng": 79.88410601882936,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.890458620840122,
+        "lng": 79.86388921737671,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.892365207808555,
+        "lng": 79.87114124000072,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.917353798704014,
+        "lng": 79.87756679325105,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.955529829933168,
+        "lng": 79.88511452941896,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.951092840658532,
+        "lng": 79.91707742214203,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/135/"
+  },
+  {
+    "route_no": "13",
+    "name": "Sri Lanka bus route number: 13",
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.908734736119963,
+        "lng": 80.0811925641392,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.855890227362347,
+        "lng": 80.74797863505705,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/13/"
+  },
+  {
+    "route_no": "ex001",
+    "name": "Sri Lanka bus route number: EX001",
+    "waypoints": [
+      {
+        "lat": 6.8387546,
+        "lng": 79.97661949999997,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/ex001/"
+  },
+  {
+    "route_no": "ex-1-1",
+    "name": "Sri Lanka bus route number: EX 1-1",
+    "waypoints": [
+      {
+        "lat": 6.8387546,
+        "lng": 79.97661949999997,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/ex-1-1/"
+  },
+  {
+    "route_no": "32",
+    "name": "Sri Lanka bus route number: 32",
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.879443670539109,
+        "lng": 79.86003924161196,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 5.969621797326104,
+        "lng": 80.41891939938068,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 5.974279518639194,
+        "lng": 80.43439239263535,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 5.94471058663303,
+        "lng": 80.55023565888405,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.120937295177577,
+        "lng": 81.06272131204605,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.28528993548337,
+        "lng": 81.27412229776382,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.413246242205084,
+        "lng": 81.33221626281738,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/32/"
+  },
+  {
+    "route_no": "175",
+    "name": "Sri Lanka bus route number: 175",
+    "waypoints": [
+      {
+        "lat": 6.942839035918073,
+        "lng": 79.91804821416736,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9428070854247,
+        "lng": 79.918032120913,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9349751188181,
+        "lng": 79.91661439209,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9110112405236,
+        "lng": 79.888891079712,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9145473204058,
+        "lng": 79.877561428833,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.9112881633969,
+        "lng": 79.849172928619,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.9111510698476515,
+        "lng": 79.84917461872101,
+        "name": "Destination"
+      }
+    ],
+    "stops": [],
+    "source_url": "https://routemaster.lk/bus/175/"
+  }
+]

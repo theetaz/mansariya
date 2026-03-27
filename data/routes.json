@@ -1,5 +1,17 @@
 [
   {
+    "id": "-0R4-11",
+    "name_en": "Colombo - Chilaw",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "00",
     "name_en": "",
     "name_si": "",
@@ -7,6 +19,18 @@
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 1122,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "-1R5-17",
+    "name_en": "Kurunegala - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -21,7 +45,29 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.972008929842565,
+        "lng": 79.91674298420548,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.23422892366997,
+        "lng": 80.2601602037048,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.291560334863875,
+        "lng": 80.63362250595094,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "1",
@@ -68,6 +114,18 @@
     ]
   },
   {
+    "id": "1-1/2",
+    "name_en": "Negombo - Kegalle",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "1-1/245",
     "name_en": "Colombo - (via 1-1/245)",
     "name_si": "",
@@ -81,7 +139,7 @@
   },
   {
     "id": "1-2",
-    "name_en": "Colombo - (via 1-2)",
+    "name_en": "Colombo - Mawanella",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -93,7 +151,7 @@
   },
   {
     "id": "1-3",
-    "name_en": "Colombo - (via 1-3)",
+    "name_en": "Colombo - Warakapola",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -105,7 +163,7 @@
   },
   {
     "id": "1-4",
-    "name_en": "Colombo - (via 1-4)",
+    "name_en": "Colombo - Galapitamada",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -131,6 +189,18 @@
       "Kegalle",
       "Kandy"
     ]
+  },
+  {
+    "id": "1-R",
+    "name_en": "Colombo - Kandy",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
   },
   {
     "id": "1/245",
@@ -193,6 +263,597 @@
     "stops": []
   },
   {
+    "id": "EX-1-5",
+    "name_en": "Colombo - Monaragala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01",
+    "name_en": "Makumbura - Galle",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-1",
+    "name_en": "Makumbura - Matara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-11/",
+    "name_en": "Colombo - Weeraketiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-12/",
+    "name_en": "Colombo - Kataragama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-13/",
+    "name_en": "Colombo - Deiyandara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-14/",
+    "name_en": "Colombo - Deniyaya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-16",
+    "name_en": "Colombo - Elpitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-18",
+    "name_en": "Colombo - Matara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-21",
+    "name_en": "Kadawatha - Galle",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-22",
+    "name_en": "Kadawatha - Matara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-23",
+    "name_en": "Kaduwela - Galle",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-24/",
+    "name_en": "Matara - Kandy",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-25/",
+    "name_en": "Panadura - Matara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-29/",
+    "name_en": "Colombo - Kamburupitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-42",
+    "name_en": "Colombo - Baddegama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-46",
+    "name_en": "Moratuwa - Matara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-5/",
+    "name_en": "Colombo - Hakmana",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-51/",
+    "name_en": "Colombo - Ampara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-7/",
+    "name_en": "Colombo - Middeniya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-74/",
+    "name_en": "Makumbura - Badulla",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-78/",
+    "name_en": "Makumbura - Akkaraipattu",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-81/",
+    "name_en": "Makumbura - Madolsima",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-83/",
+    "name_en": "Colombo - Embilipitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-84/",
+    "name_en": "Colombo - Akuressa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-85/",
+    "name_en": "Akuressa - Colombo",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-88/",
+    "name_en": "Colombo - Agunukolapeles",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-9/",
+    "name_en": "Colombo - Embilipitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-90/",
+    "name_en": "Colombo - Angunakolapele",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-94/",
+    "name_en": "Matara - Kurunegala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-95/",
+    "name_en": "Makumbura - Meegahakiula",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-96/",
+    "name_en": "Colombo - Kolonna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01-97/",
+    "name_en": "Colombo - Udawalawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "EX01/EX0",
+    "name_en": "Matara - Negombo",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "ex-1-1",
+    "name_en": "Sri Lanka bus route number: EX 1-1",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.8387546,
+        "lng": 79.97661949999997,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "ex-1-2",
+    "name_en": "Sri Lanka bus route number: EX 1-2",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.936314690861787,
+        "lng": 79.9832732433697,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "ex-1-21",
+    "name_en": "Sri Lanka bus route number: EX 1-21",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.005159656247297,
+        "lng": 79.95463907718658,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "ex-1-22",
+    "name_en": "Sri Lanka bus route number: EX 1-22",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.005159656247297,
+        "lng": 79.95463907718658,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "ex-1-23",
+    "name_en": "Sri Lanka bus route number: EX 1-23",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.936314690861787,
+        "lng": 79.9832732433697,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "ex001",
+    "name_en": "Sri Lanka bus route number: EX001",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.8387546,
+        "lng": 79.97661949999997,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "02",
+    "name_en": "Sri Lanka bus route number: 02",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.920595643035603,
+        "lng": 79.8467767238617,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.880211916028131,
+        "lng": 79.862140417099,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.054382896806657,
+        "lng": 80.18155932426453,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.032843067848115,
+        "lng": 80.21566862730981,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "2",
     "name_en": "Colombo - Matara",
     "name_si": "කොළඹ - මාතර",
@@ -223,7 +884,7 @@
   },
   {
     "id": "2-1",
-    "name_en": "Colombo - (via 2-1)",
+    "name_en": "Colombo - Galle",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -235,7 +896,7 @@
   },
   {
     "id": "2-10",
-    "name_en": "Colombo - (via 2-10)",
+    "name_en": "Colombo - Deyyandara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -247,7 +908,7 @@
   },
   {
     "id": "2-12",
-    "name_en": "Colombo - (via 2-12)",
+    "name_en": "Colombo - Kirinda",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -258,8 +919,20 @@
     "stops": []
   },
   {
+    "id": "2-1R8-2",
+    "name_en": "Mahiyanganay - Kaduruwela",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "2-3",
-    "name_en": "Colombo - (via 2-3)",
+    "name_en": "Colombo - Ambalangoda",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -271,7 +944,7 @@
   },
   {
     "id": "2-4",
-    "name_en": "Colombo - (via 2-4)",
+    "name_en": "Colombo - Yatiyana",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -295,7 +968,7 @@
   },
   {
     "id": "2-9",
-    "name_en": "Colombo - (via 2-9)",
+    "name_en": "Colombo - Deyyandara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -326,20 +999,8 @@
     ]
   },
   {
-    "id": "2/013",
-    "name_en": "Colombo - Mawarala",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "LUXURY",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "2/13",
-    "name_en": "Colombo - (via 2/13)",
+    "name_en": "Colombo - Mawarala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -434,6 +1095,69 @@
     "stops": []
   },
   {
+    "id": "EX02/EX0",
+    "name_en": "Makumbura - Kandy",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "-3R2-4",
+    "name_en": "Colombo - Tangalle",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "03",
+    "name_en": "Sri Lanka bus route number: 03",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.954607319973443,
+        "lng": 80.20508766174316,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.716735580977222,
+        "lng": 80.38434505462646,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.3347061616951335,
+        "lng": 80.85323810577393,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.413246242205084,
+        "lng": 81.33221626281738,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "3",
     "name_en": "Colombo - Badulla",
     "name_si": "කොළඹ - බදුල්ල",
@@ -447,7 +1171,7 @@
   },
   {
     "id": "3-1",
-    "name_en": "Colombo - (via 3-1)",
+    "name_en": "Colombo - Embilipitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -458,8 +1182,20 @@
     "stops": []
   },
   {
+    "id": "3-1/3",
+    "name_en": "Middeniya - Colombo",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "3-4",
-    "name_en": "Colombo - (via 3-4)",
+    "name_en": "Colombo - Hambanthota",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -518,6 +1254,55 @@
     "stops": []
   },
   {
+    "id": "04",
+    "name_en": "Sri Lanka bus route number: 04",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.936036194448237,
+        "lng": 79.87286657094955,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.957546682480297,
+        "lng": 79.88224625587463,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.203918344924292,
+        "lng": 79.85192656517029,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.030376872601417,
+        "lng": 79.82896685600281,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 8.028390248814949,
+        "lng": 79.83368754386902,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 8.340148466376414,
+        "lng": 80.41462182998657,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "4",
     "name_en": "Colombo - Jaffna",
     "name_si": "කොළඹ - යාපනය",
@@ -544,7 +1329,7 @@
   },
   {
     "id": "4-1",
-    "name_en": "Colombo - (via 4-1)",
+    "name_en": "Colombo - Thalaimannar",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -556,7 +1341,7 @@
   },
   {
     "id": "4-10",
-    "name_en": "Colombo - (via 4-10)",
+    "name_en": "Colombo - Eluwankulama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -568,7 +1353,7 @@
   },
   {
     "id": "4-11",
-    "name_en": "Colombo - (via 4-11)",
+    "name_en": "Colombo - Chilaw",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -579,8 +1364,20 @@
     "stops": []
   },
   {
+    "id": "4-11/1",
+    "name_en": "Chilaw - Maharagama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "4-13",
-    "name_en": "Colombo - (via 4-13)",
+    "name_en": "Puttalam - Mannar",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -592,7 +1389,7 @@
   },
   {
     "id": "4-3",
-    "name_en": "Colombo - (via 4-3)",
+    "name_en": "Colombo - Anuradhapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -628,7 +1425,7 @@
   },
   {
     "id": "4-7",
-    "name_en": "Colombo - (via 4-7)",
+    "name_en": "Colombo - Puttalam",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -640,12 +1437,24 @@
   },
   {
     "id": "4-9",
-    "name_en": "Colombo - (via 4-9)",
+    "name_en": "Colombo - Anamaduwa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 434,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "4-9/9",
+    "name_en": "Colombo - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -685,6 +1494,52 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "-5R2-8",
+    "name_en": "Kandy - Diyasenpura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "05",
+    "name_en": "Sri Lanka bus route number: 05",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.989984944816768,
+        "lng": 79.89268943667412,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.169813226624633,
+        "lng": 79.94730323553085,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "5",
@@ -731,6 +1586,18 @@
     "stops": []
   },
   {
+    "id": "5/57/5",
+    "name_en": "Katunayake - Galnewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "5/57/540",
     "name_en": "Colombo - (via 5/57/540)",
     "name_si": "",
@@ -752,7 +1619,24 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.149864167060324,
+        "lng": 80.09997725486755,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "6",
@@ -787,6 +1671,18 @@
     "stops": []
   },
   {
+    "id": "6/57/5",
+    "name_en": "Colombo - Galnewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "6/57/540",
     "name_en": "Colombo - (via 6/57/540)",
     "name_si": "",
@@ -797,6 +1693,30 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "07",
+    "name_en": "Sri Lanka bus route number: 07",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 8.240425606293488,
+        "lng": 79.76373955607414,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "7",
@@ -812,7 +1732,7 @@
   },
   {
     "id": "7-1",
-    "name_en": "Colombo - (via 7-1)",
+    "name_en": "Negombo - Kalpitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -821,6 +1741,35 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "08",
+    "name_en": "Sri Lanka bus route number: 08",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.2930223238085645,
+        "lng": 80.6328758597374,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.477155253864091,
+        "lng": 80.62298387289047,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "8",
@@ -833,6 +1782,165 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "-9R2--R004",
+    "name_en": "Colombo - Kuliyapitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "09",
+    "name_en": "Sri Lanka bus route number: 09",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.956150312109846,
+        "lng": 79.88808156169398,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.2642989642786,
+        "lng": 80.59454741280206,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.273129916612068,
+        "lng": 80.60826959444967,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.288128772269625,
+        "lng": 80.6286466565507,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.293089532167552,
+        "lng": 80.63604504971408,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.309140021000387,
+        "lng": 80.76579959310038,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "09-1",
+    "name_en": "Sri Lanka bus route number: 09/1",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.956466086501058,
+        "lng": 79.88850717181776,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.264144644808601,
+        "lng": 80.5934530718514,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.275072169868068,
+        "lng": 80.61231436548042,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.3100617172955005,
+        "lng": 80.63633923200541,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.324653152138924,
+        "lng": 80.62563421528466,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.350093170068508,
+        "lng": 80.68130614576148,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "09-2",
+    "name_en": "Sri Lanka bus route number: 09/2",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.956420642900102,
+        "lng": 79.88844516104109,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.264181893708245,
+        "lng": 80.59414508161353,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.272681267511298,
+        "lng": 80.60732395565424,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.28800015987222,
+        "lng": 80.62855782343831,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.290526035010704,
+        "lng": 80.64588317211019,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.299172359644936,
+        "lng": 80.73467180683565,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "9",
@@ -859,8 +1967,20 @@
     ]
   },
   {
+    "id": "9-0R9",
+    "name_en": "Monaragala - Ampara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "9-1",
-    "name_en": "Colombo - (via 9-1)",
+    "name_en": "Colombo - Wattegama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -872,7 +1992,7 @@
   },
   {
     "id": "9-2",
-    "name_en": "Colombo - (via 9-2)",
+    "name_en": "Colombo - Digana",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -904,6 +2024,48 @@
       "Wellawaya",
       "Buttala",
       "Kataragama"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.413246242205084,
+        "lng": 81.33221626281738,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.285263274617564,
+        "lng": 81.2814024835825,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.873426814109905,
+        "lng": 81.03117048740387,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.8300004048582075,
+        "lng": 80.99214065819979,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.877549014740644,
+        "lng": 80.93830302357674,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.105044802824429,
+        "lng": 80.63729479908943,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.19661108119229,
+        "lng": 80.59784151613712,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 7.291560334863875,
+        "lng": 80.63362250595094,
+        "name": "Destination"
+      }
     ]
   },
   {
@@ -916,28 +2078,45 @@
     "fare_lkr": 598,
     "frequency_minutes": 0,
     "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.082389700975776,
+        "lng": 80.64372153199656,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.683447602405589,
+        "lng": 80.40219783782959,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "11-1",
+    "name_en": "Matara - Embilipitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 345,
+    "frequency_minutes": 0,
+    "operating_hours": "",
     "stops": []
   },
   {
-    "id": "11-001-0",
+    "id": "11-1-0",
     "name_en": "Matara - Embilipitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "NORMAL",
     "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
-    "id": "11-1",
-    "name_en": "Matara - (via 11-1)",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "Normal",
-    "fare_lkr": 345,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -956,7 +2135,7 @@
   },
   {
     "id": "11-3",
-    "name_en": "Matara - (via 11-3)",
+    "name_en": "Matara - Suriyawewa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -977,6 +2156,35 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "13",
+    "name_en": "Sri Lanka bus route number: 13",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.908734736119963,
+        "lng": 80.0811925641392,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.855890227362347,
+        "lng": 80.74797863505705,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "13-2",
@@ -1000,7 +2208,44 @@
     "fare_lkr": 605,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.293009202199127,
+        "lng": 80.63744666410855,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.290721188618552,
+        "lng": 80.64663977540476,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.299166063096711,
+        "lng": 80.73475184242852,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.278872406088754,
+        "lng": 80.81048444466205,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.887800377073479,
+        "lng": 81.30152234371053,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.87177375086608,
+        "lng": 81.35189713148975,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "15",
@@ -1021,28 +2266,60 @@
       "Kilinochchi",
       "Chavakachcheri",
       "Jaffna"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.149906748692532,
+        "lng": 80.10004699230194,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.87386083546406,
+        "lng": 80.65102502703667,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.041276571292686,
+        "lng": 80.59642598032951,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 8.34016969712004,
+        "lng": 80.4145011305809,
+        "name": "Destination"
+      }
     ]
   },
   {
-    "id": "15-001-0",
+    "id": "15-1",
+    "name_en": "Colombo - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 776,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-1-0",
     "name_en": "Colombo - Anuradhapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "LUXURY",
     "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
-    "id": "15-1",
-    "name_en": "Colombo - (via 15-1)",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "Normal",
-    "fare_lkr": 776,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -1061,7 +2338,7 @@
   },
   {
     "id": "15-11",
-    "name_en": "Colombo - (via 15-11)",
+    "name_en": "Colombo - Janakapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1085,7 +2362,7 @@
   },
   {
     "id": "15-17",
-    "name_en": "Colombo - (via 15-17)",
+    "name_en": "Kurunegala - Anuradhapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1097,12 +2374,36 @@
   },
   {
     "id": "15-18",
-    "name_en": "Colombo - (via 15-18)",
+    "name_en": "Kegalle - Vavuniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 679,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-21/4",
+    "name_en": "Colombo - Galnewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-22/0",
+    "name_en": "Moratuwa - Kankasanthurai",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -1121,7 +2422,7 @@
   },
   {
     "id": "15-4",
-    "name_en": "Colombo - (via 15-4)",
+    "name_en": "Colombo - Galnewa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1133,12 +2434,24 @@
   },
   {
     "id": "15-5",
-    "name_en": "Colombo - (via 15-5)",
+    "name_en": "Kurunegala - Kekirawa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 301,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15-5/5",
+    "name_en": "Kurunegala - Bulneewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -1157,7 +2470,7 @@
   },
   {
     "id": "15-6",
-    "name_en": "Colombo - (via 15-6)",
+    "name_en": "Colombo - Galenbindunuwe",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1169,24 +2482,12 @@
   },
   {
     "id": "15-7",
-    "name_en": "Colombo - (via 15-7)",
+    "name_en": "Colombo - Vavuniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 870,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
-    "id": "15/087",
-    "name_en": "Colombo - Jaffna",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "SUPER",
-    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -1240,6 +2541,30 @@
     "stops": []
   },
   {
+    "id": "15/87",
+    "name_en": "Colombo - Jaffna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "15/87/7",
+    "name_en": "Colombo - Point Pedro",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "15/87/759",
     "name_en": "Colombo - (via 15/87/759)",
     "name_si": "",
@@ -1273,7 +2598,29 @@
     "fare_lkr": 510,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.961878117415821,
+        "lng": 79.8939681495358,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.265620593851672,
+        "lng": 80.5926621404069,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.05580562311642,
+        "lng": 80.53419620908244,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "16-2",
@@ -1297,11 +2644,38 @@
     "fare_lkr": 516,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.291560334863875,
+        "lng": 80.63362250595094,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.903725980526281,
+        "lng": 79.95472321777345,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.872986062173756,
+        "lng": 79.89103684692384,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.861656473156147,
+        "lng": 79.86399481563569,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.711627681626962,
+        "lng": 79.90790257720948,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "17-1",
-    "name_en": "Panadura - (via 17-1)",
+    "name_en": "Panadura - Kurunegala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1312,19 +2686,7 @@
     "stops": []
   },
   {
-    "id": "17/006",
-    "name_en": "Battaramulla - Kurunegala",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
-    "id": "17/015-0",
+    "id": "17/15-0",
     "name_en": "Panadura - Anuradhapura",
     "name_si": "",
     "name_ta": "",
@@ -1385,7 +2747,7 @@
   },
   {
     "id": "17/6",
-    "name_en": "Panadura - (via 17/6)",
+    "name_en": "Battaramulla - Kurunegala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1397,19 +2759,36 @@
   },
   {
     "id": "18",
-    "name_en": "Colombo - Hatton",
+    "name_en": "Sri Lanka bus route number: 18",
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "LUXURY",
+    "service_type": "Normal",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.936462206975162,
+        "lng": 79.98326243832707,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.889223063179617,
+        "lng": 80.59887684881687,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "18-2",
-    "name_en": "",
+    "name_en": "Colombo - Hatton",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1421,7 +2800,7 @@
   },
   {
     "id": "18-6",
-    "name_en": "",
+    "name_en": "Colombo - Bagawanthalaw",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1433,7 +2812,7 @@
   },
   {
     "id": "18-7",
-    "name_en": "",
+    "name_en": "Colombo - Thalawakele",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1456,20 +2835,8 @@
     "stops": []
   },
   {
-    "id": "19",
-    "name_en": "Kandy - Badulla",
-    "name_si": "මහනුවර - බදුල්ල",
-    "name_ta": "கண்டி - பதுளை",
-    "operator": "SLTB",
-    "service_type": "Normal",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "19-2",
-    "name_en": "Kandy - (via 19-2)",
+    "name_en": "Colombo - Gampola",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1497,6 +2864,23 @@
       "Kandy",
       "Hanguranketha",
       "Walapane"
+    ],
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.2864568620599055,
+        "lng": 80.66034564180882,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.988081415507872,
+        "lng": 81.05769384652376,
+        "name": "Destination"
+      }
     ]
   },
   {
@@ -1549,27 +2933,32 @@
   },
   {
     "id": "22",
-    "name_en": "Kandy - Ampara",
+    "name_en": "Sri Lanka bus route number: 22",
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "LUXURY",
+    "service_type": "Normal",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
-  },
-  {
-    "id": "22-006-0",
-    "name_en": "Kandy - Dehiattakandiya",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.2992347516183544,
+        "lng": 80.73481621544488,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.290202174643763,
+        "lng": 81.67317179962993,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "22-1",
@@ -1584,8 +2973,32 @@
     "stops": []
   },
   {
+    "id": "22-11",
+    "name_en": "Kandy - Bibila",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-12",
+    "name_en": "Kandy - Mahaoya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "22-2",
-    "name_en": "",
+    "name_en": "Kandy - Ampara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1596,8 +3009,20 @@
     "stops": []
   },
   {
+    "id": "22-2/8",
+    "name_en": "Kandy - Akkaraipattu",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "22-3",
-    "name_en": "",
+    "name_en": "Kandy - Tampititya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1609,7 +3034,7 @@
   },
   {
     "id": "22-4",
-    "name_en": "",
+    "name_en": "Mahiyanganay - Ampara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1621,7 +3046,7 @@
   },
   {
     "id": "22-5",
-    "name_en": "",
+    "name_en": "Kandy - Mahiyanganaya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1633,12 +3058,24 @@
   },
   {
     "id": "22-6",
-    "name_en": "",
+    "name_en": "Kandy - Siripura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 498,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22-6-0",
+    "name_en": "Kandy - Dehiattakandiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -1669,7 +3106,7 @@
   },
   {
     "id": "22-7",
-    "name_en": "",
+    "name_en": "Colombo - Kalmunai",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1681,7 +3118,7 @@
   },
   {
     "id": "22-8",
-    "name_en": "",
+    "name_en": "Colombo - Ampara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1693,7 +3130,7 @@
   },
   {
     "id": "22-9",
-    "name_en": "",
+    "name_en": "Colombo - Ninthavoor",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1723,6 +3160,18 @@
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 521,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "22/218/0",
+    "name_en": "Ampara - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -1800,6 +3249,18 @@
     "stops": []
   },
   {
+    "id": "25/27/2",
+    "name_en": "Embilipitiya - Welikanda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "25/27/218",
     "name_en": "Colombo - (via 25/27/218)",
     "name_si": "",
@@ -1825,7 +3286,7 @@
   },
   {
     "id": "25/76",
-    "name_en": "Colombo - (via 25/76)",
+    "name_en": "Embilipitiya - Trincomalee",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1837,7 +3298,7 @@
   },
   {
     "id": "26",
-    "name_en": "Colombo - Middeniya",
+    "name_en": "Colombo - Hakmana",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1849,7 +3310,7 @@
   },
   {
     "id": "26-1",
-    "name_en": "",
+    "name_en": "Colombo - Middeniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1861,12 +3322,24 @@
   },
   {
     "id": "26-3",
-    "name_en": "",
+    "name_en": "Colombo - Deyyandara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 667,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "27/218/0",
+    "name_en": "Thanamalwila - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -1908,7 +3381,7 @@
     "stops": []
   },
   {
-    "id": "30-007-0",
+    "id": "30-7-0",
     "name_en": "Mahaoya - Wellassa",
     "name_si": "",
     "name_ta": "",
@@ -1921,7 +3394,7 @@
   },
   {
     "id": "31",
-    "name_en": "Matara - Nuwaraeliya",
+    "name_en": "Matara - Bandarawela",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1929,11 +3402,38 @@
     "fare_lkr": 730,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Origin"
+      },
+      {
+        "lat": 5.9680886174333905,
+        "lng": 80.70410255924799,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.217830678992716,
+        "lng": 81.2127519515343,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.875843781043258,
+        "lng": 81.03671793574904,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.8304820757748,
+        "lng": 80.98878750010044,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "31-1",
-    "name_en": "",
+    "name_en": "Matara - Nuwaraeliya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1945,7 +3445,7 @@
   },
   {
     "id": "31-2",
-    "name_en": "",
+    "name_en": "Matara - Badulla",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -1972,23 +3472,53 @@
       "Dambulla",
       "Kekirawa",
       "Anuradhapura"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.879443670539109,
+        "lng": 79.86003924161196,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 5.969621797326104,
+        "lng": 80.41891939938068,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 5.974279518639194,
+        "lng": 80.43439239263535,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 5.94471058663303,
+        "lng": 80.55023565888405,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.120937295177577,
+        "lng": 81.06272131204605,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.28528993548337,
+        "lng": 81.27412229776382,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.413246242205084,
+        "lng": 81.33221626281738,
+        "name": "Destination"
+      }
     ]
   },
   {
-    "id": "32-06",
-    "name_en": "Elpitiya - Kataragama",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "32-1",
-    "name_en": "Colombo - (via 32-1)",
+    "name_en": "Colombo - Hambanthota",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2012,7 +3542,7 @@
   },
   {
     "id": "32-4",
-    "name_en": "Colombo - (via 32-4)",
+    "name_en": "Colombo - Tangalle",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2020,7 +3550,49 @@
     "fare_lkr": 679,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.140149425688483,
+        "lng": 80.0997693836689,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.032735076553057,
+        "lng": 80.2156213670969,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 5.962210977002987,
+        "lng": 80.41341215372086,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 5.946492664060527,
+        "lng": 80.53852513432503,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 5.928234100631442,
+        "lng": 80.58843567967415,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.04551155622552,
+        "lng": 80.73292091488838,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.028536643570933,
+        "lng": 80.79444793984294,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "32-4/87",
@@ -2036,7 +3608,7 @@
   },
   {
     "id": "32-5",
-    "name_en": "Colombo - (via 32-5)",
+    "name_en": "Colombo - Middeniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2048,7 +3620,7 @@
   },
   {
     "id": "32-6",
-    "name_en": "Colombo - (via 32-6)",
+    "name_en": "Elpitiya - Kataragama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2060,7 +3632,7 @@
   },
   {
     "id": "32-7",
-    "name_en": "Colombo - (via 32-7)",
+    "name_en": "Galle - Kataragama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2150,7 +3722,7 @@
   },
   {
     "id": "34-3",
-    "name_en": "",
+    "name_en": "Negombo - Kurunegala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2162,7 +3734,7 @@
   },
   {
     "id": "34-4",
-    "name_en": "",
+    "name_en": "Negombo - Giriulla",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2174,7 +3746,7 @@
   },
   {
     "id": "35",
-    "name_en": "Matara - Ampara",
+    "name_en": "Galle - Ampara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2186,7 +3758,7 @@
   },
   {
     "id": "35-1",
-    "name_en": "",
+    "name_en": "Matara - Ampara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2198,7 +3770,7 @@
   },
   {
     "id": "35-3",
-    "name_en": "",
+    "name_en": "Matara - Monaragala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2271,12 +3843,572 @@
       "Kundasale",
       "Teldeniya",
       "Mahiyangana",
-      "Dehiattakandiya"
+      "Dehiattakandiya",
+      "lake round",
+      "Hillwood",
+      "Hotel Suisse",
+      "Children's park",
+      "Mahamaya",
+      "Lakeside"
+    ],
+    "osm_polyline": [
+      [
+        80.6374691,
+        7.2912982
+      ],
+      [
+        80.6374875,
+        7.2912629
+      ],
+      [
+        80.6375099,
+        7.2912369
+      ],
+      [
+        80.6375442,
+        7.2912135
+      ],
+      [
+        80.6376851,
+        7.291152
+      ],
+      [
+        80.6379462,
+        7.2910356
+      ],
+      [
+        80.6380934,
+        7.2909465
+      ],
+      [
+        80.6382181,
+        7.2908547
+      ],
+      [
+        80.6382976,
+        7.2907712
+      ],
+      [
+        80.6383761,
+        7.2906478
+      ],
+      [
+        80.6384598,
+        7.2905266
+      ],
+      [
+        80.6385701,
+        7.290428
+      ],
+      [
+        80.6386353,
+        7.2903904
+      ],
+      [
+        80.6386955,
+        7.2903752
+      ],
+      [
+        80.6387329,
+        7.2903699
+      ],
+      [
+        80.6387686,
+        7.2903743
+      ],
+      [
+        80.6389792,
+        7.2904662
+      ],
+      [
+        80.639081,
+        7.2904928
+      ],
+      [
+        80.6391502,
+        7.290495
+      ],
+      [
+        80.6392139,
+        7.2904922
+      ],
+      [
+        80.6392827,
+        7.2904792
+      ],
+      [
+        80.6393442,
+        7.2904509
+      ],
+      [
+        80.6394883,
+        7.2903636
+      ],
+      [
+        80.6396489,
+        7.2902777
+      ],
+      [
+        80.6397391,
+        7.2902496
+      ],
+      [
+        80.6397777,
+        7.2902464
+      ],
+      [
+        80.6398261,
+        7.2902485
+      ],
+      [
+        80.6398692,
+        7.290258
+      ],
+      [
+        80.6399017,
+        7.2902702
+      ],
+      [
+        80.6400969,
+        7.2903748
+      ],
+      [
+        80.6405403,
+        7.2906691
+      ],
+      [
+        80.6407428,
+        7.2908068
+      ],
+      [
+        80.6407904,
+        7.2908227
+      ],
+      [
+        80.6408481,
+        7.2908241
+      ],
+      [
+        80.6410995,
+        7.2907423
+      ],
+      [
+        80.6418639,
+        7.2904716
+      ],
+      [
+        80.641994,
+        7.2904064
+      ],
+      [
+        80.6420769,
+        7.290336
+      ],
+      [
+        80.6421305,
+        7.2902622
+      ],
+      [
+        80.6421845,
+        7.2901955
+      ],
+      [
+        80.6422393,
+        7.2901289
+      ],
+      [
+        80.642271,
+        7.2900904
+      ],
+      [
+        80.6423313,
+        7.2900545
+      ],
+      [
+        80.6423952,
+        7.2900416
+      ],
+      [
+        80.6425345,
+        7.2900492
+      ],
+      [
+        80.6427458,
+        7.2900841
+      ],
+      [
+        80.6428201,
+        7.2900834
+      ],
+      [
+        80.6428885,
+        7.2900588
+      ],
+      [
+        80.6429476,
+        7.2900219
+      ],
+      [
+        80.6430971,
+        7.289862
+      ],
+      [
+        80.6431562,
+        7.2898012
+      ],
+      [
+        80.6432743,
+        7.2896818
+      ],
+      [
+        80.6434925,
+        7.2894744
+      ],
+      [
+        80.6436345,
+        7.2893593
+      ],
+      [
+        80.6437157,
+        7.2892911
+      ],
+      [
+        80.6437733,
+        7.2892367
+      ],
+      [
+        80.6438152,
+        7.2891791
+      ],
+      [
+        80.6438728,
+        7.2890817
+      ],
+      [
+        80.6440486,
+        7.2888553
+      ],
+      [
+        80.6440996,
+        7.2888217
+      ],
+      [
+        80.6441618,
+        7.2888189
+      ],
+      [
+        80.6442263,
+        7.2888406
+      ],
+      [
+        80.6445022,
+        7.289035
+      ],
+      [
+        80.6445569,
+        7.2890648
+      ],
+      [
+        80.6446223,
+        7.2890764
+      ],
+      [
+        80.6446685,
+        7.2890678
+      ],
+      [
+        80.6447138,
+        7.2890329
+      ],
+      [
+        80.6448177,
+        7.2888414
+      ],
+      [
+        80.6448385,
+        7.2887795
+      ],
+      [
+        80.6448761,
+        7.2886182
+      ],
+      [
+        80.6448952,
+        7.2885776
+      ],
+      [
+        80.6449445,
+        7.2885101
+      ],
+      [
+        80.6450006,
+        7.2884635
+      ],
+      [
+        80.6450871,
+        7.2884144
+      ],
+      [
+        80.6451116,
+        7.288405
+      ],
+      [
+        80.6451645,
+        7.2883896
+      ],
+      [
+        80.6452837,
+        7.2883466
+      ],
+      [
+        80.6453756,
+        7.2882946
+      ],
+      [
+        80.645449,
+        7.2882382
+      ],
+      [
+        80.6454977,
+        7.288162
+      ],
+      [
+        80.6454992,
+        7.2880879
+      ],
+      [
+        80.6454928,
+        7.2880345
+      ],
+      [
+        80.6454735,
+        7.2879986
+      ],
+      [
+        80.6454491,
+        7.2879655
+      ],
+      [
+        80.6454092,
+        7.2879314
+      ],
+      [
+        80.6453765,
+        7.2879108
+      ],
+      [
+        80.6452943,
+        7.2878658
+      ],
+      [
+        80.6452191,
+        7.2878293
+      ],
+      [
+        80.6451945,
+        7.287805
+      ],
+      [
+        80.6451731,
+        7.2877718
+      ],
+      [
+        80.6451617,
+        7.2877337
+      ],
+      [
+        80.6451528,
+        7.2876689
+      ],
+      [
+        80.6451526,
+        7.2875984
+      ],
+      [
+        80.6451686,
+        7.2875416
+      ],
+      [
+        80.6451861,
+        7.2874969
+      ],
+      [
+        80.6452471,
+        7.2874192
+      ],
+      [
+        80.6453302,
+        7.2873622
+      ],
+      [
+        80.6453509,
+        7.2873516
+      ],
+      [
+        80.64539,
+        7.2873383
+      ],
+      [
+        80.6454531,
+        7.2873274
+      ],
+      [
+        80.6455113,
+        7.2873294
+      ],
+      [
+        80.6455734,
+        7.28735
+      ],
+      [
+        80.645605,
+        7.2873714
+      ],
+      [
+        80.6456606,
+        7.2874286
+      ],
+      [
+        80.6457056,
+        7.2875064
+      ],
+      [
+        80.6457572,
+        7.2876148
+      ],
+      [
+        80.6458053,
+        7.2876933
+      ],
+      [
+        80.6458457,
+        7.2877328
+      ],
+      [
+        80.6459205,
+        7.2877831
+      ],
+      [
+        80.6460035,
+        7.2877993
+      ],
+      [
+        80.6460739,
+        7.287787
+      ],
+      [
+        80.6461293,
+        7.2877764
+      ],
+      [
+        80.646204,
+        7.2877449
+      ],
+      [
+        80.6463164,
+        7.287666
+      ],
+      [
+        80.6465848,
+        7.2874357
+      ],
+      [
+        80.646734,
+        7.2873094
+      ],
+      [
+        80.6469,
+        7.2871676
+      ],
+      [
+        80.6470301,
+        7.287055
+      ],
+      [
+        80.6471445,
+        7.2869791
+      ],
+      [
+        80.6472647,
+        7.2869066
+      ],
+      [
+        80.6473854,
+        7.28686
+      ],
+      [
+        80.6475127,
+        7.2868406
+      ],
+      [
+        80.6476505,
+        7.2868691
+      ],
+      [
+        80.6476841,
+        7.2868801
+      ],
+      [
+        80.6477252,
+        7.2868961
+      ],
+      [
+        80.6477693,
+        7.2869258
+      ],
+      [
+        80.6478171,
+        7.2869766
+      ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "lake round",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.291147,
+        "lng": 80.6377204
+      },
+      {
+        "name": "Hillwood",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2902469,
+        "lng": 80.6399086
+      },
+      {
+        "name": "Hotel Suisse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2893593,
+        "lng": 80.6436345
+      },
+      {
+        "name": "Children's park",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2868477,
+        "lng": 80.6476824
+      },
+      {
+        "name": "Mahamaya",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2876687,
+        "lng": 80.645841
+      },
+      {
+        "name": "Lakeside",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2875984,
+        "lng": 80.6451526
+      }
     ]
   },
   {
     "id": "38-1",
-    "name_en": "",
+    "name_en": "Colombo - Mahiyanganaya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2288,7 +4420,7 @@
   },
   {
     "id": "38-3",
-    "name_en": "",
+    "name_en": "Colombo - Dehiattakandiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2336,15 +4468,27 @@
   },
   {
     "id": "41",
-    "name_en": "Kandy - Kaduruwela",
+    "name_en": "Sri Lanka bus route number: 41",
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "NORMAL",
+    "service_type": "Normal",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.929036094532072,
+        "lng": 81.0332116484642,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "41-1/962",
@@ -2360,7 +4504,7 @@
   },
   {
     "id": "41-10",
-    "name_en": "",
+    "name_en": "Kandy - Onegama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2372,12 +4516,24 @@
   },
   {
     "id": "41-11",
-    "name_en": "",
+    "name_en": "Kandy - Arunapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 636,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-12/0",
+    "name_en": "Gampola - Batticaloa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -2396,12 +4552,24 @@
   },
   {
     "id": "41-2",
-    "name_en": "",
+    "name_en": "Kandy - Kaduruwela",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 498,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-2/6",
+    "name_en": "Kandy - Bimpokuna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -2414,6 +4582,18 @@
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 605,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "41-2/9",
+    "name_en": "Kandy - Sungawila",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -2444,7 +4624,7 @@
   },
   {
     "id": "41-3",
-    "name_en": "",
+    "name_en": "Kandy - Buddhayaya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2455,20 +4635,8 @@
     "stops": []
   },
   {
-    "id": "41/048",
-    "name_en": "Kandy - Batticaloa",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "41/48",
-    "name_en": "",
+    "name_en": "Kandy - Batticaloa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2480,7 +4648,7 @@
   },
   {
     "id": "42",
-    "name_en": "Kandy - Anuradhapura",
+    "name_en": "Colombo - Udugama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2504,7 +4672,7 @@
   },
   {
     "id": "42-2",
-    "name_en": "",
+    "name_en": "Kandy - Anuradhapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2516,7 +4684,7 @@
   },
   {
     "id": "42-5",
-    "name_en": "",
+    "name_en": "Kandy - Nochchiyagama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2528,7 +4696,7 @@
   },
   {
     "id": "42-8",
-    "name_en": "",
+    "name_en": "Colombo - Mapalagama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2540,7 +4708,7 @@
   },
   {
     "id": "42-9",
-    "name_en": "",
+    "name_en": "Colombo - Thawalama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2623,6 +4791,18 @@
     "stops": []
   },
   {
+    "id": "42/825/8",
+    "name_en": "Kandy - Gomarankadawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "42/825/835",
     "name_en": "",
     "name_si": "",
@@ -2684,7 +4864,7 @@
   },
   {
     "id": "45",
-    "name_en": "",
+    "name_en": "Kandy - Trincomalee",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2692,7 +4872,19 @@
     "fare_lkr": 618,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 8.576576129261062,
+        "lng": 81.23481318354607,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "45/950",
@@ -2749,18 +4941,6 @@
     ]
   },
   {
-    "id": "47-003-0",
-    "name_en": "Ella - Kandy",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "47-1/43/87",
     "name_en": "",
     "name_si": "",
@@ -2774,12 +4954,36 @@
   },
   {
     "id": "47-3",
-    "name_en": "",
+    "name_en": "Kandy - Welimada",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 429,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "47-3-0",
+    "name_en": "Ella - Kandy",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "47-3/3",
+    "name_en": "Kandy - Lunuwatta",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -2814,28 +5018,65 @@
       "Horana",
       "Ingiriya",
       "Ratnapura"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.93214348713924,
+        "lng": 79.8579803109169,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.325160125758177,
+        "lng": 80.28359323740005,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.561067238983083,
+        "lng": 80.45864894986153,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.036113592614099,
+        "lng": 80.75327217578888,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.9965073278728,
+        "lng": 80.92674404382706,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.4131170416970145,
+        "lng": 81.8269748669037,
+        "name": "Destination"
+      }
     ]
   },
   {
-    "id": "48-04",
-    "name_en": "Colombo - Medirigiriya",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "48-1",
-    "name_en": "Colombo - (via 48-1)",
+    "name_en": "Colombo - Batticaloa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 1046,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-1/9",
+    "name_en": "Sungawila - Batticaloa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -2854,12 +5095,24 @@
   },
   {
     "id": "48-12",
-    "name_en": "Colombo - (via 48-12)",
+    "name_en": "Colombo - Akkaraipattu",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 1242,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-12/9",
+    "name_en": "Akkaraipattu - Sungawila",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -2878,7 +5131,7 @@
   },
   {
     "id": "48-13",
-    "name_en": "Colombo - (via 48-13)",
+    "name_en": "Colombo - Thirukkovil",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2902,7 +5155,7 @@
   },
   {
     "id": "48-15",
-    "name_en": "Colombo - (via 48-15)",
+    "name_en": "Colombo - Sungawila",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2914,7 +5167,7 @@
   },
   {
     "id": "48-16",
-    "name_en": "Colombo - (via 48-16)",
+    "name_en": "Colombo - Maduruoya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2926,7 +5179,7 @@
   },
   {
     "id": "48-17",
-    "name_en": "Colombo - (via 48-17)",
+    "name_en": "Colombo - Welikanda",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2938,7 +5191,7 @@
   },
   {
     "id": "48-19",
-    "name_en": "Colombo - (via 48-19)",
+    "name_en": "Kaduruwela - Kaththankudi",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2950,7 +5203,7 @@
   },
   {
     "id": "48-2",
-    "name_en": "Colombo - (via 48-2)",
+    "name_en": "Colombo - Diyasenpura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2962,7 +5215,7 @@
   },
   {
     "id": "48-20",
-    "name_en": "Colombo - (via 48-20)",
+    "name_en": "Colombo - Ambagaswewa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -2973,13 +5226,49 @@
     "stops": []
   },
   {
+    "id": "48-23",
+    "name_en": "Colombo - Meegaswewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "48-27",
-    "name_en": "Colombo - (via 48-27)",
+    "name_en": "Kurunegala - Welikanda",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 534,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-27/2",
+    "name_en": "Mahiyanganay - Kurulubedda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "48-27/21",
+    "name_en": "Mahiyanganay - Ransalathenna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -2998,7 +5287,7 @@
   },
   {
     "id": "48-29",
-    "name_en": "Colombo - (via 48-29)",
+    "name_en": "Kaduruwela - Kalmunai",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3010,7 +5299,7 @@
   },
   {
     "id": "48-3",
-    "name_en": "Colombo - (via 48-3)",
+    "name_en": "Colombo - Kaduruwela",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3034,7 +5323,7 @@
   },
   {
     "id": "48-33",
-    "name_en": "Colombo - (via 48-33)",
+    "name_en": "Colombo - Kalahagala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3046,7 +5335,7 @@
   },
   {
     "id": "48-4",
-    "name_en": "Colombo - (via 48-4)",
+    "name_en": "Colombo - Medirigiriya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3070,7 +5359,7 @@
   },
   {
     "id": "48-8",
-    "name_en": "Colombo - (via 48-8)",
+    "name_en": "Kurunegala - Kaduruwela",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3082,7 +5371,7 @@
   },
   {
     "id": "48-9",
-    "name_en": "Colombo - (via 48-9)",
+    "name_en": "Kurunegala - Hingurakgoda",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3165,6 +5454,18 @@
     "stops": []
   },
   {
+    "id": "R48-9",
+    "name_en": "Kurunegala - Hingurakgoda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "49",
     "name_en": "Colombo - Trincomalee",
     "name_si": "කොළඹ - ත්‍රිකුණාමලය",
@@ -3181,11 +5482,28 @@
       "Habarana",
       "Kantale",
       "Trincomalee"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.145765666384255,
+        "lng": 80.09629055857658,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 8.576576129261062,
+        "lng": 81.23481318354607,
+        "name": "Destination"
+      }
     ]
   },
   {
     "id": "49-1",
-    "name_en": "",
+    "name_en": "Kurunegala - Trincomalee",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3268,25 +5586,25 @@
     "stops": []
   },
   {
-    "id": "52",
-    "name_en": "Kandy - Hingurakgoda",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "52-3",
-    "name_en": "",
+    "name_en": "Kandy - Hingurakgoda",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 447,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "52-3/9",
+    "name_en": "Kandy - Siyambalagas",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -3305,7 +5623,7 @@
   },
   {
     "id": "52-6",
-    "name_en": "",
+    "name_en": "Kandy - Ambagaswewa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3317,12 +5635,24 @@
   },
   {
     "id": "52-8",
-    "name_en": "",
+    "name_en": "Kandy - Diyasenpura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 529,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "55/245",
+    "name_en": "Negombo - Nuwaragala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -3337,7 +5667,24 @@
     "fare_lkr": 705,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.143285257211712,
+        "lng": 80.09536419063807,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 8.340153774062442,
+        "lng": 80.41450716555119,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "57-1",
@@ -3353,7 +5700,7 @@
   },
   {
     "id": "57-10",
-    "name_en": "Colombo - (via 57-10)",
+    "name_en": "Kurunegala - Medawachchiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3365,7 +5712,7 @@
   },
   {
     "id": "57-18",
-    "name_en": "Colombo - (via 57-18)",
+    "name_en": "Colombo - Vilachchiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3377,7 +5724,7 @@
   },
   {
     "id": "57-2",
-    "name_en": "Colombo - (via 57-2)",
+    "name_en": "Kurunegala - Vavuniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3389,7 +5736,7 @@
   },
   {
     "id": "57-5",
-    "name_en": "Colombo - (via 57-5)",
+    "name_en": "Kurunegala - Anuradhapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3401,7 +5748,7 @@
   },
   {
     "id": "57-9",
-    "name_en": "Colombo - (via 57-9)",
+    "name_en": "Kegalle - Anuradhapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3412,12 +5759,12 @@
     "stops": []
   },
   {
-    "id": "57/003",
-    "name_en": "Colombo - Vavuniya",
+    "id": "57/221/4",
+    "name_en": "Kalutara - Anuradhapura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "LUXURY",
+    "service_type": "NORMAL",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
@@ -3437,7 +5784,7 @@
   },
   {
     "id": "57/3",
-    "name_en": "Colombo - (via 57/3)",
+    "name_en": "Colombo - Vavuniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3448,8 +5795,44 @@
     "stops": []
   },
   {
+    "id": "57/419/0",
+    "name_en": "Jayalanda - Thambuththega",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/422/0",
+    "name_en": "Galayaya - Niwanthakachet",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "57/423-0",
     "name_en": "Kathnoruwa - Anuradhapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "57/542/0",
+    "name_en": "Track - 04 Niwanthakachet",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3517,23 +5900,48 @@
     "fare_lkr": 687,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
-  },
-  {
-    "id": "60-06",
-    "name_en": "Colombo - Pallegama",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.342266406587228,
+        "lng": 80.56023493409157,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.037140286519716,
+        "lng": 80.3921716738189,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.03274574597285,
+        "lng": 80.2156025916338,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.584365002522173,
+        "lng": 79.96079633190675,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.865064892453584,
+        "lng": 79.86316660597367,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.884037026664677,
+        "lng": 79.85837618061169,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "60-1",
-    "name_en": "Colombo - (via 60-1)",
+    "name_en": "Colombo - Akuressa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3545,7 +5953,7 @@
   },
   {
     "id": "60-3",
-    "name_en": "Colombo - (via 60-3)",
+    "name_en": "Colombo - Deyyandara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3557,7 +5965,7 @@
   },
   {
     "id": "60-4",
-    "name_en": "Colombo - (via 60-4)",
+    "name_en": "Colombo - Urubokka",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3569,7 +5977,7 @@
   },
   {
     "id": "60-6",
-    "name_en": "Colombo - (via 60-6)",
+    "name_en": "Colombo - Pallegama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3604,6 +6012,40 @@
     "stops": []
   },
   {
+    "id": "64",
+    "name_en": "Panadura - Ampara",
+    "name_si": "පානදුර - අම්පාර",
+    "name_ta": "பாணந்துறை - அம்பாறை",
+    "operator": "SLTB",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.712185789734008,
+        "lng": 79.9074206314981,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.71664900747767,
+        "lng": 80.06350239738822,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.988081415507872,
+        "lng": 81.05769384652376,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "67",
     "name_en": "Colombo - Ratnapura",
     "name_si": "කොළඹ - රත්නපුරය",
@@ -3617,7 +6059,7 @@
   },
   {
     "id": "67-1",
-    "name_en": "Colombo - (via 67-1)",
+    "name_en": "Colombo - Kolonna",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3652,8 +6094,20 @@
     "stops": []
   },
   {
+    "id": "69-1",
+    "name_en": "Kandy - Embilipitiya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "69-4",
-    "name_en": "Kandy - (via 69-4)",
+    "name_en": "Kandy - Avissawella",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3688,6 +6142,18 @@
     "stops": []
   },
   {
+    "id": "69/15/0",
+    "name_en": "Hambanthota - Vavuniya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "75-1",
     "name_en": "",
     "name_si": "",
@@ -3695,6 +6161,30 @@
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 534,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "76/218/3",
+    "name_en": "Badulla - Trincomalee",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "76/218/31",
+    "name_en": "Trincomalee - Diyathalawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -3713,7 +6203,7 @@
   },
   {
     "id": "78",
-    "name_en": "",
+    "name_en": "Colombo - Nawalapitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3739,11 +6229,43 @@
       "Pelmadulla",
       "Balangoda",
       "Embilipitiya"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932146149740693,
+        "lng": 79.85793270170689,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.241192601962784,
+        "lng": 80.21190382540226,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.2572822727990856,
+        "lng": 80.59279728680849,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 7.116255377765996,
+        "lng": 80.62459386885166,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.971857174408197,
+        "lng": 80.76710231602192,
+        "name": "Destination"
+      }
     ]
   },
   {
     "id": "79-1",
-    "name_en": "Colombo - (via 79-1)",
+    "name_en": "Colombo - Welimada",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3766,12 +6288,24 @@
     "stops": []
   },
   {
-    "id": "81/048",
+    "id": "81/48",
     "name_en": "Puttlam - Batticaloa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "82/580/0",
+    "name_en": "Mulathivu - Ampara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
@@ -3815,12 +6349,24 @@
   },
   {
     "id": "86-1",
-    "name_en": "Colombo - (via 86-1)",
+    "name_en": "Batticaloa - Vavuniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 812,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "86-2",
+    "name_en": "Vavuniya - Akkaraipattu",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -3880,7 +6426,70 @@
       "Vavuniya",
       "Kilinochchi",
       "Jaffna"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.576073740079267,
+        "lng": 79.79598708450794,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 8.028209646170739,
+        "lng": 79.83336634933949,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 8.340339543027508,
+        "lng": 80.41478343307972,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 9.666859505499836,
+        "lng": 80.01202292740345,
+        "name": "Destination"
+      }
     ]
+  },
+  {
+    "id": "87-2",
+    "name_en": "Colombo - Vavuniya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "87-5",
+    "name_en": "Panadura - Jaffna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "87-7/769",
+    "name_en": "Moratuwa - Kankasanthurai",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
   },
   {
     "id": "87/759",
@@ -3912,7 +6521,7 @@
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "SUPER",
+    "service_type": "SUPER LUXURY",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
@@ -3925,6 +6534,18 @@
     "name_ta": "கொழும்பு - மட்டக்களப்பு",
     "operator": "SLTB",
     "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "88-2",
+    "name_en": "Vavuniya - Trincomalee",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
@@ -3955,20 +6576,8 @@
     "stops": []
   },
   {
-    "id": "92",
-    "name_en": "Colombo - Kuliyapitiya",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "92-4",
-    "name_en": "",
+    "name_en": "Colombo - Kuliyapitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -3980,7 +6589,7 @@
   },
   {
     "id": "92-5",
-    "name_en": "",
+    "name_en": "Negombo - Kuliyapitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -4015,6 +6624,18 @@
     "stops": []
   },
   {
+    "id": "92/929/9",
+    "name_en": "Nikaweratiya - Colombo",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "98",
     "name_en": "Colombo - Mannar",
     "name_si": "කොළඹ - මන්නාරම",
@@ -4030,35 +6651,43 @@
       "Kottawa",
       "Padukka",
       "Avissawella"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.9232838,
+        "lng": 79.86943640000004,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.68238200861912,
+        "lng": 80.40089663118124,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.650519683403225,
+        "lng": 80.70211943238974,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.424483546180726,
+        "lng": 80.81879250705242,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.849140255883718,
+        "lng": 81.83022134006023,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.290202174643763,
+        "lng": 81.67317179962993,
+        "name": "Destination"
+      }
     ]
   },
   {
-    "id": "98-004-8",
-    "name_en": "Colombo - Akkaraipattu",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "LUXURY",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
-    "id": "98-01",
-    "name_en": "Colombo - Ampara",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "NORMAL",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "98-1",
-    "name_en": "Colombo - (via 98-1)",
+    "name_en": "Colombo - Ampara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -4070,7 +6699,7 @@
   },
   {
     "id": "98-11",
-    "name_en": "Colombo - (via 98-11)",
+    "name_en": "Colombo - Badalkumbura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -4106,7 +6735,7 @@
   },
   {
     "id": "98-2",
-    "name_en": "Colombo - (via 98-2)",
+    "name_en": "Colombo - Monaragala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -4129,8 +6758,32 @@
     "stops": []
   },
   {
+    "id": "98-4-8",
+    "name_en": "Colombo - Akkaraipattu",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "98-6",
+    "name_en": "Colombo - Balangoda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "98-8",
-    "name_en": "Colombo - (via 98-8)",
+    "name_en": "Colombo - Panama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -4186,7 +6839,19 @@
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.988081415507872,
+        "lng": 81.05769384652376,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "99-10",
@@ -4201,13 +6866,37 @@
     "stops": []
   },
   {
+    "id": "99-4",
+    "name_en": "Colombo - Balangoda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "99-8",
-    "name_en": "",
+    "name_en": "Colombo - Passara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 944,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "99-9",
+    "name_en": "Colombo - Lunugala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -11512,6 +14201,84 @@
     ]
   },
   {
+    "id": "100-north",
+    "name_en": "Sri Lanka bus route number: 100 ↑",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.7143461102121345,
+        "lng": 79.90752907960416,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.868699420833389,
+        "lng": 79.86235742457211,
+        "name": "Pettah market"
+      },
+      {
+        "lat": 6.893302521495292,
+        "lng": 79.8555089905858,
+        "name": "Galle Face Green"
+      },
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "100-south",
+    "name_en": "Sri Lanka bus route number: 100 ↓",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.931395295524427,
+        "lng": 79.84337199479342,
+        "name": "Pettah market"
+      },
+      {
+        "lat": 6.910181838800249,
+        "lng": 79.8521594144404,
+        "name": "Galle Face Green"
+      },
+      {
+        "lat": 6.89474310511001,
+        "lng": 79.85725242644548,
+        "name": "Galle Face Hotel"
+      },
+      {
+        "lat": 6.866636289393529,
+        "lng": 79.86293384805322,
+        "name": "The Kingsbury Hotel"
+      },
+      {
+        "lat": 6.7143461102121345,
+        "lng": 79.90752907960416,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "101",
     "name_en": "Pettah - Moratuwa",
     "name_si": "පිටකොටුව - මොරටුව",
@@ -11721,6 +14488,43 @@
         "name": "Moratuwa",
         "lat": 6.774494,
         "lng": 79.88245
+      }
+    ],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.919040643127632,
+        "lng": 79.85393637791276,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.912953727801289,
+        "lng": 79.85800931230187,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.910189826976353,
+        "lng": 79.85216159373522,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.894735116673177,
+        "lng": 79.85724488273263,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.866614985634037,
+        "lng": 79.86294943839312,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Destination"
       }
     ],
     "matched_osm_stops": [
@@ -11937,6 +14741,99 @@
     ]
   },
   {
+    "id": "101-mount-lavinia-to-fort",
+    "name_en": "Sri Lanka bus route number: 101 ↑",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.86867611994743,
+        "lng": 79.86234426498413,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.893355777899136,
+        "lng": 79.85547948628664,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.91896076285707,
+        "lng": 79.85384702682495,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.923231675697523,
+        "lng": 79.85181927680969,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.924839914654705,
+        "lng": 79.85045671463013,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "102-north",
+    "name_en": "Sri Lanka bus route number: 102↑",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.868664136634214,
+        "lng": 79.86236656084657,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.893319829827197,
+        "lng": 79.85551485791802,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.913865705018244,
+        "lng": 79.85579246655107,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.950207560474386,
+        "lng": 79.85718721523881,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "103",
     "name_en": "Narahenpita - Fort",
     "name_si": "නාරාහේන්පිට - කොටුව",
@@ -12005,6 +14902,28 @@
         "lng": 79.850221
       }
     ],
+    "waypoints": [
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932255316388831,
+        "lng": 79.86014518886805,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.914498096945433,
+        "lng": 79.87762246280909,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.888189878871383,
+        "lng": 79.873660588637,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Fort Bus Stop",
@@ -12058,6 +14977,133 @@
     ]
   },
   {
+    "id": "104",
+    "name_en": "Sri Lanka bus route number: 104",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.078278849564235,
+        "lng": 79.89050226286054,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.909376363684447,
+        "lng": 79.87749874591827,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.896316824533653,
+        "lng": 79.85762625932693,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.894751093546664,
+        "lng": 79.85718922689557,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "112",
+    "name_en": "Sri Lanka bus route number: 112",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.848346661055358,
+        "lng": 79.92527760565281,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.863083874316106,
+        "lng": 79.90102238953114,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.88515954696655,
+        "lng": 79.86673772335052,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.8863738123387295,
+        "lng": 79.85772550106049,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "113",
+    "name_en": "Sri Lanka bus route number: 113",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9325002756048475,
+        "lng": 79.84668552875519,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.912925769347849,
+        "lng": 79.85801115632057,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.896146405085348,
+        "lng": 79.86932873725891,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.887348417823325,
+        "lng": 79.86461475491524,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.872233819142424,
+        "lng": 79.8839145898819,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.8746996938314755,
+        "lng": 79.89860638976097,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.86537403999687,
+        "lng": 79.91130547598004,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "117",
     "name_en": "Nugegoda - Ratmalana",
     "name_si": "නුගේගොඩ - රත්මලාන",
@@ -12080,6 +15126,18 @@
         "name": "Kattiya Junction Bus Stop",
         "lat": 6.8692248,
         "lng": 79.8978595
+      }
+    ],
+    "waypoints": [
+      {
+        "lat": 6.812601570477519,
+        "lng": 79.88085720688105,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Destination"
       }
     ],
     "matched_osm_stops": [
@@ -12143,6 +15201,18 @@
         "name": "Maharagama",
         "lat": 6.846083,
         "lng": 79.928144
+      }
+    ],
+    "waypoints": [
+      {
+        "lat": 6.845531785532995,
+        "lng": 79.92612132802606,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Destination"
       }
     ],
     "matched_osm_stops": [
@@ -12359,6 +15429,28 @@
         "lng": 80.063826
       }
     ],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.918758399444478,
+        "lng": 79.86133575439453,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.907527094136373,
+        "lng": 79.86010193824768,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.801479621377047,
+        "lng": 79.92367029190063,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Fort Bus Stop",
@@ -12428,6 +15520,60 @@
     "fare_lkr": 378,
     "frequency_minutes": 0,
     "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932629411662006,
+        "lng": 79.84789822250605,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.918522752466591,
+        "lng": 79.86178401857615,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.885995686174439,
+        "lng": 79.86556828022003,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.865246217086455,
+        "lng": 79.89649415016174,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.841491864217226,
+        "lng": 80.0047467648983,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.902270815510477,
+        "lng": 80.08756399154663,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.955193063969733,
+        "lng": 80.20476210862398,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "122-2",
+    "name_en": "Colombo - Rathnapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
     "stops": []
   },
   {
@@ -12436,7 +15582,19 @@
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "LUXURY",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/210-0",
+    "name_en": "Colombo - Suriyawewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
@@ -12467,6 +15625,18 @@
     "stops": []
   },
   {
+    "id": "122/210/1",
+    "name_en": "Colombo - Urubokke",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "122/210/168",
     "name_en": "Pettah - (via 122/210/168)",
     "name_si": "",
@@ -12479,6 +15649,18 @@
     "stops": []
   },
   {
+    "id": "122/210/2",
+    "name_en": "Colombo - Hambanthota",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "122/210/211",
     "name_en": "Pettah - (via 122/210/211)",
     "name_si": "",
@@ -12486,6 +15668,30 @@
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 781,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/467",
+    "name_en": "Colombo - Rakwana",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "122/98-0",
+    "name_en": "Colombo - Obbegoda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -12751,6 +15957,33 @@
         "lng": 80.090777
       }
     ],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932689320130129,
+        "lng": 79.8479387909174,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.902856624530077,
+        "lng": 79.86220076680183,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.849491780687786,
+        "lng": 79.923827201128,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.841672955686992,
+        "lng": 80.09087719023228,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Fort Bus Stop",
@@ -12844,6 +16077,18 @@
         "lng": 79.8558025
       }
     ]
+  },
+  {
+    "id": "126/69",
+    "name_en": "Panadura - Matale",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
   },
   {
     "id": "128",
@@ -12958,6 +16203,43 @@
         "name": "Borella",
         "lat": 6.914743,
         "lng": 79.877601
+      }
+    ],
+    "waypoints": [
+      {
+        "lat": 6.867084963095992,
+        "lng": 79.88451371459962,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.867787985961514,
+        "lng": 79.88410601882936,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.890458620840122,
+        "lng": 79.86388921737671,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.892365207808555,
+        "lng": 79.87114124000072,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.917353798704014,
+        "lng": 79.87756679325105,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.955529829933168,
+        "lng": 79.88511452941896,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.951092840658532,
+        "lng": 79.91707742214203,
+        "name": "Destination"
       }
     ],
     "matched_osm_stops": [
@@ -18004,6 +21286,38 @@
         6.8675666
       ]
     ],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.922613940071398,
+        "lng": 79.85358953475952,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.916527070803241,
+        "lng": 79.86315496265888,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.912943076962081,
+        "lng": 79.85802724957466,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.887316463576889,
+        "lng": 79.8646080493927,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.8412841967437386,
+        "lng": 80.00207822988591,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Fort Bus Stop",
@@ -18249,6 +21563,60 @@
         "name_ta": "",
         "lat": 6.933403,
         "lng": 79.8558025
+      }
+    ]
+  },
+  {
+    "id": "138-e01",
+    "name_en": "Sri Lanka bus route number: 138-E01",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.914892176539354,
+        "lng": 79.86032322049141,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.911025921994467,
+        "lng": 79.85845573246479,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.887372383506736,
+        "lng": 79.86462581902742,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.869107519022314,
+        "lng": 79.89039279520512,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.841827416003961,
+        "lng": 79.96312156319618,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.835947236280976,
+        "lng": 79.98223699629307,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 5.943899579425599,
+        "lng": 80.54920820519328,
+        "name": "Destination"
       }
     ]
   },
@@ -19299,6 +22667,38 @@
         "lng": 79.864619
       }
     ],
+    "waypoints": [
+      {
+        "lat": 6.911148407127729,
+        "lng": 79.84917260706425,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9135927,
+        "lng": 79.85762720000002,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9208503,
+        "lng": 79.86601530000007,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.92467546900962,
+        "lng": 79.86779868423923,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.928419787729934,
+        "lng": 79.86820051937104,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.936984071795472,
+        "lng": 79.89642340689898,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Colombo public library stop",
@@ -19468,6 +22868,98 @@
     ]
   },
   {
+    "id": "143",
+    "name_en": "Sri Lanka bus route number: 143",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.909,
+        "lng": 80.08116730000006,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.935946392562062,
+        "lng": 79.92532887261405,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.946493964504187,
+        "lng": 79.87157959847536,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.941832352148399,
+        "lng": 79.86498514360392,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "144",
+    "name_en": "Sri Lanka bus route number: 144",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.910883429912009,
+        "lng": 79.89116559295655,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.918396275226547,
+        "lng": 79.87371616065502,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "145",
+    "name_en": "Sri Lanka bus route number: 145",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.918999335149678,
+        "lng": 79.85383997230531,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.979080146084084,
+        "lng": 79.87582521513104,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "147",
     "name_en": "Mount Lavinia - Bakery Junction",
     "name_si": "ගල්කිස්ස - බේකරි හංදිය",
@@ -19501,6 +22993,72 @@
       "Borella",
       "Maradana",
       "Pettah"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.940943302892722,
+        "lng": 79.86524809151888,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.932798486652445,
+        "lng": 79.89334611687809,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.929616671544348,
+        "lng": 79.9058782774955,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.928337282930011,
+        "lng": 79.92775975959376,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "153",
+    "name_en": "Sri Lanka bus route number: 153",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.914962701546732,
+        "lng": 79.87797985343934,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.911015271111825,
+        "lng": 79.89078238606453,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.884163634012892,
+        "lng": 79.90233331918716,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.876579714965934,
+        "lng": 79.92689162492752,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.8685279,
+        "lng": 79.9247087,
+        "name": "Destination"
+      }
     ]
   },
   {
@@ -19679,6 +23237,33 @@
         "name": "Angulana",
         "lat": 6.798188,
         "lng": 79.873009
+      }
+    ],
+    "waypoints": [
+      {
+        "lat": 6.801495601373788,
+        "lng": 79.88773355260491,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.878768625383453,
+        "lng": 79.85993027687073,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.900790313120173,
+        "lng": 79.85437273979187,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.908801177163824,
+        "lng": 79.8770893600464,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.97952741821897,
+        "lng": 79.93002662435174,
+        "name": "Destination"
       }
     ],
     "matched_osm_stops": [
@@ -19982,6 +23567,23 @@
         "lng": 79.863364
       }
     ],
+    "waypoints": [
+      {
+        "lat": 6.979080146084084,
+        "lng": 79.87582521513104,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.910402844955751,
+        "lng": 79.86396197229624,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.8031415381911735,
+        "lng": 79.88190326839685,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Mount Lavinia",
@@ -20112,6 +23714,45 @@
     ]
   },
   {
+    "id": "156",
+    "name_en": "Sri Lanka bus route number: 156",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.85013599967969,
+        "lng": 79.8794154281859,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.864059822550446,
+        "lng": 79.88069424896241,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.87219783296071,
+        "lng": 79.89086518554689,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "163",
     "name_en": "Dehiwala - Battaramulla",
     "name_si": "දෙහිවල - බත්තරමුල්ල",
@@ -20205,6 +23846,23 @@
         "lng": 79.918059
       }
     ],
+    "waypoints": [
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.862631165842304,
+        "lng": 79.86433982849121,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.902174955783664,
+        "lng": 79.91810739040375,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Kotte-Pagoda Bus Stand",
@@ -20265,8 +23923,140 @@
     ]
   },
   {
+    "id": "164",
+    "name_en": "Sri Lanka bus route number: 164",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.916734760548956,
+        "lng": 79.86306401900947,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9183802875796685,
+        "lng": 79.87079325026252,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.91503861310489,
+        "lng": 79.87741689232632,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.935978948985562,
+        "lng": 79.92574745323509,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9914057,
+        "lng": 79.99887560000002,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "166",
+    "name_en": "Sri Lanka bus route number: 166",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.918999335149678,
+        "lng": 79.85383997230531,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.918429195616834,
+        "lng": 79.87076317049286,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.921653446674681,
+        "lng": 79.87358698783282,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9358824894402575,
+        "lng": 79.91687454955354,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.924122029004779,
+        "lng": 79.92724933443242,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "168",
+    "name_en": "Sri Lanka bus route number: 168",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.950040428011562,
+        "lng": 79.8571343177764,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.922662352511695,
+        "lng": 79.85316233272897,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.915259144815867,
+        "lng": 79.87715432598634,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.911075786656936,
+        "lng": 79.89030141739931,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.898199301688519,
+        "lng": 79.90604897114736,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.875531735823366,
+        "lng": 79.89240536636316,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "168-2",
-    "name_en": "",
+    "name_en": "Urubokka - Kaella",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -20275,6 +24065,74 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "170",
+    "name_en": "Sri Lanka bus route number: 170",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.875812795061494,
+        "lng": 79.99076306819916,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9041933314870585,
+        "lng": 79.95386995375156,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.933520050102885,
+        "lng": 79.8553691804409,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "171",
+    "name_en": "Sri Lanka bus route number: 171",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.933482410621381,
+        "lng": 79.85645760867101,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.910248769889433,
+        "lng": 79.89447523928902,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.906136353737428,
+        "lng": 79.92859938913261,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "174",
@@ -20386,6 +24244,50 @@
     ]
   },
   {
+    "id": "174-5",
+    "name_en": "Sri Lanka bus route number: 174",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.914962701546732,
+        "lng": 79.87797985343934,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9107896655743914,
+        "lng": 79.88869728877035,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.909599669846757,
+        "lng": 79.89589097326643,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9021262997647215,
+        "lng": 79.918108891452,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.893654739496074,
+        "lng": 79.92562712340259,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.841285436607717,
+        "lng": 79.96403584747316,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "175",
     "name_en": "Kollupitiya - Kohilawatte",
     "name_si": "කොල්ලුපිටිය - කොහිලවත්ත",
@@ -20433,6 +24335,43 @@
         "name": "Borella",
         "lat": 6.914743,
         "lng": 79.877601
+      }
+    ],
+    "waypoints": [
+      {
+        "lat": 6.942839035918073,
+        "lng": 79.91804821416736,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9428070854247,
+        "lng": 79.918032120913,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9349751188181,
+        "lng": 79.91661439209,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9110112405236,
+        "lng": 79.888891079712,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9145473204058,
+        "lng": 79.877561428833,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.9112881633969,
+        "lng": 79.849172928619,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.9111510698476515,
+        "lng": 79.84917461872101,
+        "name": "Destination"
       }
     ],
     "matched_osm_stops": [
@@ -20593,6 +24532,48 @@
         "name": "Maradana",
         "lat": 6.928237,
         "lng": 79.864619
+      }
+    ],
+    "waypoints": [
+      {
+        "lat": 6.94807888746265,
+        "lng": 79.86126065254211,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.927803426716846,
+        "lng": 79.86507374793291,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.912261422753437,
+        "lng": 79.87964183092117,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9101845015256425,
+        "lng": 79.89451602101326,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.873959400182261,
+        "lng": 79.89098221063614,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.862913442941204,
+        "lng": 79.86585058271885,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.855947008290062,
+        "lng": 79.87315490841866,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.8512387485982655,
+        "lng": 79.8650412261486,
+        "name": "Destination"
       }
     ],
     "matched_osm_stops": [
@@ -20777,6 +24758,43 @@
         "lng": 79.984245
       }
     ],
+    "waypoints": [
+      {
+        "lat": 6.911148407127729,
+        "lng": 79.84917260706425,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.910242703263392,
+        "lng": 79.89448194481156,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.909477895379088,
+        "lng": 79.89652444695594,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.907512320398111,
+        "lng": 79.90023756909977,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.902222023209447,
+        "lng": 79.91588329050046,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.903981490372648,
+        "lng": 79.95520660822763,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.936314690861787,
+        "lng": 79.9832732433697,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "177 bus stop",
@@ -20889,6 +24907,172 @@
         "name_ta": "",
         "lat": 6.9133637,
         "lng": 79.8571086
+      }
+    ]
+  },
+  {
+    "id": "178",
+    "name_en": "Sri Lanka bus route number: 178",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.891997737732406,
+        "lng": 79.87694922834635,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.951529489518678,
+        "lng": 79.87422980368137,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9599002891924675,
+        "lng": 79.87451747059822,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.964543569178146,
+        "lng": 79.86934617161751,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.969905648390032,
+        "lng": 79.87361289560795,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.979080146084084,
+        "lng": 79.87582521513104,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "179",
+    "name_en": "Sri Lanka bus route number: 179",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.902174955783664,
+        "lng": 79.91810739040375,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.9056152427107405,
+        "lng": 79.90474194288254,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.910088643402518,
+        "lng": 79.89446505904198,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.914668509783146,
+        "lng": 79.87780451774597,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9016210992043,
+        "lng": 79.86880235373974,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.894736411570967,
+        "lng": 79.85724101333619,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "180",
+    "name_en": "Sri Lanka bus route number: 180",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.141858749703716,
+        "lng": 80.09639382362366,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.084251816404032,
+        "lng": 80.0317069888115,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.033303444472379,
+        "lng": 79.98835410922766,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.99460662846191,
+        "lng": 79.9454065784812,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.956045053933032,
+        "lng": 79.88807134330273,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "183",
+    "name_en": "Sri Lanka bus route number: 183",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.872687813436052,
+        "lng": 79.89187369613649,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.862519320153048,
+        "lng": 79.86382484436035,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.750234371389168,
+        "lng": 79.90032434463501,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.711627681626962,
+        "lng": 79.90790257720948,
+        "name": "Destination"
       }
     ]
   },
@@ -26808,6 +30992,191 @@
     ]
   },
   {
+    "id": "187-1",
+    "name_en": "Sri Lanka bus route number: 187/1",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.100977840983885,
+        "lng": 79.91024851799011,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.06514017991852,
+        "lng": 79.89324264228344,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.048977187602684,
+        "lng": 79.89684753119946,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.023272823038847,
+        "lng": 79.9007099121809,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "187-airport-to-colombo",
+    "name_en": "Sri Lanka bus route number: 187↓",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.166311026928108,
+        "lng": 79.88412380218506,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.076979905361333,
+        "lng": 79.8913972824812,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "187-colombo-to-airport",
+    "name_en": "Sri Lanka bus route number: 187↑",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.9343147971524175,
+        "lng": 79.84857747821809,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.934563785684717,
+        "lng": 79.8657774925232,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.943333602652683,
+        "lng": 79.8641762137413,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.950837241137496,
+        "lng": 79.87576603889465,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.967221954046717,
+        "lng": 79.88319039344788,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.158699770661587,
+        "lng": 79.87444639205933,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.166311026928108,
+        "lng": 79.88412380218506,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "187-e-03",
+    "name_en": "Sri Lanka bus route number: 187 E-03",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.166311026928108,
+        "lng": 79.88412380218506,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "188",
+    "name_en": "Sri Lanka bus route number: 188",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.138696997052416,
+        "lng": 79.9003129452467,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.130340070890376,
+        "lng": 79.87648420035839,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.068249201949716,
+        "lng": 79.89401545375586,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.0254663744565935,
+        "lng": 79.89946536719799,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.952839433664692,
+        "lng": 79.88068789243698,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "190",
     "name_en": "Colombo - Polonnaruwa",
     "name_si": "කොළඹ - පොළොන්නරුව",
@@ -26824,11 +31193,165 @@
       "Habarana",
       "Medirigiriya",
       "Polonnaruwa"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.935686028608979,
+        "lng": 79.85523472099305,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.917480312729845,
+        "lng": 79.86480385065079,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.9148029396126525,
+        "lng": 79.87751851348878,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.904066813905176,
+        "lng": 79.95643983154298,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.86964140489929,
+        "lng": 80.00038514404298,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.8647881847088374,
+        "lng": 80.02360939979553,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.851703415125472,
+        "lng": 80.03287205963136,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "192",
+    "name_en": "Sri Lanka bus route number: 192",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.775689878171351,
+        "lng": 79.88230727612972,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.8197524001163945,
+        "lng": 79.87399913370609,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.848266768885374,
+        "lng": 79.88564260303974,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.845531785532995,
+        "lng": 79.92612132802606,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "193",
+    "name_en": "Sri Lanka bus route number: 193",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.916734760548956,
+        "lng": 79.86306401900947,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.917692842864507,
+        "lng": 79.868940304641,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.919487488615394,
+        "lng": 79.87284608898335,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.922060106837076,
+        "lng": 79.87346787345814,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.930495031359709,
+        "lng": 79.87770902503144,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.005159656247297,
+        "lng": 79.95463907718658,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "200",
+    "name_en": "Sri Lanka bus route number: 200",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.0917684882256875,
+        "lng": 79.99255947768688,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.073977413786608,
+        "lng": 80.01568011939526,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.0345758910547405,
+        "lng": 79.99018622562289,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.977376248321531,
+        "lng": 79.92665156722069,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
     ]
   },
   {
     "id": "211",
-    "name_en": "",
+    "name_en": "Embilipitiya - Hambanthota",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -26851,6 +31374,54 @@
     "stops": []
   },
   {
+    "id": "217-1",
+    "name_en": "Divulapelessanawamedagama - ",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "217/22-0",
+    "name_en": "Dehiattakandi - Ampara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "218-2",
+    "name_en": "Mahiyanganay - Kaduruwela",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "218-2-0",
+    "name_en": "Rathmalkandumahiyanganaya - ",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "218-4",
     "name_en": "",
     "name_si": "",
@@ -26863,8 +31434,20 @@
     "stops": []
   },
   {
+    "id": "218-6",
+    "name_en": "Badulla - Siripura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "218-8",
-    "name_en": "",
+    "name_en": "Mahiyanganay - Minneriya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -26873,6 +31456,146 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "218/22",
+    "name_en": "Aralaganvila - Ampara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "218/314",
+    "name_en": "Badulla - Kaduruwela",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "218/685",
+    "name_en": "Dehiattakandi - Hanguranketha",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "221-1",
+    "name_en": "Mahiyanganay - Siripura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "224",
+    "name_en": "Sri Lanka bus route number: 224",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.9762687114502615,
+        "lng": 80.12070469558239,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.953308030683716,
+        "lng": 79.91916351020336,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "225",
+    "name_en": "Sri Lanka bus route number: 225",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.042742891932615,
+        "lng": 80.13003392145038,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.988770946600597,
+        "lng": 80.01404866576195,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.953169581613085,
+        "lng": 79.91933450102806,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "226",
+    "name_en": "Balangoda - Bandarawela",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.948217338032912,
+        "lng": 80.01585764810443,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.953105682028274,
+        "lng": 79.91924967616796,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "228/1",
@@ -30197,6 +34920,57 @@
     ]
   },
   {
+    "id": "234",
+    "name_en": "Sri Lanka bus route number: 234",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.987578243528,
+        "lng": 80.01357726752758,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.987115005353423,
+        "lng": 79.9756994470954,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.975203769680506,
+        "lng": 79.94927935302258,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.9770993643493355,
+        "lng": 79.92619089782238,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "234/580/0",
+    "name_en": "Vavuniya - Monargala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "240",
     "name_en": "Colombo - Maharagama",
     "name_si": "කොළඹ - මහරගම",
@@ -31894,6 +36668,28 @@
         7.207084
       ]
     ],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932167450552091,
+        "lng": 79.85795885324478,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.205717201690316,
+        "lng": 79.84970837831497,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.205195640404346,
+        "lng": 79.84141498804092,
+        "name": "Destination"
+      }
+    ],
     "matched_osm_stops": [
       {
         "name": "Dehiyagatha",
@@ -31931,6 +36727,18 @@
     "stops": []
   },
   {
+    "id": "245-1/1",
+    "name_en": "Negombo - Hatton",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "245-1/182/18-2",
     "name_en": "",
     "name_si": "",
@@ -31958,7 +36766,41 @@
       "Wattegama",
       "Akurana",
       "Matale"
+    ],
+    "waypoints": [
+      {
+        "lat": 6.833125593273582,
+        "lng": 79.86719737319947,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.797505912355536,
+        "lng": 79.88903442397714,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.801383741385421,
+        "lng": 79.92366392165422,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.841285436607717,
+        "lng": 79.96403584747316,
+        "name": "Destination"
+      }
     ]
+  },
+  {
+    "id": "270/17/0",
+    "name_en": "Negombo - Matara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
   },
   {
     "id": "270/228/3",
@@ -34527,7 +39369,7 @@
   },
   {
     "id": "301/218",
-    "name_en": "",
+    "name_en": "Bibila - Kaduruwela",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -34539,7 +39381,7 @@
   },
   {
     "id": "303-1",
-    "name_en": "",
+    "name_en": "Monaragala - Panama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -34550,13 +39392,73 @@
     "stops": []
   },
   {
+    "id": "303-2",
+    "name_en": "Lahugala - Monaragala",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "311-2",
-    "name_en": "",
+    "name_en": "Nuwaraeliya - Welimada",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 147,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "312/218",
+    "name_en": "Galauda - Suriyapokuna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "314/218-0",
+    "name_en": "Badulla - Welikanda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "314/22-0",
+    "name_en": "Badulla - Ampara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "314/580/0",
+    "name_en": "Badulla - Jaffna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -34586,18 +39488,6 @@
     "stops": []
   },
   {
-    "id": "315/001-0",
-    "name_en": "Horana - Wakarai",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "LUXURY",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "315/1",
     "name_en": "",
     "name_si": "",
@@ -34605,6 +39495,18 @@
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 485,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "315/1-0",
+    "name_en": "Horana - Wakarai",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "LUXURY",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -34622,8 +39524,20 @@
     "stops": []
   },
   {
+    "id": "334-1",
+    "name_en": "Matara - Kataragama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "335-1",
-    "name_en": "",
+    "name_en": "Thissa - Thanamalwila",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -34634,8 +39548,32 @@
     "stops": []
   },
   {
+    "id": "335-2",
+    "name_en": "Thanamalvila - Debarawewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "338-7",
+    "name_en": "2Nd - Mile Post Rajapaksha",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "339-4",
-    "name_en": "",
+    "name_en": "Embilipitiya - Middeniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36063,7 +41001,7 @@
   },
   {
     "id": "345",
-    "name_en": "",
+    "name_en": "Thihagoda - Kataragama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36075,7 +41013,7 @@
   },
   {
     "id": "348",
-    "name_en": "",
+    "name_en": "Nittambuwa - Ruwanwella",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36086,8 +41024,20 @@
     "stops": []
   },
   {
+    "id": "363-11",
+    "name_en": "Embilipitiya - Walasmulla",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "363-12",
-    "name_en": "",
+    "name_en": "Matara - Embilipitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36099,7 +41049,7 @@
   },
   {
     "id": "363-13",
-    "name_en": "",
+    "name_en": "Embilipitiya - Karapitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36111,7 +41061,7 @@
   },
   {
     "id": "363-18",
-    "name_en": "",
+    "name_en": "Walasmulla - Weliara",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36122,13 +41072,37 @@
     "stops": []
   },
   {
+    "id": "363-19",
+    "name_en": "Kadurugas - Rajapaksha",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "363-2",
-    "name_en": "",
+    "name_en": "Peella - Suriyawewa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 340,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363-2-0",
+    "name_en": "Hakmana - Suriyawewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -36147,12 +41121,36 @@
   },
   {
     "id": "363-6",
-    "name_en": "",
+    "name_en": "Embilipitiya - Middeniya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 142,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363/1",
+    "name_en": "Middeniya - Weli-Oya",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "363/11",
+    "name_en": "Danduma - Rajapakshe",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -36171,6 +41169,18 @@
   },
   {
     "id": "393",
+    "name_en": "Colombo - Yakkalamulla",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "393-2",
     "name_en": "Colombo - Baddegama",
     "name_si": "",
     "name_ta": "",
@@ -36182,20 +41192,100 @@
     "stops": []
   },
   {
+    "id": "400",
+    "name_en": "Sri Lanka bus route number: 400",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.885633536889501,
+        "lng": 79.85794644802809,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.71438077629978,
+        "lng": 79.90756681188941,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "400-1",
+    "name_en": "Sri Lanka bus route number: 400/1",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.584258854504222,
+        "lng": 79.96047387390138,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "401",
     "name_en": "Elpitiya - Colombo",
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "LUXURY",
+    "service_type": "NORMAL",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.343364712209721,
+        "lng": 80.08021473884583,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.893339800978602,
+        "lng": 79.85549725592136,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "401-1",
-    "name_en": "",
+    "name_en": "Aluthgama - Elpitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36203,16 +41293,132 @@
     "fare_lkr": 142,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "401-2",
+    "name_en": "Sri Lanka bus route number: 401/2",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.309828016251447,
+        "lng": 80.14462664723396,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.3265726,
+        "lng": 80.14269949999994,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "401-3",
+    "name_en": "Sri Lanka bus route number: 401/3",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.381585353396957,
+        "lng": 80.00987447798252,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.343189961908042,
+        "lng": 80.08030059537055,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "401-4",
+    "name_en": "Sri Lanka bus route number: 401/4",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.291665403005091,
+        "lng": 80.16310170055544,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.343663280323841,
+        "lng": 80.0835782289505,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.364221411179015,
+        "lng": 80.10803997516632,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.432038431380043,
+        "lng": 79.99841103820802,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "403",
-    "name_en": "",
+    "name_en": "Mathugama - Neluwa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 231,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "419/57",
+    "name_en": "Meegalewa - Thambuththega",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -36234,8 +41440,52 @@
     ]
   },
   {
+    "id": "430",
+    "name_en": "Sri Lanka bus route number: 430",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.522985862555461,
+        "lng": 80.11438205838203,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.563617773782201,
+        "lng": 79.98403608798981,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.74848703621981,
+        "lng": 79.88971620798111,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.872569349279646,
+        "lng": 79.8616824299097,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.893281218932095,
+        "lng": 79.85551670193672,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "449",
-    "name_en": "",
+    "name_en": "Horana - Karadana",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36246,8 +41496,68 @@
     "stops": []
   },
   {
+    "id": "450",
+    "name_en": "Panadura - Rathnapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.7143461102121345,
+        "lng": 79.90752907960416,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.683447602405589,
+        "lng": 80.40219783782959,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "470",
+    "name_en": "Avissawella - Eheliyagoda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "470-2",
+    "name_en": "Avissawella - Rathnapura",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "473/7",
+    "name_en": "Colombo - Kalawana",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "482",
-    "name_en": "",
+    "name_en": "Mathugama - Kalawana",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36258,8 +41568,69 @@
     "stops": []
   },
   {
+    "id": "482-1",
+    "name_en": "Mathugama - Manana",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "483",
+    "name_en": "Sri Lanka bus route number: 48/3",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.933601222698944,
+        "lng": 79.85540101795198,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.932199401767356,
+        "lng": 79.85785558819771,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.329246355930262,
+        "lng": 80.2914172410965,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 7.561088510084105,
+        "lng": 80.45865967869759,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 8.03875883063914,
+        "lng": 80.75489223003387,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.996347960120193,
+        "lng": 80.92627599835396,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 7.929036094532072,
+        "lng": 81.0332116484642,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
     "id": "488",
-    "name_en": "",
+    "name_en": "Balangoda - Hatton",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36271,7 +41642,7 @@
   },
   {
     "id": "493-1",
-    "name_en": "",
+    "name_en": "Embilipitiya - Beliatta",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36282,8 +41653,32 @@
     "stops": []
   },
   {
+    "id": "493-1-0",
+    "name_en": "Embilipitiya - Beliatta",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "493-2",
+    "name_en": "Matara - Kiriibbanara",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "493-3",
-    "name_en": "",
+    "name_en": "Hakmana - Embilipitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36295,7 +41690,7 @@
   },
   {
     "id": "493-4",
-    "name_en": "",
+    "name_en": "Galle - Embilipitiya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36306,8 +41701,20 @@
     "stops": []
   },
   {
+    "id": "493/574",
+    "name_en": "Embilipitiya - D.A.Rajapakshe",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "497",
-    "name_en": "",
+    "name_en": "Embilipitiya - Sooriyawewa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36318,8 +41725,116 @@
     "stops": []
   },
   {
+    "id": "504/221/1",
+    "name_en": "Boyawalana - Bandaranayake",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "507",
+    "name_en": "Kurunegala - Kegalle",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "508",
+    "name_en": "Kurunegala - Rambukkana",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "509",
+    "name_en": "Kurunegala - Rambukkana",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "534/1",
+    "name_en": "Thammennawa - Kithulkote",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "542-3/0",
+    "name_en": "Thammennawa - Thambuththega",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "542-5/0",
+    "name_en": "Warawewa - Thambuththega",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "548",
+    "name_en": "Kurunegala - Kekirawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "548-1",
+    "name_en": "Kurunegala - Galnewa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "549",
-    "name_en": "",
+    "name_en": "Kurunegala - Dambulla",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36331,7 +41846,7 @@
   },
   {
     "id": "549-1",
-    "name_en": "",
+    "name_en": "Kurunegala - Wewala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36343,7 +41858,7 @@
   },
   {
     "id": "549-4",
-    "name_en": "",
+    "name_en": "Kurunegala - Galkiriyagama",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36354,8 +41869,20 @@
     "stops": []
   },
   {
+    "id": "549-5",
+    "name_en": "Dambulla - Wayamba Royal",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "549/499",
-    "name_en": "",
+    "name_en": "Kurunegala - Sigiriya",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36366,8 +41893,20 @@
     "stops": []
   },
   {
+    "id": "549/580",
+    "name_en": "Kurunegala - Handungamuwa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "556",
-    "name_en": "",
+    "name_en": "Kurunegala - Matale",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36378,8 +41917,20 @@
     "stops": []
   },
   {
+    "id": "558/544-0",
+    "name_en": "Egodagama - Ganthiriyagama",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "564-6",
-    "name_en": "",
+    "name_en": "Kurunegala - Mirissala",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36402,8 +41953,20 @@
     "stops": []
   },
   {
+    "id": "570/549",
+    "name_en": "Pansiyagama - Ibbagamuwa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "581-1",
-    "name_en": "",
+    "name_en": "Matale - Kaduruwela",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -36431,11 +41994,28 @@
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "LUXURY",
+    "service_type": "NORMAL",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
-    "stops": []
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.289467300000001,
+        "lng": 80.63078380000002,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.321753665616014,
+        "lng": 80.623704205791,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 7.488026752674358,
+        "lng": 80.36431163549423,
+        "name": "Destination"
+      }
+    ]
   },
   {
     "id": "608",
@@ -36452,6 +42032,18 @@
       "Deraniyagala",
       "Panawala"
     ]
+  },
+  {
+    "id": "626/43/0",
+    "name_en": "Nuwaraeliya - Jaffna",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
   },
   {
     "id": "626/43/87",
@@ -37639,7 +43231,567 @@
       "Hatton",
       "Nuwara Eliya",
       "Welimada",
-      "Badulla"
+      "Badulla",
+      "lake round",
+      "Hillwood",
+      "Hotel Suisse",
+      "Children's park",
+      "Mahamaya",
+      "Lakeside"
+    ],
+    "osm_polyline": [
+      [
+        80.6374691,
+        7.2912982
+      ],
+      [
+        80.6374875,
+        7.2912629
+      ],
+      [
+        80.6375099,
+        7.2912369
+      ],
+      [
+        80.6375442,
+        7.2912135
+      ],
+      [
+        80.6376851,
+        7.291152
+      ],
+      [
+        80.6379462,
+        7.2910356
+      ],
+      [
+        80.6380934,
+        7.2909465
+      ],
+      [
+        80.6382181,
+        7.2908547
+      ],
+      [
+        80.6382976,
+        7.2907712
+      ],
+      [
+        80.6383761,
+        7.2906478
+      ],
+      [
+        80.6384598,
+        7.2905266
+      ],
+      [
+        80.6385701,
+        7.290428
+      ],
+      [
+        80.6386353,
+        7.2903904
+      ],
+      [
+        80.6386955,
+        7.2903752
+      ],
+      [
+        80.6387329,
+        7.2903699
+      ],
+      [
+        80.6387686,
+        7.2903743
+      ],
+      [
+        80.6389792,
+        7.2904662
+      ],
+      [
+        80.639081,
+        7.2904928
+      ],
+      [
+        80.6391502,
+        7.290495
+      ],
+      [
+        80.6392139,
+        7.2904922
+      ],
+      [
+        80.6392827,
+        7.2904792
+      ],
+      [
+        80.6393442,
+        7.2904509
+      ],
+      [
+        80.6394883,
+        7.2903636
+      ],
+      [
+        80.6396489,
+        7.2902777
+      ],
+      [
+        80.6397391,
+        7.2902496
+      ],
+      [
+        80.6397777,
+        7.2902464
+      ],
+      [
+        80.6398261,
+        7.2902485
+      ],
+      [
+        80.6398692,
+        7.290258
+      ],
+      [
+        80.6399017,
+        7.2902702
+      ],
+      [
+        80.6400969,
+        7.2903748
+      ],
+      [
+        80.6405403,
+        7.2906691
+      ],
+      [
+        80.6407428,
+        7.2908068
+      ],
+      [
+        80.6407904,
+        7.2908227
+      ],
+      [
+        80.6408481,
+        7.2908241
+      ],
+      [
+        80.6410995,
+        7.2907423
+      ],
+      [
+        80.6418639,
+        7.2904716
+      ],
+      [
+        80.641994,
+        7.2904064
+      ],
+      [
+        80.6420769,
+        7.290336
+      ],
+      [
+        80.6421305,
+        7.2902622
+      ],
+      [
+        80.6421845,
+        7.2901955
+      ],
+      [
+        80.6422393,
+        7.2901289
+      ],
+      [
+        80.642271,
+        7.2900904
+      ],
+      [
+        80.6423313,
+        7.2900545
+      ],
+      [
+        80.6423952,
+        7.2900416
+      ],
+      [
+        80.6425345,
+        7.2900492
+      ],
+      [
+        80.6427458,
+        7.2900841
+      ],
+      [
+        80.6428201,
+        7.2900834
+      ],
+      [
+        80.6428885,
+        7.2900588
+      ],
+      [
+        80.6429476,
+        7.2900219
+      ],
+      [
+        80.6430971,
+        7.289862
+      ],
+      [
+        80.6431562,
+        7.2898012
+      ],
+      [
+        80.6432743,
+        7.2896818
+      ],
+      [
+        80.6434925,
+        7.2894744
+      ],
+      [
+        80.6436345,
+        7.2893593
+      ],
+      [
+        80.6437157,
+        7.2892911
+      ],
+      [
+        80.6437733,
+        7.2892367
+      ],
+      [
+        80.6438152,
+        7.2891791
+      ],
+      [
+        80.6438728,
+        7.2890817
+      ],
+      [
+        80.6440486,
+        7.2888553
+      ],
+      [
+        80.6440996,
+        7.2888217
+      ],
+      [
+        80.6441618,
+        7.2888189
+      ],
+      [
+        80.6442263,
+        7.2888406
+      ],
+      [
+        80.6445022,
+        7.289035
+      ],
+      [
+        80.6445569,
+        7.2890648
+      ],
+      [
+        80.6446223,
+        7.2890764
+      ],
+      [
+        80.6446685,
+        7.2890678
+      ],
+      [
+        80.6447138,
+        7.2890329
+      ],
+      [
+        80.6448177,
+        7.2888414
+      ],
+      [
+        80.6448385,
+        7.2887795
+      ],
+      [
+        80.6448761,
+        7.2886182
+      ],
+      [
+        80.6448952,
+        7.2885776
+      ],
+      [
+        80.6449445,
+        7.2885101
+      ],
+      [
+        80.6450006,
+        7.2884635
+      ],
+      [
+        80.6450871,
+        7.2884144
+      ],
+      [
+        80.6451116,
+        7.288405
+      ],
+      [
+        80.6451645,
+        7.2883896
+      ],
+      [
+        80.6452837,
+        7.2883466
+      ],
+      [
+        80.6453756,
+        7.2882946
+      ],
+      [
+        80.645449,
+        7.2882382
+      ],
+      [
+        80.6454977,
+        7.288162
+      ],
+      [
+        80.6454992,
+        7.2880879
+      ],
+      [
+        80.6454928,
+        7.2880345
+      ],
+      [
+        80.6454735,
+        7.2879986
+      ],
+      [
+        80.6454491,
+        7.2879655
+      ],
+      [
+        80.6454092,
+        7.2879314
+      ],
+      [
+        80.6453765,
+        7.2879108
+      ],
+      [
+        80.6452943,
+        7.2878658
+      ],
+      [
+        80.6452191,
+        7.2878293
+      ],
+      [
+        80.6451945,
+        7.287805
+      ],
+      [
+        80.6451731,
+        7.2877718
+      ],
+      [
+        80.6451617,
+        7.2877337
+      ],
+      [
+        80.6451528,
+        7.2876689
+      ],
+      [
+        80.6451526,
+        7.2875984
+      ],
+      [
+        80.6451686,
+        7.2875416
+      ],
+      [
+        80.6451861,
+        7.2874969
+      ],
+      [
+        80.6452471,
+        7.2874192
+      ],
+      [
+        80.6453302,
+        7.2873622
+      ],
+      [
+        80.6453509,
+        7.2873516
+      ],
+      [
+        80.64539,
+        7.2873383
+      ],
+      [
+        80.6454531,
+        7.2873274
+      ],
+      [
+        80.6455113,
+        7.2873294
+      ],
+      [
+        80.6455734,
+        7.28735
+      ],
+      [
+        80.645605,
+        7.2873714
+      ],
+      [
+        80.6456606,
+        7.2874286
+      ],
+      [
+        80.6457056,
+        7.2875064
+      ],
+      [
+        80.6457572,
+        7.2876148
+      ],
+      [
+        80.6458053,
+        7.2876933
+      ],
+      [
+        80.6458457,
+        7.2877328
+      ],
+      [
+        80.6459205,
+        7.2877831
+      ],
+      [
+        80.6460035,
+        7.2877993
+      ],
+      [
+        80.6460739,
+        7.287787
+      ],
+      [
+        80.6461293,
+        7.2877764
+      ],
+      [
+        80.646204,
+        7.2877449
+      ],
+      [
+        80.6463164,
+        7.287666
+      ],
+      [
+        80.6465848,
+        7.2874357
+      ],
+      [
+        80.646734,
+        7.2873094
+      ],
+      [
+        80.6469,
+        7.2871676
+      ],
+      [
+        80.6470301,
+        7.287055
+      ],
+      [
+        80.6471445,
+        7.2869791
+      ],
+      [
+        80.6472647,
+        7.2869066
+      ],
+      [
+        80.6473854,
+        7.28686
+      ],
+      [
+        80.6475127,
+        7.2868406
+      ],
+      [
+        80.6476505,
+        7.2868691
+      ],
+      [
+        80.6476841,
+        7.2868801
+      ],
+      [
+        80.6477252,
+        7.2868961
+      ],
+      [
+        80.6477693,
+        7.2869258
+      ],
+      [
+        80.6478171,
+        7.2869766
+      ]
+    ],
+    "matched_osm_stops": [
+      {
+        "name": "lake round",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.291147,
+        "lng": 80.6377204
+      },
+      {
+        "name": "Hillwood",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2902469,
+        "lng": 80.6399086
+      },
+      {
+        "name": "Hotel Suisse",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2893593,
+        "lng": 80.6436345
+      },
+      {
+        "name": "Children's park",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2868477,
+        "lng": 80.6476824
+      },
+      {
+        "name": "Mahamaya",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2876687,
+        "lng": 80.645841
+      },
+      {
+        "name": "Lakeside",
+        "name_si": "",
+        "name_ta": "",
+        "lat": 7.2875984,
+        "lng": 80.6451526
+      }
     ]
   },
   {
@@ -37660,8 +43812,20 @@
     ]
   },
   {
+    "id": "662-1",
+    "name_en": "Kandy - Mawanella",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "670",
-    "name_en": "",
+    "name_en": "Nittambuwa - Warakapola",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -37673,7 +43837,7 @@
   },
   {
     "id": "674-1",
-    "name_en": "",
+    "name_en": "Colombo - Kotiyakumbura",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -37685,7 +43849,7 @@
   },
   {
     "id": "674-3",
-    "name_en": "",
+    "name_en": "Avissawella - Kegalle",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -37697,7 +43861,7 @@
   },
   {
     "id": "677",
-    "name_en": "",
+    "name_en": "Colombo - Bulathkohupitiy",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -37709,7 +43873,7 @@
   },
   {
     "id": "677-4",
-    "name_en": "",
+    "name_en": "Avissawella - Bulathkohupitiy",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -39354,7 +45518,7 @@
   },
   {
     "id": "750/3",
-    "name_en": "",
+    "name_en": "Embilipitiya - Hambanthota",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -39394,8 +45558,32 @@
     "stops": []
   },
   {
+    "id": "819-4/7",
+    "name_en": "Trincomalee - Wishwamadu",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "822-2-0",
+    "name_en": "Sole - Niwanthakachet",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
     "id": "825",
-    "name_en": "",
+    "name_en": "Kandy - Dutuwewa",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -39407,12 +45595,72 @@
   },
   {
     "id": "835",
-    "name_en": "",
+    "name_en": "Anuradhapuratrincomalee - ",
     "name_si": "",
     "name_ta": "",
     "operator": "",
     "service_type": "Normal",
     "fare_lkr": 410,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "842",
+    "name_en": "Anuradhapurapulmudai - ",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "857",
+    "name_en": "Anuradhapuravavuniya - ",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "869-5",
+    "name_en": "Galoya - Ganthalawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "901/943",
+    "name_en": "Kalpitiya - Mannar",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "903-1-0",
+    "name_en": "Weherathenn - Madukanda",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
@@ -39443,7 +45691,7 @@
     "name_si": "",
     "name_ta": "",
     "operator": "",
-    "service_type": "LUXURY",
+    "service_type": "NORMAL",
     "fare_lkr": 0,
     "frequency_minutes": 0,
     "operating_hours": "",
@@ -39462,20 +45710,8 @@
     "stops": []
   },
   {
-    "id": "929",
-    "name_en": "Negombo - Eliwila",
-    "name_si": "",
-    "name_ta": "",
-    "operator": "",
-    "service_type": "LUXURY",
-    "fare_lkr": 0,
-    "frequency_minutes": 0,
-    "operating_hours": "",
-    "stops": []
-  },
-  {
     "id": "929-1",
-    "name_en": "",
+    "name_en": "Negombo - Eliwila",
     "name_si": "",
     "name_ta": "",
     "operator": "",
@@ -39484,5 +45720,239 @@
     "frequency_minutes": 0,
     "operating_hours": "",
     "stops": []
+  },
+  {
+    "id": "968/582-0",
+    "name_en": "Wewala - Kekirawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "970/15",
+    "name_en": "Moragolla - Kekirawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "970/15-0",
+    "name_en": "Dewahuwa - Kekirawa",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "NORMAL",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "1381",
+    "name_en": "Sri Lanka bus route number: 138/1",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 7.034666399674631,
+        "lng": 79.99038085341454,
+        "name": "Origin"
+      },
+      {
+        "lat": 7.002569341308265,
+        "lng": 79.95310083031654,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.931965092805098,
+        "lng": 79.85772952437401,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.936094771193548,
+        "lng": 79.84493396244943,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "1382",
+    "name_en": "Sri Lanka bus route number: 138/2",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.8113191672023525,
+        "lng": 79.97526893882753,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.81132319863448,
+        "lng": 79.97528605163097,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.841981876270998,
+        "lng": 79.96243894100189,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.878731344755193,
+        "lng": 79.8736846446991,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9156483824070785,
+        "lng": 79.86476629972458,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.924765360652065,
+        "lng": 79.85049895942211,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.934281551291186,
+        "lng": 79.84856810420752,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "1383",
+    "name_en": "Sri Lanka bus route number: 138/3",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.856884393808177,
+        "lng": 79.98565010726452,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.856809829118542,
+        "lng": 79.9857459962368,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.84204579084963,
+        "lng": 79.96250800788403,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.872404247178213,
+        "lng": 79.88356322050095,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.9124744397992535,
+        "lng": 79.855837225914,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 6.920313400282151,
+        "lng": 79.85796958208084,
+        "name": "Waypoint 5"
+      },
+      {
+        "lat": 6.924083723509972,
+        "lng": 79.85053852200508,
+        "name": "Waypoint 6"
+      },
+      {
+        "lat": 6.934030602171932,
+        "lng": 79.85023945569992,
+        "name": "Destination"
+      }
+    ]
+  },
+  {
+    "id": "EX",
+    "name_en": "Colombo - Galle",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "SUPER",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": []
+  },
+  {
+    "id": "arugam-bay",
+    "name_en": "Sri Lanka bus route number: A-Bay",
+    "name_si": "",
+    "name_ta": "",
+    "operator": "",
+    "service_type": "Normal",
+    "fare_lkr": 0,
+    "frequency_minutes": 0,
+    "operating_hours": "",
+    "stops": [],
+    "waypoints": [
+      {
+        "lat": 6.927802,
+        "lng": 79.86511560000008,
+        "name": "Origin"
+      },
+      {
+        "lat": 6.95447952118625,
+        "lng": 80.20867444574833,
+        "name": "Waypoint 1"
+      },
+      {
+        "lat": 6.680005726113635,
+        "lng": 80.40644243359566,
+        "name": "Waypoint 2"
+      },
+      {
+        "lat": 6.73207882540736,
+        "lng": 81.10212162137032,
+        "name": "Waypoint 3"
+      },
+      {
+        "lat": 6.8781242026828995,
+        "lng": 81.82872332632542,
+        "name": "Waypoint 4"
+      },
+      {
+        "lat": 7.217989684738993,
+        "lng": 81.84986114501953,
+        "name": "Destination"
+      }
+    ]
   }
 ]

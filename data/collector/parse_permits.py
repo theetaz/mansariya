@@ -79,26 +79,33 @@ def parse_pdf():
     #
     # We handle both cases.
 
+    # Service type alternation used in both patterns
+    svc_alt = (
+        r"(?:LUXURY|SEMI LUXURY|NORMAL|EXPRESS|SUPER LUXURY|INTERCITY|HIGHWAY|SUPER)"
+    )
+
     # Pattern A: plate with -R<route> glued on
     # e.g., "18 F12335 NG-4543-R002-001 LUXURY 3/31/2026 COLOMBO GALLE"
+    #        "330 9687 NC-3875-R1 LUXURY 3/21/2026 COLOMBO KANDY"
     pattern_a = re.compile(
         r"^(\d[\d,]*)\s+"                             # S/N (may have commas)
         r"([A-Z]?\d+)\s+"                              # Permit No
-        r"([A-Z]{1,3}-\d{3,5})-R"                      # Bus plate ending with -R
+        r"([A-Z]{2}-\d{4,5})-R"                        # Bus plate (2L-4/5D) ending with -R
         r"(\S+)\s+"                                     # Route No (everything until space)
-        r"(LUXURY|SEMI LUXURY|NORMAL|EXPRESS|SUPER LUXURY|INTERCITY|HIGHWAY|SUPER)\s+"
+        r"(" + svc_alt + r")\s+"                       # Service type
         r"(\d{1,2}/\d{1,2}/\d{4})\s+"                 # Valid Date
         r"(.+)$"                                        # Origin + Destination
     )
 
-    # Pattern B: plate and route separate
+    # Pattern B: plate and route separate (no -R suffix on plate)
     # e.g., "1 9840 NF-2500 001 LUXURY 6/19/2026 COLOMBO KANDY"
+    # Bus plate is strictly 2 uppercase + dash + 4-5 digits, nothing more.
     pattern_b = re.compile(
         r"^(\d[\d,]*)\s+"                              # S/N
         r"([A-Z]?\d+)\s+"                              # Permit No
-        r"([A-Z]{1,3}-\d{3,5}(?:-[A-Z])?\d*)\s+"      # Bus plate
+        r"([A-Z]{2}-\d{4,5})\s+"                       # Bus plate (strict: 2L-4/5D only)
         r"(\S+)\s+"                                     # Route No
-        r"(LUXURY|SEMI LUXURY|NORMAL|EXPRESS|SUPER LUXURY|INTERCITY|HIGHWAY|SUPER)\s+"
+        r"(" + svc_alt + r")\s+"                       # Service type
         r"(\d{1,2}/\d{1,2}/\d{4})\s+"                 # Valid Date
         r"(.+)$"                                        # Origin + Destination
     )
