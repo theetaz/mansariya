@@ -25,25 +25,32 @@ type Config struct {
 	// Nominatim
 	NominatimURL string
 
+	// OSRM
+	OSRMURL string
+
 	// Admin
 	AdminAPIKey string
 }
 
 func Load() (*Config, error) {
 	cfg := &Config{
-		Port:         getEnv("PORT", "9900"),
-		Host:         getEnv("HOST", "0.0.0.0"),
-		DatabaseURL:  getEnv("DATABASE_URL", "postgres://masariya:masariya@localhost:5433/masariya?sslmode=disable"),
-		RedisAddr:    getEnv("REDIS_ADDR", "localhost:6379"),
+		Port:          getEnv("PORT", "9900"),
+		Host:          getEnv("HOST", "0.0.0.0"),
+		DatabaseURL:   getEnv("DATABASE_URL", ""),
+		RedisAddr:     getEnv("REDIS_ADDR", "localhost:6379"),
 		RedisPassword: getEnv("REDIS_PASSWORD", ""),
-		RedisDB:      getEnvInt("REDIS_DB", 0),
-		ValhallaURL:  getEnv("VALHALLA_URL", "http://localhost:9992"),
-		NominatimURL: getEnv("NOMINATIM_URL", "http://localhost:9990"),
-		AdminAPIKey:  getEnv("ADMIN_API_KEY", "mansariya-dev-key"),
+		RedisDB:       getEnvInt("REDIS_DB", 0),
+		ValhallaURL:   getEnv("VALHALLA_URL", "http://localhost:9992"),
+		NominatimURL:  getEnv("NOMINATIM_URL", "http://localhost:9990"),
+		OSRMURL:       getEnv("OSRM_URL", "https://router.project-osrm.org"),
+		AdminAPIKey:   getEnv("ADMIN_API_KEY", ""),
 	}
 
 	if cfg.DatabaseURL == "" {
-		return nil, fmt.Errorf("DATABASE_URL is required")
+		return nil, fmt.Errorf("DATABASE_URL is required (set via environment variable)")
+	}
+	if cfg.AdminAPIKey == "" {
+		return nil, fmt.Errorf("ADMIN_API_KEY is required (set via environment variable)")
 	}
 
 	return cfg, nil
