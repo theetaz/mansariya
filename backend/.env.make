@@ -1,0 +1,9 @@
+PORT=9900
+HOST=0.0.0.0
+DATABASE_URL=postgres://masariya:masariya@localhost:5433/masariya?sslmode=disable
+REDIS_ADDR=localhost:6379
+REDIS_DB=0
+VALHALLA_URL=http://localhost:9992
+NOMINATIM_URL=http://localhost:9990
+OSRM_URL=https://router.project-osrm.org
+ADMIN_API_KEY=mansariya-dev-key

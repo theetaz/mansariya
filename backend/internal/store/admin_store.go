@@ -160,6 +160,95 @@ func (s *AdminStore) DeleteTimetableEntries(ctx context.Context, routeID string)
 	return err
 }
 
+// --- Dashboard queries ---
+
+func (s *AdminStore) ListRoutesWithStats(ctx context.Context) ([]handler.AdminRouteWithStats, error) {
+	rows, err := s.pool.Query(ctx,
+		`SELECT r.id,
+		        COALESCE(r.name_en, ''),
+		        COALESCE(r.name_si, ''),
+		        COALESCE(r.name_ta, ''),
+		        COALESCE(r.operator, ''),
+		        COALESCE(r.service_type, ''),
+		        COALESCE(r.fare_lkr, 0),
+		        COALESCE(r.frequency_minutes, 0),
+		        COALESCE(r.operating_hours, ''),
+		        r.is_active,
+		        COUNT(rs.stop_id) AS stop_count,
+		        (r.polyline IS NOT NULL) AS has_polyline
+		 FROM routes r
+		 LEFT JOIN route_stops rs ON r.id = rs.route_id
+		 GROUP BY r.id
+		 ORDER BY r.id`)
+	if err != nil {
+		return nil, fmt.Errorf("list routes with stats: %w", err)
+	}
+	defer rows.Close()
+
+	var routes []handler.AdminRouteWithStats
+	for rows.Next() {
+		var r handler.AdminRouteWithStats
+		if err := rows.Scan(
+			&r.ID, &r.NameEN, &r.NameSI, &r.NameTA,
+			&r.Operator, &r.ServiceType, &r.FareLKR,
+			&r.FrequencyMinutes, &r.OperatingHours, &r.IsActive,
+			&r.StopCount, &r.HasPolyline,
+		); err != nil {
+			return nil, fmt.Errorf("scan route with stats: %w", err)
+		}
+		routes = append(routes, r)
+	}
+	return routes, rows.Err()
+}
+
+func (s *AdminStore) GetDashboardStats(ctx context.Context) (*handler.DashboardStats, error) {
+	stats := &handler.DashboardStats{}
+
+	err := s.pool.QueryRow(ctx,
+		`SELECT
+		    (SELECT COUNT(*) FROM routes),
+		    (SELECT COUNT(*) FROM stops),
+		    (SELECT COUNT(*) FROM routes WHERE is_active = true),
+		    (SELECT COUNT(DISTINCT rs.route_id) FROM route_stops rs),
+		    (SELECT COUNT(*) FROM routes WHERE polyline IS NOT NULL),
+		    (SELECT COUNT(DISTINCT route_id) FROM timetables)`).Scan(
+		&stats.TotalRoutes,
+		&stats.TotalStops,
+		&stats.ActiveRoutes,
+		&stats.RoutesWithStops,
+		&stats.RoutesWithPolyline,
+		&stats.RoutesWithTimetable,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("get dashboard stats: %w", err)
+	}
+	return stats, nil
+}
+
+func (s *AdminStore) UpdateRoutePolyline(ctx context.Context, routeID string, coordinates [][]float64, confidence float64) error {
+	// Build WKT LINESTRING from coordinates
+	points := make([]string, len(coordinates))
+	for i, coord := range coordinates {
+		if len(coord) < 2 {
+			return fmt.Errorf("coordinate at index %d must have at least 2 values", i)
+		}
+		points[i] = fmt.Sprintf("%f %f", coord[0], coord[1])
+	}
+	wkt := "LINESTRING(" + strings.Join(points, ", ") + ")"
+
+	_, err := s.pool.Exec(ctx,
+		`UPDATE routes
+		 SET polyline = ST_GeomFromText($2, 4326),
+		     polyline_confidence = $3,
+		     updated_at = NOW()
+		 WHERE id = $1`,
+		routeID, wkt, confidence)
+	if err != nil {
+		return fmt.Errorf("update route polyline: %w", err)
+	}
+	return nil
+}
+
 func coalesce(val, fallback string) string {
 	if val == "" {
 		return fallback
