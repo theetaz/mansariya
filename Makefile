@@ -5,9 +5,12 @@
        docs-dev docs-build docs-install \
        setup
 
-# Load infra env if present
--include infra/.env
+# Load env files (strip comments/blanks for Make include compatibility)
+-include infra/.env.mk
+-include backend/.env.mk
 export
+$(shell grep -hE '^[A-Za-z_][A-Za-z0-9_]*=.+' infra/.env 2>/dev/null > infra/.env.mk || true)
+$(shell grep -hE '^[A-Za-z_][A-Za-z0-9_]*=.+' backend/.env 2>/dev/null > backend/.env.mk || true)
 
 ##@ General
 help: ## Show this help

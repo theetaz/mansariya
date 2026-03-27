@@ -62,3 +62,4 @@ tmp/
 docs/node_modules/
 docs/.next/
 docs/.source/
+*.env.mk
