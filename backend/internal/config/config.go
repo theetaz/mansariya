@@ -31,14 +31,14 @@ type Config struct {
 
 func Load() (*Config, error) {
 	cfg := &Config{
-		Port:         getEnv("PORT", "8000"),
+		Port:         getEnv("PORT", "9900"),
 		Host:         getEnv("HOST", "0.0.0.0"),
 		DatabaseURL:  getEnv("DATABASE_URL", "postgres://masariya:masariya@localhost:5433/masariya?sslmode=disable"),
 		RedisAddr:    getEnv("REDIS_ADDR", "localhost:6379"),
 		RedisPassword: getEnv("REDIS_PASSWORD", ""),
 		RedisDB:      getEnvInt("REDIS_DB", 0),
-		ValhallaURL:  getEnv("VALHALLA_URL", "http://localhost:8002"),
-		NominatimURL: getEnv("NOMINATIM_URL", "http://localhost:8080"),
+		ValhallaURL:  getEnv("VALHALLA_URL", "http://localhost:9992"),
+		NominatimURL: getEnv("NOMINATIM_URL", "http://localhost:9990"),
 		AdminAPIKey:  getEnv("ADMIN_API_KEY", "mansariya-dev-key"),
 	}
 

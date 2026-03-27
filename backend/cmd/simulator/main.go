@@ -1,7 +1,7 @@
 // GPS Simulator: mimics real mobile devices pushing GPS data to the backend.
 //
 // Usage:
-//   go run ./cmd/simulator -api http://localhost:8000 -buses 3 -routes 1,2,138
+//   go run ./cmd/simulator -api http://localhost:9900 -buses 3 -routes 1,2,138
 //
 // This generates realistic GPS traces along the specified routes and POSTs
 // them to the backend's /api/v1/gps/batch endpoint, just like real phones would.
@@ -82,7 +82,7 @@ var routePolylines = map[string][][2]float64{
 }
 
 func main() {
-	apiURL := flag.String("api", "http://localhost:8000", "Backend API URL")
+	apiURL := flag.String("api", "http://localhost:9900", "Backend API URL")
 	busCount := flag.Int("buses", 3, "Number of simulated buses per route")
 	routeList := flag.String("routes", "1,2,138", "Comma-separated route IDs to simulate")
 	speedKMH := flag.Float64("speed", 35, "Average bus speed in km/h")

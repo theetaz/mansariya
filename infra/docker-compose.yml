@@ -35,11 +35,11 @@ services:
       dockerfile: Dockerfile.valhalla
     container_name: masariya-valhalla
     ports:
-      - "8002:8002"
+      - "9992:9992"
     volumes:
       - valhalla_tiles:/custom_files
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8002/status"]
+      test: ["CMD", "curl", "-sf", "http://localhost:9992/status"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -54,12 +54,12 @@ services:
       NOMINATIM_PASSWORD: masariya
       IMPORT_STYLE: full
     ports:
-      - "8080:8080"
+      - "9990:9990"
     volumes:
       - nominatim_data:/var/lib/postgresql/14/main
     shm_size: 1g
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8080/status"]
+      test: ["CMD", "curl", "-sf", "http://localhost:9990/status"]
       interval: 30s
       timeout: 10s
       retries: 10

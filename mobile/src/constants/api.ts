@@ -2,9 +2,9 @@ import {Platform} from 'react-native';
 
 // Local dev: iOS simulator uses localhost, Android emulator uses 10.0.2.2
 const DEV_API_URL = Platform.select({
-  ios: 'http://localhost:8000',
-  android: 'http://10.0.2.2:8000',
-  default: 'http://localhost:8000',
+  ios: 'http://localhost:9900',
+  android: 'http://10.0.2.2:9900',
+  default: 'http://localhost:9900',
 });
 
 const PROD_API_URL = 'https://api.masariya.lk';
