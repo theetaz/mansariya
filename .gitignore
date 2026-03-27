@@ -55,6 +55,7 @@ infra/valhalla/*.pbf
 data/*.pbf
 data/*.csv
 data/raw/
+data/gtfs/
 
 # Misc
 *.log
