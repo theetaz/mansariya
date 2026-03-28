@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import { RiBusLine, RiSignalWifiLine, RiMapPinLine, RiSpeedLine } from '@remixicon/react';
+import { RiBusLine, RiSignalWifiLine, RiSpeedLine } from '@remixicon/react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
+import { MapView } from '@/components/shared/map-view';
 import { fetchActiveBuses } from '@/lib/api-functions';
 import type { Vehicle } from '@/lib/types';
 
@@ -36,23 +37,22 @@ function LiveMapPage() {
   return (
     <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
       {/* Map Area */}
-      <div className="flex-1 relative bg-muted/30">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center space-y-3">
-            <div className="mx-auto size-16 rounded-full bg-muted flex items-center justify-center">
-              <RiMapPinLine className="size-8 text-muted-foreground" />
-            </div>
-            <div>
-              <p className="font-medium">Map View</p>
-              <p className="text-sm text-muted-foreground">
-                MapLibre GL integration coming soon
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="flex-1 relative">
+        <MapView
+          className="h-full w-full"
+          buses={buses.map((b) => ({
+            lat: b.lat,
+            lng: b.lng,
+            id: b.virtual_id,
+            routeId: b.route_id,
+            confidence: b.confidence,
+          }))}
+          center={[79.8612, 6.9271]}
+          zoom={10}
+        />
 
         {/* Floating stats */}
-        <div className="absolute top-4 left-4 bg-card/90 backdrop-blur rounded-lg border p-3 shadow-lg">
+        <div className="absolute top-4 left-4 bg-card/90 backdrop-blur rounded-lg border p-3 shadow-lg z-10">
           <div className="flex items-center gap-2">
             <RiBusLine className="size-4 text-primary" />
             <span className="font-semibold tabular-nums">{busCount}</span>

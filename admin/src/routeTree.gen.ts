@@ -16,6 +16,8 @@ import { Route as RoutesRouteImport } from './routes/routes'
 import { Route as LiveMapRouteImport } from './routes/live-map'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RoutesIndexRouteImport } from './routes/routes.index'
+import { Route as RoutesRouteIdRouteImport } from './routes/routes.$routeId'
 
 const TimetablesRoute = TimetablesRouteImport.update({
   id: '/timetables',
@@ -52,34 +54,49 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoutesIndexRoute = RoutesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RoutesRoute,
+} as any)
+const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
+  id: '/$routeId',
+  path: '/$routeId',
+  getParentRoute: () => RoutesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
-  '/routes': typeof RoutesRoute
+  '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/': typeof RoutesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
-  '/routes': typeof RoutesRoute
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes': typeof RoutesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
-  '/routes': typeof RoutesRoute
+  '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/': typeof RoutesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,15 +108,18 @@ export interface FileRouteTypes {
     | '/settings'
     | '/stops'
     | '/timetables'
+    | '/routes/$routeId'
+    | '/routes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/data'
     | '/live-map'
-    | '/routes'
     | '/settings'
     | '/stops'
     | '/timetables'
+    | '/routes/$routeId'
+    | '/routes'
   id:
     | '__root__'
     | '/'
@@ -109,13 +129,15 @@ export interface FileRouteTypes {
     | '/settings'
     | '/stops'
     | '/timetables'
+    | '/routes/$routeId'
+    | '/routes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DataRoute: typeof DataRoute
   LiveMapRoute: typeof LiveMapRoute
-  RoutesRoute: typeof RoutesRoute
+  RoutesRoute: typeof RoutesRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   StopsRoute: typeof StopsRoute
   TimetablesRoute: typeof TimetablesRoute
@@ -172,14 +194,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/routes/': {
+      id: '/routes/'
+      path: '/'
+      fullPath: '/routes/'
+      preLoaderRoute: typeof RoutesIndexRouteImport
+      parentRoute: typeof RoutesRoute
+    }
+    '/routes/$routeId': {
+      id: '/routes/$routeId'
+      path: '/$routeId'
+      fullPath: '/routes/$routeId'
+      preLoaderRoute: typeof RoutesRouteIdRouteImport
+      parentRoute: typeof RoutesRoute
+    }
   }
 }
+
+interface RoutesRouteChildren {
+  RoutesRouteIdRoute: typeof RoutesRouteIdRoute
+  RoutesIndexRoute: typeof RoutesIndexRoute
+}
+
+const RoutesRouteChildren: RoutesRouteChildren = {
+  RoutesRouteIdRoute: RoutesRouteIdRoute,
+  RoutesIndexRoute: RoutesIndexRoute,
+}
+
+const RoutesRouteWithChildren =
+  RoutesRoute._addFileChildren(RoutesRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DataRoute: DataRoute,
   LiveMapRoute: LiveMapRoute,
-  RoutesRoute: RoutesRoute,
+  RoutesRoute: RoutesRouteWithChildren,
   SettingsRoute: SettingsRoute,
   StopsRoute: StopsRoute,
   TimetablesRoute: TimetablesRoute,

@@ -166,36 +166,49 @@ migrate-down: ## Rollback last migration
 	cd backend && go run -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest \
 		-path migrations -database "$${DATABASE_URL}" down 1
 
-seed: ## Seed database with comprehensive route data (685 routes)
-	@echo ""
-	@echo "  \033[1;36mSeeding database with comprehensive route data...\033[0m"
-	@echo ""
-	@echo "  Data source: data/routes_comprehensive.json"
-	@echo "  This will insert routes, stops, and polylines."
-	@echo ""
+seed: ## Seed all data: OSM stops → routes → timetables
 	cd backend && go run ./cmd/bootstrap \
 		-data ../data/routes_comprehensive.json \
 		-db "$${DATABASE_URL}" \
 		-nominatim "$${NOMINATIM_URL:-http://localhost:9990}" \
-		-osrm "$${OSRM_URL:-https://router.project-osrm.org}"
+		-osrm "$${OSRM_URL:-https://router.project-osrm.org}" \
+		-osm-stops ../data/osm_bus_stops.json \
+		-timetables ../data/timetables.json
 
-seed-sample: ## Seed with sample data only (5 routes, fast, no external APIs)
-	@echo ""
-	@echo "  \033[1;36mSeeding database with sample data (5 routes)...\033[0m"
-	@echo ""
+seed-sample: ## Seed with sample data only (5 routes, fast)
 	cd backend && go run ./cmd/bootstrap \
 		-data ../data/sample-routes.json \
 		-db "$${DATABASE_URL}" \
 		-nominatim "$${NOMINATIM_URL:-http://localhost:9990}" \
 		-osrm "$${OSRM_URL:-https://router.project-osrm.org}"
 
-seed-timetables: ## Seed timetable/departure data
-	@echo ""
-	@echo "  \033[1;36mSeeding timetable data...\033[0m"
-	@echo ""
-	@echo "  \033[33mNote: Timetable seeding requires a custom loader (not yet implemented).\033[0m"
-	@echo "  Data file: data/timetables.json"
-	@echo ""
+seed-status: ## Show seed pre-flight report (dry run, no inserts)
+	cd backend && go run ./cmd/bootstrap \
+		-data ../data/routes_comprehensive.json \
+		-db "$${DATABASE_URL}" \
+		-nominatim "$${NOMINATIM_URL:-http://localhost:9990}" \
+		-osrm "$${OSRM_URL:-https://router.project-osrm.org}" \
+		-osm-stops ../data/osm_bus_stops.json \
+		-timetables ../data/timetables.json \
+		-dry-run
+
+seed-timetables: ## Seed timetable data only
+	cd backend && go run ./cmd/bootstrap \
+		-data ../data/sample-routes.json \
+		-db "$${DATABASE_URL}" \
+		-nominatim "$${NOMINATIM_URL:-http://localhost:9990}" \
+		-osrm "$${OSRM_URL:-https://router.project-osrm.org}" \
+		-timetables ../data/timetables.json \
+		-skip-empty
+
+seed-osm-stops: ## Seed OSM bus stops only
+	cd backend && go run ./cmd/bootstrap \
+		-data ../data/sample-routes.json \
+		-db "$${DATABASE_URL}" \
+		-nominatim "$${NOMINATIM_URL:-http://localhost:9990}" \
+		-osrm "$${OSRM_URL:-https://router.project-osrm.org}" \
+		-osm-stops ../data/osm_bus_stops.json \
+		-skip-empty
 
 ##@ Simulator
 simulate: ## Start GPS simulator (fake buses for testing live tracking)

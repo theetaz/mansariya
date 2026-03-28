@@ -30,6 +30,8 @@ export interface AdminRouteWithStats {
   is_active: boolean;
   stop_count: number;
   has_polyline: boolean;
+  origin_stop_name: string;
+  destination_stop_name: string;
 }
 
 export interface AdminRouteInput {
@@ -144,4 +146,63 @@ export interface EnrichedRouteStop {
   stop_lat: number;
   stop_lng: number;
   is_terminal: boolean;
+}
+
+// ── Route Detail (composite endpoint response) ──
+export interface AdminRouteDetail {
+  route: AdminRouteDetailInfo;
+  stops: AdminEnrichedStop[];
+  timetable: AdminTimetableEntry[];
+  polyline: [number, number][];
+}
+
+export interface AdminRouteDetailInfo {
+  id: string;
+  name_en: string;
+  name_si: string;
+  name_ta: string;
+  operator: string;
+  service_type: string;
+  fare_lkr: number;
+  frequency_minutes: number;
+  operating_hours: string;
+  is_active: boolean;
+  source: string;
+  data_source: string;
+  validated_by?: string;
+  validated_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminEnrichedStop {
+  stop_id: string;
+  stop_order: number;
+  name_en: string;
+  name_si: string;
+  name_ta: string;
+  lat: number;
+  lng: number;
+  distance_from_start_km: number;
+  typical_duration_min: number;
+  fare_from_start_lkr: number;
+  is_terminal: boolean;
+}
+
+export interface AdminTimetableEntry {
+  id: number;
+  route_id: string;
+  departure_time: string;
+  days: string[];
+  service_type: string;
+  notes: string;
+}
+
+// ── Paginated route list response ──
+export interface AdminRouteListResponse {
+  routes: AdminRouteWithStats[];
+  count: number;
+  page: number;
+  per_page: number;
+  total_pages: number;
 }

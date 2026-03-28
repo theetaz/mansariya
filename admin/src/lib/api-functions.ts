@@ -1,8 +1,11 @@
 import api from './api';
 import type {
+  AdminRouteDetail,
   AdminRouteInput,
+  AdminRouteListResponse,
   AdminRouteWithStats,
   AdminStopInput,
+  AdminTimetableEntry,
   DashboardStats,
   HealthResponse,
   Route,
@@ -61,3 +64,29 @@ export const setTimetable = (routeId: string, entries: TimetableInput[]) =>
 
 export const updatePolyline = (routeId: string, coordinates: [number, number][], confidence: number) =>
   api.put(`/api/v1/admin/routes/${routeId}/polyline`, { coordinates, confidence }).then((r) => r.data);
+
+// ── Admin: Route Detail ──
+export const fetchAdminRouteDetail = (id: string) =>
+  api.get<AdminRouteDetail>(`/api/v1/admin/routes/${id}`).then((r) => r.data);
+
+export const fetchRouteTimetable = (routeId: string) =>
+  api.get<AdminTimetableEntry[]>(`/api/v1/admin/routes/${routeId}/timetable`).then((r) => r.data);
+
+export const deleteStop = (id: string) =>
+  api.delete(`/api/v1/admin/stops/${id}`).then((r) => r.data);
+
+export const fetchAdminRoutesFiltered = (params: {
+  q?: string;
+  operator?: string;
+  service_type?: string;
+  page?: number;
+  per_page?: number;
+}) => {
+  const searchParams = new URLSearchParams();
+  if (params.q) searchParams.set('q', params.q);
+  if (params.operator) searchParams.set('operator', params.operator);
+  if (params.service_type) searchParams.set('service_type', params.service_type);
+  if (params.page) searchParams.set('page', String(params.page));
+  if (params.per_page) searchParams.set('per_page', String(params.per_page));
+  return api.get<AdminRouteListResponse>(`/api/v1/admin/routes?${searchParams}`).then((r) => r.data);
+};

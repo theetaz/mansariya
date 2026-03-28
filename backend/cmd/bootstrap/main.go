@@ -55,11 +55,39 @@ type GeocodedStop struct {
 	Lng  float64
 }
 
+type OSMStop struct {
+	OSMID  int64   `json:"osm_id"`
+	Name   string  `json:"name"`
+	NameEN string  `json:"name_en"`
+	NameSI string  `json:"name_si"`
+	NameTA string  `json:"name_ta"`
+	Lat    float64 `json:"lat"`
+	Lng    float64 `json:"lng"`
+}
+
+type TimetableFile map[string]TimetableRouteData
+
+type TimetableRouteData struct {
+	RouteID string           `json:"route_id"`
+	Entries []TimetableEntry `json:"entries"`
+}
+
+type TimetableEntry struct {
+	RouteID       string            `json:"route_id"`
+	DepartureTime string            `json:"departure_time"`
+	ServiceType   string            `json:"service_type"`
+	StopTimes     map[string]string `json:"stop_times"`
+}
+
 func main() {
 	dataFile := flag.String("data", "data/routes.json", "Path to routes JSON file")
 	dbURL := flag.String("db", "", "Database URL (or set DATABASE_URL env)")
 	nominatimURL := flag.String("nominatim", "", "Nominatim base URL (or set NOMINATIM_URL env)")
 	osrmBaseURL := flag.String("osrm", "", "OSRM base URL (or set OSRM_URL env)")
+	dryRun := flag.Bool("dry-run", false, "Show pre-flight report only, don't insert")
+	skipEmpty := flag.Bool("skip-empty", true, "Skip routes with no name_en AND no stops")
+	osmStopsFile := flag.String("osm-stops", "", "Path to OSM bus stops JSON file to seed")
+	timetablesFile := flag.String("timetables", "", "Path to timetables JSON file to seed")
 	flag.Parse()
 
 	if *dbURL == "" {
@@ -134,6 +162,132 @@ func main() {
 	}
 	defer pool.Close()
 
+	// Analyze route data for the report
+	routesWithNames := 0
+	routesWithStops := 0
+	routesWithStopCoords := 0
+	for _, r := range routes {
+		if r.NameEN != "" {
+			routesWithNames++
+		}
+		if len(r.Stops) >= 2 {
+			routesWithStops++
+		}
+		if len(r.StopCoords) >= 2 {
+			routesWithStopCoords++
+		}
+	}
+
+	// Load optional data files for reporting
+	osmStopCount := 0
+	osmStopLabel := "not provided"
+	if *osmStopsFile != "" {
+		osmData, osmErr := os.ReadFile(*osmStopsFile)
+		if osmErr != nil {
+			slog.Error("read OSM stops file", "path", *osmStopsFile, "error", osmErr)
+			os.Exit(1)
+		}
+		var osmStops []OSMStop
+		if osmErr := json.Unmarshal(osmData, &osmStops); osmErr != nil {
+			slog.Error("parse OSM stops", "error", osmErr)
+			os.Exit(1)
+		}
+		osmStopCount = len(osmStops)
+		osmStopLabel = fmt.Sprintf("%d stops", osmStopCount)
+	}
+
+	timetableEntryCount := 0
+	timetableLabel := "not provided"
+	if *timetablesFile != "" {
+		ttData, ttErr := os.ReadFile(*timetablesFile)
+		if ttErr != nil {
+			slog.Error("read timetables file", "path", *timetablesFile, "error", ttErr)
+			os.Exit(1)
+		}
+		var ttFile TimetableFile
+		if ttErr := json.Unmarshal(ttData, &ttFile); ttErr != nil {
+			slog.Error("parse timetables", "error", ttErr)
+			os.Exit(1)
+		}
+		for _, rd := range ttFile {
+			timetableEntryCount += len(rd.Entries)
+		}
+		timetableLabel = fmt.Sprintf("%d entries", timetableEntryCount)
+	}
+
+	// Query database state
+	var existingRoutes, existingStops, existingTimetables int
+	_ = pool.QueryRow(ctx, "SELECT COUNT(*) FROM routes").Scan(&existingRoutes)
+	_ = pool.QueryRow(ctx, "SELECT COUNT(*) FROM stops").Scan(&existingStops)
+	_ = pool.QueryRow(ctx, "SELECT COUNT(*) FROM timetables").Scan(&existingTimetables)
+
+	// Count routes that will be filtered
+	routesToSkip := 0
+	if *skipEmpty {
+		for _, r := range routes {
+			if r.NameEN == "" && len(r.Stops) < 2 && len(r.StopCoords) < 2 {
+				routesToSkip++
+			}
+		}
+	}
+	routesToInsert := len(routes) - routesToSkip
+
+	// ANSI colors
+	const (
+		green = "\033[32m"
+		cyan  = "\033[36m"
+		bold  = "\033[1m"
+		dim   = "\033[2m"
+		reset = "\033[0m"
+	)
+
+	// Print pre-flight report
+	fmt.Fprintf(os.Stdout, "\n  %s━━━ Mansariya Seed — Pre-flight Report ━━━%s\n\n", bold, reset)
+	fmt.Fprintf(os.Stdout, "  %sDependencies:%s\n", bold, reset)
+	fmt.Fprintf(os.Stdout, "    %s✓%s PostgreSQL          reachable\n", green, reset)
+	fmt.Fprintf(os.Stdout, "    %s✓%s Nominatim           reachable at %s\n", green, reset, *nominatimURL)
+	fmt.Fprintf(os.Stdout, "    %s✓%s OSRM                %s\n", green, reset, *osrmBaseURL)
+	fmt.Fprintf(os.Stdout, "\n  %sData Files:%s\n", bold, reset)
+	fmt.Fprintf(os.Stdout, "    Routes:     %s%d%s total, %s%d%s with names, %s%d%s with stops, %s%d%s with stop_coords\n",
+		cyan, len(routes), reset, cyan, routesWithNames, reset, cyan, routesWithStops, reset, cyan, routesWithStopCoords, reset)
+	fmt.Fprintf(os.Stdout, "    OSM Stops:  %s%s%s\n", cyan, osmStopLabel, reset)
+	fmt.Fprintf(os.Stdout, "    Timetables: %s%s%s\n", cyan, timetableLabel, reset)
+	fmt.Fprintf(os.Stdout, "\n  %sDatabase State:%s\n", bold, reset)
+	fmt.Fprintf(os.Stdout, "    Routes:     %s%d%s existing\n", cyan, existingRoutes, reset)
+	fmt.Fprintf(os.Stdout, "    Stops:      %s%d%s existing\n", cyan, existingStops, reset)
+	fmt.Fprintf(os.Stdout, "    Timetables: %s%d%s existing\n", cyan, existingTimetables, reset)
+	fmt.Fprintf(os.Stdout, "\n  %sPlan:%s\n", bold, reset)
+	fmt.Fprintf(os.Stdout, "    Routes to insert:  %s%d%s %s(after filtering empty)%s\n", cyan, routesToInsert, reset, dim, reset)
+	fmt.Fprintf(os.Stdout, "    Routes to skip:    %s%d%s %s(empty/incomplete)%s\n\n", cyan, routesToSkip, reset, dim, reset)
+
+	if *dryRun {
+		slog.Info("dry-run mode — exiting without changes")
+		os.Exit(0)
+	}
+
+	// Filter empty routes if --skip-empty is true
+	if *skipEmpty {
+		originalLen := len(routes)
+		filtered := make([]RawRoute, 0, len(routes))
+		for _, r := range routes {
+			if r.NameEN != "" || len(r.Stops) >= 2 || len(r.StopCoords) >= 2 {
+				filtered = append(filtered, r)
+			}
+		}
+		routes = filtered
+		slog.Info("filtered empty routes", "before", originalLen, "after", len(routes), "removed", originalLen-len(routes))
+	}
+
+	// Seed OSM bus stops before route processing
+	if *osmStopsFile != "" {
+		osmInserted, osmErr := seedOSMStops(ctx, pool, *osmStopsFile)
+		if osmErr != nil {
+			slog.Error("seed OSM stops", "error", osmErr)
+			os.Exit(1)
+		}
+		slog.Info("OSM stops seeded", "inserted", osmInserted)
+	}
+
 	inserted := 0
 	skipped := 0
 
@@ -172,6 +326,16 @@ func main() {
 			continue
 		}
 		inserted++
+	}
+
+	// Seed timetables after route processing
+	if *timetablesFile != "" {
+		ttInserted, ttErr := seedTimetables(ctx, pool, *timetablesFile)
+		if ttErr != nil {
+			slog.Error("seed timetables", "error", ttErr)
+			os.Exit(1)
+		}
+		slog.Info("timetables seeded", "inserted", ttInserted)
 	}
 
 	slog.Info("bootstrap complete",
@@ -360,4 +524,133 @@ func checkService(url, name string) error {
 		return fmt.Errorf("%s returned status %d", name, resp.StatusCode)
 	}
 	return nil
+}
+
+func seedOSMStops(ctx context.Context, pool *pgxpool.Pool, filePath string) (int, error) {
+	raw, err := os.ReadFile(filePath)
+	if err != nil {
+		return 0, fmt.Errorf("read OSM stops file: %w", err)
+	}
+
+	var stops []OSMStop
+	if err := json.Unmarshal(raw, &stops); err != nil {
+		return 0, fmt.Errorf("parse OSM stops: %w", err)
+	}
+
+	totalInserted := 0
+	batchSize := 500
+
+	for i := 0; i < len(stops); i += batchSize {
+		end := i + batchSize
+		if end > len(stops) {
+			end = len(stops)
+		}
+		batch := stops[i:end]
+
+		tx, err := pool.Begin(ctx)
+		if err != nil {
+			return totalInserted, fmt.Errorf("begin transaction: %w", err)
+		}
+
+		batchInserted := 0
+		for _, s := range batch {
+			stopID := fmt.Sprintf("osm_%d", s.OSMID)
+			pointWKT := fmt.Sprintf("POINT(%f %f)", s.Lng, s.Lat)
+
+			nameEN := s.NameEN
+			if nameEN == "" {
+				nameEN = s.Name
+			}
+
+			tag, err := tx.Exec(ctx,
+				`INSERT INTO stops (id, name_en, name_si, name_ta, location, source)
+				 VALUES ($1, $2, $3, $4, ST_GeomFromText($5, 4326), 'osm')
+				 ON CONFLICT (id) DO NOTHING`,
+				stopID, nameEN, s.NameSI, s.NameTA, pointWKT)
+			if err != nil {
+				_ = tx.Rollback(ctx)
+				return totalInserted, fmt.Errorf("insert OSM stop %d: %w", s.OSMID, err)
+			}
+			batchInserted += int(tag.RowsAffected())
+		}
+
+		if err := tx.Commit(ctx); err != nil {
+			return totalInserted, fmt.Errorf("commit OSM batch: %w", err)
+		}
+		totalInserted += batchInserted
+		slog.Debug("OSM stops batch committed", "batch", i/batchSize+1, "inserted", batchInserted)
+	}
+
+	return totalInserted, nil
+}
+
+func seedTimetables(ctx context.Context, pool *pgxpool.Pool, filePath string) (int, error) {
+	raw, err := os.ReadFile(filePath)
+	if err != nil {
+		return 0, fmt.Errorf("read timetables file: %w", err)
+	}
+
+	var ttFile TimetableFile
+	if err := json.Unmarshal(raw, &ttFile); err != nil {
+		return 0, fmt.Errorf("parse timetables: %w", err)
+	}
+
+	allDays := []string{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"}
+	totalInserted := 0
+
+	for _, routeData := range ttFile {
+		// Check if the route exists in the database
+		var exists bool
+		err := pool.QueryRow(ctx, "SELECT EXISTS(SELECT 1 FROM routes WHERE id = $1)", routeData.RouteID).Scan(&exists)
+		if err != nil {
+			return totalInserted, fmt.Errorf("check route %s: %w", routeData.RouteID, err)
+		}
+		if !exists {
+			slog.Warn("timetable route not found, skipping", "route_id", routeData.RouteID)
+			continue
+		}
+
+		tx, err := pool.Begin(ctx)
+		if err != nil {
+			return totalInserted, fmt.Errorf("begin transaction: %w", err)
+		}
+
+		for _, entry := range routeData.Entries {
+			depTime := normalizeTime(entry.DepartureTime)
+			serviceType := entry.ServiceType
+			if serviceType == "" {
+				serviceType = "Normal"
+			}
+
+			tag, err := tx.Exec(ctx,
+				`INSERT INTO timetables (route_id, departure_time, days, service_type)
+				 VALUES ($1, $2::time, $3, $4)
+				 ON CONFLICT DO NOTHING`,
+				routeData.RouteID, depTime, allDays, serviceType)
+			if err != nil {
+				_ = tx.Rollback(ctx)
+				return totalInserted, fmt.Errorf("insert timetable for route %s at %s: %w", routeData.RouteID, depTime, err)
+			}
+			totalInserted += int(tag.RowsAffected())
+		}
+
+		if err := tx.Commit(ctx); err != nil {
+			return totalInserted, fmt.Errorf("commit timetable batch for route %s: %w", routeData.RouteID, err)
+		}
+	}
+
+	return totalInserted, nil
+}
+
+// normalizeTime pads times like "3:00" to "03:00" for proper TIME parsing.
+func normalizeTime(t string) string {
+	parts := strings.SplitN(t, ":", 2)
+	if len(parts) != 2 {
+		return t
+	}
+	hour := parts[0]
+	if len(hour) == 1 {
+		hour = "0" + hour
+	}
+	return hour + ":" + parts[1]
 }
