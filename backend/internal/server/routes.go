@@ -38,7 +38,8 @@ func NewRouter(deps *Deps) *chi.Mux {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/ping"))
 
-	// Health check
+	// Health / root
+	r.Get("/", healthCheck)
 	r.Get("/health", healthCheck)
 
 	// API Documentation
