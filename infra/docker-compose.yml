@@ -34,6 +34,8 @@ services:
       context: .
       dockerfile: Dockerfile.valhalla
     container_name: masariya-valhalla
+    environment:
+      update_existing_config: "True"
     ports:
       - "${VALHALLA_PORT:-9992}:9992"
     volumes:
