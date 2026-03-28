@@ -24,6 +24,10 @@ type AdminStore interface {
 
 	AddTimetableEntry(ctx context.Context, entry AdminTimetableInput) error
 	DeleteTimetableEntries(ctx context.Context, routeID string) error
+
+	ListRoutesWithStats(ctx context.Context) ([]AdminRouteWithStats, error)
+	GetDashboardStats(ctx context.Context) (*DashboardStats, error)
+	UpdateRoutePolyline(ctx context.Context, routeID string, coordinates [][]float64, confidence float64) error
 }
 
 // --- Input types ---
@@ -67,6 +71,32 @@ type AdminTimetableInput struct {
 	Days          []string `json:"days"`
 	ServiceType   string   `json:"service_type"`
 	Notes         string   `json:"notes"`
+}
+
+// --- Response types ---
+
+type AdminRouteWithStats struct {
+	ID               string `json:"id"`
+	NameEN           string `json:"name_en"`
+	NameSI           string `json:"name_si"`
+	NameTA           string `json:"name_ta"`
+	Operator         string `json:"operator"`
+	ServiceType      string `json:"service_type"`
+	FareLKR          int    `json:"fare_lkr"`
+	FrequencyMinutes int    `json:"frequency_minutes"`
+	OperatingHours   string `json:"operating_hours"`
+	IsActive         bool   `json:"is_active"`
+	StopCount        int    `json:"stop_count"`
+	HasPolyline      bool   `json:"has_polyline"`
+}
+
+type DashboardStats struct {
+	TotalRoutes        int `json:"total_routes"`
+	TotalStops         int `json:"total_stops"`
+	ActiveRoutes       int `json:"active_routes"`
+	RoutesWithStops    int `json:"routes_with_stops"`
+	RoutesWithPolyline int `json:"routes_with_polyline"`
+	RoutesWithTimetable int `json:"routes_with_timetable"`
 }
 
 // --- Handler ---
@@ -241,6 +271,62 @@ func (h *AdminHandler) SetTimetable(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]interface{}{
 		"route_id": routeID,
 		"entries":  len(input.Entries),
+		"status":   "updated",
+	})
+}
+
+// --- Dashboard ---
+
+func (h *AdminHandler) ListRoutes(w http.ResponseWriter, r *http.Request) {
+	routes, err := h.store.ListRoutesWithStats(r.Context())
+	if err != nil {
+		slog.Error("admin list routes", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "list routes failed"})
+		return
+	}
+	writeJSON(w, http.StatusOK, routes)
+}
+
+func (h *AdminHandler) GetStats(w http.ResponseWriter, r *http.Request) {
+	stats, err := h.store.GetDashboardStats(r.Context())
+	if err != nil {
+		slog.Error("admin get stats", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "get stats failed"})
+		return
+	}
+	writeJSON(w, http.StatusOK, stats)
+}
+
+func (h *AdminHandler) UpdatePolyline(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+
+	var input struct {
+		Coordinates [][]float64 `json:"coordinates"`
+		Confidence  float64     `json:"confidence"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		return
+	}
+	if len(input.Coordinates) < 2 {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "at least 2 coordinates required"})
+		return
+	}
+
+	confidence := input.Confidence
+	if confidence <= 0 {
+		confidence = 0.8
+	}
+
+	if err := h.store.UpdateRoutePolyline(r.Context(), routeID, input.Coordinates, confidence); err != nil {
+		slog.Error("admin update polyline", "error", err, "route_id", routeID)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "update polyline failed"})
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"route_id": routeID,
+		"points":   len(input.Coordinates),
 		"status":   "updated",
 	})
 }

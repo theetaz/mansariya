@@ -80,6 +80,10 @@ func NewRouter(deps *Deps) *chi.Mux {
 	r.Route("/api/v1/admin", func(r chi.Router) {
 		r.Use(deps.Admin.AuthMiddleware)
 
+		// Dashboard
+		r.Get("/routes", deps.Admin.ListRoutes)
+		r.Get("/stats", deps.Admin.GetStats)
+
 		// Routes
 		r.Post("/routes", deps.Admin.CreateRoute)
 		r.Put("/routes/{routeID}", deps.Admin.UpdateRoute)
@@ -87,6 +91,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Post("/routes/{routeID}/validate", deps.Admin.ValidateRoute)
 		r.Put("/routes/{routeID}/stops", deps.Admin.SetRouteStops)
 		r.Put("/routes/{routeID}/timetable", deps.Admin.SetTimetable)
+		r.Put("/routes/{routeID}/polyline", deps.Admin.UpdatePolyline)
 
 		// Stops
 		r.Post("/stops", deps.Admin.CreateStop)
