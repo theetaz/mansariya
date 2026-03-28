@@ -1,9 +1,18 @@
-import * as React from "react"
-
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import * as React from 'react';
+import { Link, useRouterState } from '@tanstack/react-router';
+import {
+  RiDashboardLine,
+  RiRouteLine,
+  RiMapPinLine,
+  RiTimeLine,
+  RiLiveLine,
+  RiDownloadLine,
+  RiSettingsLine,
+  RiBusLine,
+} from '@remixicon/react';
+import { NavMain } from '@/components/nav-main';
+import { NavSecondary } from '@/components/nav-secondary';
+import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -12,194 +21,68 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { RiDashboardLine, RiListUnordered, RiBarChartLine, RiFolderLine, RiGroupLine, RiCameraLine, RiFileTextLine, RiSettingsLine, RiQuestionLine, RiSearchLine, RiDatabase2Line, RiFileChartLine, RiFileLine, RiCommandLine } from "@remixicon/react"
+} from '@/components/ui/sidebar';
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: (
-        <RiDashboardLine
-        />
-      ),
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: (
-        <RiListUnordered
-        />
-      ),
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: (
-        <RiBarChartLine
-        />
-      ),
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: (
-        <RiFolderLine
-        />
-      ),
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: (
-        <RiGroupLine
-        />
-      ),
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: (
-        <RiCameraLine
-        />
-      ),
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: (
-        <RiFileTextLine
-        />
-      ),
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: (
-        <RiFileTextLine
-        />
-      ),
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <RiSettingsLine
-        />
-      ),
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: (
-        <RiQuestionLine
-        />
-      ),
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: (
-        <RiSearchLine
-        />
-      ),
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: (
-        <RiDatabase2Line
-        />
-      ),
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: (
-        <RiFileChartLine
-        />
-      ),
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: (
-        <RiFileLine
-        />
-      ),
-    },
-  ],
-}
+const mainNavItems = [
+  { title: 'Dashboard', icon: <RiDashboardLine />, url: '/' },
+  { title: 'Routes', icon: <RiRouteLine />, url: '/routes' },
+  { title: 'Stops', icon: <RiMapPinLine />, url: '/stops' },
+  { title: 'Timetables', icon: <RiTimeLine />, url: '/timetables' },
+  { title: 'Live Map', icon: <RiLiveLine />, url: '/live-map' },
+  { title: 'Import/Export', icon: <RiDownloadLine />, url: '/data' },
+];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const secondaryNavItems = [
+  { title: 'Settings', icon: <RiSettingsLine />, url: '/settings' },
+];
+
+export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
+  const routerState = useRouterState();
+  const currentPath = routerState.location.pathname;
+
+  const withActive = <T extends { url: string }>(items: T[]) =>
+    items.map((item) => ({
+      ...item,
+      isActive:
+        item.url === '/'
+          ? currentPath === '/'
+          : currentPath.startsWith(item.url),
+    }));
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
+              size="lg"
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
               asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
-                <RiCommandLine className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <Link to="/">
+                <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                  <RiBusLine className="size-4" />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">Mansariya</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    Admin Dashboard
+                  </span>
+                </div>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={withActive(mainNavItems)} />
+        <NavSecondary items={withActive(secondaryNavItems)} className="mt-auto" />
       </SidebarContent>
+
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
