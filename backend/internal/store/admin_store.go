@@ -177,6 +177,7 @@ func (s *AdminStore) ListRoutesWithStats(ctx context.Context) ([]handler.AdminRo
 		        COALESCE(r.operating_hours, ''),
 		        r.is_active,
 		        COUNT(rs.stop_id) AS stop_count,
+		        (SELECT COUNT(*) FROM route_patterns WHERE route_id = r.id) AS pattern_count,
 		        (r.polyline IS NOT NULL) AS has_polyline
 		 FROM routes r
 		 LEFT JOIN route_stops rs ON r.id = rs.route_id
@@ -194,7 +195,7 @@ func (s *AdminStore) ListRoutesWithStats(ctx context.Context) ([]handler.AdminRo
 			&r.ID, &r.NameEN, &r.NameSI, &r.NameTA,
 			&r.Operator, &r.ServiceType, &r.FareLKR,
 			&r.FrequencyMinutes, &r.OperatingHours, &r.IsActive,
-			&r.StopCount, &r.HasPolyline,
+			&r.StopCount, &r.PatternCount, &r.HasPolyline,
 		); err != nil {
 			return nil, fmt.Errorf("scan route with stats: %w", err)
 		}
@@ -257,23 +258,31 @@ func (s *AdminStore) GetRouteDetail(ctx context.Context, routeID string) (*handl
 	// 1. Get route basic info
 	var detail handler.AdminRouteDetail
 	var info handler.AdminRouteDetailInfo
-	var validatedAt *time.Time
+	var validatedAt, createdAt, updatedAt *time.Time
 	err := s.pool.QueryRow(ctx, `
-		SELECT id, name_en, name_si, name_ta, operator, service_type, fare_lkr,
-		       frequency_minutes, operating_hours, is_active, COALESCE(source,''), COALESCE(data_source,''),
+		SELECT id, COALESCE(name_en,''), COALESCE(name_si,''), COALESCE(name_ta,''),
+		       COALESCE(operator,''), COALESCE(service_type,''), COALESCE(fare_lkr,0),
+		       COALESCE(frequency_minutes,0), COALESCE(operating_hours,''), is_active,
+		       COALESCE(source,''), COALESCE(data_source,''),
 		       COALESCE(validated_by,''), validated_at, created_at, updated_at
 		FROM routes WHERE id = $1`, routeID).Scan(
 		&info.ID, &info.NameEN, &info.NameSI, &info.NameTA,
 		&info.Operator, &info.ServiceType, &info.FareLKR,
 		&info.FrequencyMin, &info.OperatingHours, &info.IsActive,
 		&info.Source, &info.DataSource, &info.ValidatedBy, &validatedAt,
-		&info.CreatedAt, &info.UpdatedAt)
+		&createdAt, &updatedAt)
 	if err != nil {
 		return nil, fmt.Errorf("route not found: %w", err)
 	}
 	if validatedAt != nil {
 		t := validatedAt.Format(time.RFC3339)
 		info.ValidatedAt = &t
+	}
+	if createdAt != nil {
+		info.CreatedAt = createdAt.Format(time.RFC3339)
+	}
+	if updatedAt != nil {
+		info.UpdatedAt = updatedAt.Format(time.RFC3339)
 	}
 	detail.Route = info
 
@@ -302,14 +311,21 @@ func (s *AdminStore) GetRouteDetail(ctx context.Context, routeID string) (*handl
 		detail.Stops = []handler.AdminEnrichedStop{}
 	}
 
-	// 3. Get timetable entries
+	// 3. Get route patterns
+	patterns, err := s.GetRoutePatterns(ctx, routeID)
+	if err != nil {
+		return nil, fmt.Errorf("get patterns: %w", err)
+	}
+	detail.Patterns = patterns
+
+	// 4. Get timetable entries
 	timetable, err := s.GetTimetableEntries(ctx, routeID)
 	if err != nil {
 		return nil, fmt.Errorf("get timetable: %w", err)
 	}
 	detail.Timetable = timetable
 
-	// 4. Get polyline
+	// 5. Get polyline
 	var polylineJSON []byte
 	err = s.pool.QueryRow(ctx, `
 		SELECT ST_AsGeoJSON(polyline)::jsonb->'coordinates'
@@ -406,6 +422,7 @@ func (s *AdminStore) ListRoutesFiltered(ctx context.Context, filter handler.Admi
 		       COALESCE(r.frequency_minutes,0), COALESCE(r.operating_hours,''),
 		       r.is_active,
 		       (SELECT COUNT(*) FROM route_stops WHERE route_id = r.id),
+		       (SELECT COUNT(*) FROM route_patterns WHERE route_id = r.id),
 		       (r.polyline IS NOT NULL),
 		       COALESCE(os.name_en, ''), COALESCE(ds.name_en, '')
 		FROM routes r
@@ -427,7 +444,7 @@ func (s *AdminStore) ListRoutesFiltered(ctx context.Context, filter handler.Admi
 		var r handler.AdminRouteWithStats
 		if err := rows.Scan(&r.ID, &r.NameEN, &r.NameSI, &r.NameTA,
 			&r.Operator, &r.ServiceType, &r.FareLKR, &r.FrequencyMinutes, &r.OperatingHours,
-			&r.IsActive, &r.StopCount, &r.HasPolyline,
+			&r.IsActive, &r.StopCount, &r.PatternCount, &r.HasPolyline,
 			&r.OriginStopName, &r.DestStopName); err != nil {
 			return nil, fmt.Errorf("scan route: %w", err)
 		}
@@ -444,6 +461,31 @@ func (s *AdminStore) ListRoutesFiltered(ctx context.Context, filter handler.Admi
 		PerPage:    filter.PerPage,
 		TotalPages: totalPages,
 	}, nil
+}
+
+// --- Route Patterns ---
+
+func (s *AdminStore) GetRoutePatterns(ctx context.Context, routeID string) ([]handler.AdminRoutePattern, error) {
+	rows, err := s.pool.Query(ctx, `
+		SELECT id, route_id, headsign, direction, is_primary, stop_count, COALESCE(source,''), (polyline IS NOT NULL)
+		FROM route_patterns WHERE route_id = $1 ORDER BY is_primary DESC, headsign`, routeID)
+	if err != nil {
+		return nil, fmt.Errorf("query route patterns: %w", err)
+	}
+	defer rows.Close()
+
+	var patterns []handler.AdminRoutePattern
+	for rows.Next() {
+		var p handler.AdminRoutePattern
+		if err := rows.Scan(&p.ID, &p.RouteID, &p.Headsign, &p.Direction, &p.IsPrimary, &p.StopCount, &p.Source, &p.HasPolyline); err != nil {
+			return nil, fmt.Errorf("scan route pattern: %w", err)
+		}
+		patterns = append(patterns, p)
+	}
+	if patterns == nil {
+		patterns = []handler.AdminRoutePattern{}
+	}
+	return patterns, rows.Err()
 }
 
 func coalesce(val, fallback string) string {

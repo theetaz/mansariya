@@ -35,6 +35,8 @@ type AdminStore interface {
 	GetTimetableEntries(ctx context.Context, routeID string) ([]AdminTimetable, error)
 	DeleteStop(ctx context.Context, id string) error
 	ListRoutesFiltered(ctx context.Context, filter AdminRouteFilter) (*AdminRouteListResponse, error)
+
+	GetRoutePatterns(ctx context.Context, routeID string) ([]AdminRoutePattern, error)
 }
 
 // --- Input types ---
@@ -94,9 +96,21 @@ type AdminRouteWithStats struct {
 	OperatingHours   string `json:"operating_hours"`
 	IsActive         bool   `json:"is_active"`
 	StopCount        int    `json:"stop_count"`
+	PatternCount     int    `json:"pattern_count"`
 	HasPolyline      bool   `json:"has_polyline"`
 	OriginStopName   string `json:"origin_stop_name"`
 	DestStopName     string `json:"destination_stop_name"`
+}
+
+type AdminRoutePattern struct {
+	ID          string `json:"id"`
+	RouteID     string `json:"route_id"`
+	Headsign    string `json:"headsign"`
+	Direction   int    `json:"direction"`
+	IsPrimary   bool   `json:"is_primary"`
+	StopCount   int    `json:"stop_count"`
+	Source      string `json:"source"`
+	HasPolyline bool   `json:"has_polyline"`
 }
 
 type DashboardStats struct {
@@ -111,6 +125,7 @@ type DashboardStats struct {
 type AdminRouteDetail struct {
 	Route     AdminRouteDetailInfo `json:"route"`
 	Stops     []AdminEnrichedStop  `json:"stops"`
+	Patterns  []AdminRoutePattern  `json:"patterns"`
 	Timetable []AdminTimetable     `json:"timetable"`
 	Polyline  [][]float64          `json:"polyline"`
 }
@@ -458,6 +473,19 @@ func (h *AdminHandler) UpdatePolyline(w http.ResponseWriter, r *http.Request) {
 		"points":   len(input.Coordinates),
 		"status":   "updated",
 	})
+}
+
+// --- Patterns ---
+
+func (h *AdminHandler) GetPatterns(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+	patterns, err := h.store.GetRoutePatterns(r.Context(), routeID)
+	if err != nil {
+		slog.Error("get patterns", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		return
+	}
+	writeJSON(w, http.StatusOK, patterns)
 }
 
 // RegisterAdminTime is unused but shows the intended validation timestamp

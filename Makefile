@@ -166,7 +166,26 @@ migrate-down: ## Rollback last migration
 	cd backend && go run -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest \
 		-path migrations -database "$${DATABASE_URL}" down 1
 
-seed: ## Seed all data: OSM stops → routes → timetables
+seed: ## Seed from pre-built SQL dump (fast, no external APIs)
+	@echo "  Seeding from data/seed.sql..."
+	docker exec -i masariya-postgres psql -U masariya -d masariya < data/seed.sql
+	@echo "  Done."
+
+seed-rebuild: ## Full pipeline: Python build → Go bootstrap → pg_dump
+	@echo "  Step 1: Building seed data from raw sources..."
+	cd data/collector && python3 build_seed.py
+	@echo "  Step 2: Seeding database..."
+	cd backend && go run ./cmd/bootstrap \
+		-seed-data ../data/seed_data.json \
+		-db "$${DATABASE_URL}"
+	@echo "  Step 3: Creating SQL dump..."
+	docker exec masariya-postgres pg_dump -U masariya -d masariya \
+		--data-only --inserts \
+		-t routes -t stops -t route_stops -t route_patterns -t pattern_stops -t timetables \
+		> data/seed.sql
+	@echo "  Seed rebuild complete. data/seed.sql updated."
+
+seed-legacy: ## Seed using legacy geocoding (Nominatim + OSRM)
 	cd backend && go run ./cmd/bootstrap \
 		-data ../data/routes_comprehensive.json \
 		-db "$${DATABASE_URL}" \

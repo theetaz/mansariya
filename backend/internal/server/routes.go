@@ -92,6 +92,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Delete("/routes/{routeID}", deps.Admin.DeleteRoute)
 		r.Post("/routes/{routeID}/validate", deps.Admin.ValidateRoute)
 		r.Put("/routes/{routeID}/stops", deps.Admin.SetRouteStops)
+		r.Get("/routes/{routeID}/patterns", deps.Admin.GetPatterns)
 		r.Put("/routes/{routeID}/timetable", deps.Admin.SetTimetable)
 		r.Get("/routes/{routeID}/timetable", deps.Admin.GetTimetable)
 		r.Put("/routes/{routeID}/polyline", deps.Admin.UpdatePolyline)

@@ -30,6 +30,7 @@ export interface AdminRouteWithStats {
   is_active: boolean;
   stop_count: number;
   has_polyline: boolean;
+  pattern_count: number;
   origin_stop_name: string;
   destination_stop_name: string;
 }
@@ -148,10 +149,23 @@ export interface EnrichedRouteStop {
   is_terminal: boolean;
 }
 
+// ── Route Pattern ──
+export interface AdminRoutePattern {
+  id: string;
+  route_id: string;
+  headsign: string;
+  direction: number;
+  is_primary: boolean;
+  stop_count: number;
+  source: string;
+  has_polyline: boolean;
+}
+
 // ── Route Detail (composite endpoint response) ──
 export interface AdminRouteDetail {
   route: AdminRouteDetailInfo;
   stops: AdminEnrichedStop[];
+  patterns: AdminRoutePattern[];
   timetable: AdminTimetableEntry[];
   polyline: [number, number][];
 }

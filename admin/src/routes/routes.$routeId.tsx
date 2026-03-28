@@ -153,6 +153,44 @@ function RouteDetailPage() {
         </Card>
       </div>
 
+      {/* Route Patterns */}
+      {detail.patterns && detail.patterns.length > 1 && (
+        <div className="px-4 lg:px-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                Trip Patterns
+              </CardTitle>
+              <CardAction>
+                <Badge variant="secondary" className="text-xs">
+                  {detail.patterns.length} variants
+                </Badge>
+              </CardAction>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-2 @xl/main:grid-cols-3">
+                {detail.patterns.map((p) => (
+                  <div
+                    key={p.id}
+                    className={`rounded-lg border p-3 ${p.is_primary ? 'border-primary bg-primary/5' : ''}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{p.headsign}</span>
+                      {p.is_primary && (
+                        <Badge variant="default" className="text-xs">Primary</Badge>
+                      )}
+                    </div>
+                    <div className="mt-1 text-xs text-muted-foreground">
+                      {p.stop_count} stops · {p.direction === 0 ? 'Outbound' : 'Inbound'} · {p.source}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Stops Section */}
       <StopsSection
         routeId={routeId}
