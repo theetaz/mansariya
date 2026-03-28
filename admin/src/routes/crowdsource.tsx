@@ -29,7 +29,7 @@ function CrowdsourcePage() {
   const routesCovered = new Set(buses.map((b) => b.route_id)).size;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="px-4 py-4 lg:px-6 space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Crowdsource Data</h1>
         <p className="text-muted-foreground mt-1">
@@ -38,7 +38,7 @@ function CrowdsourcePage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 *:data-[slot=card]:shadow-xs *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Contributors</CardTitle>

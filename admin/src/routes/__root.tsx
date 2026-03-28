@@ -15,7 +15,7 @@ function RootLayout() {
         <AppSidebar />
         <SidebarInset>
           <Header />
-          <main className="flex-1 overflow-auto">
+          <main className="flex-1 overflow-auto @container/main">
             <Outlet />
           </main>
         </SidebarInset>

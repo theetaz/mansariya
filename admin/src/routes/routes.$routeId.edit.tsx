@@ -88,7 +88,7 @@ function RouteEditPage() {
 
   if (!isNew && isLoading) {
     return (
-      <div className="p-6 space-y-4">
+      <div className="px-4 py-4 lg:px-6 space-y-4">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-96 w-full" />
       </div>
@@ -96,7 +96,7 @@ function RouteEditPage() {
   }
 
   return (
-    <div className="p-6 space-y-6 max-w-3xl">
+    <div className="px-4 py-4 lg:px-6 space-y-6 max-w-3xl">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" onClick={() => navigate({ to: '/routes' })}>

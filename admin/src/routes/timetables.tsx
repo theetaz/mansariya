@@ -173,7 +173,7 @@ function TimetablesPage() {
 
   if (routesLoading) {
     return (
-      <div className="p-6 space-y-4">
+      <div className="px-4 py-4 lg:px-6 space-y-4">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-10 w-64" />
         <Skeleton className="h-96 w-full" />
@@ -182,7 +182,7 @@ function TimetablesPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="px-4 py-4 lg:px-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

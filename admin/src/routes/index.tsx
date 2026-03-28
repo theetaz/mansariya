@@ -1,7 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { Route as RouteIcon, Bus, Activity, Clock, Database } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { fetchRoutes, fetchActiveBuses, fetchMetrics } from '@/lib/api';
@@ -24,23 +32,21 @@ function StatCard({
   loading?: boolean;
 }) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+    <Card className="@container/card">
+      <CardHeader>
+        <CardDescription>{title}</CardDescription>
+        <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+          {loading ? <Skeleton className="h-8 w-24" /> : value}
+        </CardTitle>
+        <CardAction>
+          <Icon className="h-4 w-4 text-muted-foreground" />
+        </CardAction>
       </CardHeader>
-      <CardContent>
-        {loading ? (
-          <Skeleton className="h-8 w-24" />
-        ) : (
-          <>
-            <div className="text-2xl font-bold">{value}</div>
-            {description && (
-              <p className="text-xs text-muted-foreground mt-1">{description}</p>
-            )}
-          </>
-        )}
-      </CardContent>
+      {description && (
+        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <div className="text-muted-foreground">{description}</div>
+        </CardFooter>
+      )}
     </Card>
   );
 }
@@ -78,8 +84,8 @@ function DashboardPage() {
   });
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="px-4 lg:px-6">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-1">
           Mansariya bus tracking platform overview
@@ -87,7 +93,7 @@ function DashboardPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:shadow-xs *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
         <StatCard
           title="Total Routes"
           value={routeCount}
@@ -119,7 +125,7 @@ function DashboardPage() {
       </div>
 
       {/* Data Quality + System Info */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

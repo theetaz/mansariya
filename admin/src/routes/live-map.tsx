@@ -50,7 +50,7 @@ function LiveMapPage() {
   );
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
+    <div className="flex h-[calc(100vh-var(--header-height))] overflow-hidden">
       {/* Map Area */}
       <div className="flex-1 relative bg-muted/30">
         <div className="absolute inset-0 flex items-center justify-center">

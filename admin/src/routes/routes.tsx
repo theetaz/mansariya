@@ -205,7 +205,7 @@ function RoutesPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
+      <div className="px-4 py-4 lg:px-6 space-y-4">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-10 w-full" />
         <Skeleton className="h-96 w-full" />
@@ -215,7 +215,7 @@ function RoutesPage() {
 
   if (error) {
     return (
-      <div className="p-6">
+      <div className="px-4 py-4 lg:px-6">
         <h1 className="text-3xl font-bold tracking-tight text-destructive">Error</h1>
         <p className="text-muted-foreground mt-2">Failed to load routes. Is the backend running?</p>
       </div>
@@ -223,7 +223,7 @@ function RoutesPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="px-4 py-4 lg:px-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

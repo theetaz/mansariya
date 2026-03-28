@@ -1,4 +1,4 @@
-import { Link, useRouterState } from '@tanstack/react-router';
+import { useRouterState } from '@tanstack/react-router';
 import {
   LayoutDashboard,
   Route,
@@ -10,80 +10,79 @@ import {
   Settings,
   Bus,
 } from 'lucide-react';
+import { NavMain } from '@/components/nav-main';
+import { NavSecondary } from '@/components/nav-secondary';
+import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter,
 } from '@/components/ui/sidebar';
 
-const navItems = [
-  { title: 'Dashboard', icon: LayoutDashboard, href: '/' },
-  { title: 'Routes', icon: Route, href: '/routes' },
-  { title: 'Stops', icon: MapPin, href: '/stops' },
-  { title: 'Timetables', icon: Clock, href: '/timetables' },
-  { title: 'Crowdsource', icon: Users, href: '/crowdsource' },
-  { title: 'Live Map', icon: Radar, href: '/live-map' },
-  { title: 'Import/Export', icon: ArrowDownToLine, href: '/data' },
-  { title: 'Settings', icon: Settings, href: '/settings' },
+const mainNavItems = [
+  { title: 'Dashboard', icon: <LayoutDashboard />, url: '/' },
+  { title: 'Routes', icon: <Route />, url: '/routes' },
+  { title: 'Stops', icon: <MapPin />, url: '/stops' },
+  { title: 'Timetables', icon: <Clock />, url: '/timetables' },
+  { title: 'Crowdsource', icon: <Users />, url: '/crowdsource' },
+  { title: 'Live Map', icon: <Radar />, url: '/live-map' },
+  { title: 'Import/Export', icon: <ArrowDownToLine />, url: '/data' },
 ];
 
-export function AppSidebar() {
+const secondaryNavItems = [
+  { title: 'Settings', icon: <Settings />, url: '/settings' },
+];
+
+export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
 
+  const withActive = (items: typeof mainNavItems) =>
+    items.map((item) => ({
+      ...item,
+      isActive:
+        item.url === '/'
+          ? currentPath === '/'
+          : currentPath.startsWith(item.url),
+    }));
+
   return (
-    <Sidebar>
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Bus className="h-4 w-4" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold">Mansariya</span>
-            <span className="text-xs text-muted-foreground">Admin Dashboard</span>
-          </div>
-        </div>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              size="lg"
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
+              <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                <Bus className="size-4" />
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-semibold">Mansariya</span>
+                <span className="truncate text-xs text-muted-foreground">
+                  Admin Dashboard
+                </span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => {
-                const isActive =
-                  item.href === '/'
-                    ? currentPath === '/'
-                    : currentPath.startsWith(item.href);
-
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      isActive={isActive}
-                      render={<Link to={item.href} />}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <NavMain items={withActive(mainNavItems)} />
+        <NavSecondary
+          items={withActive(secondaryNavItems)}
+          className="mt-auto"
+        />
       </SidebarContent>
 
       <SidebarFooter>
-        <div className="px-3 py-2 text-xs text-muted-foreground">
-          v1.0.0 — Mansariya
-        </div>
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
