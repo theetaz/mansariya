@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import MapLibreGL from 'maplibre-gl';
 import { useMap } from '@/components/ui/map';
@@ -10,6 +10,9 @@ interface AnimatedBusMarkerProps {
   bearing: number;
   confidence: 'low' | 'good' | 'verified';
   tooltip?: string;
+  selected?: boolean;
+  visible?: boolean;
+  onClick?: () => void;
 }
 
 const COLORS = {
@@ -18,14 +21,18 @@ const COLORS = {
   low: '#ef4444',
 };
 
-export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }: AnimatedBusMarkerProps) {
+export function AnimatedBusMarker({
+  id, lat, lng, bearing, confidence, tooltip,
+  selected = false, visible = true, onClick,
+}: AnimatedBusMarkerProps) {
   const { map } = useMap();
   const markerRef = useRef<MapLibreGL.Marker | null>(null);
   const animRef = useRef<number>(0);
   const currentPos = useRef({ lat, lng, bearing });
-  const targetPos = useRef({ lat, lng, bearing });
   const tooltipRef = useRef<MapLibreGL.Popup | null>(null);
   const elRef = useRef<HTMLDivElement | null>(null);
+  const onClickRef = useRef(onClick);
+  onClickRef.current = onClick;
   const tooltipContainer = useMemo(() => document.createElement('div'), []);
 
   // Create marker once
@@ -33,9 +40,10 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
     if (!map) return;
 
     const el = document.createElement('div');
-    el.style.width = '36px';
-    el.style.height = '36px';
+    el.style.width = '40px';
+    el.style.height = '40px';
     el.style.cursor = 'pointer';
+    el.style.transition = 'opacity 0.3s';
     elRef.current = el;
 
     const marker = new MapLibreGL.Marker({ element: el, rotationAlignment: 'map', pitchAlignment: 'map' })
@@ -48,7 +56,7 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
 
     // Tooltip on hover
     const popup = new MapLibreGL.Popup({
-      offset: 20,
+      offset: 22,
       closeButton: false,
       closeOnClick: false,
       className: 'mapcn-tooltip',
@@ -61,6 +69,9 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
     el.addEventListener('mouseleave', () => {
       popup.remove();
     });
+    el.addEventListener('click', () => {
+      onClickRef.current?.();
+    });
 
     return () => {
       cancelAnimationFrame(animRef.current);
@@ -70,19 +81,23 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  // Animate to new position — spans the full poll interval so bus never stops
+  // Visibility
   useEffect(() => {
-    targetPos.current = { lat, lng, bearing };
+    const el = elRef.current;
+    if (!el) return;
+    el.style.opacity = visible ? '1' : '0';
+    el.style.pointerEvents = visible ? 'auto' : 'none';
+  }, [visible]);
 
+  // Animate to new position
+  useEffect(() => {
     const marker = markerRef.current;
     if (!marker) return;
 
     const startPos = { ...currentPos.current };
     const startTime = performance.now();
-    // Match poll interval (3s) so animation fills the entire gap between updates
     const duration = 3000;
 
-    // Normalize bearing difference for shortest rotation
     let bearingDiff = bearing - startPos.bearing;
     if (bearingDiff > 180) bearingDiff -= 360;
     if (bearingDiff < -180) bearingDiff += 360;
@@ -90,10 +105,7 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
     const animate = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(elapsed / duration, 1);
-      // Ease-in-out for continuous feel — no sharp start or stop
-      const ease = t < 0.5
-        ? 2 * t * t
-        : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
       const curLat = startPos.lat + (lat - startPos.lat) * ease;
       const curLng = startPos.lng + (lng - startPos.lng) * ease;
@@ -113,33 +125,46 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
   }, [lat, lng, bearing]);
 
   const color = COLORS[confidence];
+  const size = selected ? 48 : 40;
+  const strokeWidth = selected ? 3 : 0;
 
   return (
     <>
-      {/* Render bus icon into marker element */}
       {elRef.current && createPortal(
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ overflow: 'visible', transition: 'transform 0.2s', transform: selected ? 'scale(1.2)' : 'scale(1)' }}
+        >
+          {/* Selection ring */}
+          {selected && (
+            <circle cx="20" cy="20" r="19" stroke="white" strokeWidth="2.5" fill="none" opacity="0.9">
+              <animate attributeName="r" values="17;19;17" dur="1.5s" repeatCount="indefinite" />
+            </circle>
+          )}
           {/* Pulse ring */}
-          <circle cx="18" cy="18" r="16" fill={color} opacity="0.15">
-            <animate attributeName="r" values="12;16;12" dur="2s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.25;0.08;0.25" dur="2s" repeatCount="indefinite" />
+          <circle cx="20" cy="20" r="18" fill={color} opacity="0.12">
+            <animate attributeName="r" values="14;18;14" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.2;0.06;0.2" dur="2s" repeatCount="indefinite" />
           </circle>
           {/* Bus body */}
-          <rect x="10" y="8" width="16" height="22" rx="4" fill={color} />
+          <rect x="12" y="9" width="16" height="24" rx="4" fill={color} stroke={selected ? 'white' : 'none'} strokeWidth={strokeWidth} />
           {/* Windshield */}
-          <rect x="12" y="10" width="12" height="6" rx="2" fill="white" opacity="0.9" />
+          <rect x="14" y="11" width="12" height="6" rx="2" fill="white" opacity="0.9" />
           {/* Side windows */}
-          <rect x="12" y="18" width="5" height="4" rx="1" fill="white" opacity="0.5" />
-          <rect x="19" y="18" width="5" height="4" rx="1" fill="white" opacity="0.5" />
+          <rect x="14" y="19" width="5" height="4" rx="1" fill="white" opacity="0.5" />
+          <rect x="21" y="19" width="5" height="4" rx="1" fill="white" opacity="0.5" />
           {/* Headlights */}
-          <circle cx="13" cy="27" r="1.5" fill="white" opacity="0.8" />
-          <circle cx="23" cy="27" r="1.5" fill="white" opacity="0.8" />
-          {/* Direction arrow at top */}
-          <path d="M18 4 L21 9 L15 9 Z" fill={color} />
+          <circle cx="15" cy="30" r="1.5" fill="white" opacity="0.8" />
+          <circle cx="25" cy="30" r="1.5" fill="white" opacity="0.8" />
+          {/* Direction arrow */}
+          <path d="M20 4 L23 9 L17 9 Z" fill={color} />
         </svg>,
         elRef.current,
       )}
-      {/* Render tooltip content */}
       {createPortal(
         <div className="bg-foreground text-background rounded-md px-2.5 py-1.5 text-xs shadow-lg">
           {tooltip}
