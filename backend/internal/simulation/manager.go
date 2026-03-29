@@ -9,11 +9,17 @@ import (
 	"github.com/masariya/backend/internal/store"
 )
 
+// DeviceCleaner is called when a simulation stops to remove simulated device states.
+type DeviceCleaner interface {
+	RemoveSimDevices(ctx context.Context, jobPrefix string)
+}
+
 type Manager struct {
 	mu         sync.Mutex
 	runners    map[string]*JobRunner
 	store      *store.SimulationStore
 	routeStore RouteDataProvider
+	cleaner    DeviceCleaner
 	apiBaseURL string
 	ctx        context.Context
 }
@@ -23,11 +29,12 @@ type RouteDataProvider interface {
 	GetStopDistances(ctx context.Context, routeID string) ([]float64, error)
 }
 
-func NewManager(ctx context.Context, simStore *store.SimulationStore, routeProvider RouteDataProvider, apiBaseURL string) *Manager {
+func NewManager(ctx context.Context, simStore *store.SimulationStore, routeProvider RouteDataProvider, cleaner DeviceCleaner, apiBaseURL string) *Manager {
 	return &Manager{
 		runners:    make(map[string]*JobRunner),
 		store:      simStore,
 		routeStore: routeProvider,
+		cleaner:    cleaner,
 		apiBaseURL: apiBaseURL,
 		ctx:        ctx,
 	}
@@ -133,6 +140,11 @@ func (m *Manager) Stop(ctx context.Context, jobID string) error {
 	if err := m.store.SetStatus(ctx, jobID, "stopped"); err != nil {
 		return fmt.Errorf("set status stopped: %w", err)
 	}
+
+	// Clean up simulated device states from the pipeline
+	jobPrefix := jobID[:8]
+	m.cleaner.RemoveSimDevices(ctx, jobPrefix)
+
 	slog.Info("simulation stopped", "job", jobID)
 	return nil
 }
@@ -146,5 +158,9 @@ func (m *Manager) handleJobComplete(jobID string) {
 	if err := m.store.SetStatus(ctx, jobID, "stopped"); err != nil {
 		slog.Error("failed to set completed job status", "job", jobID, "error", err)
 	}
+
+	jobPrefix := jobID[:8]
+	m.cleaner.RemoveSimDevices(ctx, jobPrefix)
+
 	slog.Info("simulation completed naturally", "job", jobID)
 }

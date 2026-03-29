@@ -117,7 +117,7 @@ func run() error {
 	// Initialize simulation engine
 	routeProvider := simulation.NewDBRouteProvider(pool)
 	apiBaseURL := "http://localhost:" + cfg.Port
-	simManager := simulation.NewManager(ctx, simStore, routeProvider, apiBaseURL)
+	simManager := simulation.NewManager(ctx, simStore, routeProvider, processor, apiBaseURL)
 
 	// Wire up HTTP handlers
 	deps := &server.Deps{
