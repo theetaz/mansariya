@@ -14,25 +14,29 @@ export function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
+  const isRightAligned = className?.includes('text-right');
+
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>;
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      className={cn('-ml-3 h-8', className)}
-      onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-    >
-      <span>{title}</span>
-      {column.getIsSorted() === 'desc' ? (
-        <RiArrowDownLine className="ml-1 size-3.5" />
-      ) : column.getIsSorted() === 'asc' ? (
-        <RiArrowUpLine className="ml-1 size-3.5" />
-      ) : (
-        <RiArrowUpDownLine className="ml-1 size-3.5" />
-      )}
-    </Button>
+    <div className={cn(isRightAligned && 'flex justify-end')}>
+      <Button
+        variant="ghost"
+        size="sm"
+        className={cn('h-8', isRightAligned ? '-mr-3' : '-ml-3', className)}
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      >
+        <span>{title}</span>
+        {column.getIsSorted() === 'desc' ? (
+          <RiArrowDownLine className="ml-1 size-3.5" />
+        ) : column.getIsSorted() === 'asc' ? (
+          <RiArrowUpLine className="ml-1 size-3.5" />
+        ) : (
+          <RiArrowUpDownLine className="ml-1 size-3.5" />
+        )}
+      </Button>
+    </div>
   );
 }

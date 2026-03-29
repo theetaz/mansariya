@@ -143,6 +143,7 @@ function RoutesPage() {
     },
     {
       id: 'actions',
+      header: 'Actions',
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -154,12 +155,12 @@ function RoutesPage() {
           <DropdownMenuContent align="end" className="w-36">
             <DropdownMenuItem asChild>
               <Link to={'/routes/$routeId'} params={{ routeId: row.original.id }}>
-                Edit
+                View
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link to={'/routes/$routeId'} params={{ routeId: row.original.id }}>
-                View Stops
+                Edit
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
