@@ -165,6 +165,12 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
     setHasChanges(true);
   }, [controlPoints, pushHistory]);
 
+  const resetCut = useCallback(() => {
+    setCutMode('off');
+    setCutStartIdx(null);
+    setCutEndIdx(null);
+  }, []);
+
   // Cut section: apply — removes the selected segment and directly connects before/after
   const handleApplyCut = useCallback(() => {
     if (cutStartIdx === null || cutEndIdx === null) return;
@@ -179,21 +185,13 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
     }
 
     pushHistory();
-    // Simply splice: keep everything before startI and after endI
-    // The two boundary points are close enough that no bridge is needed
-    const before = workingPolyline.slice(0, startI + 1); // include the start point
-    const after = workingPolyline.slice(endI); // include the end point
+    const before = workingPolyline.slice(0, startI + 1);
+    const after = workingPolyline.slice(endI);
     setWorkingPolyline([...before, ...after]);
     setHasChanges(true);
     toast.success(`Removed ${endI - startI - 1} points from polyline`);
     resetCut();
   }, [cutStartIdx, cutEndIdx, workingPolyline, pushHistory, resetCut]);
-
-  const resetCut = useCallback(() => {
-    setCutMode('off');
-    setCutStartIdx(null);
-    setCutEndIdx(null);
-  }, []);
 
   const handleSave = useCallback(() => {
     onSave(workingPolyline);
