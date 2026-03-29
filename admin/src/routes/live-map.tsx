@@ -18,7 +18,7 @@ function LiveMapPage() {
   const { data: busData, isLoading } = useQuery({
     queryKey: ['active-buses'],
     queryFn: fetchActiveBuses,
-    refetchInterval: 5_000,
+    refetchInterval: 3_000,
   });
 
   const buses: Vehicle[] = busData?.buses ?? [];

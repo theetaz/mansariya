@@ -70,7 +70,7 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  // Animate to new position
+  // Animate to new position — spans the full poll interval so bus never stops
   useEffect(() => {
     targetPos.current = { lat, lng, bearing };
 
@@ -79,7 +79,8 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
 
     const startPos = { ...currentPos.current };
     const startTime = performance.now();
-    const duration = 2000; // 2s smooth transition
+    // Match poll interval (3s) so animation fills the entire gap between updates
+    const duration = 3000;
 
     // Normalize bearing difference for shortest rotation
     let bearingDiff = bearing - startPos.bearing;
@@ -89,8 +90,10 @@ export function AnimatedBusMarker({ id, lat, lng, bearing, confidence, tooltip }
     const animate = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(elapsed / duration, 1);
-      // Ease-out cubic for smooth deceleration
-      const ease = 1 - Math.pow(1 - t, 3);
+      // Ease-in-out for continuous feel — no sharp start or stop
+      const ease = t < 0.5
+        ? 2 * t * t
+        : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
       const curLat = startPos.lat + (lat - startPos.lat) * ease;
       const curLng = startPos.lng + (lng - startPos.lng) * ease;
