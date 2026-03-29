@@ -5,7 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
-import { Map, MapMarker, MarkerContent, MarkerTooltip, MapControls } from '@/components/ui/map';
+import { Map, MapControls } from '@/components/ui/map';
+import { AnimatedBusMarker } from '@/components/animated-bus-marker';
 import { fetchActiveBuses } from '@/lib/api-functions';
 import type { Vehicle } from '@/lib/types';
 
@@ -39,20 +40,17 @@ function LiveMapPage() {
       <div className="flex-1 relative">
         <Map center={[79.8612, 6.9271]} zoom={10}>
           <MapControls showZoom showLocate showFullscreen />
-          {buses.map((b) => {
-            const color = b.confidence === 'verified' ? '#22c55e' : b.confidence === 'good' ? '#f59e0b' : '#ef4444';
-            return (
-              <MapMarker key={b.virtual_id} longitude={b.lng} latitude={b.lat}>
-                <MarkerContent>
-                  <div className="size-4 rounded border-2 border-white shadow-md" style={{ background: color }} />
-                </MarkerContent>
-                <MarkerTooltip>
-                  <div>Bus {b.virtual_id}</div>
-                  <div>Route: {b.route_id} · {b.speed_kmh.toFixed(0)} km/h</div>
-                </MarkerTooltip>
-              </MapMarker>
-            );
-          })}
+          {buses.map((b) => (
+            <AnimatedBusMarker
+              key={b.virtual_id}
+              id={b.virtual_id}
+              lat={b.lat}
+              lng={b.lng}
+              bearing={b.bearing}
+              confidence={b.confidence}
+              tooltip={`Route ${b.route_id} · ${b.speed_kmh.toFixed(0)} km/h · ${b.contributor_count} device${b.contributor_count > 1 ? 's' : ''}`}
+            />
+          ))}
         </Map>
 
         {/* Floating stats */}
