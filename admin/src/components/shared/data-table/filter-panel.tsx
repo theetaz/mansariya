@@ -6,9 +6,10 @@ import type { FilterConfig } from './types';
 
 interface DataTableFilterPanelProps<TData> {
   table: Table<TData>;
+  tableHeight?: number;
 }
 
-export function DataTableFilterPanel<TData>({ table }: DataTableFilterPanelProps<TData>) {
+export function DataTableFilterPanel<TData>({ table, tableHeight }: DataTableFilterPanelProps<TData>) {
   const filterableColumns = table
     .getAllColumns()
     .filter((col) => col.columnDef.meta?.filterConfig);
@@ -16,11 +17,11 @@ export function DataTableFilterPanel<TData>({ table }: DataTableFilterPanelProps
   if (filterableColumns.length === 0) return null;
 
   return (
-    <div className="w-52 shrink-0 border rounded-lg mr-3 overflow-auto max-h-[600px]">
-      <div className="px-3 py-2 border-b">
+    <div className="w-52 shrink-0 border rounded-lg mr-3 overflow-hidden flex flex-col" style={{ height: tableHeight ? `${tableHeight}px` : undefined }}>
+      <div className="px-3 py-2 border-b shrink-0">
         <span className="text-sm font-semibold">Filters</span>
       </div>
-      <div className="divide-y">
+      <div className="divide-y overflow-y-auto flex-1">
         {filterableColumns.map((column) => {
           const config = column.columnDef.meta!.filterConfig!;
           return (
@@ -50,7 +51,6 @@ function FilterSection({
 
   return (
     <div>
-      {/* Section header — collapsible */}
       <button
         type="button"
         className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium hover:bg-muted/50 transition-colors"

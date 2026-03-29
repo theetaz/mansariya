@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   type ColumnDef,
   type ColumnFiltersState,
   type SortingState,
   type VisibilityState,
+  type FilterFn,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -24,6 +25,14 @@ import { DataTableToolbar } from './toolbar';
 import { DataTablePagination } from './pagination';
 import { DataTableFilterPanel } from './filter-panel';
 import './types';
+
+// Custom filter for boolean columns — handles string "true"/"false" vs actual boolean
+const booleanFilter: FilterFn<unknown> = (row, columnId, filterValue) => {
+  if (!filterValue || filterValue === '') return true;
+  const cellValue = row.getValue(columnId);
+  const expected = filterValue === 'true';
+  return cellValue === expected;
+};
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,10 +56,20 @@ export function DataTable<TData, TValue>({
   const [globalFilter, setGlobalFilter] = useState('');
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize });
   const [showFilters, setShowFilters] = useState(false);
+  const [tableHeight, setTableHeight] = useState(600);
+  const tableRef = useRef<HTMLDivElement>(null);
+
+  // Assign boolean filterFn to columns that have boolean filterConfig
+  const enhancedColumns = columns.map((col) => {
+    if (col.meta?.filterConfig?.type === 'boolean' && !('filterFn' in col)) {
+      return { ...col, filterFn: booleanFilter as FilterFn<TData> };
+    }
+    return col;
+  });
 
   const table = useReactTable({
     data,
-    columns,
+    columns: enhancedColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -77,6 +96,17 @@ export function DataTable<TData, TValue>({
     .getAllColumns()
     .some((col) => col.columnDef.meta?.filterConfig);
 
+  // Measure table height for filter panel sync
+  const measureHeight = useCallback(() => {
+    if (tableRef.current) {
+      setTableHeight(tableRef.current.offsetHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    measureHeight();
+  }, [data, pagination, columnFilters, globalFilter, measureHeight]);
+
   if (isLoading) {
     return (
       <div className="flex flex-col gap-4 px-4 lg:px-6">
@@ -88,7 +118,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex w-full flex-col gap-0">
-      {/* Search bar + Filters/Columns buttons */}
       <DataTableToolbar
         table={table}
         globalFilter={globalFilter}
@@ -99,16 +128,15 @@ export function DataTable<TData, TValue>({
         hasFilters={hasFilterableColumns}
       />
 
-      {/* Filter panel + Table side by side */}
       <div className="flex mx-4 lg:mx-6">
-        {/* Left filter panel (inline, collapsible) */}
         {showFilters && hasFilterableColumns && (
-          <DataTableFilterPanel table={table} />
+          <div style={{ height: tableHeight > 0 ? tableHeight : undefined }}>
+            <DataTableFilterPanel table={table} tableHeight={tableHeight} />
+          </div>
         )}
 
-        {/* Table */}
         <div className="flex-1 min-w-0">
-          <div className="overflow-hidden rounded-lg border">
+          <div ref={tableRef} className="overflow-hidden rounded-lg border">
             <Table>
               <TableHeader className="bg-muted">
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -145,7 +173,6 @@ export function DataTable<TData, TValue>({
             </Table>
           </div>
 
-          {/* Pagination inside table area */}
           <DataTablePagination table={table} />
         </div>
       </div>
