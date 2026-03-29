@@ -38,9 +38,9 @@ function RouteBuilderPage() {
 
     const start: [number, number] = [parseFloat(origin.lon), parseFloat(origin.lat)];
     const end: [number, number] = [parseFloat(destination.lon), parseFloat(destination.lat)];
-    const wp = waypoints.map(
-      (w) => [parseFloat(w.lon), parseFloat(w.lat)] as [number, number],
-    );
+    const wp = waypoints
+      .filter((w) => w != null)
+      .map((w) => [parseFloat(w.lon), parseFloat(w.lat)] as [number, number]);
 
     const result = await getRoute(start, end, wp.length > 0 ? wp : undefined);
     setIsLoading(false);
@@ -82,6 +82,7 @@ function RouteBuilderPage() {
     });
   }
   for (const wp of waypoints) {
+    if (!wp) continue;
     mapStops.push({
       lat: parseFloat(wp.lat),
       lng: parseFloat(wp.lon),
@@ -176,7 +177,7 @@ function RouteBuilderPage() {
                   </div>
                   <LocationAutocomplete
                     placeholder="Search waypoint..."
-                    value={wp}
+                    value={wp ?? null}
                     onSelect={(r) => {
                       setWaypoints((prev) => prev.map((w, j) => (j === i ? r : w)));
                       setRouteResult(null);
@@ -189,7 +190,7 @@ function RouteBuilderPage() {
                 variant="outline"
                 size="sm"
                 className="w-full"
-                onClick={() => setWaypoints((prev) => [...prev, null as unknown as NominatimResult])}
+                onClick={() => setWaypoints((prev) => [...prev, undefined as unknown as NominatimResult])}
               >
                 + Add Waypoint
               </Button>
