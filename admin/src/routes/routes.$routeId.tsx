@@ -50,7 +50,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Map, MapMarker, MarkerContent, MarkerTooltip, MapRoute, MapControls } from '@/components/ui/map';
+import { Map, useMap, MapMarker, MarkerContent, MarkerTooltip, MapRoute, MapControls } from '@/components/ui/map';
 import { PolylineEditor } from '@/components/polyline-editor';
 import {
   fetchAdminRouteDetail,
@@ -77,6 +77,7 @@ function RouteDetailPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedPatternId, setSelectedPatternId] = useState<string | null>(null);
   const [isEditingPolyline, setIsEditingPolyline] = useState(false);
+  const [savedMapView, setSavedMapView] = useState<{ center: [number, number]; zoom: number } | null>(null);
 
   const { data: detail, isLoading } = useQuery({
     queryKey: ['admin-route', routeId],
@@ -203,8 +204,8 @@ function RouteDetailPage() {
                     name: s.name_en,
                     stop_order: s.stop_order,
                   }))}
-                  mapCenter={detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93]}
-                  mapZoom={12}
+                  mapCenter={savedMapView?.center ?? (detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93])}
+                  mapZoom={savedMapView?.zoom ?? 12}
                   onSave={(coords) => polylineMutation.mutate(coords)}
                   onCancel={() => setIsEditingPolyline(false)}
                   isSaving={polylineMutation.isPending}
@@ -212,15 +213,10 @@ function RouteDetailPage() {
               ) : (
                 <>
                   <div className="absolute top-2 right-2 z-10">
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={() => setIsEditingPolyline(true)}
-                      className="shadow-md"
-                    >
-                      <RiEditLine className="size-4 mr-1" />
-                      Edit Polyline
-                    </Button>
+                    <EditPolylineButton onEdit={(center, zoom) => {
+                      setSavedMapView({ center, zoom });
+                      setIsEditingPolyline(true);
+                    }} />
                   </div>
                   <Map center={detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93]} zoom={12}>
                     <MapControls showZoom showLocate showFullscreen />
@@ -399,6 +395,29 @@ function RouteInfoCard({
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+// Reads current map center/zoom before switching to edit mode
+function EditPolylineButton({ onEdit }: { onEdit: (center: [number, number], zoom: number) => void }) {
+  const { map } = useMap();
+  return (
+    <Button
+      size="sm"
+      variant="secondary"
+      className="shadow-md"
+      onClick={() => {
+        if (map) {
+          const c = map.getCenter();
+          onEdit([c.lng, c.lat], map.getZoom());
+        } else {
+          onEdit([79.86, 6.93], 12);
+        }
+      }}
+    >
+      <RiEditLine className="size-4 mr-1" />
+      Edit Polyline
+    </Button>
   );
 }
 
