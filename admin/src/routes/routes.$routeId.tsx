@@ -203,6 +203,8 @@ function RouteDetailPage() {
                     name: s.name_en,
                     stop_order: s.stop_order,
                   }))}
+                  mapCenter={detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93]}
+                  mapZoom={12}
                   onSave={(coords) => polylineMutation.mutate(coords)}
                   onCancel={() => setIsEditingPolyline(false)}
                   isSaving={polylineMutation.isPending}

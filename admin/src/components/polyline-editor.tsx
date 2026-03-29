@@ -24,6 +24,8 @@ import { getRoute } from '@/lib/geo';
 interface PolylineEditorProps {
   polyline: [number, number][];
   stops: { lat: number; lng: number; name: string; stop_order: number }[];
+  mapCenter: [number, number];
+  mapZoom: number;
   onSave: (coordinates: [number, number][]) => void;
   onCancel: () => void;
   isSaving?: boolean;
@@ -52,17 +54,17 @@ function generateControlPoints(polyline: [number, number][], targetCount = 25): 
   return points;
 }
 
+// Find nearest polyline point to a click. When excludeNear is set, skip indices within ±minGap.
 function findNearestPolylineIndex(
   polyline: [number, number][],
   lng: number,
   lat: number,
-  excludeNear?: number, // if set, skip indices within ±minGap of this index
-  minGap = 20,
+  excludeNear?: number,
+  minGap = 10,
 ): number {
   let minDist = Infinity;
   let bestIdx = 0;
   for (let i = 0; i < polyline.length; i++) {
-    // Skip indices too close to the excluded index
     if (excludeNear !== undefined && Math.abs(i - excludeNear) < minGap) continue;
     const d = (polyline[i][0] - lng) ** 2 + (polyline[i][1] - lat) ** 2;
     if (d < minDist) {
@@ -73,7 +75,7 @@ function findNearestPolylineIndex(
   return bestIdx;
 }
 
-export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: PolylineEditorProps) {
+export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, onCancel, isSaving }: PolylineEditorProps) {
   const [workingPolyline, setWorkingPolyline] = useState<[number, number][]>(polyline);
   const [previewPolyline, setPreviewPolyline] = useState<[number, number][] | null>(null);
   const [isRebuilding, setIsRebuilding] = useState(false);
@@ -179,7 +181,17 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
     setCutEndIdx(null);
   }, []);
 
-  // Cut section: apply — removes the selected segment and directly connects before/after
+  // Adjust cut marker by dragging — snaps to nearest polyline point
+  const handleCutMarkerDrag = useCallback((which: 'start' | 'end', lngLat: { lng: number; lat: number }) => {
+    const otherIdx = which === 'start' ? cutEndIdx : cutStartIdx;
+    const idx = findNearestPolylineIndex(workingPolyline, lngLat.lng, lngLat.lat, otherIdx ?? undefined);
+    if (which === 'start') {
+      setCutStartIdx(idx);
+    } else {
+      setCutEndIdx(idx);
+    }
+  }, [workingPolyline, cutStartIdx, cutEndIdx]);
+
   const handleApplyCut = useCallback(() => {
     if (cutStartIdx === null || cutEndIdx === null) return;
 
@@ -188,31 +200,25 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
     const removeCount = endI - startI - 1;
 
     if (removeCount < 1) {
-      toast.error(`Points too close (idx ${startI} to ${endI}). Try selecting a wider area.`);
+      toast.error('Points too close. Try dragging the markers further apart.');
       resetCut();
       return;
     }
 
     pushHistory();
-    // Keep everything up to and including startI, skip to endI (inclusive)
     const newPolyline = [
       ...workingPolyline.slice(0, startI + 1),
       ...workingPolyline.slice(endI),
     ];
     setWorkingPolyline(newPolyline);
     setHasChanges(true);
-    toast.success(`Removed ${removeCount} points (idx ${startI}→${endI}, ${workingPolyline.length}→${newPolyline.length})`);
+    toast.success(`Removed ${removeCount} points (${workingPolyline.length} → ${newPolyline.length})`);
     resetCut();
   }, [cutStartIdx, cutEndIdx, workingPolyline, pushHistory, resetCut]);
 
   const handleSave = useCallback(() => {
     onSave(workingPolyline);
   }, [workingPolyline, onSave]);
-
-  const initialCenter = useMemo((): [number, number] => {
-    if (workingPolyline.length > 0) return workingPolyline[0];
-    return [79.86, 6.93];
-  }, []);
 
   // Highlighted section for cut preview
   const cutHighlight = useMemo(() => {
@@ -223,6 +229,7 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
   }, [cutStartIdx, cutEndIdx, workingPolyline]);
 
   const isInCutMode = cutMode !== 'off';
+  const hasCutSelection = cutStartIdx !== null && cutEndIdx !== null;
 
   return (
     <div className="h-full flex flex-col">
@@ -232,7 +239,7 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
           size="sm"
           variant="outline"
           onClick={handleRebuildFromStops}
-          disabled={isRebuilding || !!previewPolyline || isInCutMode}
+          disabled={isRebuilding || !!previewPolyline || isInCutMode || hasCutSelection}
         >
           {isRebuilding ? <RiLoader4Line className="size-4 mr-1 animate-spin" /> : <RiRefreshLine className="size-4 mr-1" />}
           Rebuild from Stops
@@ -242,7 +249,7 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
           size="sm"
           variant={isInCutMode ? 'default' : 'outline'}
           onClick={() => {
-            if (isInCutMode) {
+            if (isInCutMode || hasCutSelection) {
               resetCut();
             } else {
               setCutMode('pick-start');
@@ -252,13 +259,18 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
           disabled={!!previewPolyline}
         >
           <RiScissorsLine className="size-4 mr-1" />
-          {isInCutMode ? 'Cancel Cut' : 'Cut Section'}
+          {isInCutMode || hasCutSelection ? 'Cancel Cut' : 'Cut Section'}
         </Button>
 
-        {cutEndIdx !== null && cutStartIdx !== null && (
-          <Button size="sm" variant="destructive" onClick={handleApplyCut}>
-            Remove Selection
-          </Button>
+        {hasCutSelection && (
+          <>
+            <Badge variant="secondary" className="text-xs">
+              {Math.abs(cutEndIdx! - cutStartIdx!) - 1} points selected
+            </Badge>
+            <Button size="sm" variant="destructive" onClick={handleApplyCut}>
+              Remove Selection
+            </Button>
+          </>
         )}
 
         <Button
@@ -283,7 +295,13 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
 
         {isInCutMode && (
           <Badge variant="default" className="text-xs">
-            {cutMode === 'pick-start' ? 'Click: set cut start' : cutMode === 'pick-end' ? 'Click: set cut end' : 'Ready to cut'}
+            {cutMode === 'pick-start' ? 'Click: set cut start' : 'Click: set cut end'}
+          </Badge>
+        )}
+
+        {hasCutSelection && (
+          <Badge variant="outline" className="text-xs">
+            Drag red markers to adjust
           </Badge>
         )}
 
@@ -291,7 +309,7 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
           {workingPolyline.length} points
         </Badge>
 
-        <Button size="sm" onClick={handleSave} disabled={!hasChanges || isSaving || !!previewPolyline || isInCutMode}>
+        <Button size="sm" onClick={handleSave} disabled={!hasChanges || isSaving || !!previewPolyline || isInCutMode || hasCutSelection}>
           <RiSaveLine className="size-4 mr-1" />
           {isSaving ? 'Saving...' : 'Save'}
         </Button>
@@ -301,11 +319,10 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
         </Button>
       </div>
 
-      {/* Map */}
+      {/* Map — uses same center/zoom as the read-only map to preserve view */}
       <div className="flex-1 min-h-0">
-        <Map center={initialCenter} zoom={12}>
+        <Map center={mapCenter} zoom={mapZoom}>
           <MapControls showZoom showLocate showFullscreen />
-          <FitToPolyline polyline={workingPolyline} />
 
           {/* Map click handler for cut mode */}
           <CutClickHandler
@@ -321,11 +338,11 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
             onEndPicked={(idx) => {
               setCutEndIdx(idx);
               setCutMode('off');
-              toast.info('Section selected — click "Remove Selection" to cut');
+              toast.info('Section selected — drag red markers to adjust, then "Remove Selection"');
             }}
           />
 
-          {/* Working polyline — key forces remount when length changes */}
+          {/* Working polyline */}
           <MapRoute
             key={`working-${workingPolyline.length}`}
             coordinates={workingPolyline}
@@ -333,9 +350,14 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
             width={previewPolyline ? 3 : 4}
           />
 
-          {/* Cut highlight section (red) */}
+          {/* Cut highlight section (red, thicker) */}
           {cutHighlight && cutHighlight.length >= 2 && (
-            <MapRoute coordinates={cutHighlight} color="#ef4444" width={6} />
+            <MapRoute
+              key={`cut-${cutStartIdx}-${cutEndIdx}`}
+              coordinates={cutHighlight}
+              color="#ef4444"
+              width={6}
+            />
           )}
 
           {/* Preview polyline */}
@@ -344,7 +366,7 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
           )}
 
           {/* Control points (hidden during cut mode and preview) */}
-          {!previewPolyline && !isInCutMode && controlPoints.map((cp) => (
+          {!previewPolyline && !isInCutMode && !hasCutSelection && controlPoints.map((cp) => (
             <MapMarker
               key={cp.id}
               longitude={cp.lng}
@@ -358,21 +380,35 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
             </MapMarker>
           ))}
 
-          {/* Cut start/end markers */}
+          {/* Cut start marker — draggable to adjust */}
           {cutStartIdx !== null && (
-            <MapMarker longitude={workingPolyline[cutStartIdx][0]} latitude={workingPolyline[cutStartIdx][1]}>
+            <MapMarker
+              longitude={workingPolyline[cutStartIdx][0]}
+              latitude={workingPolyline[cutStartIdx][1]}
+              draggable={!isInCutMode}
+              onDragEnd={(lngLat) => handleCutMarkerDrag('start', lngLat)}
+            >
               <MarkerContent>
-                <div className="size-4 rounded-full bg-red-500 border-2 border-white shadow-lg" />
+                <div className="size-5 rounded-full bg-red-500 border-2 border-white shadow-lg flex items-center justify-center">
+                  <span className="text-white text-[8px] font-bold">A</span>
+                </div>
               </MarkerContent>
-              <MarkerTooltip>Cut start</MarkerTooltip>
+              <MarkerTooltip>Cut start (idx {cutStartIdx}) — drag to adjust</MarkerTooltip>
             </MapMarker>
           )}
           {cutEndIdx !== null && (
-            <MapMarker longitude={workingPolyline[cutEndIdx][0]} latitude={workingPolyline[cutEndIdx][1]}>
+            <MapMarker
+              longitude={workingPolyline[cutEndIdx][0]}
+              latitude={workingPolyline[cutEndIdx][1]}
+              draggable
+              onDragEnd={(lngLat) => handleCutMarkerDrag('end', lngLat)}
+            >
               <MarkerContent>
-                <div className="size-4 rounded-full bg-red-500 border-2 border-white shadow-lg" />
+                <div className="size-5 rounded-full bg-red-500 border-2 border-white shadow-lg flex items-center justify-center">
+                  <span className="text-white text-[8px] font-bold">B</span>
+                </div>
               </MarkerContent>
-              <MarkerTooltip>Cut end</MarkerTooltip>
+              <MarkerTooltip>Cut end (idx {cutEndIdx}) — drag to adjust</MarkerTooltip>
             </MapMarker>
           )}
 
@@ -426,7 +462,6 @@ function CutClickHandler({ enabled, polyline, cutMode, cutStartIdx, onStartPicke
         const idx = findNearestPolylineIndex(polylineRef.current, e.lngLat.lng, e.lngLat.lat);
         startRef.current(idx);
       } else if (cutModeRef.current === 'pick-end') {
-        // For end point, exclude indices near the start to avoid picking the same leg
         const idx = findNearestPolylineIndex(polylineRef.current, e.lngLat.lng, e.lngLat.lat, cutStartRef.current ?? undefined);
         endRef.current(idx);
       }
@@ -440,27 +475,6 @@ function CutClickHandler({ enabled, polyline, cutMode, cutStartIdx, onStartPicke
       map.getCanvas().style.cursor = '';
     };
   }, [map, enabled]);
-
-  return null;
-}
-
-function FitToPolyline({ polyline }: { polyline: [number, number][] }) {
-  const { map } = useMap();
-  const fitted = useRef(false);
-
-  useEffect(() => {
-    if (!map || polyline.length < 2 || fitted.current) return;
-    fitted.current = true;
-
-    let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
-    for (const [lng, lat] of polyline) {
-      if (lng < minLng) minLng = lng;
-      if (lng > maxLng) maxLng = lng;
-      if (lat < minLat) minLat = lat;
-      if (lat > maxLat) maxLat = lat;
-    }
-    map.fitBounds([[minLng, minLat], [maxLng, maxLat]], { padding: 50, duration: 500 });
-  }, [map, polyline]);
 
   return null;
 }
