@@ -39,6 +39,7 @@ GITHUB_PATH = BASE_DIR / "github_colombo.json"
 ROUTEMASTER_PATH = BASE_DIR / "routemaster_routes.json"
 OSM_STOPS_PATH = DATA_DIR / "osm_bus_stops.json"
 NTC_PATH = BASE_DIR / "ntc_permits_parsed.json"
+COMPREHENSIVE_PATH = DATA_DIR / "routes_comprehensive.json"
 TIMETABLES_PATH = DATA_DIR / "timetables.json"
 FIX_ENRICH_PATH = BASE_DIR / "fix_and_enrich.py"
 OUTPUT_PATH = DATA_DIR / "seed_data.json"
@@ -130,16 +131,32 @@ def main() -> None:
     routemaster = load_json(ROUTEMASTER_PATH)
     osm_stops_raw = load_json(OSM_STOPS_PATH)
     ntc = load_json(NTC_PATH)
+    comprehensive = load_json(COMPREHENSIVE_PATH)
     timetables = load_json(TIMETABLES_PATH)
     known_routes = extract_known_routes()
 
-    print(f"    github_colombo.json    : {len(github['routes'])} routes, "
+    print(f"    github_colombo.json      : {len(github['routes'])} routes, "
           f"{len(github['places'])} places, {len(github['stops'])} stop-links")
-    print(f"    routemaster_routes.json: {len(routemaster)} routes")
-    print(f"    osm_bus_stops.json     : {len(osm_stops_raw)} stops")
-    print(f"    ntc_permits_parsed.json: {len(ntc)} permits")
-    print(f"    timetables.json        : {len(timetables)} routes")
-    print(f"    KNOWN_ROUTES           : {len(known_routes)} entries")
+    print(f"    routemaster_routes.json  : {len(routemaster)} routes")
+    print(f"    routes_comprehensive.json: {len(comprehensive)} routes")
+    print(f"    osm_bus_stops.json       : {len(osm_stops_raw)} stops")
+    print(f"    ntc_permits_parsed.json  : {len(ntc)} permits")
+    print(f"    timetables.json          : {len(timetables)} routes")
+    print(f"    KNOWN_ROUTES             : {len(known_routes)} entries")
+
+    # Build OSM stop name lookup for fuzzy matching (name → stop data)
+    osm_by_name: dict[str, dict] = {}
+    for s in osm_stops_raw:
+        name = (s.get('name_en') or s.get('name', '')).strip().lower()
+        if name and s.get('lat') and s.get('lng'):
+            osm_by_name[name] = s
+
+    # Build comprehensive route stop names lookup
+    comp_by_id: dict[str, dict] = {}
+    for r in comprehensive:
+        rid = normalize_route_no(r.get('id', ''))
+        if rid and (r.get('stops') or r.get('stop_coords')):
+            comp_by_id[rid] = r
 
     # ------------------------------------------------------------------
     # 2. Build stops registry (dedup by name + proximity)
@@ -225,10 +242,10 @@ def main() -> None:
                 'operating_hours': '',
             }
 
-    # Enrich from Routemaster (add missing routes)
+    # Enrich from Routemaster (add missing routes, normalize IDs)
     seen_rm_routes: set[str] = set()
     for r in routemaster:
-        rid = r.get('route_no', '')
+        rid = normalize_route_no(r.get('route_no', ''))
         if not rid or rid in routes or rid in seen_rm_routes:
             continue
         seen_rm_routes.add(rid)
@@ -315,16 +332,93 @@ def main() -> None:
     # ------------------------------------------------------------------
     github_route_ids: set[str] = set(route_buses.keys())
 
-    # Build a lookup for routemaster data (first entry per route_no wins)
+    # Build a lookup for routemaster data (normalize IDs, first entry per route wins)
     rm_by_route: dict[str, dict] = {}
     for r in routemaster:
-        rno = r.get('route_no', '')
+        rno = normalize_route_no(r.get('route_no', ''))
         if rno and rno not in rm_by_route:
             rm_by_route[rno] = r
 
     for rid, route in routes.items():
         if rid in github_route_ids:
             continue
+
+        # Try comprehensive data first (has stop names, maybe coords)
+        comp = comp_by_id.get(rid)
+        if comp and (comp.get('stop_coords') or comp.get('stops')):
+            stop_coords = comp.get('stop_coords', [])
+            stop_names = comp.get('stops', [])
+
+            # If we have pre-geocoded coords, use them directly
+            if len(stop_coords) >= 2:
+                dest = stop_coords[-1].get('name', route['name_en'].split(' - ')[-1].strip())
+                dest_slug = slugify(dest)
+                pattern_id = f"rt_{rid}_{dest_slug}"
+                if pattern_id in used_pattern_ids:
+                    pattern_id = f"rt_{rid}_{dest_slug}_comp"
+                used_pattern_ids.add(pattern_id)
+
+                comp_stops: list[dict] = []
+                for j, sc in enumerate(stop_coords):
+                    sc_stop_id = f"comp_{rid}_{j}"
+                    all_stops[sc_stop_id] = {
+                        'id': sc_stop_id,
+                        'name_en': sc.get('name', f'Stop {j}'),
+                        'name_si': '', 'name_ta': '',
+                        'lat': sc['lat'], 'lng': sc['lng'],
+                        'source': 'comprehensive',
+                    }
+                    comp_stops.append({
+                        'pattern_id': pattern_id,
+                        'stop_id': sc_stop_id,
+                        'stop_order': j,
+                    })
+
+                patterns.append({
+                    'id': pattern_id, 'route_id': rid, 'headsign': dest,
+                    'direction': 0, 'is_primary': True,
+                    'stop_count': len(comp_stops), 'source': 'comprehensive',
+                })
+                pattern_stops_list.extend(comp_stops)
+                continue
+
+            # If we have stop names but no coords, try OSM fuzzy match
+            if len(stop_names) >= 2:
+                matched_stops: list[dict] = []
+                dest = stop_names[-1]
+                dest_slug = slugify(dest)
+                pattern_id = f"rt_{rid}_{dest_slug}"
+                if pattern_id in used_pattern_ids:
+                    pattern_id = f"rt_{rid}_{dest_slug}_comp"
+                used_pattern_ids.add(pattern_id)
+
+                for j, sname in enumerate(stop_names):
+                    osm_match = osm_by_name.get(sname.strip().lower())
+                    if osm_match:
+                        osm_sid = f"osm_{osm_match['osm_id']}"
+                        if osm_sid not in all_stops:
+                            all_stops[osm_sid] = {
+                                'id': osm_sid,
+                                'name_en': osm_match.get('name_en') or osm_match.get('name', sname),
+                                'name_si': osm_match.get('name_si', ''),
+                                'name_ta': osm_match.get('name_ta', ''),
+                                'lat': osm_match['lat'], 'lng': osm_match['lng'],
+                                'source': 'osm',
+                            }
+                        matched_stops.append({
+                            'pattern_id': pattern_id,
+                            'stop_id': osm_sid,
+                            'stop_order': j,
+                        })
+
+                if len(matched_stops) >= 2:
+                    patterns.append({
+                        'id': pattern_id, 'route_id': rid, 'headsign': dest,
+                        'direction': 0, 'is_primary': True,
+                        'stop_count': len(matched_stops), 'source': 'osm_matched',
+                    })
+                    pattern_stops_list.extend(matched_stops)
+                    continue
 
         rm = rm_by_route.get(rid)
         if rm and rm.get('waypoints'):

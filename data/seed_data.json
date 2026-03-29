@@ -1,17 +1,6 @@
 {
   "routes": [
     {
-      "id": "01",
-      "name_en": "Central Bus Stop – Fort to Kandy – Colombo Intercity",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
       "id": "1",
       "name_en": "Colombo - Kandy",
       "name_si": "කොළඹ - මහනුවර",
@@ -113,17 +102,6 @@
     {
       "id": "1/744",
       "name_en": "Colombo - Padiyapelella",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
-      "id": "02",
-      "name_en": "Central Bus Stop – Fort to Galle Central Bus Station",
       "name_si": "",
       "name_ta": "",
       "operator": "",
@@ -287,17 +265,6 @@
       "operating_hours": ""
     },
     {
-      "id": "03",
-      "name_en": "Bastian Mawatha – Fort to Kataragama",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
       "id": "3",
       "name_en": "Colombo - Badulla",
       "name_si": "කොළඹ - බදුල්ල",
@@ -366,17 +333,6 @@
     {
       "id": "3/497",
       "name_en": "Colombo - Suriyawewa",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
-      "id": "04",
-      "name_en": "Bastian Mawatha – Fort to Anuradhapura CTB",
       "name_si": "",
       "name_ta": "",
       "operator": "",
@@ -529,17 +485,6 @@
       "operating_hours": ""
     },
     {
-      "id": "05",
-      "name_en": "Bastian Mawatha – Fort to Kurunegala",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
       "id": "5",
       "name_en": "Colombo - Batticaloa",
       "name_si": "කොළඹ - මඩකලපුව",
@@ -564,17 +509,6 @@
     {
       "id": "5/57/5",
       "name_en": "Katunayake - Galnewa",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
-      "id": "06",
-      "name_en": "Bastian Mawatha – Fort to Kurunegala",
       "name_si": "",
       "name_ta": "",
       "operator": "",
@@ -617,17 +551,6 @@
       "operating_hours": ""
     },
     {
-      "id": "07",
-      "name_en": "Bastian Mawatha – Fort to Kalpitiya",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
       "id": "7",
       "name_en": "Colombo - Anuradhapura",
       "name_si": "කොළඹ - අනුරාධපුරය",
@@ -650,55 +573,11 @@
       "operating_hours": ""
     },
     {
-      "id": "08",
-      "name_en": "Bastian Mawatha – Fort to Matale (Colombo)",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
       "id": "8",
       "name_en": "Colombo - Polonnaruwa",
       "name_si": "කොළඹ - පොලොන්නරුව",
       "name_ta": "கொழும்பு - பொலநறுவை",
       "operator": "SLTB",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
-      "id": "09",
-      "name_en": "Central Bus Stop – Fort to Teldeniya",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
-      "id": "09/1",
-      "name_en": "Central Bus Stop – Fort to Wattegama",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
-      "service_type": "Normal",
-      "fare_lkr": 0,
-      "frequency_minutes": 0,
-      "operating_hours": ""
-    },
-    {
-      "id": "09/2",
-      "name_en": "Central Bus Stop – Fort to Digana",
-      "name_si": "",
-      "name_ta": "",
-      "operator": "",
       "service_type": "Normal",
       "fare_lkr": 0,
       "frequency_minutes": 0,
@@ -740,6 +619,28 @@
     {
       "id": "9-2",
       "name_en": "Colombo - Digana",
+      "name_si": "",
+      "name_ta": "",
+      "operator": "",
+      "service_type": "Normal",
+      "fare_lkr": 0,
+      "frequency_minutes": 0,
+      "operating_hours": ""
+    },
+    {
+      "id": "9/1",
+      "name_en": "Central Bus Stop – Fort to Wattegama",
+      "name_si": "",
+      "name_ta": "",
+      "operator": "",
+      "service_type": "Normal",
+      "fare_lkr": 0,
+      "frequency_minutes": 0,
+      "operating_hours": ""
+    },
+    {
+      "id": "9/2",
+      "name_en": "Central Bus Stop – Fort to Digana",
       "name_si": "",
       "name_ta": "",
       "operator": "",
@@ -45777,492 +45678,6 @@
       "source": "osm"
     },
     {
-      "id": "rm_01_0",
-      "name_en": "Central Bus Stop – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.935686028608979,
-      "lng": 79.85523472099305,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_01_1",
-      "name_en": "Colombo Central Bus Stand – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.972008929842565,
-      "lng": 79.91674298420548,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_01_2",
-      "name_en": "Peliyagoda",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.23422892366997,
-      "lng": 80.2601602037048,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_01_3",
-      "name_en": "Kandy – Colombo Intercity",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.291560334863875,
-      "lng": 80.63362250595094,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_02_0",
-      "name_en": "Central Bus Stop – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.935686028608979,
-      "lng": 79.85523472099305,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_02_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.920595643035603,
-      "lng": 79.8467767238617,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_02_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.880211916028131,
-      "lng": 79.862140417099,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_02_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.054382896806657,
-      "lng": 80.18155932426453,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_02_4",
-      "name_en": "Galle Central Bus Station",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.032843067848115,
-      "lng": 80.21566862730981,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_03_0",
-      "name_en": "Bastian Mawatha – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.933601222698944,
-      "lng": 79.85540101795198,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_03_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.954607319973443,
-      "lng": 80.20508766174316,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_03_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.716735580977222,
-      "lng": 80.38434505462646,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_03_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.3347061616951335,
-      "lng": 80.85323810577393,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_03_4",
-      "name_en": "Kataragama",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.413246242205084,
-      "lng": 81.33221626281738,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_04_0",
-      "name_en": "Bastian Mawatha – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.933601222698944,
-      "lng": 79.85540101795198,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_04_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.936036194448237,
-      "lng": 79.87286657094955,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_04_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.957546682480297,
-      "lng": 79.88224625587463,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_04_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.203918344924292,
-      "lng": 79.85192656517029,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_04_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 8.030376872601417,
-      "lng": 79.82896685600281,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_04_5",
-      "name_en": "Waypoint 5",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 8.028390248814949,
-      "lng": 79.83368754386902,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_04_6",
-      "name_en": "Anuradhapura CTB",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 8.340148466376414,
-      "lng": 80.41462182998657,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_05_0",
-      "name_en": "Bastian Mawatha – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.933601222698944,
-      "lng": 79.85540101795198,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_05_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.989984944816768,
-      "lng": 79.89268943667412,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_05_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.169813226624633,
-      "lng": 79.94730323553085,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_05_3",
-      "name_en": "Kurunegala",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.488026752674358,
-      "lng": 80.36431163549423,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_06_0",
-      "name_en": "Bastian Mawatha – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.933601222698944,
-      "lng": 79.85540101795198,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_06_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.149864167060324,
-      "lng": 80.09997725486755,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_06_2",
-      "name_en": "Kurunegala",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.488026752674358,
-      "lng": 80.36431163549423,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_07_0",
-      "name_en": "Bastian Mawatha – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.933601222698944,
-      "lng": 79.85540101795198,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_07_1",
-      "name_en": "Kalpitiya",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 8.240425606293488,
-      "lng": 79.76373955607414,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_08_0",
-      "name_en": "Bastian Mawatha – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.933601222698944,
-      "lng": 79.85540101795198,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_08_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.2930223238085645,
-      "lng": 80.6328758597374,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_08_2",
-      "name_en": "Matale (Colombo)",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.477155253864091,
-      "lng": 80.62298387289047,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/1_0",
-      "name_en": "Central Bus Stop – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.935686028608979,
-      "lng": 79.85523472099305,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/1_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.956466086501058,
-      "lng": 79.88850717181776,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/1_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.264144644808601,
-      "lng": 80.5934530718514,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/1_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.275072169868068,
-      "lng": 80.61231436548042,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/1_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.3100617172955005,
-      "lng": 80.63633923200541,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/1_5",
-      "name_en": "Waypoint 5",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.324653152138924,
-      "lng": 80.62563421528466,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/1_6",
-      "name_en": "Wattegama",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.350093170068508,
-      "lng": 80.68130614576148,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/2_0",
-      "name_en": "Central Bus Stop – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.935686028608979,
-      "lng": 79.85523472099305,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/2_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.956420642900102,
-      "lng": 79.88844516104109,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/2_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.264181893708245,
-      "lng": 80.59414508161353,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/2_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.272681267511298,
-      "lng": 80.60732395565424,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/2_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.28800015987222,
-      "lng": 80.62855782343831,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/2_5",
-      "name_en": "Waypoint 5",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.290526035010704,
-      "lng": 80.64588317211019,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09/2_6",
-      "name_en": "Digana",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.299172359644936,
-      "lng": 80.73467180683565,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09_0",
-      "name_en": "Central Bus Stop – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.935686028608979,
-      "lng": 79.85523472099305,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.956150312109846,
-      "lng": 79.88808156169398,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.2642989642786,
-      "lng": 80.59454741280206,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.273129916612068,
-      "lng": 80.60826959444967,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.288128772269625,
-      "lng": 80.6286466565507,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09_5",
-      "name_en": "Waypoint 5",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.293089532167552,
-      "lng": 80.63604504971408,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_09_6",
-      "name_en": "Teldeniya",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.309140021000387,
-      "lng": 80.76579959310038,
-      "source": "routemaster"
-    },
-    {
       "id": "rm_102_0",
       "name_en": "Moratuwa",
       "name_si": "",
@@ -46350,78 +45765,6 @@
       "name_ta": "",
       "lat": 6.894751093546664,
       "lng": 79.85718922689557,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_0",
-      "name_en": "Kataragama",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.413246242205084,
-      "lng": 81.33221626281738,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.285263274617564,
-      "lng": 81.2814024835825,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.873426814109905,
-      "lng": 81.03117048740387,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.8300004048582075,
-      "lng": 80.99214065819979,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.877549014740644,
-      "lng": 80.93830302357674,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_5",
-      "name_en": "Waypoint 5",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.105044802824429,
-      "lng": 80.63729479908943,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_6",
-      "name_en": "Waypoint 6",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.19661108119229,
-      "lng": 80.59784151613712,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_10_7",
-      "name_en": "Kandy – Colombo Intercity",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.291560334863875,
-      "lng": 80.63362250595094,
       "source": "routemaster"
     },
     {
@@ -46872,51 +46215,6 @@
       "name_ta": "",
       "lat": 6.87177375086608,
       "lng": 81.35189713148975,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_152_0",
-      "name_en": "Central Bus Stop – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.935686028608979,
-      "lng": 79.85523472099305,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_152_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.940943302892722,
-      "lng": 79.86524809151888,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_152_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.932798486652445,
-      "lng": 79.89334611687809,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_152_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.929616671544348,
-      "lng": 79.9058782774955,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_152_4",
-      "name_en": "Angoda",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.928337282930011,
-      "lng": 79.92775975959376,
       "source": "routemaster"
     },
     {
@@ -47721,69 +47019,6 @@
       "source": "routemaster"
     },
     {
-      "id": "rm_190_0",
-      "name_en": "Central Bus Stop – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.935686028608979,
-      "lng": 79.85523472099305,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_190_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.917480312729845,
-      "lng": 79.86480385065079,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_190_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.9148029396126525,
-      "lng": 79.87751851348878,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_190_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.904066813905176,
-      "lng": 79.95643983154298,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_190_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.86964140489929,
-      "lng": 80.00038514404298,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_190_5",
-      "name_en": "Waypoint 5",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.8647881847088374,
-      "lng": 80.02360939979553,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_190_6",
-      "name_en": "Godagama",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.851703415125472,
-      "lng": 80.03287205963136,
-      "source": "routemaster"
-    },
-    {
       "id": "rm_192_0",
       "name_en": "Moratuwa",
       "name_si": "",
@@ -47916,33 +47151,6 @@
       "name_ta": "",
       "lat": 6.934030602171932,
       "lng": 79.85023945569992,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_21_0",
-      "name_en": "Kandy – Good Shed",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.289467300000001,
-      "lng": 80.63078380000002,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_21_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.2864568620599055,
-      "lng": 80.66034564180882,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_21_2",
-      "name_en": "Badulla Bus Station",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.988081415507872,
-      "lng": 81.05769384652376,
       "source": "routemaster"
     },
     {
@@ -48144,42 +47352,6 @@
       "source": "routemaster"
     },
     {
-      "id": "rm_255_0",
-      "name_en": "Mount Lavinia",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.833125593273582,
-      "lng": 79.86719737319947,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_255_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.797505912355536,
-      "lng": 79.88903442397714,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_255_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.801383741385421,
-      "lng": 79.92366392165422,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_255_3",
-      "name_en": "Kottawa",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.841285436607717,
-      "lng": 79.96403584747316,
-      "source": "routemaster"
-    },
-    {
       "id": "rm_31_0",
       "name_en": "Matara",
       "name_si": "",
@@ -48361,6 +47533,51 @@
     },
     {
       "id": "rm_32_7",
+      "name_en": "Kataragama",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.413246242205084,
+      "lng": 81.33221626281738,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_3_0",
+      "name_en": "Bastian Mawatha – Fort",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.933601222698944,
+      "lng": 79.85540101795198,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_3_1",
+      "name_en": "Waypoint 1",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.954607319973443,
+      "lng": 80.20508766174316,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_3_2",
+      "name_en": "Waypoint 2",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.716735580977222,
+      "lng": 80.38434505462646,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_3_3",
+      "name_en": "Waypoint 3",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.3347061616951335,
+      "lng": 80.85323810577393,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_3_4",
       "name_en": "Kataragama",
       "name_si": "",
       "name_ta": "",
@@ -48738,69 +47955,6 @@
       "source": "routemaster"
     },
     {
-      "id": "rm_48_0",
-      "name_en": "Bastian Mawatha – Fort",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.933601222698944,
-      "lng": 79.85540101795198,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_48_1",
-      "name_en": "Waypoint 1",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.93214348713924,
-      "lng": 79.8579803109169,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_48_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.325160125758177,
-      "lng": 80.28359323740005,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_48_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.561067238983083,
-      "lng": 80.45864894986153,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_48_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 8.036113592614099,
-      "lng": 80.75327217578888,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_48_5",
-      "name_en": "Waypoint 5",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.9965073278728,
-      "lng": 80.92674404382706,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_48_6",
-      "name_en": "Kalmunai",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.4131170416970145,
-      "lng": 81.8269748669037,
-      "source": "routemaster"
-    },
-    {
       "id": "rm_49_0",
       "name_en": "Bastian Mawatha – Fort",
       "name_si": "",
@@ -48981,7 +48135,7 @@
       "source": "routemaster"
     },
     {
-      "id": "rm_79_0",
+      "id": "rm_7_0",
       "name_en": "Bastian Mawatha – Fort",
       "name_si": "",
       "name_ta": "",
@@ -48990,48 +48144,12 @@
       "source": "routemaster"
     },
     {
-      "id": "rm_79_1",
-      "name_en": "Waypoint 1",
+      "id": "rm_7_1",
+      "name_en": "Kalpitiya",
       "name_si": "",
       "name_ta": "",
-      "lat": 6.932146149740693,
-      "lng": 79.85793270170689,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_79_2",
-      "name_en": "Waypoint 2",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.241192601962784,
-      "lng": 80.21190382540226,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_79_3",
-      "name_en": "Waypoint 3",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.2572822727990856,
-      "lng": 80.59279728680849,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_79_4",
-      "name_en": "Waypoint 4",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 7.116255377765996,
-      "lng": 80.62459386885166,
-      "source": "routemaster"
-    },
-    {
-      "id": "rm_79_5",
-      "name_en": "Nuwara Eliya",
-      "name_si": "",
-      "name_ta": "",
-      "lat": 6.971857174408197,
-      "lng": 80.76710231602192,
+      "lat": 8.240425606293488,
+      "lng": 79.76373955607414,
       "source": "routemaster"
     },
     {
@@ -49080,57 +48198,156 @@
       "source": "routemaster"
     },
     {
-      "id": "rm_98_0",
-      "name_en": "Arugam Bay Pick Up",
+      "id": "rm_8_0",
+      "name_en": "Bastian Mawatha – Fort",
       "name_si": "",
       "name_ta": "",
-      "lat": 6.9232838,
-      "lng": 79.86943640000004,
+      "lat": 6.933601222698944,
+      "lng": 79.85540101795198,
       "source": "routemaster"
     },
     {
-      "id": "rm_98_1",
+      "id": "rm_8_1",
       "name_en": "Waypoint 1",
       "name_si": "",
       "name_ta": "",
-      "lat": 6.68238200861912,
-      "lng": 80.40089663118124,
+      "lat": 7.2930223238085645,
+      "lng": 80.6328758597374,
       "source": "routemaster"
     },
     {
-      "id": "rm_98_2",
+      "id": "rm_8_2",
+      "name_en": "Matale (Colombo)",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 7.477155253864091,
+      "lng": 80.62298387289047,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/1_0",
+      "name_en": "Central Bus Stop – Fort",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.935686028608979,
+      "lng": 79.85523472099305,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/1_1",
+      "name_en": "Waypoint 1",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.956466086501058,
+      "lng": 79.88850717181776,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/1_2",
       "name_en": "Waypoint 2",
       "name_si": "",
       "name_ta": "",
-      "lat": 6.650519683403225,
-      "lng": 80.70211943238974,
+      "lat": 7.264144644808601,
+      "lng": 80.5934530718514,
       "source": "routemaster"
     },
     {
-      "id": "rm_98_3",
+      "id": "rm_9/1_3",
       "name_en": "Waypoint 3",
       "name_si": "",
       "name_ta": "",
-      "lat": 6.424483546180726,
-      "lng": 80.81879250705242,
+      "lat": 7.275072169868068,
+      "lng": 80.61231436548042,
       "source": "routemaster"
     },
     {
-      "id": "rm_98_4",
+      "id": "rm_9/1_4",
       "name_en": "Waypoint 4",
       "name_si": "",
       "name_ta": "",
-      "lat": 6.849140255883718,
-      "lng": 81.83022134006023,
+      "lat": 7.3100617172955005,
+      "lng": 80.63633923200541,
       "source": "routemaster"
     },
     {
-      "id": "rm_98_5",
-      "name_en": "Ampara",
+      "id": "rm_9/1_5",
+      "name_en": "Waypoint 5",
       "name_si": "",
       "name_ta": "",
-      "lat": 7.290202174643763,
-      "lng": 81.67317179962993,
+      "lat": 7.324653152138924,
+      "lng": 80.62563421528466,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/1_6",
+      "name_en": "Wattegama",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 7.350093170068508,
+      "lng": 80.68130614576148,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/2_0",
+      "name_en": "Central Bus Stop – Fort",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.935686028608979,
+      "lng": 79.85523472099305,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/2_1",
+      "name_en": "Waypoint 1",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 6.956420642900102,
+      "lng": 79.88844516104109,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/2_2",
+      "name_en": "Waypoint 2",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 7.264181893708245,
+      "lng": 80.59414508161353,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/2_3",
+      "name_en": "Waypoint 3",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 7.272681267511298,
+      "lng": 80.60732395565424,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/2_4",
+      "name_en": "Waypoint 4",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 7.28800015987222,
+      "lng": 80.62855782343831,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/2_5",
+      "name_en": "Waypoint 5",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 7.290526035010704,
+      "lng": 80.64588317211019,
+      "source": "routemaster"
+    },
+    {
+      "id": "rm_9/2_6",
+      "name_en": "Digana",
+      "name_si": "",
+      "name_ta": "",
+      "lat": 7.299172359644936,
+      "lng": 80.73467180683565,
       "source": "routemaster"
     },
     {
@@ -49600,89 +48817,89 @@
       "headsign": "Kandy",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
+      "stop_count": 3,
+      "source": "osm_matched"
     },
     {
-      "id": "rt_2_matara",
+      "id": "rt_2_galle",
       "route_id": "2",
+      "headsign": "Galle",
+      "direction": 0,
+      "is_primary": true,
+      "stop_count": 6,
+      "source": "osm_matched"
+    },
+    {
+      "id": "rt_3_kataragama",
+      "route_id": "3",
+      "headsign": "Kataragama",
+      "direction": 0,
+      "is_primary": true,
+      "stop_count": 5,
+      "source": "routemaster"
+    },
+    {
+      "id": "rt_4_matara",
+      "route_id": "4",
       "headsign": "Matara",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
+      "stop_count": 6,
+      "source": "osm_matched"
     },
     {
-      "id": "rt_3_badulla",
-      "route_id": "3",
+      "id": "rt_5_tangalle",
+      "route_id": "5",
+      "headsign": "Tangalle",
+      "direction": 0,
+      "is_primary": true,
+      "stop_count": 2,
+      "source": "osm_matched"
+    },
+    {
+      "id": "rt_6_hambantota",
+      "route_id": "6",
+      "headsign": "Hambantota",
+      "direction": 0,
+      "is_primary": true,
+      "stop_count": 2,
+      "source": "osm_matched"
+    },
+    {
+      "id": "rt_7_kalpitiya",
+      "route_id": "7",
+      "headsign": "Kalpitiya",
+      "direction": 0,
+      "is_primary": true,
+      "stop_count": 2,
+      "source": "routemaster"
+    },
+    {
+      "id": "rt_8_matale_colombo",
+      "route_id": "8",
+      "headsign": "Matale (Colombo)",
+      "direction": 0,
+      "is_primary": true,
+      "stop_count": 3,
+      "source": "routemaster"
+    },
+    {
+      "id": "rt_9_badulla",
+      "route_id": "9",
       "headsign": "Badulla",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
+      "stop_count": 4,
+      "source": "osm_matched"
     },
     {
-      "id": "rt_4_jaffna",
-      "route_id": "4",
-      "headsign": "Jaffna",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
-    },
-    {
-      "id": "rt_5_batticaloa",
-      "route_id": "5",
-      "headsign": "Batticaloa",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
-    },
-    {
-      "id": "rt_6_trincomalee",
-      "route_id": "6",
-      "headsign": "Trincomalee",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
-    },
-    {
-      "id": "rt_7_anuradhapura",
-      "route_id": "7",
-      "headsign": "Anuradhapura",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
-    },
-    {
-      "id": "rt_8_polonnaruwa",
-      "route_id": "8",
-      "headsign": "Polonnaruwa",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
-    },
-    {
-      "id": "rt_9_ratnapura",
-      "route_id": "9",
-      "headsign": "Ratnapura",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
-    },
-    {
-      "id": "rt_10_kandy_colombo_intercity",
+      "id": "rt_10_kataragama",
       "route_id": "10",
-      "headsign": "Kandy – Colombo Intercity",
+      "headsign": "Kataragama",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 8,
-      "source": "routemaster"
+      "stop_count": 3,
+      "source": "osm_matched"
     },
     {
       "id": "rt_11_ratnapura",
@@ -49775,13 +48992,13 @@
       "source": "metadata"
     },
     {
-      "id": "rt_48_kalmunai",
+      "id": "rt_48_ratnapura",
       "route_id": "48",
-      "headsign": "Kalmunai",
+      "headsign": "Ratnapura",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 7,
-      "source": "routemaster"
+      "stop_count": 4,
+      "source": "osm_matched"
     },
     {
       "id": "rt_57_anuradhapura",
@@ -49838,13 +49055,13 @@
       "source": "metadata"
     },
     {
-      "id": "rt_79_nuwara_eliya",
+      "id": "rt_79_embilipitiya",
       "route_id": "79",
-      "headsign": "Nuwara Eliya",
+      "headsign": "Embilipitiya",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 6,
-      "source": "routemaster"
+      "stop_count": 2,
+      "source": "osm_matched"
     },
     {
       "id": "rt_82_jaffna",
@@ -49865,7 +49082,7 @@
       "source": "metadata"
     },
     {
-      "id": "rt_87_jaffna",
+      "id": "rt_87_jaffna_rm",
       "route_id": "87",
       "headsign": "Jaffna",
       "direction": 0,
@@ -49883,13 +49100,13 @@
       "source": "metadata"
     },
     {
-      "id": "rt_98_ampara",
+      "id": "rt_98_avissawella",
       "route_id": "98",
-      "headsign": "Ampara",
+      "headsign": "Avissawella",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 6,
-      "source": "routemaster"
+      "stop_count": 3,
+      "source": "osm_matched"
     },
     {
       "id": "rt_128_horana",
@@ -49910,13 +49127,13 @@
       "source": "routemaster"
     },
     {
-      "id": "rt_255_kottawa",
+      "id": "rt_255_matale",
       "route_id": "255",
-      "headsign": "Kottawa",
+      "headsign": "Matale",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 4,
-      "source": "routemaster"
+      "stop_count": 2,
+      "source": "osm_matched"
     },
     {
       "id": "rt_333_kataragama",
@@ -50000,13 +49217,13 @@
       "source": "metadata"
     },
     {
-      "id": "rt_1-1_kegalle",
+      "id": "rt_1-1_kandy",
       "route_id": "1-1",
-      "headsign": "Kegalle",
+      "headsign": "Kandy",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 0,
-      "source": "metadata"
+      "stop_count": 2,
+      "source": "osm_matched"
     },
     {
       "id": "rt_1-1/2_kegalle",
@@ -50711,13 +49928,13 @@
       "source": "metadata"
     },
     {
-      "id": "rt_21_badulla_bus_station",
+      "id": "rt_21_walapane",
       "route_id": "21",
-      "headsign": "Badulla Bus Station",
+      "headsign": "Walapane",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 3,
-      "source": "routemaster"
+      "stop_count": 2,
+      "source": "osm_matched"
     },
     {
       "id": "rt_21-6_badulla",
@@ -51683,7 +50900,7 @@
       "source": "metadata"
     },
     {
-      "id": "rt_49_trincomalee",
+      "id": "rt_49_trincomalee_rm",
       "route_id": "49",
       "headsign": "Trincomalee",
       "direction": 0,
@@ -53249,7 +52466,7 @@
       "source": "metadata"
     },
     {
-      "id": "rt_662_kegalle",
+      "id": "rt_662_kegalle_meta",
       "route_id": "662",
       "headsign": "Kegalle",
       "direction": 0,
@@ -53816,42 +53033,6 @@
       "source": "routemaster"
     },
     {
-      "id": "rt_03_kataragama",
-      "route_id": "03",
-      "headsign": "Kataragama",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 5,
-      "source": "routemaster"
-    },
-    {
-      "id": "rt_05_kurunegala",
-      "route_id": "05",
-      "headsign": "Kurunegala",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 4,
-      "source": "routemaster"
-    },
-    {
-      "id": "rt_06_kurunegala",
-      "route_id": "06",
-      "headsign": "Kurunegala",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 3,
-      "source": "routemaster"
-    },
-    {
-      "id": "rt_08_matale_colombo",
-      "route_id": "08",
-      "headsign": "Matale (Colombo)",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 3,
-      "source": "routemaster"
-    },
-    {
       "id": "rt_200_pettah",
       "route_id": "200",
       "headsign": "Pettah",
@@ -53870,13 +53051,13 @@
       "source": "routemaster"
     },
     {
-      "id": "rt_190_godagama",
+      "id": "rt_190_polonnaruwa",
       "route_id": "190",
-      "headsign": "Godagama",
+      "headsign": "Polonnaruwa",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 7,
-      "source": "routemaster"
+      "stop_count": 2,
+      "source": "osm_matched"
     },
     {
       "id": "rt_179_bambalapitiya_junction",
@@ -53960,15 +53141,6 @@
       "source": "routemaster"
     },
     {
-      "id": "rt_02_galle_central_bus_station",
-      "route_id": "02",
-      "headsign": "Galle Central Bus Station",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 5,
-      "source": "routemaster"
-    },
-    {
       "id": "rt_104_bambalapitiya",
       "route_id": "104",
       "headsign": "Bambalapitiya",
@@ -53984,15 +53156,6 @@
       "direction": 0,
       "is_primary": true,
       "stop_count": 4,
-      "source": "routemaster"
-    },
-    {
-      "id": "rt_04_anuradhapura_ctb",
-      "route_id": "04",
-      "headsign": "Anuradhapura CTB",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 7,
       "source": "routemaster"
     },
     {
@@ -54068,22 +53231,13 @@
       "source": "routemaster"
     },
     {
-      "id": "rt_152_angoda",
+      "id": "rt_152_pettah",
       "route_id": "152",
-      "headsign": "Angoda",
+      "headsign": "Pettah",
       "direction": 0,
       "is_primary": true,
-      "stop_count": 5,
-      "source": "routemaster"
-    },
-    {
-      "id": "rt_01_kandy_colombo_intercity",
-      "route_id": "01",
-      "headsign": "Kandy – Colombo Intercity",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 4,
-      "source": "routemaster"
+      "stop_count": 2,
+      "source": "osm_matched"
     },
     {
       "id": "rt_102_kotahena_bus_stop",
@@ -54203,17 +53357,8 @@
       "source": "routemaster"
     },
     {
-      "id": "rt_09_teldeniya",
-      "route_id": "09",
-      "headsign": "Teldeniya",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 7,
-      "source": "routemaster"
-    },
-    {
-      "id": "rt_09/1_wattegama",
-      "route_id": "09/1",
+      "id": "rt_9/1_wattegama",
+      "route_id": "9/1",
       "headsign": "Wattegama",
       "direction": 0,
       "is_primary": true,
@@ -54221,21 +53366,12 @@
       "source": "routemaster"
     },
     {
-      "id": "rt_09/2_digana",
-      "route_id": "09/2",
+      "id": "rt_9/2_digana",
+      "route_id": "9/2",
       "headsign": "Digana",
       "direction": 0,
       "is_primary": true,
       "stop_count": 7,
-      "source": "routemaster"
-    },
-    {
-      "id": "rt_07_kalpitiya",
-      "route_id": "07",
-      "headsign": "Kalpitiya",
-      "direction": 0,
-      "is_primary": true,
-      "stop_count": 2,
       "source": "routemaster"
     },
     {
@@ -57315,43 +56451,183 @@
       "stop_order": 41
     },
     {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_0",
+      "pattern_id": "rt_1_kandy",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_1",
-      "stop_order": 1
+      "pattern_id": "rt_1_kandy",
+      "stop_id": "osm_5004197051",
+      "stop_order": 8
     },
     {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_2",
-      "stop_order": 2
+      "pattern_id": "rt_1_kandy",
+      "stop_id": "osm_9131345978",
+      "stop_order": 11
     },
     {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_3",
-      "stop_order": 3
+      "pattern_id": "rt_2_galle",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
     },
     {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_5",
+      "pattern_id": "rt_2_galle",
+      "stop_id": "osm_1664611741",
       "stop_order": 5
     },
     {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_6",
+      "pattern_id": "rt_2_galle",
+      "stop_id": "osm_10204245118",
+      "stop_order": 7
+    },
+    {
+      "pattern_id": "rt_2_galle",
+      "stop_id": "osm_2093862141",
+      "stop_order": 9
+    },
+    {
+      "pattern_id": "rt_2_galle",
+      "stop_id": "osm_7144568485",
+      "stop_order": 11
+    },
+    {
+      "pattern_id": "rt_2_galle",
+      "stop_id": "osm_10576651769",
+      "stop_order": 14
+    },
+    {
+      "pattern_id": "rt_3_kataragama",
+      "stop_id": "rm_3_0",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_3_kataragama",
+      "stop_id": "rm_3_1",
+      "stop_order": 1
+    },
+    {
+      "pattern_id": "rt_3_kataragama",
+      "stop_id": "rm_3_2",
+      "stop_order": 2
+    },
+    {
+      "pattern_id": "rt_3_kataragama",
+      "stop_id": "rm_3_3",
+      "stop_order": 3
+    },
+    {
+      "pattern_id": "rt_3_kataragama",
+      "stop_id": "rm_3_4",
+      "stop_order": 4
+    },
+    {
+      "pattern_id": "rt_4_matara",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_4_matara",
+      "stop_id": "osm_10204245118",
+      "stop_order": 1
+    },
+    {
+      "pattern_id": "rt_4_matara",
+      "stop_id": "osm_2093862141",
+      "stop_order": 3
+    },
+    {
+      "pattern_id": "rt_4_matara",
+      "stop_id": "osm_7144568485",
+      "stop_order": 4
+    },
+    {
+      "pattern_id": "rt_4_matara",
+      "stop_id": "osm_10576651769",
       "stop_order": 6
     },
     {
-      "pattern_id": "rt_10_kandy_colombo_intercity",
-      "stop_id": "rm_10_7",
+      "pattern_id": "rt_4_matara",
+      "stop_id": "osm_2380091541",
+      "stop_order": 8
+    },
+    {
+      "pattern_id": "rt_5_tangalle",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_5_tangalle",
+      "stop_id": "osm_2093862141",
+      "stop_order": 2
+    },
+    {
+      "pattern_id": "rt_6_hambantota",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_6_hambantota",
+      "stop_id": "osm_2093862141",
+      "stop_order": 2
+    },
+    {
+      "pattern_id": "rt_7_kalpitiya",
+      "stop_id": "rm_7_0",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_7_kalpitiya",
+      "stop_id": "rm_7_1",
+      "stop_order": 1
+    },
+    {
+      "pattern_id": "rt_8_matale_colombo",
+      "stop_id": "rm_8_0",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_8_matale_colombo",
+      "stop_id": "rm_8_1",
+      "stop_order": 1
+    },
+    {
+      "pattern_id": "rt_8_matale_colombo",
+      "stop_id": "rm_8_2",
+      "stop_order": 2
+    },
+    {
+      "pattern_id": "rt_9_badulla",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_9_badulla",
+      "stop_id": "osm_5004197051",
+      "stop_order": 3
+    },
+    {
+      "pattern_id": "rt_9_badulla",
+      "stop_id": "osm_7325463776",
+      "stop_order": 7
+    },
+    {
+      "pattern_id": "rt_9_badulla",
+      "stop_id": "osm_6702943946",
+      "stop_order": 10
+    },
+    {
+      "pattern_id": "rt_10_kataragama",
+      "stop_id": "osm_9131345978",
+      "stop_order": 1
+    },
+    {
+      "pattern_id": "rt_10_kataragama",
+      "stop_id": "osm_7325463776",
+      "stop_order": 4
+    },
+    {
+      "pattern_id": "rt_10_kataragama",
+      "stop_id": "osm_6702943946",
       "stop_order": 7
     },
     {
@@ -57520,39 +56796,24 @@
       "stop_order": 7
     },
     {
-      "pattern_id": "rt_48_kalmunai",
-      "stop_id": "rm_48_0",
+      "pattern_id": "rt_48_ratnapura",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_48_kalmunai",
-      "stop_id": "rm_48_1",
+      "pattern_id": "rt_48_ratnapura",
+      "stop_id": "osm_2046084565",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_48_kalmunai",
-      "stop_id": "rm_48_2",
+      "pattern_id": "rt_48_ratnapura",
+      "stop_id": "osm_2045936107",
       "stop_order": 2
     },
     {
-      "pattern_id": "rt_48_kalmunai",
-      "stop_id": "rm_48_3",
+      "pattern_id": "rt_48_ratnapura",
+      "stop_id": "osm_2045897955",
       "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_48_kalmunai",
-      "stop_id": "rm_48_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_48_kalmunai",
-      "stop_id": "rm_48_5",
-      "stop_order": 5
-    },
-    {
-      "pattern_id": "rt_48_kalmunai",
-      "stop_id": "rm_48_6",
-      "stop_order": 6
     },
     {
       "pattern_id": "rt_57_anuradhapura",
@@ -57625,89 +56886,54 @@
       "stop_order": 3
     },
     {
-      "pattern_id": "rt_79_nuwara_eliya",
-      "stop_id": "rm_79_0",
+      "pattern_id": "rt_79_embilipitiya",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_79_nuwara_eliya",
-      "stop_id": "rm_79_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_79_nuwara_eliya",
-      "stop_id": "rm_79_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_79_nuwara_eliya",
-      "stop_id": "rm_79_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_79_nuwara_eliya",
-      "stop_id": "rm_79_4",
+      "pattern_id": "rt_79_embilipitiya",
+      "stop_id": "osm_7164398985",
       "stop_order": 4
     },
     {
-      "pattern_id": "rt_79_nuwara_eliya",
-      "stop_id": "rm_79_5",
-      "stop_order": 5
-    },
-    {
-      "pattern_id": "rt_87_jaffna",
+      "pattern_id": "rt_87_jaffna_rm",
       "stop_id": "rm_87_0",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_87_jaffna",
+      "pattern_id": "rt_87_jaffna_rm",
       "stop_id": "rm_87_1",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_87_jaffna",
+      "pattern_id": "rt_87_jaffna_rm",
       "stop_id": "rm_87_2",
       "stop_order": 2
     },
     {
-      "pattern_id": "rt_87_jaffna",
+      "pattern_id": "rt_87_jaffna_rm",
       "stop_id": "rm_87_3",
       "stop_order": 3
     },
     {
-      "pattern_id": "rt_87_jaffna",
+      "pattern_id": "rt_87_jaffna_rm",
       "stop_id": "rm_87_4",
       "stop_order": 4
     },
     {
-      "pattern_id": "rt_98_ampara",
-      "stop_id": "rm_98_0",
+      "pattern_id": "rt_98_avissawella",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_98_ampara",
-      "stop_id": "rm_98_1",
+      "pattern_id": "rt_98_avissawella",
+      "stop_id": "osm_2046084565",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_98_ampara",
-      "stop_id": "rm_98_2",
+      "pattern_id": "rt_98_avissawella",
+      "stop_id": "osm_2045897955",
       "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_98_ampara",
-      "stop_id": "rm_98_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_98_ampara",
-      "stop_id": "rm_98_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_98_ampara",
-      "stop_id": "rm_98_5",
-      "stop_order": 5
     },
     {
       "pattern_id": "rt_240_negombo",
@@ -57730,39 +56956,34 @@
       "stop_order": 3
     },
     {
-      "pattern_id": "rt_255_kottawa",
-      "stop_id": "rm_255_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_255_kottawa",
-      "stop_id": "rm_255_1",
+      "pattern_id": "rt_255_matale",
+      "stop_id": "osm_4016221674",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_255_kottawa",
-      "stop_id": "rm_255_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_255_kottawa",
-      "stop_id": "rm_255_3",
+      "pattern_id": "rt_255_matale",
+      "stop_id": "osm_3856393379",
       "stop_order": 3
     },
     {
-      "pattern_id": "rt_21_badulla_bus_station",
-      "stop_id": "rm_21_0",
+      "pattern_id": "rt_1-1_kandy",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_21_badulla_bus_station",
-      "stop_id": "rm_21_1",
-      "stop_order": 1
+      "pattern_id": "rt_1-1_kandy",
+      "stop_id": "osm_5004197051",
+      "stop_order": 3
     },
     {
-      "pattern_id": "rt_21_badulla_bus_station",
-      "stop_id": "rm_21_2",
-      "stop_order": 2
+      "pattern_id": "rt_21_walapane",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "pattern_id": "rt_21_walapane",
+      "stop_id": "osm_5004197051",
+      "stop_order": 3
     },
     {
       "pattern_id": "rt_31_bandarawela",
@@ -57800,17 +57021,17 @@
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_49_trincomalee",
+      "pattern_id": "rt_49_trincomalee_rm",
       "stop_id": "rm_49_0",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_49_trincomalee",
+      "pattern_id": "rt_49_trincomalee_rm",
       "stop_id": "rm_49_1",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_49_trincomalee",
+      "pattern_id": "rt_49_trincomalee_rm",
       "stop_id": "rm_49_2",
       "stop_order": 2
     },
@@ -57965,81 +57186,6 @@
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_03_kataragama",
-      "stop_id": "rm_03_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_03_kataragama",
-      "stop_id": "rm_03_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_03_kataragama",
-      "stop_id": "rm_03_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_03_kataragama",
-      "stop_id": "rm_03_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_03_kataragama",
-      "stop_id": "rm_03_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_05_kurunegala",
-      "stop_id": "rm_05_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_05_kurunegala",
-      "stop_id": "rm_05_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_05_kurunegala",
-      "stop_id": "rm_05_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_05_kurunegala",
-      "stop_id": "rm_05_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_06_kurunegala",
-      "stop_id": "rm_06_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_06_kurunegala",
-      "stop_id": "rm_06_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_06_kurunegala",
-      "stop_id": "rm_06_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_08_matale_colombo",
-      "stop_id": "rm_08_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_08_matale_colombo",
-      "stop_id": "rm_08_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_08_matale_colombo",
-      "stop_id": "rm_08_2",
-      "stop_order": 2
-    },
-    {
       "pattern_id": "rt_200_pettah",
       "stop_id": "rm_200_0",
       "stop_order": 0
@@ -58080,39 +57226,14 @@
       "stop_order": 2
     },
     {
-      "pattern_id": "rt_190_godagama",
-      "stop_id": "rm_190_0",
+      "pattern_id": "rt_190_polonnaruwa",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_190_godagama",
-      "stop_id": "rm_190_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_190_godagama",
-      "stop_id": "rm_190_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_190_godagama",
-      "stop_id": "rm_190_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_190_godagama",
-      "stop_id": "rm_190_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_190_godagama",
-      "stop_id": "rm_190_5",
+      "pattern_id": "rt_190_polonnaruwa",
+      "stop_id": "osm_2822277573",
       "stop_order": 5
-    },
-    {
-      "pattern_id": "rt_190_godagama",
-      "stop_id": "rm_190_6",
-      "stop_order": 6
     },
     {
       "pattern_id": "rt_179_bambalapitiya_junction",
@@ -58345,31 +57466,6 @@
       "stop_order": 3
     },
     {
-      "pattern_id": "rt_02_galle_central_bus_station",
-      "stop_id": "rm_02_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_02_galle_central_bus_station",
-      "stop_id": "rm_02_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_02_galle_central_bus_station",
-      "stop_id": "rm_02_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_02_galle_central_bus_station",
-      "stop_id": "rm_02_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_02_galle_central_bus_station",
-      "stop_id": "rm_02_4",
-      "stop_order": 4
-    },
-    {
       "pattern_id": "rt_104_bambalapitiya",
       "stop_id": "rm_104_0",
       "stop_order": 0
@@ -58408,41 +57504,6 @@
       "pattern_id": "rt_183_panadura_bus_stop_private_buses",
       "stop_id": "rm_183_3",
       "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_04_anuradhapura_ctb",
-      "stop_id": "rm_04_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_04_anuradhapura_ctb",
-      "stop_id": "rm_04_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_04_anuradhapura_ctb",
-      "stop_id": "rm_04_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_04_anuradhapura_ctb",
-      "stop_id": "rm_04_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_04_anuradhapura_ctb",
-      "stop_id": "rm_04_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_04_anuradhapura_ctb",
-      "stop_id": "rm_04_5",
-      "stop_order": 5
-    },
-    {
-      "pattern_id": "rt_04_anuradhapura_ctb",
-      "stop_id": "rm_04_6",
-      "stop_order": 6
     },
     {
       "pattern_id": "rt_171_koswatta",
@@ -58620,49 +57681,14 @@
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_152_angoda",
-      "stop_id": "rm_152_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_152_angoda",
-      "stop_id": "rm_152_1",
+      "pattern_id": "rt_152_pettah",
+      "stop_id": "osm_5178104827",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_152_angoda",
-      "stop_id": "rm_152_2",
+      "pattern_id": "rt_152_pettah",
+      "stop_id": "osm_619160918",
       "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_152_angoda",
-      "stop_id": "rm_152_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_152_angoda",
-      "stop_id": "rm_152_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_01_kandy_colombo_intercity",
-      "stop_id": "rm_01_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_01_kandy_colombo_intercity",
-      "stop_id": "rm_01_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_01_kandy_colombo_intercity",
-      "stop_id": "rm_01_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_01_kandy_colombo_intercity",
-      "stop_id": "rm_01_3",
-      "stop_order": 3
     },
     {
       "pattern_id": "rt_102_kotahena_bus_stop",
@@ -58980,119 +58006,74 @@
       "stop_order": 5
     },
     {
-      "pattern_id": "rt_09_teldeniya",
-      "stop_id": "rm_09_0",
+      "pattern_id": "rt_9/1_wattegama",
+      "stop_id": "rm_9/1_0",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_09_teldeniya",
-      "stop_id": "rm_09_1",
+      "pattern_id": "rt_9/1_wattegama",
+      "stop_id": "rm_9/1_1",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_09_teldeniya",
-      "stop_id": "rm_09_2",
+      "pattern_id": "rt_9/1_wattegama",
+      "stop_id": "rm_9/1_2",
       "stop_order": 2
     },
     {
-      "pattern_id": "rt_09_teldeniya",
-      "stop_id": "rm_09_3",
+      "pattern_id": "rt_9/1_wattegama",
+      "stop_id": "rm_9/1_3",
       "stop_order": 3
     },
     {
-      "pattern_id": "rt_09_teldeniya",
-      "stop_id": "rm_09_4",
+      "pattern_id": "rt_9/1_wattegama",
+      "stop_id": "rm_9/1_4",
       "stop_order": 4
     },
     {
-      "pattern_id": "rt_09_teldeniya",
-      "stop_id": "rm_09_5",
+      "pattern_id": "rt_9/1_wattegama",
+      "stop_id": "rm_9/1_5",
       "stop_order": 5
     },
     {
-      "pattern_id": "rt_09_teldeniya",
-      "stop_id": "rm_09_6",
+      "pattern_id": "rt_9/1_wattegama",
+      "stop_id": "rm_9/1_6",
       "stop_order": 6
     },
     {
-      "pattern_id": "rt_09/1_wattegama",
-      "stop_id": "rm_09/1_0",
+      "pattern_id": "rt_9/2_digana",
+      "stop_id": "rm_9/2_0",
       "stop_order": 0
     },
     {
-      "pattern_id": "rt_09/1_wattegama",
-      "stop_id": "rm_09/1_1",
+      "pattern_id": "rt_9/2_digana",
+      "stop_id": "rm_9/2_1",
       "stop_order": 1
     },
     {
-      "pattern_id": "rt_09/1_wattegama",
-      "stop_id": "rm_09/1_2",
+      "pattern_id": "rt_9/2_digana",
+      "stop_id": "rm_9/2_2",
       "stop_order": 2
     },
     {
-      "pattern_id": "rt_09/1_wattegama",
-      "stop_id": "rm_09/1_3",
+      "pattern_id": "rt_9/2_digana",
+      "stop_id": "rm_9/2_3",
       "stop_order": 3
     },
     {
-      "pattern_id": "rt_09/1_wattegama",
-      "stop_id": "rm_09/1_4",
+      "pattern_id": "rt_9/2_digana",
+      "stop_id": "rm_9/2_4",
       "stop_order": 4
     },
     {
-      "pattern_id": "rt_09/1_wattegama",
-      "stop_id": "rm_09/1_5",
+      "pattern_id": "rt_9/2_digana",
+      "stop_id": "rm_9/2_5",
       "stop_order": 5
     },
     {
-      "pattern_id": "rt_09/1_wattegama",
-      "stop_id": "rm_09/1_6",
+      "pattern_id": "rt_9/2_digana",
+      "stop_id": "rm_9/2_6",
       "stop_order": 6
-    },
-    {
-      "pattern_id": "rt_09/2_digana",
-      "stop_id": "rm_09/2_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_09/2_digana",
-      "stop_id": "rm_09/2_1",
-      "stop_order": 1
-    },
-    {
-      "pattern_id": "rt_09/2_digana",
-      "stop_id": "rm_09/2_2",
-      "stop_order": 2
-    },
-    {
-      "pattern_id": "rt_09/2_digana",
-      "stop_id": "rm_09/2_3",
-      "stop_order": 3
-    },
-    {
-      "pattern_id": "rt_09/2_digana",
-      "stop_id": "rm_09/2_4",
-      "stop_order": 4
-    },
-    {
-      "pattern_id": "rt_09/2_digana",
-      "stop_id": "rm_09/2_5",
-      "stop_order": 5
-    },
-    {
-      "pattern_id": "rt_09/2_digana",
-      "stop_id": "rm_09/2_6",
-      "stop_order": 6
-    },
-    {
-      "pattern_id": "rt_07_kalpitiya",
-      "stop_id": "rm_07_0",
-      "stop_order": 0
-    },
-    {
-      "pattern_id": "rt_07_kalpitiya",
-      "stop_id": "rm_07_1",
-      "stop_order": 1
     },
     {
       "pattern_id": "rt_48/3_kaduruwela",
@@ -61297,43 +60278,183 @@
       "stop_order": 41
     },
     {
-      "route_id": "10",
-      "stop_id": "rm_10_0",
+      "route_id": "1",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
+      "route_id": "1",
+      "stop_id": "osm_5004197051",
+      "stop_order": 8
+    },
+    {
+      "route_id": "1",
+      "stop_id": "osm_9131345978",
+      "stop_order": 11
+    },
+    {
+      "route_id": "2",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "route_id": "2",
+      "stop_id": "osm_1664611741",
+      "stop_order": 5
+    },
+    {
+      "route_id": "2",
+      "stop_id": "osm_10204245118",
+      "stop_order": 7
+    },
+    {
+      "route_id": "2",
+      "stop_id": "osm_2093862141",
+      "stop_order": 9
+    },
+    {
+      "route_id": "2",
+      "stop_id": "osm_7144568485",
+      "stop_order": 11
+    },
+    {
+      "route_id": "2",
+      "stop_id": "osm_10576651769",
+      "stop_order": 14
+    },
+    {
+      "route_id": "3",
+      "stop_id": "rm_3_0",
+      "stop_order": 0
+    },
+    {
+      "route_id": "3",
+      "stop_id": "rm_3_1",
+      "stop_order": 1
+    },
+    {
+      "route_id": "3",
+      "stop_id": "rm_3_2",
+      "stop_order": 2
+    },
+    {
+      "route_id": "3",
+      "stop_id": "rm_3_3",
+      "stop_order": 3
+    },
+    {
+      "route_id": "3",
+      "stop_id": "rm_3_4",
+      "stop_order": 4
+    },
+    {
+      "route_id": "4",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "route_id": "4",
+      "stop_id": "osm_10204245118",
+      "stop_order": 1
+    },
+    {
+      "route_id": "4",
+      "stop_id": "osm_2093862141",
+      "stop_order": 3
+    },
+    {
+      "route_id": "4",
+      "stop_id": "osm_7144568485",
+      "stop_order": 4
+    },
+    {
+      "route_id": "4",
+      "stop_id": "osm_10576651769",
+      "stop_order": 6
+    },
+    {
+      "route_id": "4",
+      "stop_id": "osm_2380091541",
+      "stop_order": 8
+    },
+    {
+      "route_id": "5",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "route_id": "5",
+      "stop_id": "osm_2093862141",
+      "stop_order": 2
+    },
+    {
+      "route_id": "6",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "route_id": "6",
+      "stop_id": "osm_2093862141",
+      "stop_order": 2
+    },
+    {
+      "route_id": "7",
+      "stop_id": "rm_7_0",
+      "stop_order": 0
+    },
+    {
+      "route_id": "7",
+      "stop_id": "rm_7_1",
+      "stop_order": 1
+    },
+    {
+      "route_id": "8",
+      "stop_id": "rm_8_0",
+      "stop_order": 0
+    },
+    {
+      "route_id": "8",
+      "stop_id": "rm_8_1",
+      "stop_order": 1
+    },
+    {
+      "route_id": "8",
+      "stop_id": "rm_8_2",
+      "stop_order": 2
+    },
+    {
+      "route_id": "9",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "route_id": "9",
+      "stop_id": "osm_5004197051",
+      "stop_order": 3
+    },
+    {
+      "route_id": "9",
+      "stop_id": "osm_7325463776",
+      "stop_order": 7
+    },
+    {
+      "route_id": "9",
+      "stop_id": "osm_6702943946",
+      "stop_order": 10
+    },
+    {
       "route_id": "10",
-      "stop_id": "rm_10_1",
+      "stop_id": "osm_9131345978",
       "stop_order": 1
     },
     {
       "route_id": "10",
-      "stop_id": "rm_10_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "10",
-      "stop_id": "rm_10_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "10",
-      "stop_id": "rm_10_4",
+      "stop_id": "osm_7325463776",
       "stop_order": 4
     },
     {
       "route_id": "10",
-      "stop_id": "rm_10_5",
-      "stop_order": 5
-    },
-    {
-      "route_id": "10",
-      "stop_id": "rm_10_6",
-      "stop_order": 6
-    },
-    {
-      "route_id": "10",
-      "stop_id": "rm_10_7",
+      "stop_id": "osm_6702943946",
       "stop_order": 7
     },
     {
@@ -61503,38 +60624,23 @@
     },
     {
       "route_id": "48",
-      "stop_id": "rm_48_0",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
       "route_id": "48",
-      "stop_id": "rm_48_1",
+      "stop_id": "osm_2046084565",
       "stop_order": 1
     },
     {
       "route_id": "48",
-      "stop_id": "rm_48_2",
+      "stop_id": "osm_2045936107",
       "stop_order": 2
     },
     {
       "route_id": "48",
-      "stop_id": "rm_48_3",
+      "stop_id": "osm_2045897955",
       "stop_order": 3
-    },
-    {
-      "route_id": "48",
-      "stop_id": "rm_48_4",
-      "stop_order": 4
-    },
-    {
-      "route_id": "48",
-      "stop_id": "rm_48_5",
-      "stop_order": 5
-    },
-    {
-      "route_id": "48",
-      "stop_id": "rm_48_6",
-      "stop_order": 6
     },
     {
       "route_id": "57",
@@ -61608,33 +60714,13 @@
     },
     {
       "route_id": "79",
-      "stop_id": "rm_79_0",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
       "route_id": "79",
-      "stop_id": "rm_79_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "79",
-      "stop_id": "rm_79_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "79",
-      "stop_id": "rm_79_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "79",
-      "stop_id": "rm_79_4",
+      "stop_id": "osm_7164398985",
       "stop_order": 4
-    },
-    {
-      "route_id": "79",
-      "stop_id": "rm_79_5",
-      "stop_order": 5
     },
     {
       "route_id": "87",
@@ -61663,33 +60749,18 @@
     },
     {
       "route_id": "98",
-      "stop_id": "rm_98_0",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
       "route_id": "98",
-      "stop_id": "rm_98_1",
+      "stop_id": "osm_2046084565",
       "stop_order": 1
     },
     {
       "route_id": "98",
-      "stop_id": "rm_98_2",
+      "stop_id": "osm_2045897955",
       "stop_order": 2
-    },
-    {
-      "route_id": "98",
-      "stop_id": "rm_98_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "98",
-      "stop_id": "rm_98_4",
-      "stop_order": 4
-    },
-    {
-      "route_id": "98",
-      "stop_id": "rm_98_5",
-      "stop_order": 5
     },
     {
       "route_id": "240",
@@ -61713,38 +60784,33 @@
     },
     {
       "route_id": "255",
-      "stop_id": "rm_255_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "255",
-      "stop_id": "rm_255_1",
+      "stop_id": "osm_4016221674",
       "stop_order": 1
     },
     {
       "route_id": "255",
-      "stop_id": "rm_255_2",
-      "stop_order": 2
+      "stop_id": "osm_3856393379",
+      "stop_order": 3
     },
     {
-      "route_id": "255",
-      "stop_id": "rm_255_3",
+      "route_id": "1-1",
+      "stop_id": "osm_10605451599",
+      "stop_order": 0
+    },
+    {
+      "route_id": "1-1",
+      "stop_id": "osm_5004197051",
       "stop_order": 3
     },
     {
       "route_id": "21",
-      "stop_id": "rm_21_0",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
       "route_id": "21",
-      "stop_id": "rm_21_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "21",
-      "stop_id": "rm_21_2",
-      "stop_order": 2
+      "stop_id": "osm_5004197051",
+      "stop_order": 3
     },
     {
       "route_id": "31",
@@ -61947,81 +61013,6 @@
       "stop_order": 1
     },
     {
-      "route_id": "03",
-      "stop_id": "rm_03_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "03",
-      "stop_id": "rm_03_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "03",
-      "stop_id": "rm_03_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "03",
-      "stop_id": "rm_03_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "03",
-      "stop_id": "rm_03_4",
-      "stop_order": 4
-    },
-    {
-      "route_id": "05",
-      "stop_id": "rm_05_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "05",
-      "stop_id": "rm_05_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "05",
-      "stop_id": "rm_05_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "05",
-      "stop_id": "rm_05_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "06",
-      "stop_id": "rm_06_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "06",
-      "stop_id": "rm_06_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "06",
-      "stop_id": "rm_06_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "08",
-      "stop_id": "rm_08_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "08",
-      "stop_id": "rm_08_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "08",
-      "stop_id": "rm_08_2",
-      "stop_order": 2
-    },
-    {
       "route_id": "200",
       "stop_id": "rm_200_0",
       "stop_order": 0
@@ -62063,38 +61054,13 @@
     },
     {
       "route_id": "190",
-      "stop_id": "rm_190_0",
+      "stop_id": "osm_10605451599",
       "stop_order": 0
     },
     {
       "route_id": "190",
-      "stop_id": "rm_190_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "190",
-      "stop_id": "rm_190_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "190",
-      "stop_id": "rm_190_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "190",
-      "stop_id": "rm_190_4",
-      "stop_order": 4
-    },
-    {
-      "route_id": "190",
-      "stop_id": "rm_190_5",
+      "stop_id": "osm_2822277573",
       "stop_order": 5
-    },
-    {
-      "route_id": "190",
-      "stop_id": "rm_190_6",
-      "stop_order": 6
     },
     {
       "route_id": "179",
@@ -62327,31 +61293,6 @@
       "stop_order": 3
     },
     {
-      "route_id": "02",
-      "stop_id": "rm_02_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "02",
-      "stop_id": "rm_02_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "02",
-      "stop_id": "rm_02_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "02",
-      "stop_id": "rm_02_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "02",
-      "stop_id": "rm_02_4",
-      "stop_order": 4
-    },
-    {
       "route_id": "104",
       "stop_id": "rm_104_0",
       "stop_order": 0
@@ -62390,41 +61331,6 @@
       "route_id": "183",
       "stop_id": "rm_183_3",
       "stop_order": 3
-    },
-    {
-      "route_id": "04",
-      "stop_id": "rm_04_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "04",
-      "stop_id": "rm_04_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "04",
-      "stop_id": "rm_04_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "04",
-      "stop_id": "rm_04_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "04",
-      "stop_id": "rm_04_4",
-      "stop_order": 4
-    },
-    {
-      "route_id": "04",
-      "stop_id": "rm_04_5",
-      "stop_order": 5
-    },
-    {
-      "route_id": "04",
-      "stop_id": "rm_04_6",
-      "stop_order": 6
     },
     {
       "route_id": "171",
@@ -62603,48 +61509,13 @@
     },
     {
       "route_id": "152",
-      "stop_id": "rm_152_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "152",
-      "stop_id": "rm_152_1",
+      "stop_id": "osm_5178104827",
       "stop_order": 1
     },
     {
       "route_id": "152",
-      "stop_id": "rm_152_2",
+      "stop_id": "osm_619160918",
       "stop_order": 2
-    },
-    {
-      "route_id": "152",
-      "stop_id": "rm_152_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "152",
-      "stop_id": "rm_152_4",
-      "stop_order": 4
-    },
-    {
-      "route_id": "01",
-      "stop_id": "rm_01_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "01",
-      "stop_id": "rm_01_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "01",
-      "stop_id": "rm_01_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "01",
-      "stop_id": "rm_01_3",
-      "stop_order": 3
     },
     {
       "route_id": "102",
@@ -62962,119 +61833,74 @@
       "stop_order": 5
     },
     {
-      "route_id": "09",
-      "stop_id": "rm_09_0",
+      "route_id": "9/1",
+      "stop_id": "rm_9/1_0",
       "stop_order": 0
     },
     {
-      "route_id": "09",
-      "stop_id": "rm_09_1",
+      "route_id": "9/1",
+      "stop_id": "rm_9/1_1",
       "stop_order": 1
     },
     {
-      "route_id": "09",
-      "stop_id": "rm_09_2",
+      "route_id": "9/1",
+      "stop_id": "rm_9/1_2",
       "stop_order": 2
     },
     {
-      "route_id": "09",
-      "stop_id": "rm_09_3",
+      "route_id": "9/1",
+      "stop_id": "rm_9/1_3",
       "stop_order": 3
     },
     {
-      "route_id": "09",
-      "stop_id": "rm_09_4",
+      "route_id": "9/1",
+      "stop_id": "rm_9/1_4",
       "stop_order": 4
     },
     {
-      "route_id": "09",
-      "stop_id": "rm_09_5",
+      "route_id": "9/1",
+      "stop_id": "rm_9/1_5",
       "stop_order": 5
     },
     {
-      "route_id": "09",
-      "stop_id": "rm_09_6",
+      "route_id": "9/1",
+      "stop_id": "rm_9/1_6",
       "stop_order": 6
     },
     {
-      "route_id": "09/1",
-      "stop_id": "rm_09/1_0",
+      "route_id": "9/2",
+      "stop_id": "rm_9/2_0",
       "stop_order": 0
     },
     {
-      "route_id": "09/1",
-      "stop_id": "rm_09/1_1",
+      "route_id": "9/2",
+      "stop_id": "rm_9/2_1",
       "stop_order": 1
     },
     {
-      "route_id": "09/1",
-      "stop_id": "rm_09/1_2",
+      "route_id": "9/2",
+      "stop_id": "rm_9/2_2",
       "stop_order": 2
     },
     {
-      "route_id": "09/1",
-      "stop_id": "rm_09/1_3",
+      "route_id": "9/2",
+      "stop_id": "rm_9/2_3",
       "stop_order": 3
     },
     {
-      "route_id": "09/1",
-      "stop_id": "rm_09/1_4",
+      "route_id": "9/2",
+      "stop_id": "rm_9/2_4",
       "stop_order": 4
     },
     {
-      "route_id": "09/1",
-      "stop_id": "rm_09/1_5",
+      "route_id": "9/2",
+      "stop_id": "rm_9/2_5",
       "stop_order": 5
     },
     {
-      "route_id": "09/1",
-      "stop_id": "rm_09/1_6",
+      "route_id": "9/2",
+      "stop_id": "rm_9/2_6",
       "stop_order": 6
-    },
-    {
-      "route_id": "09/2",
-      "stop_id": "rm_09/2_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "09/2",
-      "stop_id": "rm_09/2_1",
-      "stop_order": 1
-    },
-    {
-      "route_id": "09/2",
-      "stop_id": "rm_09/2_2",
-      "stop_order": 2
-    },
-    {
-      "route_id": "09/2",
-      "stop_id": "rm_09/2_3",
-      "stop_order": 3
-    },
-    {
-      "route_id": "09/2",
-      "stop_id": "rm_09/2_4",
-      "stop_order": 4
-    },
-    {
-      "route_id": "09/2",
-      "stop_id": "rm_09/2_5",
-      "stop_order": 5
-    },
-    {
-      "route_id": "09/2",
-      "stop_id": "rm_09/2_6",
-      "stop_order": 6
-    },
-    {
-      "route_id": "07",
-      "stop_id": "rm_07_0",
-      "stop_order": 0
-    },
-    {
-      "route_id": "07",
-      "stop_id": "rm_07_1",
-      "stop_order": 1
     },
     {
       "route_id": "48/3",
