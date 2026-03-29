@@ -22,6 +22,16 @@ export default defineConfig({
         target: "ws://localhost:9900",
         ws: true,
       },
+      "/nominatim": {
+        target: "http://localhost:9990",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/nominatim/, ""),
+      },
+      "/osrm": {
+        target: "https://router.project-osrm.org",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/osrm/, ""),
+      },
     },
   },
 })

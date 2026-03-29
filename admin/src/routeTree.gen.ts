@@ -13,6 +13,7 @@ import { Route as TimetablesRouteImport } from './routes/timetables'
 import { Route as StopsRouteImport } from './routes/stops'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as RouteBuilderRouteImport } from './routes/route-builder'
 import { Route as LiveMapRouteImport } from './routes/live-map'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const RoutesRoute = RoutesRouteImport.update({
   id: '/routes',
   path: '/routes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RouteBuilderRoute = RouteBuilderRouteImport.update({
+  id: '/route-builder',
+  path: '/route-builder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LiveMapRoute = LiveMapRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
+  '/route-builder': typeof RouteBuilderRoute
   '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
+  '/route-builder': typeof RouteBuilderRoute
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
+  '/route-builder': typeof RouteBuilderRoute
   '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/data'
     | '/live-map'
+    | '/route-builder'
     | '/routes'
     | '/settings'
     | '/stops'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
     | '/'
     | '/data'
     | '/live-map'
+    | '/route-builder'
     | '/settings'
     | '/stops'
     | '/timetables'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/data'
     | '/live-map'
+    | '/route-builder'
     | '/routes'
     | '/settings'
     | '/stops'
@@ -137,6 +149,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DataRoute: typeof DataRoute
   LiveMapRoute: typeof LiveMapRoute
+  RouteBuilderRoute: typeof RouteBuilderRoute
   RoutesRoute: typeof RoutesRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   StopsRoute: typeof StopsRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       path: '/routes'
       fullPath: '/routes'
       preLoaderRoute: typeof RoutesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/route-builder': {
+      id: '/route-builder'
+      path: '/route-builder'
+      fullPath: '/route-builder'
+      preLoaderRoute: typeof RouteBuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/live-map': {
@@ -228,6 +248,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DataRoute: DataRoute,
   LiveMapRoute: LiveMapRoute,
+  RouteBuilderRoute: RouteBuilderRoute,
   RoutesRoute: RoutesRouteWithChildren,
   SettingsRoute: SettingsRoute,
   StopsRoute: StopsRoute,

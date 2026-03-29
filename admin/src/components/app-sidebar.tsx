@@ -9,6 +9,7 @@ import {
   RiDownloadLine,
   RiSettingsLine,
   RiBusLine,
+  RiCompassDiscoverLine,
 } from '@remixicon/react';
 import { NavMain } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
@@ -28,6 +29,7 @@ const mainNavItems = [
   { title: 'Routes', icon: <RiRouteLine />, url: '/routes' },
   { title: 'Stops', icon: <RiMapPinLine />, url: '/stops' },
   { title: 'Timetables', icon: <RiTimeLine />, url: '/timetables' },
+  { title: 'Route Builder', icon: <RiCompassDiscoverLine />, url: '/route-builder' },
   { title: 'Live Map', icon: <RiLiveLine />, url: '/live-map' },
   { title: 'Import/Export', icon: <RiDownloadLine />, url: '/data' },
 ];
