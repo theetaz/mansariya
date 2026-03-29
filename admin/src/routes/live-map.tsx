@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -11,6 +11,11 @@ import {
   RiEyeOffLine,
   RiCheckLine,
   RiMapPinLine,
+  RiTimeLine,
+  RiPinDistanceLine,
+  RiNavigationLine,
+  RiGroupLine,
+  RiCompassLine,
 } from '@remixicon/react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -20,10 +25,10 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
-import { Map, MapRoute, MapControls, useMap } from '@/components/ui/map';
+import { Map, MapRoute, MapMarker, MarkerContent, MarkerTooltip, MapControls, useMap } from '@/components/ui/map';
 import { AnimatedBusMarker } from '@/components/animated-bus-marker';
 import { fetchActiveBuses, fetchAdminRoutes, fetchAdminRouteDetail } from '@/lib/api-functions';
-import type { Vehicle, AdminRouteWithStats, AdminRouteDetail } from '@/lib/types';
+import type { Vehicle, AdminRouteWithStats, AdminEnrichedStop } from '@/lib/types';
 
 export const Route = createFileRoute('/live-map')({
   component: LiveMapPage,
@@ -98,9 +103,9 @@ function LiveMapPage() {
         <Map center={[79.8612, 6.9271]} zoom={10}>
           <MapControls showZoom showLocate showFullscreen />
 
-          {/* Route polylines */}
+          {/* Route polylines + stops */}
           {selectedRoutes.map((routeId) => (
-            <RoutePolyline key={routeId} routeId={routeId} color={getRouteColor(routeId)} />
+            <RouteOverlay key={routeId} routeId={routeId} color={getRouteColor(routeId)} />
           ))}
 
           {/* Bus markers */}
@@ -132,48 +137,9 @@ function LiveMapPage() {
           </div>
         </div>
 
-        {/* Selected bus overlay */}
+        {/* Selected bus detail overlay */}
         {selectedBus && (
-          <div className="absolute bottom-4 left-4 right-80 bg-card/95 backdrop-blur rounded-lg border shadow-lg z-10 p-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <RiBusLine className="size-5 text-primary" />
-                <span className="font-semibold">{selectedBus.virtual_id}</span>
-                <Badge variant={selectedBus.confidence === 'verified' ? 'default' : selectedBus.confidence === 'good' ? 'secondary' : 'outline'}>
-                  {selectedBus.confidence}
-                </Badge>
-              </div>
-              <Button size="sm" variant="ghost" onClick={() => setSelectedBusId(null)}>
-                <RiCloseLine className="size-4" />
-              </Button>
-            </div>
-            <div className="grid grid-cols-4 gap-4 text-sm">
-              <div>
-                <p className="text-xs text-muted-foreground">Route</p>
-                <p className="font-semibold">{selectedBus.route_id}</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Speed</p>
-                <p className="font-semibold tabular-nums">{selectedBus.speed_kmh.toFixed(1)} km/h</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Bearing</p>
-                <p className="font-semibold tabular-nums">{selectedBus.bearing.toFixed(0)}°</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Devices</p>
-                <p className="font-semibold tabular-nums">{selectedBus.contributor_count}</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Latitude</p>
-                <p className="font-mono text-xs tabular-nums">{selectedBus.lat.toFixed(6)}</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Longitude</p>
-                <p className="font-mono text-xs tabular-nums">{selectedBus.lng.toFixed(6)}</p>
-              </div>
-            </div>
-          </div>
+          <BusDetailOverlay bus={selectedBus} onClose={() => setSelectedBusId(null)} />
         )}
       </div>
 
@@ -192,9 +158,7 @@ function LiveMapPage() {
 
         {/* Route filter */}
         <div className="p-3 border-b space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">ROUTE OVERLAYS</span>
-          </div>
+          <span className="text-xs font-medium text-muted-foreground">ROUTE OVERLAYS</span>
           <Popover open={routeSearchOpen} onOpenChange={setRouteSearchOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className="w-full justify-start gap-2 text-muted-foreground font-normal">
@@ -245,14 +209,10 @@ function LiveMapPage() {
         <ScrollArea className="flex-1">
           {isLoading ? (
             <div className="p-4 space-y-3">
-              {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="h-16 w-full" />
-              ))}
+              {[1, 2, 3].map((i) => <Skeleton key={i} className="h-16 w-full" />)}
             </div>
           ) : sortedRoutes.length === 0 ? (
-            <div className="p-4 text-center text-sm text-muted-foreground">
-              No active buses
-            </div>
+            <div className="p-4 text-center text-sm text-muted-foreground">No active buses</div>
           ) : (
             sortedRoutes.map(([routeId, routeBuses]) => (
               <div key={routeId}>
@@ -283,8 +243,7 @@ function LiveMapPage() {
                           >
                             {isHidden
                               ? <RiEyeOffLine className="size-3.5 text-muted-foreground" />
-                              : <RiEyeLine className="size-3.5 text-muted-foreground" />
-                            }
+                              : <RiEyeLine className="size-3.5 text-muted-foreground" />}
                           </Button>
                           <Badge
                             variant={bus.confidence === 'verified' ? 'default' : bus.confidence === 'good' ? 'secondary' : 'outline'}
@@ -314,8 +273,8 @@ function LiveMapPage() {
   );
 }
 
-// Fetches and renders route polyline
-function RoutePolyline({ routeId, color }: { routeId: string; color: string }) {
+// ── Route Overlay: polyline + stop markers ──
+function RouteOverlay({ routeId, color }: { routeId: string; color: string }) {
   const { data } = useQuery({
     queryKey: ['admin-route-detail', routeId],
     queryFn: () => fetchAdminRouteDetail(routeId),
@@ -323,19 +282,207 @@ function RoutePolyline({ routeId, color }: { routeId: string; color: string }) {
   });
 
   const polyline = data?.polyline ?? [];
-  if (polyline.length < 2) return null;
+  const stops = data?.stops ?? [];
 
-  return <MapRoute coordinates={polyline} color={color} width={4} />;
+  return (
+    <>
+      {polyline.length >= 2 && <MapRoute coordinates={polyline} color={color} width={4} />}
+      {stops.map((s, i) => (
+        <MapMarker key={`${routeId}-${s.stop_id}`} longitude={s.lng} latitude={s.lat}>
+          <MarkerContent>
+            <div
+              className="flex items-center justify-center size-5 rounded-full border-2 border-white shadow text-[8px] font-bold text-white"
+              style={{ background: i === 0 ? '#22c55e' : i === stops.length - 1 ? '#ef4444' : color }}
+            >
+              {i + 1}
+            </div>
+          </MarkerContent>
+          <MarkerTooltip>{s.name_en}</MarkerTooltip>
+        </MapMarker>
+      ))}
+    </>
+  );
 }
 
-// Smoothly pans map to selected bus
+// ── Bus Detail Overlay with ETAs ──
+function BusDetailOverlay({ bus, onClose }: { bus: Vehicle; onClose: () => void }) {
+  const { data: routeData } = useQuery({
+    queryKey: ['admin-route-detail', bus.route_id],
+    queryFn: () => fetchAdminRouteDetail(bus.route_id),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const eta = useMemo(() => {
+    if (!routeData?.stops?.length || !routeData?.polyline?.length) return null;
+    return computeETAs(bus, routeData.stops, routeData.polyline);
+  }, [bus, routeData]);
+
+  return (
+    <div className="absolute bottom-4 left-4 right-[21rem] bg-card/95 backdrop-blur rounded-lg border shadow-lg z-10 overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b bg-muted/30">
+        <div className="flex items-center gap-2">
+          <RiBusLine className="size-5 text-primary" />
+          <span className="font-semibold text-sm">{bus.virtual_id}</span>
+          <Badge variant={bus.confidence === 'verified' ? 'default' : bus.confidence === 'good' ? 'secondary' : 'outline'} className="text-xs">
+            {bus.confidence}
+          </Badge>
+          <Badge variant="outline" className="text-xs">Route {bus.route_id}</Badge>
+        </div>
+        <Button size="sm" variant="ghost" onClick={onClose} className="size-7 p-0">
+          <RiCloseLine className="size-4" />
+        </Button>
+      </div>
+
+      {/* Stats grid */}
+      <div className="px-4 py-3">
+        <div className="grid grid-cols-3 gap-x-6 gap-y-3">
+          <InfoItem icon={RiSpeedLine} label="Speed" value={`${bus.speed_kmh.toFixed(1)} km/h`} />
+          <InfoItem icon={RiCompassLine} label="Bearing" value={`${bus.bearing.toFixed(0)}° ${bearingToCardinal(bus.bearing)}`} />
+          <InfoItem icon={RiGroupLine} label="Devices" value={`${bus.contributor_count}`} />
+          <InfoItem icon={RiMapPinLine} label="Position" value={`${bus.lat.toFixed(5)}, ${bus.lng.toFixed(5)}`} mono />
+
+          {eta && (
+            <>
+              <InfoItem icon={RiNavigationLine} label="Next Stop" value={eta.nextStopName ?? 'N/A'} />
+              <InfoItem icon={RiPinDistanceLine} label="Dist to Next" value={eta.distToNextStop ?? 'N/A'} />
+              <InfoItem icon={RiTimeLine} label="ETA Next Stop" value={eta.etaNextStop ?? 'N/A'} highlight />
+              <InfoItem icon={RiPinDistanceLine} label="Dist to End" value={eta.distToEnd ?? 'N/A'} />
+              <InfoItem icon={RiTimeLine} label="ETA Terminal" value={eta.etaEnd ?? 'N/A'} highlight />
+              <InfoItem icon={RiMapPinLine} label="Stops Passed" value={eta.stopsPassed ?? 'N/A'} />
+              <InfoItem icon={RiMapPinLine} label="Stops Remaining" value={eta.stopsRemaining ?? 'N/A'} />
+              <InfoItem icon={RiTimeLine} label="Est. Arrival" value={eta.arrivalTime ?? 'N/A'} highlight />
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoItem({ icon: Icon, label, value, mono, highlight }: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  mono?: boolean;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="flex items-start gap-2">
+      <Icon className={`size-3.5 mt-0.5 shrink-0 ${highlight ? 'text-primary' : 'text-muted-foreground'}`} />
+      <div className="min-w-0">
+        <p className="text-[10px] text-muted-foreground leading-none mb-0.5">{label}</p>
+        <p className={`text-xs font-medium leading-tight truncate ${mono ? 'font-mono' : ''} ${highlight ? 'text-primary' : ''}`}>{value}</p>
+      </div>
+    </div>
+  );
+}
+
+// ── ETA Computation ──
+interface ETAResult {
+  nextStopName: string;
+  distToNextStop: string;
+  etaNextStop: string;
+  distToEnd: string;
+  etaEnd: string;
+  stopsPassed: string;
+  stopsRemaining: string;
+  arrivalTime: string;
+}
+
+function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number, number][]): ETAResult | null {
+  if (stops.length === 0) return null;
+
+  // Find nearest stop to bus current position
+  let minDist = Infinity;
+  let nearestIdx = 0;
+  for (let i = 0; i < stops.length; i++) {
+    const d = haversineKM(bus.lat, bus.lng, stops[i].lat, stops[i].lng);
+    if (d < minDist) {
+      minDist = d;
+      nearestIdx = i;
+    }
+  }
+
+  // Determine if bus has passed the nearest stop (check next stop is further ahead)
+  let nextStopIdx = nearestIdx;
+  if (nearestIdx < stops.length - 1) {
+    const dToNearest = haversineKM(bus.lat, bus.lng, stops[nearestIdx].lat, stops[nearestIdx].lng);
+    const dToNext = haversineKM(bus.lat, bus.lng, stops[nearestIdx + 1].lat, stops[nearestIdx + 1].lng);
+    // If we're closer to the nearest than to the gap between nearest and next, we've likely passed it
+    const gapDist = haversineKM(stops[nearestIdx].lat, stops[nearestIdx].lng, stops[nearestIdx + 1].lat, stops[nearestIdx + 1].lng);
+    if (dToNearest < gapDist * 0.3) {
+      nextStopIdx = nearestIdx + 1;
+    }
+  }
+
+  // Ensure nextStopIdx is valid and ahead
+  if (nextStopIdx >= stops.length) nextStopIdx = stops.length - 1;
+
+  const nextStop = stops[nextStopIdx];
+  const lastStop = stops[stops.length - 1];
+
+  const distToNext = haversineKM(bus.lat, bus.lng, nextStop.lat, nextStop.lng);
+  const distToEnd = haversineKM(bus.lat, bus.lng, lastStop.lat, lastStop.lng);
+
+  // Use route distance if available, otherwise haversine
+  const routeDistToEnd = lastStop.distance_from_start_km - (nextStop.distance_from_start_km - distToNext);
+
+  const speedKMH = Math.max(bus.speed_kmh, 5); // min 5 km/h to avoid infinite ETA
+  const etaNextMin = (distToNext / speedKMH) * 60;
+  const etaEndMin = ((routeDistToEnd > 0 ? routeDistToEnd : distToEnd) / speedKMH) * 60;
+
+  const arrivalDate = new Date(Date.now() + etaEndMin * 60 * 1000);
+  const arrivalTime = arrivalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+  return {
+    nextStopName: nextStop.name_en,
+    distToNextStop: formatDist(distToNext),
+    etaNextStop: formatETA(etaNextMin),
+    distToEnd: formatDist(routeDistToEnd > 0 ? routeDistToEnd : distToEnd),
+    etaEnd: formatETA(etaEndMin),
+    stopsPassed: `${nextStopIdx} / ${stops.length}`,
+    stopsRemaining: `${stops.length - nextStopIdx}`,
+    arrivalTime,
+  };
+}
+
+function haversineKM(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function formatDist(km: number): string {
+  if (km < 1) return `${Math.round(km * 1000)} m`;
+  return `${km.toFixed(1)} km`;
+}
+
+function formatETA(minutes: number): string {
+  if (minutes < 1) return '< 1 min';
+  if (minutes < 60) return `${Math.round(minutes)} min`;
+  const h = Math.floor(minutes / 60);
+  const m = Math.round(minutes % 60);
+  return `${h}h ${m}m`;
+}
+
+function bearingToCardinal(bearing: number): string {
+  const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  return dirs[Math.round(bearing / 45) % 8];
+}
+
+// ── Smooth pan to selected bus ──
 function PanTo({ lat, lng }: { lat: number; lng: number }) {
   const { map } = useMap();
   const lastPan = useRef({ lat: 0, lng: 0 });
 
   useEffect(() => {
     if (!map) return;
-    // Only pan if bus moved significantly (avoid jitter on every update)
     const dist = Math.abs(lat - lastPan.current.lat) + Math.abs(lng - lastPan.current.lng);
     if (dist > 0.001) {
       map.panTo([lng, lat], { duration: 500 });
@@ -346,12 +493,7 @@ function PanTo({ lat, lng }: { lat: number; lng: number }) {
   return null;
 }
 
-function MiniStat({
-  icon: Icon,
-  label,
-  value,
-  loading,
-}: {
+function MiniStat({ icon: Icon, label, value, loading }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   value: number;
@@ -363,11 +505,7 @@ function MiniStat({
         <div className="flex items-center gap-2">
           <Icon className="size-4 text-muted-foreground" />
           <div>
-            {loading ? (
-              <Skeleton className="h-5 w-8" />
-            ) : (
-              <p className="font-semibold tabular-nums">{value}</p>
-            )}
+            {loading ? <Skeleton className="h-5 w-8" /> : <p className="font-semibold tabular-nums">{value}</p>}
             <p className="text-xs text-muted-foreground">{label}</p>
           </div>
         </div>

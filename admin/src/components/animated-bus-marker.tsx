@@ -81,13 +81,16 @@ export function AnimatedBusMarker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  // Visibility
+  // Visibility — fully remove/add marker from map
   useEffect(() => {
-    const el = elRef.current;
-    if (!el) return;
-    el.style.opacity = visible ? '1' : '0';
-    el.style.pointerEvents = visible ? 'auto' : 'none';
-  }, [visible]);
+    const marker = markerRef.current;
+    if (!marker || !map) return;
+    if (visible) {
+      if (!marker.getElement().parentElement) marker.addTo(map);
+    } else {
+      marker.remove();
+    }
+  }, [visible, map]);
 
   // Animate to new position
   useEffect(() => {
