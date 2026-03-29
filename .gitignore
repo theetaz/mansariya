@@ -68,3 +68,4 @@ admin/dist/
 admin/.env
 *.env.mk
 *.env.make
+.superpowers/
