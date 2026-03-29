@@ -82,12 +82,13 @@ type TimetableEntry struct {
 // --- Seed data types ---
 
 type SeedData struct {
-	Routes        []SeedRoute       `json:"routes"`
-	Stops         []SeedStop        `json:"stops"`
-	RoutePatterns []SeedPattern     `json:"route_patterns"`
-	PatternStops  []SeedPatternStop `json:"pattern_stops"`
-	RouteStops    []SeedRouteStop   `json:"route_stops"`
-	Timetables    []SeedTimetable   `json:"timetables"`
+	Routes           []SeedRoute                `json:"routes"`
+	Stops            []SeedStop                 `json:"stops"`
+	RoutePatterns    []SeedPattern              `json:"route_patterns"`
+	PatternPolylines map[string][][]float64     `json:"pattern_polylines"`
+	PatternStops     []SeedPatternStop          `json:"pattern_stops"`
+	RouteStops       []SeedRouteStop            `json:"route_stops"`
+	Timetables       []SeedTimetable            `json:"timetables"`
 }
 
 type SeedRoute struct {
@@ -840,61 +841,50 @@ func seedFromData(ctx context.Context, pool *pgxpool.Pool, sd *SeedData) error {
 	}
 	slog.Info("routes inserted", "total", totalRoutes)
 
-	// 3. Build polylines from primary patterns' stop coordinates
-	// Collect pattern_stops grouped by pattern_id, ordered by stop_order
+	// 3. Build polylines — use OSRM polylines from seed data if available, else straight lines from stops
 	patternStopMap := make(map[string][]SeedPatternStop)
 	for _, ps := range sd.PatternStops {
 		patternStopMap[ps.PatternID] = append(patternStopMap[ps.PatternID], ps)
 	}
 
-	// Sort pattern stops by stop_order for each pattern
-	for pid := range patternStopMap {
-		stops := patternStopMap[pid]
-		// Simple insertion sort — data is likely already ordered
-		for i := 1; i < len(stops); i++ {
-			for j := i; j > 0 && stops[j].StopOrder < stops[j-1].StopOrder; j-- {
-				stops[j], stops[j-1] = stops[j-1], stops[j]
-			}
-		}
-		patternStopMap[pid] = stops
-	}
-
-	// Build polylines for primary patterns and update routes
-	primaryPolylines := make(map[string]string) // patternID -> WKT linestring
+	allPolylines := make(map[string]string) // patternID -> WKT linestring
 	for _, p := range sd.RoutePatterns {
-		if !p.IsPrimary {
-			continue
-		}
-		stops, ok := patternStopMap[p.ID]
-		if !ok || len(stops) < 2 {
-			continue
-		}
-
-		points := make([]string, 0, len(stops))
-		for _, ps := range stops {
-			coord, found := stopCoords[ps.StopID]
-			if !found {
-				continue
+		// Check for pre-built OSRM polyline
+		if coords, ok := sd.PatternPolylines[p.ID]; ok && len(coords) >= 2 {
+			points := make([]string, len(coords))
+			for i, c := range coords {
+				points[i] = fmt.Sprintf("%f %f", c[0], c[1])
 			}
-			points = append(points, fmt.Sprintf("%f %f", coord[0], coord[1]))
-		}
-		if len(points) < 2 {
-			continue
+			allPolylines[p.ID] = "LINESTRING(" + strings.Join(points, ", ") + ")"
+		} else {
+			// Fallback: straight lines from stop coordinates
+			stops := patternStopMap[p.ID]
+			points := make([]string, 0, len(stops))
+			for _, ps := range stops {
+				if coord, found := stopCoords[ps.StopID]; found {
+					points = append(points, fmt.Sprintf("%f %f", coord[0], coord[1]))
+				}
+			}
+			if len(points) >= 2 {
+				allPolylines[p.ID] = "LINESTRING(" + strings.Join(points, ", ") + ")"
+			}
 		}
 
-		lineWKT := "LINESTRING(" + strings.Join(points, ", ") + ")"
-		primaryPolylines[p.ID] = lineWKT
-
-		// Update the route's polyline
-		_, err := pool.Exec(ctx,
-			`UPDATE routes SET polyline = ST_GeomFromText($2, 4326), polyline_confidence = 0.1, updated_at = NOW()
-			 WHERE id = $1`,
-			p.RouteID, lineWKT)
-		if err != nil {
-			return fmt.Errorf("update route polyline %s: %w", p.RouteID, err)
+		// Update route polyline from primary pattern
+		if p.IsPrimary {
+			if wkt, ok := allPolylines[p.ID]; ok {
+				confidence := 0.5 // OSRM polylines get higher confidence
+				if sd.PatternPolylines[p.ID] == nil {
+					confidence = 0.1 // straight lines get lower
+				}
+				pool.Exec(ctx,
+					`UPDATE routes SET polyline = ST_GeomFromText($2, 4326), polyline_confidence = $3, updated_at = NOW()
+					 WHERE id = $1`,
+					p.RouteID, wkt, confidence)
+			}
 		}
 	}
-	slog.Info("route polylines built from primary patterns", "count", len(primaryPolylines))
+	slog.Info("polylines built", "total", len(allPolylines), "osrm", len(sd.PatternPolylines))
 
 	// 4. Insert route_patterns
 	slog.Info("inserting route_patterns", "count", len(sd.RoutePatterns))
@@ -905,13 +895,14 @@ func seedFromData(ctx context.Context, pool *pgxpool.Pool, sd *SeedData) error {
 			source = "seed"
 		}
 
-		// For primary patterns, set polyline from the one we built
-		if wkt, ok := primaryPolylines[p.ID]; ok {
+		// Set polyline if available (OSRM or straight-line)
+		if wkt, ok := allPolylines[p.ID]; ok {
 			_, err := pool.Exec(ctx,
 				`INSERT INTO route_patterns (id, route_id, headsign, direction, is_primary, stop_count, source, polyline, polyline_confidence)
-				 VALUES ($1, $2, $3, $4, $5, $6, $7, ST_GeomFromText($8, 4326), 0.1)
+				 VALUES ($1, $2, $3, $4, $5, $6, $7, ST_GeomFromText($8, 4326), $9)
 				 ON CONFLICT (id) DO NOTHING`,
-				p.ID, p.RouteID, p.Headsign, p.Direction, p.IsPrimary, p.StopCount, source, wkt)
+				p.ID, p.RouteID, p.Headsign, p.Direction, p.IsPrimary, p.StopCount, source, wkt,
+				func() float64 { if sd.PatternPolylines[p.ID] != nil { return 0.5 }; return 0.1 }())
 			if err != nil {
 				return fmt.Errorf("insert route_pattern %s: %w", p.ID, err)
 			}
