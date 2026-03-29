@@ -36,19 +36,10 @@ import {
 import { cn } from "@/lib/utils";
 
 // ── Default Styles ──
+// Dark: CARTO Dark Matter (free for non-commercial / dev)
+// Light: CARTO Positron
 const defaultStyles = {
-  dark: {
-    version: 8 as const,
-    sources: {
-      osm: {
-        type: "raster" as const,
-        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-        tileSize: 256,
-        attribution: "&copy; OpenStreetMap contributors",
-      },
-    },
-    layers: [{ id: "osm", type: "raster" as const, source: "osm" }],
-  },
+  dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
   light: {
     version: 8 as const,
     sources: {
