@@ -102,8 +102,8 @@
     {
       "id": "138/2",
       "name_en": "Pettah - Mattegoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිටකොටුව - මත්තේගොඩ",
+      "name_ta": "புறக்கோட்டை - மத்தேகொடை",
       "operator": "Private",
       "service_type": "Normal",
       "fare_lkr": 0,
@@ -113,8 +113,8 @@
     {
       "id": "138/3",
       "name_en": "Pettah - Rukmalgama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිටකොටුව - රුක්මල්ගම",
+      "name_ta": "புறக்கோட்டை - ருக்மல்கம",
       "operator": "Private",
       "service_type": "Normal",
       "fare_lkr": 0,
@@ -124,8 +124,8 @@
     {
       "id": "138/4",
       "name_en": "Pettah - Athurugiriya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිටකොටුව - අතුරුගිරිය",
+      "name_ta": "புறக்கோட்டை - அதுருகிரிய",
       "operator": "Private",
       "service_type": "Normal",
       "fare_lkr": 0,
@@ -247,8 +247,8 @@
     {
       "id": "gh_1",
       "name_en": "Pettah",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිටකොටුව",
+      "name_ta": "புறக்கோட்டை",
       "lat": 6.933211,
       "lng": 79.855435,
       "source": "github"
@@ -256,8 +256,8 @@
     {
       "id": "gh_2",
       "name_en": "Fort Railway Station",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කොළඹ කොටුව දුම්රිය ස්ථානය",
+      "name_ta": "கோட்டை ரயில் நிலையம்",
       "lat": 6.934085,
       "lng": 79.850221,
       "source": "github"
@@ -265,8 +265,8 @@
     {
       "id": "gh_3",
       "name_en": "Lotus Road",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නෙළුම් මාවත",
+      "name_ta": "தாமரை வீதி",
       "lat": 6.933978,
       "lng": 79.846991,
       "source": "github"
@@ -274,8 +274,8 @@
     {
       "id": "gh_4",
       "name_en": "Galle Face Green",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ගාලු මුවදොර",
+      "name_ta": "காலி முகத்திடல்",
       "lat": 6.921959,
       "lng": 79.846085,
       "source": "github"
@@ -283,8 +283,8 @@
     {
       "id": "gh_5",
       "name_en": "Kollupitiya Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කොල්ලුපිටිය හන්දිය",
+      "name_ta": "கொள்ளுப்பிட்டி சந்தி",
       "lat": 6.911159,
       "lng": 79.849652,
       "source": "github"
@@ -292,8 +292,8 @@
     {
       "id": "gh_6",
       "name_en": "McDonalds, Kollupitiya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මැක්ඩොනල්ඩ්ස්, කොල්ලුපිටිය",
+      "name_ta": "மெக்டொனால்ட்ஸ், கொள்ளுப்பிட்டி",
       "lat": 6.903171,
       "lng": 79.852297,
       "source": "github"
@@ -301,8 +301,8 @@
     {
       "id": "gh_7",
       "name_en": "Bambalapitiya Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බම්බලපිටිය හන්දිය",
+      "name_ta": "பம்பலப்பிட்டி சந்தி",
       "lat": 6.893686,
       "lng": 79.855456,
       "source": "github"
@@ -310,8 +310,8 @@
     {
       "id": "gh_8",
       "name_en": "Holy Family Convent, Bambalapitiya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හෝලි ෆැමිලි කොන්වෙන්ට්, බම්බලපිටිය",
+      "name_ta": "ஹோலி ஃபேமிலி கான்வென்ட், பம்பலப்பிட்டி",
       "lat": 6.887812,
       "lng": 79.857318,
       "source": "github"
@@ -319,8 +319,8 @@
     {
       "id": "gh_9",
       "name_en": "Savoy Cinema, Wellawatte",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සැවෝයි සිනමා, වැල්ලවත්ත",
+      "name_ta": "சவோய் சினிமா, வெள்ளவத்தை",
       "lat": 6.88027,
       "lng": 79.85956,
       "source": "github"
@@ -328,8 +328,8 @@
     {
       "id": "gh_10",
       "name_en": "Wellawatte Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වැල්ලවත්ත හන්දිය",
+      "name_ta": "வெள்ளவத்தை சந்தி",
       "lat": 6.875344,
       "lng": 79.861014,
       "source": "github"
@@ -337,8 +337,8 @@
     {
       "id": "gh_16",
       "name_en": "Lake House",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ලේක් හවුස්",
+      "name_ta": "லேக் ஹவுஸ்",
       "lat": 6.932609,
       "lng": 79.847989,
       "source": "github"
@@ -346,8 +346,8 @@
     {
       "id": "gh_19",
       "name_en": "Gamini Hall Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ගාමිණී හෝල් හන්දිය",
+      "name_ta": "காமினி ஹால் சந்தி",
       "lat": 6.926533,
       "lng": 79.861813,
       "source": "github"
@@ -355,8 +355,8 @@
     {
       "id": "gh_20",
       "name_en": "Darley Road/Excel World",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ඩාර්ලි පාර",
+      "name_ta": "டார்லி வீதி",
       "lat": 6.921661,
       "lng": 79.862167,
       "source": "github"
@@ -364,8 +364,8 @@
     {
       "id": "gh_21",
       "name_en": "Gangarama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ගංගාරාමය",
+      "name_ta": "கங்காராமய",
       "lat": 6.918109,
       "lng": 79.854341,
       "source": "github"
@@ -373,8 +373,8 @@
     {
       "id": "gh_23",
       "name_en": "Mahanama College",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මහානාම විද්‍යාලය",
+      "name_ta": "மகாநாம கல்லூரி",
       "lat": 6.905679,
       "lng": 79.853579,
       "source": "github"
@@ -382,8 +382,8 @@
     {
       "id": "gh_24",
       "name_en": "British Council",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බ්‍රිතාන්‍ය කවුන්සිලය",
+      "name_ta": "பிரிட்டிஷ் கவுன்சில்",
       "lat": 6.899832,
       "lng": 79.855542,
       "source": "github"
@@ -391,8 +391,8 @@
     {
       "id": "gh_25",
       "name_en": "Regal Cinema",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රීගල් සිනමා ශාලාව",
+      "name_ta": "ரீகல் சினிமா",
       "lat": 6.931283,
       "lng": 79.846959,
       "source": "github"
@@ -400,8 +400,8 @@
     {
       "id": "gh_26",
       "name_en": "Slave Island",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සේව්ව දූපත / කොම්පඤ්ඤවීදිය",
+      "name_ta": "கொம்பனித்தெரு",
       "lat": 6.923296,
       "lng": 79.851626,
       "source": "github"
@@ -409,8 +409,8 @@
     {
       "id": "gh_27",
       "name_en": "Town Hall",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නගර ශාලාව",
+      "name_ta": "நகர சபை",
       "lat": 6.916799,
       "lng": 79.863364,
       "source": "github"
@@ -418,8 +418,8 @@
     {
       "id": "gh_28",
       "name_en": "Public Library",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මහජන පුස්තකාලය",
+      "name_ta": "பொது நூலகம்",
       "lat": 6.912869,
       "lng": 79.857945,
       "source": "github"
@@ -427,8 +427,8 @@
     {
       "id": "gh_30",
       "name_en": "Race Course Grounds",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "අශ්ව තරඟ පිටිය",
+      "name_ta": "ரேஸ் கோர்ஸ் மைதானம்",
       "lat": 6.90618,
       "lng": 79.863685,
       "source": "github"
@@ -436,8 +436,8 @@
     {
       "id": "gh_31",
       "name_en": "Campus (Arts Faculty)",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කැම්පස් (කලා පීඨය)",
+      "name_ta": "பல்கலைக்கழகம் (கலைப்பீடம்)",
       "lat": 6.90258,
       "lng": 79.862237,
       "source": "github"
@@ -445,8 +445,8 @@
     {
       "id": "gh_32",
       "name_en": "Campus (near Wycherley)",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කැම්පස් (වයිචර්ලි ළඟ)",
+      "name_ta": "பல்கலைக்கழகம் (வைச்சர்லி அருகில்)",
       "lat": 6.900023,
       "lng": 79.859544,
       "source": "github"
@@ -454,8 +454,8 @@
     {
       "id": "gh_33",
       "name_en": "Thurstan College",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "තර්ස්ටන් විද්‍යාලය",
+      "name_ta": "தர்ஸ்டன் கல்லூரி",
       "lat": 6.905019,
       "lng": 79.858342,
       "source": "github"
@@ -463,8 +463,8 @@
     {
       "id": "gh_34",
       "name_en": "Glass House",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වීදුරු ගෙය",
+      "name_ta": "கிளாஸ் ஹவுஸ்",
       "lat": 6.910941,
       "lng": 79.858342,
       "source": "github"
@@ -472,8 +472,8 @@
     {
       "id": "gh_35",
       "name_en": "Thunmulla",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "තුම්මුල්ල",
+      "name_ta": "தும்முல்ல",
       "lat": 6.896189,
       "lng": 79.860263,
       "source": "github"
@@ -481,8 +481,8 @@
     {
       "id": "gh_36",
       "name_en": "Police Park",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පොලිස් උද්‍යානය",
+      "name_ta": "பொலிஸ் பூங்கா",
       "lat": 6.892876,
       "lng": 79.861979,
       "source": "github"
@@ -490,8 +490,8 @@
     {
       "id": "gh_37",
       "name_en": "Thimbirigasyaya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "තිඹිරිගස්යාය",
+      "name_ta": "திம்பிரிகஸ்யாய",
       "lat": 6.889979,
       "lng": 79.863793,
       "source": "github"
@@ -499,8 +499,8 @@
     {
       "id": "gh_38",
       "name_en": "BRC Grounds",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බී.ආර්.සී. ක්‍රීඩාංගණය",
+      "name_ta": "பி.ஆர்.சி. மைதானம்",
       "lat": 6.887529,
       "lng": 79.864501,
       "source": "github"
@@ -508,8 +508,8 @@
     {
       "id": "gh_39",
       "name_en": "Redimola Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රෙදිමෝල හන්දිය",
+      "name_ta": "ரெடிமோலா சந்தி",
       "lat": 6.883631,
       "lng": 79.868277,
       "source": "github"
@@ -517,8 +517,8 @@
     {
       "id": "gh_40",
       "name_en": "Maya Ave.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මායා ඇවනිව්",
+      "name_ta": "மாயா அவென்யூ",
       "lat": 6.880766,
       "lng": 79.870402,
       "source": "github"
@@ -526,8 +526,8 @@
     {
       "id": "gh_41",
       "name_en": "Kirulapone Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කිරුළපන හන්දිය",
+      "name_ta": "கிருலப்பொன சந்தி",
       "lat": 6.878582,
       "lng": 79.874629,
       "source": "github"
@@ -535,8 +535,8 @@
     {
       "id": "gh_42",
       "name_en": "Kirulapone South",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කිරුළපන දකුණ",
+      "name_ta": "கிருலப்பொன தெற்கு",
       "lat": 6.877719,
       "lng": 79.878631,
       "source": "github"
@@ -544,8 +544,8 @@
     {
       "id": "gh_43",
       "name_en": "Balapokuna Road",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බලපොකුණ පාර",
+      "name_ta": "பாலபொகுன வீதி",
       "lat": 6.873842,
       "lng": 79.881849,
       "source": "github"
@@ -553,8 +553,8 @@
     {
       "id": "gh_44",
       "name_en": "Anula Vidyalaya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "අනුලා විද්‍යාලය",
+      "name_ta": "அனுலா வித்யாலயம்",
       "lat": 6.871946,
       "lng": 79.884317,
       "source": "github"
@@ -562,8 +562,8 @@
     {
       "id": "gh_45",
       "name_en": "Nugegoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නුගේගොඩ",
+      "name_ta": "நுகேகொடை",
       "lat": 6.869315,
       "lng": 79.889628,
       "source": "github"
@@ -571,8 +571,8 @@
     {
       "id": "gh_46",
       "name_en": "Seventh Mile Post",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සත්වන සැතපුම් කණුව",
+      "name_ta": "ஏழாவது மைல்கல்",
       "lat": 6.866855,
       "lng": 79.893297,
       "source": "github"
@@ -580,8 +580,8 @@
     {
       "id": "gh_47",
       "name_en": "Gansabha Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ගන්සභා හන්දිය",
+      "name_ta": "கன்சபா சந்தி",
       "lat": 6.865108,
       "lng": 79.896559,
       "source": "github"
@@ -589,8 +589,8 @@
     {
       "id": "gh_48",
       "name_en": "Delkanda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "දෙල්කඳ",
+      "name_ta": "தெல்கண்ட",
       "lat": 6.862818,
       "lng": 79.901794,
       "source": "github"
@@ -598,8 +598,8 @@
     {
       "id": "gh_49",
       "name_en": "Wijerama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "විජේරාම",
+      "name_ta": "விஜேராம",
       "lat": 6.857641,
       "lng": 79.908607,
       "source": "github"
@@ -607,8 +607,8 @@
     {
       "id": "gh_50",
       "name_en": "Navinna",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නාවින්න",
+      "name_ta": "நாவின்ன",
       "lat": 6.855105,
       "lng": 79.913392,
       "source": "github"
@@ -616,8 +616,8 @@
     {
       "id": "gh_52",
       "name_en": "Wattegedara Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වත්තේගෙදර හන්දිය",
+      "name_ta": "வத்தேகெதர சந்தி",
       "lat": 6.851228,
       "lng": 79.921106,
       "source": "github"
@@ -625,8 +625,8 @@
     {
       "id": "gh_53",
       "name_en": "Maharagama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මහරගම",
+      "name_ta": "மகரகம",
       "lat": 6.846083,
       "lng": 79.928144,
       "source": "github"
@@ -634,8 +634,8 @@
     {
       "id": "gh_74",
       "name_en": "Sugathadasa Stadium",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සුගතදාස ක්‍රීඩාංගණය",
+      "name_ta": "சுகதாச மைதானம்",
       "lat": 6.946662,
       "lng": 79.869146,
       "source": "github"
@@ -643,8 +643,8 @@
     {
       "id": "gh_75",
       "name_en": "Armour Street",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ආමර් වීදිය",
+      "name_ta": "ஆமர் தெரு",
       "lat": 6.943425,
       "lng": 79.864254,
       "source": "github"
@@ -652,8 +652,8 @@
     {
       "id": "gh_76",
       "name_en": "Ananda College",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ආනන්ද විද්‍යාලය",
+      "name_ta": "ஆனந்த கல்லூரி",
       "lat": 6.924499,
       "lng": 79.868031,
       "source": "github"
@@ -661,8 +661,8 @@
     {
       "id": "gh_77",
       "name_en": "Maradana",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මරදාන",
+      "name_ta": "மருதானை",
       "lat": 6.928237,
       "lng": 79.864619,
       "source": "github"
@@ -670,8 +670,8 @@
     {
       "id": "gh_78",
       "name_en": "Castle Street Hospital",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කාසල් වීදිය රෝහල",
+      "name_ta": "காசில் தெரு வைத்தியசாலை",
       "lat": 6.910973,
       "lng": 79.88525,
       "source": "github"
@@ -679,8 +679,8 @@
     {
       "id": "gh_79",
       "name_en": "Devi Balika Vidyalaya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "දේවි බාලිකා විද්‍යාලය",
+      "name_ta": "தேவி பாலிகா வித்யாலயம்",
       "lat": 6.911015,
       "lng": 79.882118,
       "source": "github"
@@ -688,8 +688,8 @@
     {
       "id": "gh_80",
       "name_en": "Alwis Place, Kollupitiya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ඇල්විස් පෙදෙස, කොල්ලුපිටිය",
+      "name_ta": "ஆல்விஸ் பிளேஸ், கொள்ளுப்பிட்டி",
       "lat": 6.912645,
       "lng": 79.853911,
       "source": "github"
@@ -697,8 +697,8 @@
     {
       "id": "gh_81",
       "name_en": "Arts Fac. Horton Place",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කලා පීඨය, හෝටන් පෙදෙස",
+      "name_ta": "கலைப்பீடம், ஹோர்ட்டன் பிளேஸ்",
       "lat": 6.911548,
       "lng": 79.868717,
       "source": "github"
@@ -706,8 +706,8 @@
     {
       "id": "gh_82",
       "name_en": "Green Path",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හරිත පෙත",
+      "name_ta": "கிரீன் பாத்",
       "lat": 6.911729,
       "lng": 79.862012,
       "source": "github"
@@ -715,8 +715,8 @@
     {
       "id": "gh_83",
       "name_en": "Stratford Avenue",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ස්ට්‍රැට්ෆර්ඩ් ඇවනිව්",
+      "name_ta": "ஸ்ட்ரட்போர்ட் அவென்யூ",
       "lat": 6.877613,
       "lng": 79.873019,
       "source": "github"
@@ -724,8 +724,8 @@
     {
       "id": "gh_84",
       "name_en": "Kirulapone Ave.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කිරුළපන ඇවනිව්",
+      "name_ta": "கிருலப்பொன அவென்யூ",
       "lat": 6.882694,
       "lng": 79.875573,
       "source": "github"
@@ -733,8 +733,8 @@
     {
       "id": "gh_85",
       "name_en": "Suwisuddharamaya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සුවිසුද්ධාරාමය",
+      "name_ta": "சுவிசுத்தாராமய",
       "lat": 6.880127,
       "lng": 79.869554,
       "source": "github"
@@ -742,8 +742,8 @@
     {
       "id": "gh_86",
       "name_en": "Sapphire Halt",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සැෆයර් නැවතුම",
+      "name_ta": "சப்பயர் நிறுத்தம்",
       "lat": 6.876697,
       "lng": 79.866421,
       "source": "github"
@@ -751,8 +751,8 @@
     {
       "id": "gh_87",
       "name_en": "Pamankada",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පාමංකඩ",
+      "name_ta": "பாமங்கடை",
       "lat": 6.876984,
       "lng": 79.869661,
       "source": "github"
@@ -760,8 +760,8 @@
     {
       "id": "gh_88",
       "name_en": "Vijaya Kumaratunge Mw.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "විජය කුමාරතුංග මාවත",
+      "name_ta": "விஜய குமாரதுங்க மாவத்தை",
       "lat": 6.885527,
       "lng": 79.876742,
       "source": "github"
@@ -769,8 +769,8 @@
     {
       "id": "gh_89",
       "name_en": "Apollo Hospital",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ඇපොලෝ රෝහල",
+      "name_ta": "அப்பல்லோ வைத்தியசாலை",
       "lat": 6.889223,
       "lng": 79.876893,
       "source": "github"
@@ -778,8 +778,8 @@
     {
       "id": "gh_90",
       "name_en": "Narahenpita Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නාරාහේන්පිට හන්දිය",
+      "name_ta": "நாரஹேன்பிட்ட சந்தி",
       "lat": 6.891886,
       "lng": 79.877011,
       "source": "github"
@@ -787,8 +787,8 @@
     {
       "id": "gh_100",
       "name_en": "Borella",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බොරැල්ල",
+      "name_ta": "பொரெல்ல",
       "lat": 6.914743,
       "lng": 79.877601,
       "source": "github"
@@ -796,8 +796,8 @@
     {
       "id": "gh_101",
       "name_en": "Horton Place - Baseline Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හෝටන් පෙදෙස - බේස්ලයින් හන්දිය",
+      "name_ta": "ஹோர்ட்டன் பிளேஸ் - பேஸ்லைன் சந்தி",
       "lat": 6.91126,
       "lng": 79.877472,
       "source": "github"
@@ -805,8 +805,8 @@
     {
       "id": "gh_102",
       "name_en": "Borella Cemetery Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බොරැල්ල සුසාන භූමි හන්දිය",
+      "name_ta": "பொரெல்ல கல்லறைத்தோட்டம் சந்தி",
       "lat": 6.908587,
       "lng": 79.877279,
       "source": "github"
@@ -814,8 +814,8 @@
     {
       "id": "gh_103",
       "name_en": "Sarana Road",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සරණ මාවත",
+      "name_ta": "சரண வீதி",
       "lat": 6.905583,
       "lng": 79.87347,
       "source": "github"
@@ -823,8 +823,8 @@
     {
       "id": "gh_104",
       "name_en": "Maitland Place",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මේට්ලන්ඩ් පෙදෙස",
+      "name_ta": "மெய்ட்லாண்ட் பிளேஸ்",
       "lat": 6.902899,
       "lng": 79.870487,
       "source": "github"
@@ -832,8 +832,8 @@
     {
       "id": "gh_201",
       "name_en": "Delmon Hospital",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ඩෙල්මන් රෝහල",
+      "name_ta": "டெல்மன் வைத்தியசாலை",
       "lat": 6.870711,
       "lng": 79.86206,
       "source": "github"
@@ -841,8 +841,8 @@
     {
       "id": "gh_202",
       "name_en": "Ramakrishna Road",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රාමකෘෂ්ණ පාර",
+      "name_ta": "ராமகிருஷ்ண வீதி",
       "lat": 6.865896,
       "lng": 79.863047,
       "source": "github"
@@ -850,8 +850,8 @@
     {
       "id": "gh_203",
       "name_en": "William Grinding Mills",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "විලියම් ග්‍රයින්ඩිං මිල්ස්",
+      "name_ta": "வில்லியம் கிரைண்டிங் மில்ஸ்",
       "lat": 6.862514,
       "lng": 79.863766,
       "source": "github"
@@ -859,8 +859,8 @@
     {
       "id": "gh_204",
       "name_en": "Dehiwala Municipal Council",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "දෙහිවල මහ නගර සභාව",
+      "name_ta": "தெஹிவளை நகர சபை",
       "lat": 6.861033,
       "lng": 79.864125,
       "source": "github"
@@ -868,8 +868,8 @@
     {
       "id": "gh_206",
       "name_en": "Holy Family Convent, Dehiwala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හෝලි ෆැමිලි කොන්වෙන්ට්, දෙහිවල",
+      "name_ta": "ஹோலி ஃபேமிலி கான்வென்ட், தெஹிவளை",
       "lat": 6.857172,
       "lng": 79.865016,
       "source": "github"
@@ -877,8 +877,8 @@
     {
       "id": "gh_207",
       "name_en": "Dehiwala Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "දෙහිවල හන්දිය",
+      "name_ta": "தெஹிவளை சந்தி",
       "lat": 6.850823,
       "lng": 79.865992,
       "source": "github"
@@ -886,8 +886,8 @@
     {
       "id": "gh_208",
       "name_en": "Dehiwala Cemetery",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "දෙහිවල සුසාන භූමිය",
+      "name_ta": "தெஹிவளை கல்லறைத்தோட்டம்",
       "lat": 6.844933,
       "lng": 79.866217,
       "source": "github"
@@ -895,8 +895,8 @@
     {
       "id": "gh_209",
       "name_en": "Hotel Road, Mt. Lavinia",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හෝටල් පාර, ගල්කිස්ස",
+      "name_ta": "ஹோட்டல் வீதி, கல்கிஸ்ஸை",
       "lat": 6.841971,
       "lng": 79.866904,
       "source": "github"
@@ -904,8 +904,8 @@
     {
       "id": "gh_211",
       "name_en": "Mount Lavinia Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ගල්කිස්ස හන්දිය",
+      "name_ta": "கல்கிஸ்ஸை சந்தி",
       "lat": 6.832959,
       "lng": 79.867301,
       "source": "github"
@@ -913,8 +913,8 @@
     {
       "id": "gh_212",
       "name_en": "Maliban Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මාලිබන් හන්දිය",
+      "name_ta": "மாலிபன் சந்தி",
       "lat": 6.81943,
       "lng": 79.873706,
       "source": "github"
@@ -922,8 +922,8 @@
     {
       "id": "gh_213",
       "name_en": "Belekkade Junc., Rathmalana",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බෙලෙක්කඩේ හන්දිය, රත්මලාන",
+      "name_ta": "பெலெக்கடே சந்தி, ரத்மலானை",
       "lat": 6.814743,
       "lng": 79.87877,
       "source": "github"
@@ -931,8 +931,8 @@
     {
       "id": "gh_214",
       "name_en": "Rathmalana Airport",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රත්මලාන ගුවන් තොටුපල",
+      "name_ta": "ரத்மலானை விமான நிலையம்",
       "lat": 6.812442,
       "lng": 79.881152,
       "source": "github"
@@ -940,8 +940,8 @@
     {
       "id": "gh_215",
       "name_en": "Soysapura",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සොයිසාපුර",
+      "name_ta": "சொய்சாபுர",
       "lat": 6.804622,
       "lng": 79.886688,
       "source": "github"
@@ -949,8 +949,8 @@
     {
       "id": "gh_216",
       "name_en": "Katubedda Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කටුබැද්ද හන්දිය",
+      "name_ta": "கட்டுபெத்த சந்தி",
       "lat": 6.797325,
       "lng": 79.888533,
       "source": "github"
@@ -958,8 +958,8 @@
     {
       "id": "gh_217",
       "name_en": "Rawatawatta",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රාවතාවත්ත",
+      "name_ta": "ராவத்தாவத்தை",
       "lat": 6.788035,
       "lng": 79.885111,
       "source": "github"
@@ -967,8 +967,8 @@
     {
       "id": "gh_218",
       "name_en": "Moratuwa",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මොරටුව",
+      "name_ta": "மொரட்டுவை",
       "lat": 6.774494,
       "lng": 79.88245,
       "source": "github"
@@ -976,8 +976,8 @@
     {
       "id": "gh_219",
       "name_en": "Panadura",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පානදුර",
+      "name_ta": "பாணந்துறை",
       "lat": 6.711376,
       "lng": 79.907609,
       "source": "github"
@@ -985,8 +985,8 @@
     {
       "id": "gh_220",
       "name_en": "Angulana",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "අංගුලාන",
+      "name_ta": "அங்குலானா",
       "lat": 6.798188,
       "lng": 79.873009,
       "source": "github"
@@ -994,8 +994,8 @@
     {
       "id": "gh_230",
       "name_en": "Dutugemunu Street",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "දුටුගැමුණු වීදිය",
+      "name_ta": "துட்டகைமுனு தெரு",
       "lat": 6.870593,
       "lng": 79.877359,
       "source": "github"
@@ -1003,8 +1003,8 @@
     {
       "id": "gh_231",
       "name_en": "Kohuwala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කොහුවල",
+      "name_ta": "கொகுவல",
       "lat": 6.867068,
       "lng": 79.884574,
       "source": "github"
@@ -1012,8 +1012,8 @@
     {
       "id": "gh_232",
       "name_en": "Woodlands",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වුඩ්ලන්ඩ්ස්",
+      "name_ta": "வுட்லாண்ட்ஸ்",
       "lat": 6.862301,
       "lng": 79.888394,
       "source": "github"
@@ -1021,8 +1021,8 @@
     {
       "id": "gh_233",
       "name_en": "Pepiliyana",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පැපිලියාන",
+      "name_ta": "பேபிலியான",
       "lat": 6.856661,
       "lng": 79.890647,
       "source": "github"
@@ -1030,8 +1030,8 @@
     {
       "id": "gh_234",
       "name_en": "Raththanapitiya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රත්තනපිටිය",
+      "name_ta": "ரத்தனப்பிட்டி",
       "lat": 6.848336,
       "lng": 79.897599,
       "source": "github"
@@ -1039,8 +1039,8 @@
     {
       "id": "gh_235",
       "name_en": "Boralesgamuwa",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බොරලැස්ගමුව",
+      "name_ta": "பொரலஸ்கமுவ",
       "lat": 6.841242,
       "lng": 79.901612,
       "source": "github"
@@ -1048,8 +1048,8 @@
     {
       "id": "gh_236",
       "name_en": "Werahera",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වේරහැර",
+      "name_ta": "வேரஹெர",
       "lat": 6.829721,
       "lng": 79.911391,
       "source": "github"
@@ -1057,8 +1057,8 @@
     {
       "id": "gh_237",
       "name_en": "Bokundara",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බොකුන්දර",
+      "name_ta": "பொகுந்தர",
       "lat": 6.818621,
       "lng": 79.917727,
       "source": "github"
@@ -1066,8 +1066,8 @@
     {
       "id": "gh_238",
       "name_en": "Piliyandala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිළියන්දල",
+      "name_ta": "பிலியண்டல",
       "lat": 6.801219,
       "lng": 79.923338,
       "source": "github"
@@ -1075,8 +1075,8 @@
     {
       "id": "gh_239",
       "name_en": "Kesbewa",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කැස්බෑව",
+      "name_ta": "கெஸ்பேவ",
       "lat": 6.795519,
       "lng": 79.940804,
       "source": "github"
@@ -1084,8 +1084,8 @@
     {
       "id": "gh_240",
       "name_en": "Polgasovita",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පොල්ගස්ඕවිට",
+      "name_ta": "பொல்கசோவிட்ட",
       "lat": 6.78698,
       "lng": 79.964896,
       "source": "github"
@@ -1093,8 +1093,8 @@
     {
       "id": "gh_241",
       "name_en": "Kahathuduwa",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කහතුඩුව",
+      "name_ta": "கஹதுடுவ",
       "lat": 6.783465,
       "lng": 79.983408,
       "source": "github"
@@ -1102,8 +1102,8 @@
     {
       "id": "gh_242",
       "name_en": "Horana",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හොරණ",
+      "name_ta": "ஹொரண",
       "lat": 6.716624,
       "lng": 80.063826,
       "source": "github"
@@ -1111,8 +1111,8 @@
     {
       "id": "gh_244",
       "name_en": "Panagoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පානගොඩ",
+      "name_ta": "பானகொடை",
       "lat": 6.848267,
       "lng": 80.018798,
       "source": "github"
@@ -1120,8 +1120,8 @@
     {
       "id": "gh_245",
       "name_en": "Godagama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ගෝදගම",
+      "name_ta": "கோதகம",
       "lat": 6.851478,
       "lng": 80.031608,
       "source": "github"
@@ -1129,8 +1129,8 @@
     {
       "id": "gh_246",
       "name_en": "Migoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මීගොඩ",
+      "name_ta": "மீகொடை",
       "lat": 6.84423,
       "lng": 80.046719,
       "source": "github"
@@ -1138,8 +1138,8 @@
     {
       "id": "gh_247",
       "name_en": "Padukka",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පාදුක්ක",
+      "name_ta": "பாதுக்கா",
       "lat": 6.841465,
       "lng": 80.090777,
       "source": "github"
@@ -1147,8 +1147,8 @@
     {
       "id": "gh_248",
       "name_en": "Handapangoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හඳපාන්ගොඩ",
+      "name_ta": "ஹந்தபாங்கொடை",
       "lat": 6.792339,
       "lng": 80.142624,
       "source": "github"
@@ -1156,8 +1156,8 @@
     {
       "id": "gh_249",
       "name_en": "Ingiriya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ඉංගිරිය",
+      "name_ta": "இங்கிரிய",
       "lat": 6.743991,
       "lng": 80.176613,
       "source": "github"
@@ -1165,8 +1165,8 @@
     {
       "id": "gh_251",
       "name_en": "Pannipitiya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පන්නිපිටිය",
+      "name_ta": "பன்னிப்பிட்டி",
       "lat": 6.8462,
       "lng": 79.949698,
       "source": "github"
@@ -1174,8 +1174,8 @@
     {
       "id": "gh_252",
       "name_en": "Kottawa",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කොට්ටාව",
+      "name_ta": "கொட்டாவை",
       "lat": 6.841673,
       "lng": 79.963989,
       "source": "github"
@@ -1183,8 +1183,8 @@
     {
       "id": "gh_253",
       "name_en": "Makumbura",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මාකුඹුර",
+      "name_ta": "மாகும்புற",
       "lat": 6.838616,
       "lng": 79.979954,
       "source": "github"
@@ -1192,8 +1192,8 @@
     {
       "id": "gh_254",
       "name_en": "Homagama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හෝමාගම",
+      "name_ta": "ஹோமாகம",
       "lat": 6.84113,
       "lng": 80.002012,
       "source": "github"
@@ -1201,8 +1201,8 @@
     {
       "id": "gh_255",
       "name_en": "Kottawa Railway Station",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කොට්ටාව දුම්රිය ස්ථානය",
+      "name_ta": "கொட்டாவை ரயில் நிலையம்",
       "lat": 6.844006,
       "lng": 79.968152,
       "source": "github"
@@ -1210,8 +1210,8 @@
     {
       "id": "gh_256",
       "name_en": "Rukmalgama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රුක්මල්ගම",
+      "name_ta": "ருக்மல்கம",
       "lat": 6.856916,
       "lng": 79.985855,
       "source": "github"
@@ -1219,8 +1219,8 @@
     {
       "id": "gh_257",
       "name_en": "Walgama Junc., Athurugiriya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වල්ගම හන්දිය, අතුරුගිරිය",
+      "name_ta": "வல்கம சந்தி, அதுருகிரிய",
       "lat": 6.864948,
       "lng": 79.995832,
       "source": "github"
@@ -1228,8 +1228,8 @@
     {
       "id": "gh_258",
       "name_en": "Athurugiriya Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "අතුරුගිරිය හන්දිය",
+      "name_ta": "அதுருகிரிய சந்தி",
       "lat": 6.877453,
       "lng": 79.989502,
       "source": "github"
@@ -1237,8 +1237,8 @@
     {
       "id": "gh_259",
       "name_en": "Pinhena Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිංහේන හන්දිය",
+      "name_ta": "பின்ஹேன சந்தி",
       "lat": 6.832778,
       "lng": 79.964654,
       "source": "github"
@@ -1246,8 +1246,8 @@
     {
       "id": "gh_260",
       "name_en": "Mattegoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මත්තේගොඩ",
+      "name_ta": "மத்தேகொடை",
       "lat": 6.811579,
       "lng": 79.975083,
       "source": "github"
@@ -1255,8 +1255,8 @@
     {
       "id": "gh_271",
       "name_en": "Open University, Nawala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "විවෘත විශ්වවිද්‍යාලය, නාවල",
+      "name_ta": "திறந்த பல்கலைக்கழகம், நாவல",
       "lat": 6.883024,
       "lng": 79.886795,
       "source": "github"
@@ -1264,8 +1264,8 @@
     {
       "id": "gh_272",
       "name_en": "Nawala Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නාවල හන්දිය",
+      "name_ta": "நாவல சந்தி",
       "lat": 6.887029,
       "lng": 79.887203,
       "source": "github"
@@ -1273,8 +1273,8 @@
     {
       "id": "gh_273",
       "name_en": "Koswatte, Nawala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කොස්වත්ත, නාවල",
+      "name_ta": "கொஸ்வத்தை, நாவல",
       "lat": 6.900034,
       "lng": 79.893994,
       "source": "github"
@@ -1282,8 +1282,8 @@
     {
       "id": "gh_274",
       "name_en": "Bellanthota Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බෙල්ලන්තොට හන්දිය",
+      "name_ta": "பெல்லந்தோட்டை சந்தி",
       "lat": 6.848315,
       "lng": 79.885433,
       "source": "github"
@@ -1291,8 +1291,8 @@
     {
       "id": "gh_275",
       "name_en": "Nandimala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නන්දිමාල",
+      "name_ta": "நந்திமால",
       "lat": 6.849859,
       "lng": 79.879398,
       "source": "github"
@@ -1300,8 +1300,8 @@
     {
       "id": "gh_276",
       "name_en": "Karagampitiya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කරගම්පිටිය",
+      "name_ta": "கரகம்பிட்டி",
       "lat": 6.850253,
       "lng": 79.872022,
       "source": "github"
@@ -1309,8 +1309,8 @@
     {
       "id": "gh_277",
       "name_en": "Kalubowila Hospital",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කළුබෝවිල රෝහල",
+      "name_ta": "களுபொவில வைத்தியசாலை",
       "lat": 6.866466,
       "lng": 79.8773,
       "source": "github"
@@ -1318,8 +1318,8 @@
     {
       "id": "gh_278",
       "name_en": "Nugegoda Supermarket",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නුගේගොඩ සුපිරි වෙළඳසල",
+      "name_ta": "நுகேகொடை சூப்பர் மார்கெட்",
       "lat": 6.873469,
       "lng": 79.891355,
       "source": "github"
@@ -1327,8 +1327,8 @@
     {
       "id": "gh_279",
       "name_en": "Pita Kotte",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිට කෝට්ටේ",
+      "name_ta": "பிட கோட்டே",
       "lat": 6.883897,
       "lng": 79.901891,
       "source": "github"
@@ -1336,8 +1336,8 @@
     {
       "id": "gh_280",
       "name_en": "Impala Cinema, Rajagiriya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ඉම්පාලා සිනමා, රාජගිරිය",
+      "name_ta": "இம்பாலா சினிமா, ராஜகிரிய",
       "lat": 6.910973,
       "lng": 79.890743,
       "source": "github"
@@ -1345,8 +1345,8 @@
     {
       "id": "gh_281",
       "name_en": "Rajagiriya Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "රාජගිරිය හන්දිය",
+      "name_ta": "ராஜகிரிய சந்தி",
       "lat": 6.910121,
       "lng": 79.894434,
       "source": "github"
@@ -1354,8 +1354,8 @@
     {
       "id": "gh_282",
       "name_en": "Ethul Kotte Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ඇතුල් කෝට්ටේ හන්දිය",
+      "name_ta": "எதுல் கோட்டே சந்தி",
       "lat": 6.905509,
       "lng": 79.905217,
       "source": "github"
@@ -1363,8 +1363,8 @@
     {
       "id": "gh_283",
       "name_en": "Sethsiripaya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "සෙත්සිරිපාය",
+      "name_ta": "செத்சிரிபாய",
       "lat": 6.902441,
       "lng": 79.914347,
       "source": "github"
@@ -1372,8 +1372,8 @@
     {
       "id": "gh_284",
       "name_en": "Battaramulla",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "බත්තරමුල්ල",
+      "name_ta": "பத்தரமுல்ல",
       "lat": 6.90209,
       "lng": 79.918059,
       "source": "github"
@@ -1381,8 +1381,8 @@
     {
       "id": "gh_285",
       "name_en": "Thalangama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "තලංගම",
+      "name_ta": "தலங்கம",
       "lat": 6.905967,
       "lng": 79.926234,
       "source": "github"
@@ -1390,8 +1390,8 @@
     {
       "id": "gh_286",
       "name_en": "Thalahena",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "තලහේන",
+      "name_ta": "தலஹேன",
       "lat": 6.908012,
       "lng": 79.944999,
       "source": "github"
@@ -1399,8 +1399,8 @@
     {
       "id": "gh_287",
       "name_en": "Malabe",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "මාලබේ",
+      "name_ta": "மாலபே",
       "lat": 6.904081,
       "lng": 79.954408,
       "source": "github"
@@ -1408,8 +1408,8 @@
     {
       "id": "gh_288",
       "name_en": "Pittugala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිට්ටුගල",
+      "name_ta": "பிட்டுகல",
       "lat": 6.908693,
       "lng": 79.969289,
       "source": "github"
@@ -1417,8 +1417,8 @@
     {
       "id": "gh_289",
       "name_en": "SLIIT, Malabe",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ශ්‍රී ලංකා තොරතුරු තාක්ෂණ ආයතනය, මාලබේ",
+      "name_ta": "SLIIT, மாலபே",
       "lat": 6.914711,
       "lng": 79.972175,
       "source": "github"
@@ -1426,8 +1426,8 @@
     {
       "id": "gh_290",
       "name_en": "Kaduwela",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කඩුවෙල",
+      "name_ta": "கடுவெல",
       "lat": 6.935703,
       "lng": 79.984245,
       "source": "github"
@@ -1435,8 +1435,8 @@
     {
       "id": "gh_291",
       "name_en": "Thalawathugoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "තලවතුගොඩ",
+      "name_ta": "தலவத்துகொடை",
       "lat": 6.876281,
       "lng": 79.935343,
       "source": "github"
@@ -1444,8 +1444,8 @@
     {
       "id": "gh_292",
       "name_en": "Pelawatta/Isurupaya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පැලවත්ත / ඉසුරුපාය",
+      "name_ta": "பெலவத்தை / இசுருபாய",
       "lat": 6.890597,
       "lng": 79.928927,
       "source": "github"
@@ -1453,8 +1453,8 @@
     {
       "id": "gh_295",
       "name_en": "Peliyagoda Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පේලියගොඩ හන්දිය",
+      "name_ta": "பேலியகொடை சந்தி",
       "lat": 6.955758,
       "lng": 79.883115,
       "source": "github"
@@ -1462,8 +1462,8 @@
     {
       "id": "gh_296",
       "name_en": "Nawaloka Junc.",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "නවලෝක හන්දිය",
+      "name_ta": "நவலோக சந்தி",
       "lat": 6.960678,
       "lng": 79.880841,
       "source": "github"
@@ -1471,8 +1471,8 @@
     {
       "id": "gh_297",
       "name_en": "Wattala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වත්තල",
+      "name_ta": "வத்தளை",
       "lat": 6.981253,
       "lng": 79.888029,
       "source": "github"
@@ -1480,8 +1480,8 @@
     {
       "id": "gh_298",
       "name_en": "Handala",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "හඳල",
+      "name_ta": "ஹந்தல",
       "lat": 6.990688,
       "lng": 79.893136,
       "source": "github"
@@ -1489,8 +1489,8 @@
     {
       "id": "gh_299",
       "name_en": "Welisara",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "වැලිසර",
+      "name_ta": "வெலிசர",
       "lat": 7.021782,
       "lng": 79.899552,
       "source": "github"
@@ -1498,8 +1498,8 @@
     {
       "id": "gh_300",
       "name_en": "Kandana",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කඳාන",
+      "name_ta": "கண்டானை",
       "lat": 7.047827,
       "lng": 79.897041,
       "source": "github"
@@ -1507,8 +1507,8 @@
     {
       "id": "gh_301",
       "name_en": "Kapuwatta",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කපුවත්ත",
+      "name_ta": "கபுவத்தை",
       "lat": 7.064012,
       "lng": 79.893222,
       "source": "github"
@@ -1516,8 +1516,8 @@
     {
       "id": "gh_302",
       "name_en": "Ja-Ela",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "ජා-ඇල",
+      "name_ta": "ஜா-எல",
       "lat": 7.078236,
       "lng": 79.89054,
       "source": "github"
@@ -1525,8 +1525,8 @@
     {
       "id": "gh_303",
       "name_en": "Katunayake Airport",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "කටුනායක ගුවන් තොටුපල",
+      "name_ta": "கட்டுநாயக்க விமான நிலையம்",
       "lat": 7.16564,
       "lng": 79.884059,
       "source": "github"

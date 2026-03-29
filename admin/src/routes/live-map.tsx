@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
-import { MapView } from '@/components/shared/map-view';
+import { Map, MapMarker, MarkerContent, MarkerTooltip, MapControls } from '@/components/ui/map';
 import { fetchActiveBuses } from '@/lib/api-functions';
 import type { Vehicle } from '@/lib/types';
 
@@ -23,14 +23,13 @@ function LiveMapPage() {
   const buses: Vehicle[] = busData?.buses ?? [];
   const busCount = busData?.count ?? 0;
 
-  const busesByRoute = new Map<string, Vehicle[]>();
+  const busesByRoute: Record<string, Vehicle[]> = {};
   buses.forEach((bus) => {
-    const group = busesByRoute.get(bus.route_id) ?? [];
-    group.push(bus);
-    busesByRoute.set(bus.route_id, group);
+    if (!busesByRoute[bus.route_id]) busesByRoute[bus.route_id] = [];
+    busesByRoute[bus.route_id].push(bus);
   });
 
-  const sortedRoutes = Array.from(busesByRoute.entries()).sort(
+  const sortedRoutes = Object.entries(busesByRoute).sort(
     (a, b) => b[1].length - a[1].length,
   );
 
@@ -38,18 +37,23 @@ function LiveMapPage() {
     <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
       {/* Map Area */}
       <div className="flex-1 relative">
-        <MapView
-          className="h-full w-full"
-          buses={buses.map((b) => ({
-            lat: b.lat,
-            lng: b.lng,
-            id: b.virtual_id,
-            routeId: b.route_id,
-            confidence: b.confidence,
-          }))}
-          center={[79.8612, 6.9271]}
-          zoom={10}
-        />
+        <Map center={[79.8612, 6.9271]} zoom={10}>
+          <MapControls showZoom showLocate showFullscreen />
+          {buses.map((b) => {
+            const color = b.confidence === 'verified' ? '#22c55e' : b.confidence === 'good' ? '#f59e0b' : '#ef4444';
+            return (
+              <MapMarker key={b.virtual_id} longitude={b.lng} latitude={b.lat}>
+                <MarkerContent>
+                  <div className="size-4 rounded border-2 border-white shadow-md" style={{ background: color }} />
+                </MarkerContent>
+                <MarkerTooltip>
+                  <div>Bus {b.virtual_id}</div>
+                  <div>Route: {b.route_id} · {b.speed_kmh.toFixed(0)} km/h</div>
+                </MarkerTooltip>
+              </MapMarker>
+            );
+          })}
+        </Map>
 
         {/* Floating stats */}
         <div className="absolute top-4 left-4 bg-card/90 backdrop-blur rounded-lg border p-3 shadow-lg z-10">
@@ -73,7 +77,7 @@ function LiveMapPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 gap-2 p-4 border-b">
           <MiniStat icon={RiBusLine} label="Buses" value={busCount} loading={isLoading} />
-          <MiniStat icon={RiSignalWifiLine} label="Routes" value={busesByRoute.size} loading={isLoading} />
+          <MiniStat icon={RiSignalWifiLine} label="Routes" value={Object.keys(busesByRoute).length} loading={isLoading} />
         </div>
 
         {/* Bus list by route */}
@@ -89,7 +93,7 @@ function LiveMapPage() {
               No active buses
             </div>
           ) : (
-            sortedRoutes.map(([routeId, routeBuses]) => (
+            sortedRoutes.map(([routeId, routeBuses]: [string, Vehicle[]]) => (
               <div key={routeId}>
                 <div className="px-4 py-2 bg-muted/50 flex items-center justify-between">
                   <span className="text-sm font-medium">Route {routeId}</span>
@@ -97,7 +101,7 @@ function LiveMapPage() {
                     {routeBuses.length} bus{routeBuses.length > 1 ? 'es' : ''}
                   </Badge>
                 </div>
-                {routeBuses.map((bus) => (
+                {routeBuses.map((bus: Vehicle) => (
                   <div key={bus.virtual_id} className="px-4 py-2 border-b last:border-b-0">
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs">{bus.virtual_id}</span>
