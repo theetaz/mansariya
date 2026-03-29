@@ -69,3 +69,4 @@ admin/.env
 *.env.mk
 *.env.make
 .superpowers/
+docs/superpowers/
