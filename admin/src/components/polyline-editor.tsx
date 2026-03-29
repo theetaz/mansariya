@@ -52,10 +52,18 @@ function generateControlPoints(polyline: [number, number][], targetCount = 25): 
   return points;
 }
 
-function findNearestPolylineIndex(polyline: [number, number][], lng: number, lat: number): number {
+function findNearestPolylineIndex(
+  polyline: [number, number][],
+  lng: number,
+  lat: number,
+  excludeNear?: number, // if set, skip indices within ±minGap of this index
+  minGap = 20,
+): number {
   let minDist = Infinity;
   let bestIdx = 0;
   for (let i = 0; i < polyline.length; i++) {
+    // Skip indices too close to the excluded index
+    if (excludeNear !== undefined && Math.abs(i - excludeNear) < minGap) continue;
     const d = (polyline[i][0] - lng) ** 2 + (polyline[i][1] - lat) ** 2;
     if (d < minDist) {
       minDist = d;
@@ -304,6 +312,7 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
             enabled={isInCutMode}
             polyline={workingPolyline}
             cutMode={cutMode}
+            cutStartIdx={cutStartIdx}
             onStartPicked={(idx) => {
               setCutStartIdx(idx);
               setCutMode('pick-end');
@@ -388,10 +397,11 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
 }
 
 // Handles map clicks for the cut tool
-function CutClickHandler({ enabled, polyline, cutMode, onStartPicked, onEndPicked }: {
+function CutClickHandler({ enabled, polyline, cutMode, cutStartIdx, onStartPicked, onEndPicked }: {
   enabled: boolean;
   polyline: [number, number][];
   cutMode: CutMode;
+  cutStartIdx: number | null;
   onStartPicked: (idx: number) => void;
   onEndPicked: (idx: number) => void;
 }) {
@@ -400,6 +410,8 @@ function CutClickHandler({ enabled, polyline, cutMode, onStartPicked, onEndPicke
   polylineRef.current = polyline;
   const cutModeRef = useRef(cutMode);
   cutModeRef.current = cutMode;
+  const cutStartRef = useRef(cutStartIdx);
+  cutStartRef.current = cutStartIdx;
   const startRef = useRef(onStartPicked);
   startRef.current = onStartPicked;
   const endRef = useRef(onEndPicked);
@@ -410,10 +422,12 @@ function CutClickHandler({ enabled, polyline, cutMode, onStartPicked, onEndPicke
 
     const handler = (e: { lngLat: { lat: number; lng: number } }) => {
       if (!enabled) return;
-      const idx = findNearestPolylineIndex(polylineRef.current, e.lngLat.lng, e.lngLat.lat);
       if (cutModeRef.current === 'pick-start') {
+        const idx = findNearestPolylineIndex(polylineRef.current, e.lngLat.lng, e.lngLat.lat);
         startRef.current(idx);
       } else if (cutModeRef.current === 'pick-end') {
+        // For end point, exclude indices near the start to avoid picking the same leg
+        const idx = findNearestPolylineIndex(polylineRef.current, e.lngLat.lng, e.lngLat.lat, cutStartRef.current ?? undefined);
         endRef.current(idx);
       }
     };
