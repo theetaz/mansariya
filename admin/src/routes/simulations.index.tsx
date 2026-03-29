@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { type ColumnDef } from '@tanstack/react-table';
@@ -11,6 +12,16 @@ import {
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,6 +52,7 @@ const statusConfig: Record<SimulationStatus, { label: string; variant: 'default'
 };
 
 function SimulationsPage() {
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ['simulations'],
@@ -158,7 +170,7 @@ function SimulationsPage() {
                 <DropdownMenuItem
                   className="text-destructive"
                   disabled={sim.status === 'running' || sim.status === 'paused'}
-                  onClick={() => deleteMut.mutate(sim.id)}
+                  onClick={() => setDeleteTarget({ id: sim.id, name: sim.name })}
                 >
                   Delete
                 </DropdownMenuItem>
@@ -193,6 +205,30 @@ function SimulationsPage() {
         searchPlaceholder="Search simulations..."
         isLoading={isLoading}
       />
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => { if (!open) setDeleteTarget(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete simulation?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete <strong>{deleteTarget?.name}</strong> and all its vehicle configurations. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                if (deleteTarget) deleteMut.mutate(deleteTarget.id);
+                setDeleteTarget(null);
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
