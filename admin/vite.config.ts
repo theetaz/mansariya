@@ -1,34 +1,36 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
-import path from 'path'
+import path from "path"
+import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react"
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
+import { defineConfig } from "vite"
 
 export default defineConfig({
-  plugins: [
-    TanStackRouterVite({ quoteStyle: 'single' }),
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [TanStackRouterVite({ quoteStyle: "single" }), react(), tailwindcss()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   server: {
-    port: 5173,
+    port: 5174,
     proxy: {
-      '/api': {
-        target: 'http://localhost:9900',
+      "/api": {
+        target: "http://localhost:9900",
         changeOrigin: true,
       },
-      '/ws': {
-        target: 'ws://localhost:9900',
+      "/ws": {
+        target: "ws://localhost:9900",
         ws: true,
       },
-      '/docs': {
-        target: 'http://localhost:9900',
+      "/nominatim": {
+        target: "http://localhost:9990",
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/nominatim/, ""),
+      },
+      "/osrm": {
+        target: "https://router.project-osrm.org",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/osrm/, ""),
       },
     },
   },

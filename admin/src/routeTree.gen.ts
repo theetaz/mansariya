@@ -13,11 +13,12 @@ import { Route as TimetablesRouteImport } from './routes/timetables'
 import { Route as StopsRouteImport } from './routes/stops'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as RouteBuilderRouteImport } from './routes/route-builder'
 import { Route as LiveMapRouteImport } from './routes/live-map'
 import { Route as DataRouteImport } from './routes/data'
-import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as RoutesRouteIdEditRouteImport } from './routes/routes.$routeId.edit'
+import { Route as RoutesIndexRouteImport } from './routes/routes.index'
+import { Route as RoutesRouteIdRouteImport } from './routes/routes.$routeId'
 
 const TimetablesRoute = TimetablesRouteImport.update({
   id: '/timetables',
@@ -39,6 +40,11 @@ const RoutesRoute = RoutesRouteImport.update({
   path: '/routes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RouteBuilderRoute = RouteBuilderRouteImport.update({
+  id: '/route-builder',
+  path: '/route-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LiveMapRoute = LiveMapRouteImport.update({
   id: '/live-map',
   path: '/live-map',
@@ -49,97 +55,101 @@ const DataRoute = DataRouteImport.update({
   path: '/data',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CrowdsourceRoute = CrowdsourceRouteImport.update({
-  id: '/crowdsource',
-  path: '/crowdsource',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RoutesRouteIdEditRoute = RoutesRouteIdEditRouteImport.update({
-  id: '/$routeId/edit',
-  path: '/$routeId/edit',
+const RoutesIndexRoute = RoutesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RoutesRoute,
+} as any)
+const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
+  id: '/$routeId',
+  path: '/$routeId',
   getParentRoute: () => RoutesRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/crowdsource': typeof CrowdsourceRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
+  '/route-builder': typeof RouteBuilderRoute
   '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
-  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/': typeof RoutesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/crowdsource': typeof CrowdsourceRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
-  '/routes': typeof RoutesRouteWithChildren
+  '/route-builder': typeof RouteBuilderRoute
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
-  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes': typeof RoutesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/crowdsource': typeof CrowdsourceRoute
   '/data': typeof DataRoute
   '/live-map': typeof LiveMapRoute
+  '/route-builder': typeof RouteBuilderRoute
   '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
-  '/routes/$routeId/edit': typeof RoutesRouteIdEditRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/': typeof RoutesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/crowdsource'
     | '/data'
     | '/live-map'
+    | '/route-builder'
     | '/routes'
     | '/settings'
     | '/stops'
     | '/timetables'
-    | '/routes/$routeId/edit'
+    | '/routes/$routeId'
+    | '/routes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/crowdsource'
     | '/data'
     | '/live-map'
-    | '/routes'
+    | '/route-builder'
     | '/settings'
     | '/stops'
     | '/timetables'
-    | '/routes/$routeId/edit'
+    | '/routes/$routeId'
+    | '/routes'
   id:
     | '__root__'
     | '/'
-    | '/crowdsource'
     | '/data'
     | '/live-map'
+    | '/route-builder'
     | '/routes'
     | '/settings'
     | '/stops'
     | '/timetables'
-    | '/routes/$routeId/edit'
+    | '/routes/$routeId'
+    | '/routes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CrowdsourceRoute: typeof CrowdsourceRoute
   DataRoute: typeof DataRoute
   LiveMapRoute: typeof LiveMapRoute
+  RouteBuilderRoute: typeof RouteBuilderRoute
   RoutesRoute: typeof RoutesRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   StopsRoute: typeof StopsRoute
@@ -176,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/route-builder': {
+      id: '/route-builder'
+      path: '/route-builder'
+      fullPath: '/route-builder'
+      preLoaderRoute: typeof RouteBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/live-map': {
       id: '/live-map'
       path: '/live-map'
@@ -190,13 +207,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DataRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/crowdsource': {
-      id: '/crowdsource'
-      path: '/crowdsource'
-      fullPath: '/crowdsource'
-      preLoaderRoute: typeof CrowdsourceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -204,22 +214,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/routes/$routeId/edit': {
-      id: '/routes/$routeId/edit'
-      path: '/$routeId/edit'
-      fullPath: '/routes/$routeId/edit'
-      preLoaderRoute: typeof RoutesRouteIdEditRouteImport
+    '/routes/': {
+      id: '/routes/'
+      path: '/'
+      fullPath: '/routes/'
+      preLoaderRoute: typeof RoutesIndexRouteImport
+      parentRoute: typeof RoutesRoute
+    }
+    '/routes/$routeId': {
+      id: '/routes/$routeId'
+      path: '/$routeId'
+      fullPath: '/routes/$routeId'
+      preLoaderRoute: typeof RoutesRouteIdRouteImport
       parentRoute: typeof RoutesRoute
     }
   }
 }
 
 interface RoutesRouteChildren {
-  RoutesRouteIdEditRoute: typeof RoutesRouteIdEditRoute
+  RoutesRouteIdRoute: typeof RoutesRouteIdRoute
+  RoutesIndexRoute: typeof RoutesIndexRoute
 }
 
 const RoutesRouteChildren: RoutesRouteChildren = {
-  RoutesRouteIdEditRoute: RoutesRouteIdEditRoute,
+  RoutesRouteIdRoute: RoutesRouteIdRoute,
+  RoutesIndexRoute: RoutesIndexRoute,
 }
 
 const RoutesRouteWithChildren =
@@ -227,9 +246,9 @@ const RoutesRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CrowdsourceRoute: CrowdsourceRoute,
   DataRoute: DataRoute,
   LiveMapRoute: LiveMapRoute,
+  RouteBuilderRoute: RouteBuilderRoute,
   RoutesRoute: RoutesRouteWithChildren,
   SettingsRoute: SettingsRoute,
   StopsRoute: StopsRoute,

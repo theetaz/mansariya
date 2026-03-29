@@ -1,263 +1,134 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Settings,
-  Server,
-  Palette,
-  Activity,
-  Shield,
-  Monitor,
-  Moon,
-  Sun,
-} from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { RiSettings3Line, RiPaletteLine, RiServerLine } from '@remixicon/react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
+import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { fetchMetrics, type Metrics } from '@/lib/api';
-import { useThemeStore } from '@/stores/useThemeStore';
+import { Separator } from '@/components/ui/separator';
+import { useTheme } from '@/components/theme-provider';
+import { fetchHealth } from '@/lib/api-functions';
 
 export const Route = createFileRoute('/settings')({
   component: SettingsPage,
 });
 
 function SettingsPage() {
-  const { theme, setTheme } = useThemeStore();
+  const { theme, setTheme } = useTheme();
+  const apiUrl = import.meta.env.VITE_API_URL || '(using proxy)';
+  const apiKey = import.meta.env.VITE_API_KEY || '';
+  const maskedKey = apiKey ? apiKey.slice(0, 4) + '****' + apiKey.slice(-4) : '(not set)';
 
-  const { data: metrics, isLoading: metricsLoading } = useQuery({
-    queryKey: ['metrics'],
-    queryFn: () => fetchMetrics(),
+  const { data: health, isLoading } = useQuery({
+    queryKey: ['health'],
+    queryFn: fetchHealth,
     refetchInterval: 30_000,
     retry: 1,
   });
 
-  const apiUrl = import.meta.env.VITE_API_URL || '(not set)';
-  const apiKey = import.meta.env.VITE_API_KEY || '';
-  const maskedKey = apiKey
-    ? apiKey.slice(0, 4) + '****' + apiKey.slice(-4)
-    : '(not set)';
-
   return (
-    <div className="p-6 space-y-6 max-w-3xl">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground mt-1">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 max-w-3xl">
+      <div className="px-4 lg:px-6">
+        <h1 className="text-2xl font-semibold">Settings</h1>
+        <p className="text-sm text-muted-foreground mt-1">
           API configuration, theme preferences, and system information
         </p>
       </div>
 
-      {/* API Configuration */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Server className="h-4 w-4" />
-            API Configuration
-          </CardTitle>
-          <CardDescription>
-            Connection settings for the Mansariya backend. These are configured
-            via environment variables.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>API Base URL</Label>
-            <Input
-              value={apiUrl}
-              readOnly
-              className="font-mono text-sm bg-muted"
-            />
-            <p className="text-xs text-muted-foreground">
-              Set via <code className="bg-muted px-1 rounded">VITE_API_URL</code> environment variable
-            </p>
-          </div>
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              <Shield className="h-3.5 w-3.5" />
-              API Key
-            </Label>
-            <Input
-              value={maskedKey}
-              readOnly
-              className="font-mono text-sm bg-muted"
-            />
-            <p className="text-xs text-muted-foreground">
-              Set via <code className="bg-muted px-1 rounded">VITE_API_KEY</code> environment variable.
-              Sent as <code className="bg-muted px-1 rounded">X-API-Key</code> header on admin endpoints.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Theme Selection */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Palette className="h-4 w-4" />
-            Appearance
-          </CardTitle>
-          <CardDescription>
-            Choose your preferred color scheme.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-3">
-            <ThemeOption
-              label="Light"
-              icon={<Sun className="h-5 w-5" />}
-              active={theme === 'light'}
-              onClick={() => setTheme('light')}
-            />
-            <ThemeOption
-              label="Dark"
-              icon={<Moon className="h-5 w-5" />}
-              active={theme === 'dark'}
-              onClick={() => setTheme('dark')}
-            />
-            <ThemeOption
-              label="System"
-              icon={<Monitor className="h-5 w-5" />}
-              active={theme === 'system'}
-              onClick={() => setTheme('system')}
-            />
-          </div>
-          <p className="text-xs text-muted-foreground mt-3">
-            Current theme: <Badge variant="secondary">{theme}</Badge>
-          </p>
-        </CardContent>
-      </Card>
-
-      <Separator />
-
-      {/* System Info */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Activity className="h-4 w-4" />
-            System Information
-          </CardTitle>
-          <CardDescription>
-            Live backend metrics from <code className="bg-muted px-1 rounded">/api/v1/metrics</code>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {metricsLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-full" />
+      <div className="flex flex-col gap-4 px-4 lg:px-6">
+        {/* API Configuration */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <RiSettings3Line className="size-4" />
+              API Configuration
+            </CardTitle>
+            <CardDescription>Backend connection settings</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col gap-2">
+              <Label>API URL</Label>
+              <Input value={apiUrl} readOnly className="bg-muted" />
             </div>
-          ) : metrics ? (
-            <MetricsGrid metrics={metrics} />
-          ) : (
-            <div className="text-center py-6 text-muted-foreground">
-              <Settings className="mx-auto h-8 w-8 mb-2 opacity-30" />
-              <p className="text-sm">Unable to reach backend</p>
-              <p className="text-xs mt-1">
-                Make sure the API is running at {apiUrl}
+            <div className="flex flex-col gap-2">
+              <Label>API Key</Label>
+              <Input value={maskedKey} readOnly className="bg-muted font-mono" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Label>Status</Label>
+              {isLoading ? (
+                <Skeleton className="h-5 w-20" />
+              ) : (
+                <Badge variant={health?.status === 'ok' ? 'default' : 'destructive'}>
+                  {health?.status === 'ok' ? 'Connected' : 'Unreachable'}
+                </Badge>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Theme */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <RiPaletteLine className="size-4" />
+              Appearance
+            </CardTitle>
+            <CardDescription>Theme and display preferences</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-2">
+              <Label>Theme</Label>
+              <div className="flex gap-2">
+                {(['light', 'dark', 'system'] as const).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTheme(t)}
+                    className={`px-4 py-2 rounded-md text-sm font-medium border transition-colors ${
+                      theme === t
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-card border-border hover:bg-muted'
+                    }`}
+                  >
+                    {t.charAt(0).toUpperCase() + t.slice(1)}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Press <kbd className="px-1 py-0.5 border rounded text-xs">D</kbd> to toggle dark mode
               </p>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* App Info */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">About</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <InfoRow label="Application" value="Mansariya Admin" />
-          <InfoRow label="Version" value="0.1.0" />
-          <InfoRow label="Frontend" value="React + Vite + TanStack" />
-          <InfoRow label="Backend" value="Go + Chi + PostgreSQL + Redis" />
-        </CardContent>
-      </Card>
+        {/* About */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <RiServerLine className="size-4" />
+              About
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <InfoRow label="Application" value="Mansariya Admin Dashboard" />
+            <InfoRow label="Version" value="2.0.0" />
+            <Separator />
+            <InfoRow label="Frontend" value="React 19 + Vite + TanStack" />
+            <InfoRow label="UI" value="shadcn/ui (radix-maia preset)" />
+            <InfoRow label="Backend" value="Go + Chi + PostgreSQL + Redis" />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
 
-function ThemeOption({
-  label,
-  icon,
-  active,
-  onClick,
-}: {
-  label: string;
-  icon: React.ReactNode;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <Button
-      variant={active ? 'default' : 'outline'}
-      className="h-auto flex-col gap-2 py-4"
-      onClick={onClick}
-    >
-      {icon}
-      <span className="text-xs">{label}</span>
-    </Button>
-  );
-}
-
-function MetricsGrid({ metrics }: { metrics: Metrics }) {
-  return (
-    <div className="space-y-3">
-      <InfoRow label="Uptime" value={metrics.uptime_human} />
-      <InfoRow
-        label="Memory (Alloc)"
-        value={`${metrics.memory_alloc_mb.toFixed(1)} MB`}
-      />
-      <InfoRow
-        label="Memory (Sys)"
-        value={`${metrics.memory_sys_mb.toFixed(1)} MB`}
-      />
-      <InfoRow label="Goroutines" value={String(metrics.goroutines)} />
-      <InfoRow label="GC Runs" value={String(metrics.gc_runs)} />
-      <InfoRow label="Active Buses" value={String(metrics.active_buses)} />
-      <InfoRow label="GPS Raw Stream" value={String(metrics.stream_gps_raw)} />
-      <InfoRow
-        label="GPS Matched Stream"
-        value={String(metrics.stream_gps_matched)}
-      />
-      <InfoRow
-        label="Redis"
-        value={metrics.redis_connected ? 'Connected' : 'Disconnected'}
-        status={metrics.redis_connected ? 'green' : 'red'}
-      />
-    </div>
-  );
-}
-
-function InfoRow({
-  label,
-  value,
-  status,
-}: {
-  label: string;
-  value: string;
-  status?: 'green' | 'red';
-}) {
+function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between text-sm">
       <span className="text-muted-foreground">{label}</span>
-      <span
-        className={
-          status === 'green'
-            ? 'text-green-500 font-medium'
-            : status === 'red'
-              ? 'text-red-500 font-medium'
-              : 'font-medium'
-        }
-      >
-        {value}
-      </span>
+      <span>{value}</span>
     </div>
   );
 }

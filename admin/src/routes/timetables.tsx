@@ -1,26 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import {
-  Plus,
-  Clock,
-  Trash2,
-  Save,
-  Pencil,
-} from 'lucide-react';
+import { RiAddLine, RiDeleteBinLine, RiTimeLine } from '@remixicon/react';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -29,151 +25,74 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Skeleton } from '@/components/ui/skeleton';
-import { fetchRoutes, setTimetable, type Route as RouteType } from '@/lib/api';
+import { fetchAdminRoutes, setTimetable } from '@/lib/api-functions';
+import type { TimetableInput } from '@/lib/types';
 
 export const Route = createFileRoute('/timetables')({
   component: TimetablesPage,
 });
 
-interface TimetableEntry {
-  time: string;
-  days: string;
-  service_type: string;
-  notes: string;
+const DAY_OPTIONS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+interface TimetableEntry extends TimetableInput {
+  _key: string;
 }
-
-const DAYS_OPTIONS = [
-  'Weekdays',
-  'Saturday',
-  'Sunday',
-  'Daily',
-  'Mon-Sat',
-  'Holidays',
-];
-
-const SERVICE_TYPES = ['Normal', 'Express', 'Semi-Express', 'Luxury', 'Highway'];
 
 function TimetablesPage() {
   const queryClient = useQueryClient();
   const [selectedRouteId, setSelectedRouteId] = useState<string>('');
   const [entries, setEntries] = useState<TimetableEntry[]>([]);
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [hasChanges, setHasChanges] = useState(false);
-
-  // Form state for add/edit dialog
-  const [formTime, setFormTime] = useState('');
-  const [formDays, setFormDays] = useState('Daily');
-  const [formServiceType, setFormServiceType] = useState('Normal');
-  const [formNotes, setFormNotes] = useState('');
 
   const { data: routeData, isLoading: routesLoading } = useQuery({
-    queryKey: ['routes'],
-    queryFn: () => fetchRoutes(),
-    staleTime: 60_000,
+    queryKey: ['admin-routes'],
+    queryFn: fetchAdminRoutes,
   });
-
-  const routes: RouteType[] = routeData?.routes ?? [];
-  const selectedRoute = routes.find((r) => r.id === selectedRouteId);
 
   const saveMutation = useMutation({
-    mutationFn: (data: { routeId: string; entries: TimetableEntry[] }) =>
-      setTimetable(
-        data.routeId,
-        data.entries.map((e) => ({
-          time: e.time,
-          days: e.days,
-          service_type: e.service_type,
-          notes: e.notes,
-        }))
-      ),
+    mutationFn: ({ routeId, data }: { routeId: string; data: TimetableInput[] }) =>
+      setTimetable(routeId, data),
     onSuccess: () => {
-      toast.success('Timetable saved successfully');
-      setHasChanges(false);
-      queryClient.invalidateQueries({ queryKey: ['timetable', selectedRouteId] });
+      toast.success('Timetable saved');
+      queryClient.invalidateQueries({ queryKey: ['admin-routes'] });
     },
-    onError: () => {
-      toast.error('Failed to save timetable');
-    },
+    onError: () => toast.error('Failed to save timetable'),
   });
 
-  const handleRouteChange = (routeId: string) => {
-    setSelectedRouteId(routeId);
-    // Reset entries when route changes (in production, fetch from backend)
-    setEntries([]);
-    setHasChanges(false);
+  const addEntry = () => {
+    setEntries((prev) => [
+      ...prev,
+      {
+        _key: crypto.randomUUID(),
+        route_id: selectedRouteId,
+        departure_time: '',
+        days: ['MON', 'TUE', 'WED', 'THU', 'FRI'],
+        service_type: 'Normal',
+        notes: '',
+      },
+    ]);
   };
 
-  const resetForm = () => {
-    setFormTime('');
-    setFormDays('Daily');
-    setFormServiceType('Normal');
-    setFormNotes('');
-    setEditIndex(null);
+  const removeEntry = (key: string) => {
+    setEntries((prev) => prev.filter((e) => e._key !== key));
   };
 
-  const handleOpenAdd = () => {
-    resetForm();
-    setShowAddDialog(true);
+  const updateEntry = (key: string, field: keyof TimetableInput, value: string | string[]) => {
+    setEntries((prev) =>
+      prev.map((e) => (e._key === key ? { ...e, [field]: value } : e)),
+    );
   };
 
-  const handleOpenEdit = (index: number) => {
-    const entry = entries[index];
-    setFormTime(entry.time);
-    setFormDays(entry.days);
-    setFormServiceType(entry.service_type);
-    setFormNotes(entry.notes);
-    setEditIndex(index);
-    setShowAddDialog(true);
-  };
-
-  const handleSaveEntry = () => {
-    if (!formTime) {
-      toast.error('Please enter a departure time');
-      return;
-    }
-
-    const newEntry: TimetableEntry = {
-      time: formTime,
-      days: formDays,
-      service_type: formServiceType,
-      notes: formNotes,
-    };
-
-    if (editIndex !== null) {
-      const updated = [...entries];
-      updated[editIndex] = newEntry;
-      setEntries(updated);
-    } else {
-      setEntries([...entries, newEntry]);
-    }
-
-    setHasChanges(true);
-    setShowAddDialog(false);
-    resetForm();
-  };
-
-  const handleDeleteEntry = (index: number) => {
-    setEntries(entries.filter((_, i) => i !== index));
-    setHasChanges(true);
-  };
-
-  const handleSaveTimetable = () => {
+  const handleSave = () => {
     if (!selectedRouteId) return;
-    saveMutation.mutate({ routeId: selectedRouteId, entries });
+    const data = entries.map(({ _key, ...rest }) => rest);
+    saveMutation.mutate({ routeId: selectedRouteId, data });
   };
+
+  const routes = routeData?.routes ?? [];
 
   if (routesLoading) {
     return (
-      <div className="p-6 space-y-4">
+      <div className="flex flex-col gap-4 py-4 px-4 lg:px-6">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-10 w-64" />
         <Skeleton className="h-96 w-full" />
@@ -182,218 +101,150 @@ function TimetablesPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="flex items-center justify-between px-4 lg:px-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Timetables</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-2xl font-semibold">Timetables</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Manage departure schedules for bus routes
           </p>
         </div>
-        {selectedRouteId && hasChanges && (
-          <Button
-            size="sm"
-            onClick={handleSaveTimetable}
-            disabled={saveMutation.isPending}
-          >
-            <Save className="mr-2 h-4 w-4" />
-            {saveMutation.isPending ? 'Saving...' : 'Save Timetable'}
-          </Button>
+        {selectedRouteId && (
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={addEntry}>
+              <RiAddLine className="size-4 mr-1" />
+              Add Departure
+            </Button>
+            <Button size="sm" onClick={handleSave} disabled={saveMutation.isPending}>
+              Save Timetable
+            </Button>
+          </div>
         )}
       </div>
 
-      {/* Route Selector */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Select Route</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-4">
-            <Select value={selectedRouteId} onValueChange={(v) => handleRouteChange(v ?? '')}>
-              <SelectTrigger className="w-[400px]">
-                <SelectValue placeholder="Choose a route..." />
-              </SelectTrigger>
-              <SelectContent>
-                {routes.map((route) => (
-                  <SelectItem key={route.id} value={route.id}>
-                    {route.id} — {route.name_en || 'Unnamed'}
+      <div className="px-4 lg:px-6">
+        <div className="flex flex-col gap-2 max-w-xs">
+          <Label>Select Route</Label>
+          <Select value={selectedRouteId} onValueChange={setSelectedRouteId}>
+            <SelectTrigger>
+              <SelectValue placeholder="Choose a route..." />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {routes.map((r) => (
+                  <SelectItem key={r.id} value={r.id}>
+                    {r.id} — {r.name_en || 'Unnamed'}
                   </SelectItem>
                 ))}
-              </SelectContent>
-            </Select>
-            {selectedRoute && (
-              <div className="flex items-center gap-2">
-                <Badge variant="secondary">{selectedRoute.operator || 'Unknown'}</Badge>
-                <Badge variant={selectedRoute.is_active ? 'default' : 'secondary'}>
-                  {selectedRoute.is_active ? 'Active' : 'Inactive'}
-                </Badge>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
 
-      {/* Timetable Grid */}
       {selectedRouteId && (
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                Departures
-                {entries.length > 0 && (
-                  <Badge variant="secondary">{entries.length}</Badge>
-                )}
+        <div className="px-4 lg:px-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <RiTimeLine className="size-4" />
+                Departures for Route {selectedRouteId}
               </CardTitle>
-              <Button size="sm" onClick={handleOpenAdd}>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Departure
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {entries.length === 0 ? (
-              <div className="text-center py-12 text-muted-foreground">
-                <Clock className="mx-auto h-12 w-12 mb-4 opacity-30" />
-                <p className="text-lg font-medium">No departures yet</p>
-                <p className="text-sm mt-1">
-                  Click "Add Departure" to create the first schedule entry.
-                </p>
-              </div>
-            ) : (
-              <div className="rounded-md border">
+            </CardHeader>
+            <CardContent>
+              {entries.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <p>No departures yet.</p>
+                  <Button size="sm" variant="outline" className="mt-2" onClick={addEntry}>
+                    <RiAddLine className="size-4 mr-1" />
+                    Add First Departure
+                  </Button>
+                </div>
+              ) : (
                 <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Time</TableHead>
                       <TableHead>Days</TableHead>
-                      <TableHead>Service Type</TableHead>
+                      <TableHead>Service</TableHead>
                       <TableHead>Notes</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead className="w-12" />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {entries
-                      .sort((a, b) => a.time.localeCompare(b.time))
-                      .map((entry, index) => (
-                        <TableRow key={`${entry.time}-${index}`}>
-                          <TableCell className="font-mono font-medium">
-                            {entry.time}
+                      .sort((a, b) => a.departure_time.localeCompare(b.departure_time))
+                      .map((entry) => (
+                        <TableRow key={entry._key}>
+                          <TableCell>
+                            <Input
+                              type="time"
+                              value={entry.departure_time}
+                              onChange={(e) => updateEntry(entry._key, 'departure_time', e.target.value)}
+                              className="w-28 h-8"
+                            />
                           </TableCell>
                           <TableCell>
-                            <Badge variant="secondary">{entry.days}</Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Badge
-                              variant={
-                                entry.service_type === 'Express'
-                                  ? 'default'
-                                  : 'secondary'
-                              }
-                            >
-                              {entry.service_type}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-sm text-muted-foreground">
-                            {entry.notes || '—'}
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-1">
-                              <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                onClick={() => handleOpenEdit(index)}
-                              >
-                                <Pencil className="h-3 w-3" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                onClick={() => handleDeleteEntry(index)}
-                              >
-                                <Trash2 className="h-3 w-3 text-destructive" />
-                              </Button>
+                            <div className="flex gap-1 flex-wrap">
+                              {DAY_OPTIONS.map((day) => (
+                                <Badge
+                                  key={day}
+                                  variant={entry.days.includes(day) ? 'default' : 'outline'}
+                                  className="cursor-pointer text-xs"
+                                  onClick={() => {
+                                    const newDays = entry.days.includes(day)
+                                      ? entry.days.filter((d) => d !== day)
+                                      : [...entry.days, day];
+                                    updateEntry(entry._key, 'days', newDays);
+                                  }}
+                                >
+                                  {day}
+                                </Badge>
+                              ))}
                             </div>
+                          </TableCell>
+                          <TableCell>
+                            <Select
+                              value={entry.service_type}
+                              onValueChange={(v) => updateEntry(entry._key, 'service_type', v)}
+                            >
+                              <SelectTrigger className="w-28 h-8">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Normal">Normal</SelectItem>
+                                <SelectItem value="Semi-Luxury">Semi-Luxury</SelectItem>
+                                <SelectItem value="Express">Express</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                          <TableCell>
+                            <Input
+                              value={entry.notes ?? ''}
+                              onChange={(e) => updateEntry(entry._key, 'notes', e.target.value)}
+                              placeholder="Optional notes..."
+                              className="h-8"
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="size-8 text-destructive"
+                              onClick={() => removeEntry(entry._key)}
+                            >
+                              <RiDeleteBinLine className="size-4" />
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))}
                   </TableBody>
                 </Table>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       )}
-
-      {/* Add/Edit Departure Dialog */}
-      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {editIndex !== null ? 'Edit Departure' : 'Add Departure'}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-2">
-            <div className="space-y-2">
-              <Label htmlFor="time">Departure Time</Label>
-              <Input
-                id="time"
-                type="time"
-                value={formTime}
-                onChange={(e) => setFormTime(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Days</Label>
-              <Select value={formDays} onValueChange={(v) => setFormDays(v ?? 'Daily')}>
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {DAYS_OPTIONS.map((day) => (
-                    <SelectItem key={day} value={day}>
-                      {day}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Service Type</Label>
-              <Select value={formServiceType} onValueChange={(v) => setFormServiceType(v ?? 'Normal')}>
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {SERVICE_TYPES.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {type}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="notes">Notes</Label>
-              <Input
-                id="notes"
-                placeholder="Optional notes..."
-                value={formNotes}
-                onChange={(e) => setFormNotes(e.target.value)}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowAddDialog(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleSaveEntry}>
-              {editIndex !== null ? 'Update' : 'Add'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -28,6 +30,13 @@ type AdminStore interface {
 	ListRoutesWithStats(ctx context.Context) ([]AdminRouteWithStats, error)
 	GetDashboardStats(ctx context.Context) (*DashboardStats, error)
 	UpdateRoutePolyline(ctx context.Context, routeID string, coordinates [][]float64, confidence float64) error
+
+	GetRouteDetail(ctx context.Context, routeID string) (*AdminRouteDetail, error)
+	GetTimetableEntries(ctx context.Context, routeID string) ([]AdminTimetable, error)
+	DeleteStop(ctx context.Context, id string) error
+	ListRoutesFiltered(ctx context.Context, filter AdminRouteFilter) (*AdminRouteListResponse, error)
+
+	GetRoutePatterns(ctx context.Context, routeID string) ([]AdminRoutePattern, error)
 }
 
 // --- Input types ---
@@ -87,7 +96,21 @@ type AdminRouteWithStats struct {
 	OperatingHours   string `json:"operating_hours"`
 	IsActive         bool   `json:"is_active"`
 	StopCount        int    `json:"stop_count"`
+	PatternCount     int    `json:"pattern_count"`
 	HasPolyline      bool   `json:"has_polyline"`
+	OriginStopName   string `json:"origin_stop_name"`
+	DestStopName     string `json:"destination_stop_name"`
+}
+
+type AdminRoutePattern struct {
+	ID          string `json:"id"`
+	RouteID     string `json:"route_id"`
+	Headsign    string `json:"headsign"`
+	Direction   int    `json:"direction"`
+	IsPrimary   bool   `json:"is_primary"`
+	StopCount   int    `json:"stop_count"`
+	Source      string `json:"source"`
+	HasPolyline bool   `json:"has_polyline"`
 }
 
 type DashboardStats struct {
@@ -97,6 +120,72 @@ type DashboardStats struct {
 	RoutesWithStops    int `json:"routes_with_stops"`
 	RoutesWithPolyline int `json:"routes_with_polyline"`
 	RoutesWithTimetable int `json:"routes_with_timetable"`
+}
+
+type AdminRouteDetail struct {
+	Route     AdminRouteDetailInfo `json:"route"`
+	Stops     []AdminEnrichedStop  `json:"stops"`
+	Patterns  []AdminRoutePattern  `json:"patterns"`
+	Timetable []AdminTimetable     `json:"timetable"`
+	Polyline  [][]float64          `json:"polyline"`
+}
+
+type AdminRouteDetailInfo struct {
+	ID             string  `json:"id"`
+	NameEN         string  `json:"name_en"`
+	NameSI         string  `json:"name_si"`
+	NameTA         string  `json:"name_ta"`
+	Operator       string  `json:"operator"`
+	ServiceType    string  `json:"service_type"`
+	FareLKR        int     `json:"fare_lkr"`
+	FrequencyMin   int     `json:"frequency_minutes"`
+	OperatingHours string  `json:"operating_hours"`
+	IsActive       bool    `json:"is_active"`
+	Source         string  `json:"source"`
+	DataSource     string  `json:"data_source"`
+	ValidatedBy    string  `json:"validated_by,omitempty"`
+	ValidatedAt    *string `json:"validated_at,omitempty"`
+	CreatedAt      string  `json:"created_at"`
+	UpdatedAt      string  `json:"updated_at"`
+}
+
+type AdminEnrichedStop struct {
+	StopID            string  `json:"stop_id"`
+	StopOrder         int     `json:"stop_order"`
+	NameEN            string  `json:"name_en"`
+	NameSI            string  `json:"name_si"`
+	NameTA            string  `json:"name_ta"`
+	Lat               float64 `json:"lat"`
+	Lng               float64 `json:"lng"`
+	DistanceFromStart float64 `json:"distance_from_start_km"`
+	DurationMin       int     `json:"typical_duration_min"`
+	FareFromStart     int     `json:"fare_from_start_lkr"`
+	IsTerminal        bool    `json:"is_terminal"`
+}
+
+type AdminTimetable struct {
+	ID            int      `json:"id"`
+	RouteID       string   `json:"route_id"`
+	DepartureTime string   `json:"departure_time"`
+	Days          []string `json:"days"`
+	ServiceType   string   `json:"service_type"`
+	Notes         string   `json:"notes"`
+}
+
+type AdminRouteFilter struct {
+	Query       string `json:"q"`
+	Operator    string `json:"operator"`
+	ServiceType string `json:"service_type"`
+	Page        int    `json:"page"`
+	PerPage     int    `json:"per_page"`
+}
+
+type AdminRouteListResponse struct {
+	Routes     []AdminRouteWithStats `json:"routes"`
+	Count      int                   `json:"count"`
+	Page       int                   `json:"page"`
+	PerPage    int                   `json:"per_page"`
+	TotalPages int                   `json:"total_pages"`
 }
 
 // --- Handler ---
@@ -275,16 +364,71 @@ func (h *AdminHandler) SetTimetable(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// --- Route Detail ---
+
+func (h *AdminHandler) GetRouteDetail(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+	detail, err := h.store.GetRouteDetail(r.Context(), routeID)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			writeJSON(w, http.StatusNotFound, map[string]string{"error": "route not found"})
+			return
+		}
+		slog.Error("get route detail", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		return
+	}
+	writeJSON(w, http.StatusOK, detail)
+}
+
+func (h *AdminHandler) GetTimetable(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+	entries, err := h.store.GetTimetableEntries(r.Context(), routeID)
+	if err != nil {
+		slog.Error("get timetable", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		return
+	}
+	writeJSON(w, http.StatusOK, entries)
+}
+
+func (h *AdminHandler) DeleteStop(w http.ResponseWriter, r *http.Request) {
+	stopID := chi.URLParam(r, "stopID")
+	if err := h.store.DeleteStop(r.Context(), stopID); err != nil {
+		slog.Error("delete stop", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]string{"status": "deleted"})
+}
+
 // --- Dashboard ---
 
 func (h *AdminHandler) ListRoutes(w http.ResponseWriter, r *http.Request) {
-	routes, err := h.store.ListRoutesWithStats(r.Context())
+	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+	perPage, _ := strconv.Atoi(r.URL.Query().Get("per_page"))
+	if page < 1 {
+		page = 1
+	}
+	if perPage < 1 || perPage > 100 {
+		perPage = 50
+	}
+
+	filter := AdminRouteFilter{
+		Query:       r.URL.Query().Get("q"),
+		Operator:    r.URL.Query().Get("operator"),
+		ServiceType: r.URL.Query().Get("service_type"),
+		Page:        page,
+		PerPage:     perPage,
+	}
+
+	result, err := h.store.ListRoutesFiltered(r.Context(), filter)
 	if err != nil {
-		slog.Error("admin list routes", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "list routes failed"})
+		slog.Error("list routes filtered", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
 		return
 	}
-	writeJSON(w, http.StatusOK, routes)
+	writeJSON(w, http.StatusOK, result)
 }
 
 func (h *AdminHandler) GetStats(w http.ResponseWriter, r *http.Request) {
@@ -329,6 +473,19 @@ func (h *AdminHandler) UpdatePolyline(w http.ResponseWriter, r *http.Request) {
 		"points":   len(input.Coordinates),
 		"status":   "updated",
 	})
+}
+
+// --- Patterns ---
+
+func (h *AdminHandler) GetPatterns(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+	patterns, err := h.store.GetRoutePatterns(r.Context(), routeID)
+	if err != nil {
+		slog.Error("get patterns", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		return
+	}
+	writeJSON(w, http.StatusOK, patterns)
 }
 
 // RegisterAdminTime is unused but shows the intended validation timestamp
