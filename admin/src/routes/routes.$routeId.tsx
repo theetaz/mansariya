@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import {
   RiArrowLeftLine,
   RiEditLine,
@@ -78,6 +78,7 @@ function RouteDetailPage() {
   const [selectedPatternId, setSelectedPatternId] = useState<string | null>(null);
   const [isEditingPolyline, setIsEditingPolyline] = useState(false);
   const [savedMapView, setSavedMapView] = useState<{ center: [number, number]; zoom: number } | null>(null);
+  const mapRef = useRef<{ getCenter: () => { lng: number; lat: number }; getZoom: () => number } | null>(null);
 
   const { data: detail, isLoading } = useQuery({
     queryKey: ['admin-route', routeId],
@@ -213,13 +214,26 @@ function RouteDetailPage() {
               ) : (
                 <>
                   <div className="absolute top-2 right-2 z-10">
-                    <EditPolylineButton onEdit={(center, zoom) => {
-                      setSavedMapView({ center, zoom });
-                      setIsEditingPolyline(true);
-                    }} />
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="shadow-md"
+                      onClick={() => {
+                        const m = mapRef.current;
+                        if (m) {
+                          const c = m.getCenter();
+                          setSavedMapView({ center: [c.lng, c.lat], zoom: m.getZoom() });
+                        }
+                        setIsEditingPolyline(true);
+                      }}
+                    >
+                      <RiEditLine className="size-4 mr-1" />
+                      Edit Polyline
+                    </Button>
                   </div>
                   <Map center={detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93]} zoom={12}>
                     <MapControls showZoom showLocate showFullscreen />
+                    <MapRefCapture mapRef={mapRef} />
                     {detail.polyline.length >= 2 && (
                       <MapRoute coordinates={detail.polyline as [number, number][]} color="#e53e3e" width={4} />
                     )}
@@ -398,27 +412,13 @@ function RouteInfoCard({
   );
 }
 
-// Reads current map center/zoom before switching to edit mode
-function EditPolylineButton({ onEdit }: { onEdit: (center: [number, number], zoom: number) => void }) {
+// Captures the map instance into a ref for external use (e.g., reading zoom/center)
+function MapRefCapture({ mapRef }: { mapRef: React.MutableRefObject<any> }) {
   const { map } = useMap();
-  return (
-    <Button
-      size="sm"
-      variant="secondary"
-      className="shadow-md"
-      onClick={() => {
-        if (map) {
-          const c = map.getCenter();
-          onEdit([c.lng, c.lat], map.getZoom());
-        } else {
-          onEdit([79.86, 6.93], 12);
-        }
-      }}
-    >
-      <RiEditLine className="size-4 mr-1" />
-      Edit Polyline
-    </Button>
-  );
+  useEffect(() => {
+    mapRef.current = map;
+  }, [map, mapRef]);
+  return null;
 }
 
 function StatPill({ label, value }: { label: string; value: string | number }) {
