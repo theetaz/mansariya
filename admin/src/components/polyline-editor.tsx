@@ -177,19 +177,23 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
 
     const startI = Math.min(cutStartIdx, cutEndIdx);
     const endI = Math.max(cutStartIdx, cutEndIdx);
+    const removeCount = endI - startI - 1;
 
-    if (endI - startI < 2) {
-      toast.error('Selection too small to cut');
+    if (removeCount < 1) {
+      toast.error(`Points too close (idx ${startI} to ${endI}). Try selecting a wider area.`);
       resetCut();
       return;
     }
 
     pushHistory();
-    const before = workingPolyline.slice(0, startI + 1);
-    const after = workingPolyline.slice(endI);
-    setWorkingPolyline([...before, ...after]);
+    // Keep everything up to and including startI, skip to endI (inclusive)
+    const newPolyline = [
+      ...workingPolyline.slice(0, startI + 1),
+      ...workingPolyline.slice(endI),
+    ];
+    setWorkingPolyline(newPolyline);
     setHasChanges(true);
-    toast.success(`Removed ${endI - startI - 1} points from polyline`);
+    toast.success(`Removed ${removeCount} points (idx ${startI}→${endI}, ${workingPolyline.length}→${newPolyline.length})`);
     resetCut();
   }, [cutStartIdx, cutEndIdx, workingPolyline, pushHistory, resetCut]);
 
@@ -312,8 +316,9 @@ export function PolylineEditor({ polyline, stops, onSave, onCancel, isSaving }: 
             }}
           />
 
-          {/* Working polyline */}
+          {/* Working polyline — key forces remount when length changes */}
           <MapRoute
+            key={`working-${workingPolyline.length}`}
             coordinates={workingPolyline}
             color={previewPolyline ? '#ef4444' : '#1D9E75'}
             width={previewPolyline ? 3 : 4}
