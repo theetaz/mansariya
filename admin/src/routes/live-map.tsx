@@ -334,13 +334,19 @@ function BusDetailOverlay({ bus, onClose }: { bus: Vehicle; onClose: () => void 
         </Button>
       </div>
 
+      {/* Trip Progress */}
+      {eta && eta.stops.length > 0 && (
+        <div className="px-4 py-3 border-b">
+          <TripProgress stops={eta.stops} progressPercent={eta.progressPercent} />
+        </div>
+      )}
+
       {/* Stats grid */}
       <div className="px-4 py-3">
         <div className="grid grid-cols-3 gap-x-6 gap-y-3">
           <InfoItem icon={RiSpeedLine} label="Speed" value={`${bus.speed_kmh.toFixed(1)} km/h`} />
           <InfoItem icon={RiCompassLine} label="Bearing" value={`${bus.bearing.toFixed(0)}° ${bearingToCardinal(bus.bearing)}`} />
           <InfoItem icon={RiGroupLine} label="Devices" value={`${bus.contributor_count}`} />
-          <InfoItem icon={RiMapPinLine} label="Position" value={`${bus.lat.toFixed(5)}, ${bus.lng.toFixed(5)}`} mono />
 
           {eta && (
             <>
@@ -349,12 +355,87 @@ function BusDetailOverlay({ bus, onClose }: { bus: Vehicle; onClose: () => void 
               <InfoItem icon={RiTimeLine} label="ETA Next Stop" value={eta.etaNextStop ?? 'N/A'} highlight />
               <InfoItem icon={RiPinDistanceLine} label="Dist to End" value={eta.distToEnd ?? 'N/A'} />
               <InfoItem icon={RiTimeLine} label="ETA Terminal" value={eta.etaEnd ?? 'N/A'} highlight />
-              <InfoItem icon={RiMapPinLine} label="Stops Passed" value={eta.stopsPassed ?? 'N/A'} />
-              <InfoItem icon={RiMapPinLine} label="Stops Remaining" value={eta.stopsRemaining ?? 'N/A'} />
               <InfoItem icon={RiTimeLine} label="Est. Arrival" value={eta.arrivalTime ?? 'N/A'} highlight />
             </>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Trip Progress Bar ──
+function TripProgress({ stops, progressPercent }: {
+  stops: { name: string; passed: boolean; isCurrent: boolean }[];
+  progressPercent: number;
+}) {
+  const maxVisible = 12;
+  const showAll = stops.length <= maxVisible;
+
+  // If too many stops, show first, last, and evenly sampled middle stops
+  const displayStops = useMemo(() => {
+    if (showAll) return stops;
+    const sampled: typeof stops = [stops[0]];
+    const step = Math.max(1, Math.floor((stops.length - 2) / (maxVisible - 2)));
+    for (let i = step; i < stops.length - 1; i += step) {
+      if (sampled.length < maxVisible - 1) sampled.push(stops[i]);
+    }
+    sampled.push(stops[stops.length - 1]);
+    return sampled;
+  }, [stops, showAll]);
+
+  return (
+    <div>
+      {/* Progress bar with bus indicator */}
+      <div className="relative mb-2">
+        {/* Track */}
+        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+          <div
+            className="h-full bg-primary rounded-full transition-all duration-1000"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+        {/* Bus position indicator */}
+        <div
+          className="absolute -top-1 transition-all duration-1000"
+          style={{ left: `${progressPercent}%`, transform: 'translateX(-50%)' }}
+        >
+          <div className="size-3.5 rounded-full bg-primary border-2 border-white shadow-md" />
+        </div>
+      </div>
+
+      {/* Stop markers along the line */}
+      <div className="relative flex justify-between items-start">
+        {displayStops.map((stop, i) => {
+          const isFirst = i === 0;
+          const isLast = i === displayStops.length - 1;
+          return (
+            <div key={i} className="flex flex-col items-center" style={{ width: 0, flexShrink: 0 }}>
+              {/* Stop dot */}
+              <div className={`size-2 rounded-full border ${
+                stop.passed
+                  ? 'bg-primary border-primary'
+                  : stop.isCurrent
+                    ? 'bg-primary/50 border-primary ring-2 ring-primary/20'
+                    : 'bg-muted-foreground/20 border-muted-foreground/30'
+              }`} />
+              {/* Stop name — only show for first, last, and current */}
+              {(isFirst || isLast || stop.isCurrent) && (
+                <span className={`text-[9px] mt-1 whitespace-nowrap max-w-[60px] truncate text-center ${
+                  stop.isCurrent ? 'text-primary font-semibold' : 'text-muted-foreground'
+                }`}>
+                  {stop.name}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Summary */}
+      <div className="flex justify-between mt-2 text-[10px] text-muted-foreground">
+        <span>{stops.filter((s) => s.passed).length} of {stops.length} stops passed</span>
+        <span>{Math.round(progressPercent)}% complete</span>
       </div>
     </div>
   );
@@ -388,6 +469,10 @@ interface ETAResult {
   stopsPassed: string;
   stopsRemaining: string;
   arrivalTime: string;
+  nextStopIdx: number;
+  totalStops: number;
+  progressPercent: number;
+  stops: { name: string; passed: boolean; isCurrent: boolean }[];
 }
 
 function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number, number][]): ETAResult | null {
@@ -435,6 +520,18 @@ function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number
   const arrivalDate = new Date(Date.now() + etaEndMin * 60 * 1000);
   const arrivalTime = arrivalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
+  // Build stop progress list
+  const stopProgress = stops.map((s, i) => ({
+    name: s.name_en,
+    passed: i < nextStopIdx,
+    isCurrent: i === nextStopIdx,
+  }));
+
+  // Progress percent along route
+  const totalRouteDist = lastStop.distance_from_start_km || 1;
+  const currentDist = nextStop.distance_from_start_km - distToNext;
+  const progressPercent = Math.max(0, Math.min(100, (currentDist / totalRouteDist) * 100));
+
   return {
     nextStopName: nextStop.name_en,
     distToNextStop: formatDist(distToNext),
@@ -444,6 +541,10 @@ function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number
     stopsPassed: `${nextStopIdx} / ${stops.length}`,
     stopsRemaining: `${stops.length - nextStopIdx}`,
     arrivalTime,
+    nextStopIdx,
+    totalStops: stops.length,
+    progressPercent,
+    stops: stopProgress,
   };
 }
 
