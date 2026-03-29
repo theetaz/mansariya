@@ -128,3 +128,15 @@
     @apply font-sans;
     }
 }
+
+/* Strip MapLibre popup container for mapcn tooltips */
+.mapcn-tooltip .maplibregl-popup-content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+.mapcn-tooltip .maplibregl-popup-tip {
+  display: none !important;
+}

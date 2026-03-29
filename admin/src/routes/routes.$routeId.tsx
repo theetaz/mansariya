@@ -197,7 +197,11 @@ function RouteDetailPage() {
                           {s.stop_order + 1}
                         </div>
                       </MarkerContent>
-                      <MarkerTooltip>#{s.stop_order + 1} {s.name_en}</MarkerTooltip>
+                      <MarkerTooltip>
+                        <div className="font-medium">#{s.stop_order + 1} {s.name_en}</div>
+                        {s.name_si && <div className="opacity-80">{s.name_si}</div>}
+                        {s.name_ta && <div className="opacity-80">{s.name_ta}</div>}
+                      </MarkerTooltip>
                     </MapMarker>
                   );
                 })}

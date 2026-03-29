@@ -273,7 +273,11 @@ function MarkerPopup({ children, className, closeButton = false, ...opts }: { ch
 function MarkerTooltip({ children, className, ...opts }: { children: ReactNode; className?: string } & Omit<PopupOptions, "className" | "closeButton" | "closeOnClick">) {
   const { marker, map } = useMarkerContext();
   const container = useMemo(() => document.createElement("div"), []);
-  const tooltip = useMemo(() => new MapLibreGL.Popup({ offset: 16, ...opts, closeOnClick: true, closeButton: false }).setMaxWidth("none"), /* eslint-disable-next-line react-hooks/exhaustive-deps */ []);
+  const tooltip = useMemo(() => {
+    const p = new MapLibreGL.Popup({ offset: 12, ...opts, closeOnClick: true, closeButton: false, className: "mapcn-tooltip" }).setMaxWidth("none");
+    return p;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (!map) return;
     tooltip.setDOMContent(container);
@@ -284,7 +288,7 @@ function MarkerTooltip({ children, className, ...opts }: { children: ReactNode; 
     return () => { marker.getElement()?.removeEventListener("mouseenter", enter); marker.getElement()?.removeEventListener("mouseleave", leave); tooltip.remove(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
-  return createPortal(<div className={cn("bg-foreground text-background animate-in fade-in-0 zoom-in-95 rounded-md px-2 py-1 text-xs shadow-md", className)}>{children}</div>, container);
+  return createPortal(<div className={cn("bg-foreground text-background rounded-md px-2.5 py-1.5 text-xs shadow-lg", className)}>{children}</div>, container);
 }
 
 // ── Marker Label ──
