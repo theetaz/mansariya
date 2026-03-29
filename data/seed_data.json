@@ -102,8 +102,8 @@
     {
       "id": "138/2",
       "name_en": "Pettah - Mattegoda",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිටකොටුව - මත්තේගොඩ",
+      "name_ta": "புறக்கோட்டை - மத்தேகொடை",
       "operator": "Private",
       "service_type": "Normal",
       "fare_lkr": 0,
@@ -113,8 +113,8 @@
     {
       "id": "138/3",
       "name_en": "Pettah - Rukmalgama",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිටකොටුව - රුක්මල්ගම",
+      "name_ta": "புறக்கோட்டை - ருக்மல்கம",
       "operator": "Private",
       "service_type": "Normal",
       "fare_lkr": 0,
@@ -124,8 +124,8 @@
     {
       "id": "138/4",
       "name_en": "Pettah - Athurugiriya",
-      "name_si": "",
-      "name_ta": "",
+      "name_si": "පිටකොටුව - අතුරුගිරිය",
+      "name_ta": "புறக்கோட்டை - அதுருகிரிய",
       "operator": "Private",
       "service_type": "Normal",
       "fare_lkr": 0,

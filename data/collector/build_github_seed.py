@@ -131,9 +131,16 @@ def main():
 
     print(f"\n  Building {len(route_buses)} routes with OSRM polylines...\n")
 
+    # Extra route translations not in KNOWN_ROUTES
+    extra_routes: dict[str, tuple[str, str, str, str, str]] = {
+        "138/2": ("Pettah - Mattegoda", "පිටකොටුව - මත්තේගොඩ", "புறக்கோட்டை - மத்தேகொடை", "Private", "Normal"),
+        "138/3": ("Pettah - Rukmalgama", "පිටකොටුව - රුක්මල්ගම", "புறக்கோட்டை - ருக்மல்கம", "Private", "Normal"),
+        "138/4": ("Pettah - Athurugiriya", "පිටකොටුව - අතුරුගිරිය", "புறக்கோட்டை - அதுருகிரிய", "Private", "Normal"),
+    }
+
     for rno, variants in sorted(route_buses.items(), key=lambda x: x[0]):
-        # Route metadata from KNOWN_ROUTES or GitHub
-        kr = known_routes.get(rno)
+        # Route metadata: KNOWN_ROUTES → extra_routes → generate from GitHub
+        kr = known_routes.get(rno) or extra_routes.get(rno)
         if kr:
             name_en, name_si, name_ta, operator, service_type = kr
         else:
