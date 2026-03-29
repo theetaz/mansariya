@@ -185,9 +185,11 @@ function RoutesPage() {
             {data?.count ?? 0} routes in the database
           </p>
         </div>
-        <Button size="sm">
-          <RiAddLine className="size-4 mr-1" />
-          Add Route
+        <Button size="sm" asChild>
+          <Link to="/routes/new">
+            <RiAddLine className="size-4 mr-1" />
+            Add Route
+          </Link>
         </Button>
       </div>
 

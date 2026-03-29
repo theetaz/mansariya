@@ -18,6 +18,7 @@ import { Route as LiveMapRouteImport } from './routes/live-map'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RoutesIndexRouteImport } from './routes/routes.index'
+import { Route as RoutesNewRouteImport } from './routes/routes.new'
 import { Route as RoutesRouteIdRouteImport } from './routes/routes.$routeId'
 
 const TimetablesRoute = TimetablesRouteImport.update({
@@ -65,6 +66,11 @@ const RoutesIndexRoute = RoutesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => RoutesRoute,
 } as any)
+const RoutesNewRoute = RoutesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => RoutesRoute,
+} as any)
 const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
   id: '/$routeId',
   path: '/$routeId',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
   '/routes/': typeof RoutesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
   '/routes': typeof RoutesIndexRoute
 }
 export interface FileRoutesById {
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
   '/routes/': typeof RoutesIndexRoute
 }
 export interface FileRouteTypes {
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/stops'
     | '/timetables'
     | '/routes/$routeId'
+    | '/routes/new'
     | '/routes/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/stops'
     | '/timetables'
     | '/routes/$routeId'
+    | '/routes/new'
     | '/routes'
   id:
     | '__root__'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/stops'
     | '/timetables'
     | '/routes/$routeId'
+    | '/routes/new'
     | '/routes/'
   fileRoutesById: FileRoutesById
 }
@@ -221,6 +233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutesIndexRouteImport
       parentRoute: typeof RoutesRoute
     }
+    '/routes/new': {
+      id: '/routes/new'
+      path: '/new'
+      fullPath: '/routes/new'
+      preLoaderRoute: typeof RoutesNewRouteImport
+      parentRoute: typeof RoutesRoute
+    }
     '/routes/$routeId': {
       id: '/routes/$routeId'
       path: '/$routeId'
@@ -233,11 +252,13 @@ declare module '@tanstack/react-router' {
 
 interface RoutesRouteChildren {
   RoutesRouteIdRoute: typeof RoutesRouteIdRoute
+  RoutesNewRoute: typeof RoutesNewRoute
   RoutesIndexRoute: typeof RoutesIndexRoute
 }
 
 const RoutesRouteChildren: RoutesRouteChildren = {
   RoutesRouteIdRoute: RoutesRouteIdRoute,
+  RoutesNewRoute: RoutesNewRoute,
   RoutesIndexRoute: RoutesIndexRoute,
 }
 
