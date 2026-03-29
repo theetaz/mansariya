@@ -50,7 +50,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { MapView } from '@/components/shared/map-view';
+import { Map, MapMarker, MarkerContent, MarkerTooltip, MapRoute, MapControls } from '@/components/ui/map';
 import {
   fetchAdminRouteDetail,
   fetchPatternStops,
@@ -180,17 +180,29 @@ function RouteDetailPage() {
           </TabsList>
 
           <TabsContent value="map" className="mt-3 flex-1">
-            <MapView
-              className="h-full min-h-[400px] rounded-lg overflow-hidden border"
-              polyline={detail.polyline as [number, number][]}
-              stops={detail.stops.map((s) => ({
-                lat: s.lat,
-                lng: s.lng,
-                name: s.name_en,
-                order: s.stop_order,
-                isTerminal: s.is_terminal,
-              }))}
-            />
+            <div className="h-full min-h-[400px] rounded-lg overflow-hidden border">
+              <Map center={detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93]} zoom={12}>
+                <MapControls showZoom showLocate showFullscreen />
+                {detail.polyline.length >= 2 && (
+                  <MapRoute coordinates={detail.polyline as [number, number][]} color="#e53e3e" width={4} />
+                )}
+                {detail.stops.map((s, i) => {
+                  const isFirst = i === 0;
+                  const isLast = i === detail.stops.length - 1 && detail.stops.length > 1;
+                  const color = isFirst ? '#22c55e' : isLast ? '#ef4444' : s.is_terminal ? '#f59e0b' : '#6366f1';
+                  return (
+                    <MapMarker key={s.stop_id} longitude={s.lng} latitude={s.lat}>
+                      <MarkerContent>
+                        <div className="flex items-center justify-center size-6 rounded-full border-2 border-white shadow-md text-[10px] font-bold text-white" style={{ background: color }}>
+                          {s.stop_order + 1}
+                        </div>
+                      </MarkerContent>
+                      <MarkerTooltip>#{s.stop_order + 1} {s.name_en}</MarkerTooltip>
+                    </MapMarker>
+                  );
+                })}
+              </Map>
+            </div>
           </TabsContent>
 
           <TabsContent value="stops" className="mt-3">

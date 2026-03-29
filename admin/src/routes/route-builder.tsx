@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardAction } from '@/componen
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { LocationAutocomplete } from '@/components/shared/location-autocomplete';
-import { MapView } from '@/components/shared/map-view';
+import { Map, MapMarker, MarkerContent, MarkerTooltip, MapRoute, MapControls } from '@/components/ui/map';
 import { getRoute, type NominatimResult, type OSRMRoute } from '@/lib/geo';
 
 export const Route = createFileRoute('/route-builder')({
@@ -333,13 +333,22 @@ function RouteBuilderPage() {
         {/* Right Panel — Map */}
         <Card className="min-h-[500px]">
           <CardContent className="p-0 h-full">
-            <MapView
-              className="h-full min-h-[500px] rounded-lg overflow-hidden"
-              polyline={routeResult?.geometry.coordinates as [number, number][] | undefined}
-              stops={mapStops.length > 0 ? mapStops : undefined}
-              center={[79.8612, 7.0]}
-              zoom={8}
-            />
+            <div className="h-full min-h-[500px] rounded-lg overflow-hidden">
+              <Map center={[79.8612, 7.0]} zoom={8}>
+                <MapControls showZoom showLocate />
+                {routeResult && routeResult.geometry.coordinates.length >= 2 && (
+                  <MapRoute coordinates={routeResult.geometry.coordinates as [number, number][]} color="#e53e3e" width={4} />
+                )}
+                {mapStops.map((s, i) => (
+                  <MapMarker key={`${s.lat}-${s.lng}-${i}`} longitude={s.lng} latitude={s.lat}>
+                    <MarkerContent>
+                      <div className={`size-4 rounded-full border-2 border-white shadow-md ${s.isTerminal ? 'bg-green-500' : 'bg-indigo-500'}`} />
+                    </MarkerContent>
+                    <MarkerTooltip>{s.name}</MarkerTooltip>
+                  </MapMarker>
+                ))}
+              </Map>
+            </div>
           </CardContent>
         </Card>
       </div>
