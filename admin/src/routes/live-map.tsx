@@ -108,6 +108,11 @@ function LiveMapPage() {
             <RouteOverlay key={routeId} routeId={routeId} color={getRouteColor(routeId)} />
           ))}
 
+          {/* Selected bus route overlay (if not already shown) */}
+          {selectedBus && !selectedRoutes.includes(selectedBus.route_id) && (
+            <RouteOverlay routeId={selectedBus.route_id} color="#1D9E75" />
+          )}
+
           {/* Bus markers */}
           {buses.map((b) => (
             <AnimatedBusMarker
