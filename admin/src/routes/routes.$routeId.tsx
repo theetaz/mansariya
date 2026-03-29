@@ -109,7 +109,7 @@ function RouteDetailPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 h-full">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 lg:px-6">
         <Button variant="ghost" size="icon" asChild>
@@ -154,36 +154,9 @@ function RouteDetailPage() {
         }}
       />
 
-      {/* Pattern Selector (if multiple) */}
-      {patterns.length > 1 && (
-        <div className="px-4 lg:px-6">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm font-medium text-muted-foreground">Trip Pattern:</span>
-            {patterns.map((p) => (
-              <Button
-                key={p.id}
-                variant={activePattern?.id === p.id ? 'default' : 'outline'}
-                size="sm"
-                className="gap-1.5"
-                onClick={() => setSelectedPatternId(p.id)}
-              >
-                <RiRouteLine className="size-3.5" />
-                {p.headsign}
-                <Badge variant="secondary" className="text-xs ml-1">
-                  {p.stop_count}
-                </Badge>
-                {p.is_primary && (
-                  <Badge variant="outline" className="text-xs ml-0.5">Primary</Badge>
-                )}
-              </Button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Map + Stops Tabs */}
-      <div className="px-4 lg:px-6">
-        <Tabs defaultValue="map" className="w-full">
+      {/* Map + Stops + Timetable Tabs */}
+      <div className="px-4 lg:px-6 flex-1 flex flex-col min-h-0">
+        <Tabs defaultValue="map" className="w-full flex-1 flex flex-col">
           <TabsList>
             <TabsTrigger value="map" className="gap-1.5">
               <RiMapLine className="size-4" />
@@ -205,11 +178,11 @@ function RouteDetailPage() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="map" className="mt-3">
-            <Card>
-              <CardContent className="p-0">
+          <TabsContent value="map" className="mt-3 flex-1">
+            <Card className="h-full">
+              <CardContent className="p-0 h-full">
                 <MapView
-                  className="h-[calc(100vh-20rem)] min-h-[400px] rounded-lg overflow-hidden"
+                  className="h-full min-h-[400px] rounded-lg overflow-hidden"
                   polyline={detail.polyline as [number, number][]}
                   stops={detail.stops.map((s) => ({
                     lat: s.lat,
@@ -227,6 +200,9 @@ function RouteDetailPage() {
             <StopsSection
               routeId={routeId}
               stops={detail.stops}
+              patterns={patterns}
+              activePattern={activePattern}
+              onPatternChange={setSelectedPatternId}
               isEditing={isEditing}
               onSaved={() => queryClient.invalidateQueries({ queryKey: ['admin-route', routeId] })}
             />
@@ -398,11 +374,17 @@ function formatDate(iso: string): string {
 function StopsSection({
   routeId,
   stops: initialStops,
+  patterns,
+  activePattern,
+  onPatternChange,
   isEditing,
   onSaved,
 }: {
   routeId: string;
   stops: AdminEnrichedStop[];
+  patterns: AdminRoutePattern[];
+  activePattern: AdminRoutePattern | null;
+  onPatternChange: (id: string) => void;
   isEditing: boolean;
   onSaved: () => void;
 }) {
@@ -433,6 +415,27 @@ function StopsSection({
         </CardHeader>
       )}
       <CardContent className={isEditing ? '' : 'pt-6'}>
+        {/* Pattern selector inside stops */}
+        {patterns.length > 1 && (
+          <div className="flex items-center gap-2 flex-wrap mb-4 pb-4 border-b">
+            <span className="text-sm font-medium text-muted-foreground">Pattern:</span>
+            {patterns.map((p) => (
+              <Button
+                key={p.id}
+                variant={activePattern?.id === p.id ? 'default' : 'outline'}
+                size="sm"
+                className="gap-1.5"
+                onClick={() => onPatternChange(p.id)}
+              >
+                <RiRouteLine className="size-3.5" />
+                {p.headsign}
+                <Badge variant="secondary" className="text-xs ml-1">{p.stop_count}</Badge>
+                {p.is_primary && <Badge variant="outline" className="text-xs ml-0.5">Primary</Badge>}
+              </Button>
+            ))}
+          </div>
+        )}
+
         {stops.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-8">No stops assigned.</p>
         ) : (
