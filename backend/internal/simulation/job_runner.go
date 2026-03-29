@@ -71,6 +71,7 @@ func (jr *JobRunner) Start(parentCtx context.Context) {
 
 		bs := NewBusSimulator(BusSimulatorConfig{
 			JobID:           jr.job.ID,
+			RouteID:         jr.job.RouteID,
 			Vehicle:         v,
 			Polyline:        jr.polyline,
 			StopDists:       jr.stopDists,

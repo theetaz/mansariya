@@ -16,6 +16,7 @@ import (
 
 type BusSimulator struct {
 	jobID     string
+	routeID   string
 	vehicle   model.SimulationVehicle
 	polyline  [][2]float64
 	cumDists  []float64
@@ -37,6 +38,7 @@ type BusSimulator struct {
 
 type BusSimulatorConfig struct {
 	JobID           string
+	RouteID         string
 	Vehicle         model.SimulationVehicle
 	Polyline        [][2]float64
 	StopDists       []float64
@@ -53,6 +55,7 @@ func NewBusSimulator(cfg BusSimulatorConfig) *BusSimulator {
 	seed := time.Now().UnixNano() + int64(rand.Intn(10000))
 	return &BusSimulator{
 		jobID:        cfg.JobID,
+		routeID:      cfg.RouteID,
 		vehicle:      cfg.Vehicle,
 		polyline:     cfg.Polyline,
 		cumDists:     cumDists,
@@ -202,20 +205,34 @@ func (bs *BusSimulator) randomSpeed() float64 {
 }
 
 func (bs *BusSimulator) sendPings(ctx context.Context, client *http.Client, lat, lng, speedMS, brg float64) {
+	now := time.Now().Unix()
 	for i := 0; i < bs.vehicle.PassengerCount; i++ {
 		deviceHash := fmt.Sprintf("sim_%s_%s_%d", bs.jobID[:8], bs.vehicle.VehicleID, i)
-		sessionID := fmt.Sprintf("sim_%s_%s", bs.jobID[:8], bs.vehicle.VehicleID)
+		sessionID := fmt.Sprintf("sim_%s_%s_%s", bs.jobID[:8], bs.routeID, bs.vehicle.VehicleID)
 
 		nLat, nLng, nAcc, nSpd, nBrg := addGPSNoise(lat, lng, speedMS, brg, bs.rng)
+
+		// Second point ~3m offset from first (within GPS noise) for route inference
+		// Pipeline needs >= 2 points for Hausdorff matching
+		n2Lat := nLat + (bs.rng.Float64()*0.00003)*randomSign(bs.rng)
+		n2Lng := nLng + (bs.rng.Float64()*0.00003)*randomSign(bs.rng)
 
 		batch := model.GPSBatch{
 			DeviceHash: deviceHash,
 			SessionID:  sessionID,
 			Pings: []model.GPSPing{
 				{
+					Lat:       n2Lat,
+					Lng:       n2Lng,
+					Timestamp: now - int64(bs.pingInterval.Seconds()),
+					Accuracy:  nAcc,
+					Speed:     nSpd,
+					Bearing:   nBrg,
+				},
+				{
 					Lat:       nLat,
 					Lng:       nLng,
-					Timestamp: time.Now().Unix(),
+					Timestamp: now,
 					Accuracy:  nAcc,
 					Speed:     nSpd,
 					Bearing:   nBrg,

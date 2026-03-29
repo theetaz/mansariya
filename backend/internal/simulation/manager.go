@@ -15,6 +15,7 @@ type Manager struct {
 	store      *store.SimulationStore
 	routeStore RouteDataProvider
 	apiBaseURL string
+	ctx        context.Context
 }
 
 type RouteDataProvider interface {
@@ -22,12 +23,13 @@ type RouteDataProvider interface {
 	GetStopDistances(ctx context.Context, routeID string) ([]float64, error)
 }
 
-func NewManager(simStore *store.SimulationStore, routeProvider RouteDataProvider, apiBaseURL string) *Manager {
+func NewManager(ctx context.Context, simStore *store.SimulationStore, routeProvider RouteDataProvider, apiBaseURL string) *Manager {
 	return &Manager{
 		runners:    make(map[string]*JobRunner),
 		store:      simStore,
 		routeStore: routeProvider,
 		apiBaseURL: apiBaseURL,
+		ctx:        ctx,
 	}
 }
 
@@ -76,7 +78,7 @@ func (m *Manager) Start(ctx context.Context, jobID string) error {
 	}
 
 	m.runners[jobID] = runner
-	runner.Start(ctx)
+	runner.Start(m.ctx)
 
 	slog.Info("simulation started", "job", jobID, "route", detail.Job.RouteID, "vehicles", len(detail.Vehicles))
 	return nil

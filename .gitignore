@@ -70,3 +70,4 @@ admin/.env
 *.env.make
 .superpowers/
 docs/superpowers/
+.logs/

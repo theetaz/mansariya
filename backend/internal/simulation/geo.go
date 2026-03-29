@@ -90,16 +90,20 @@ func findNearestDistanceOnPolyline(polyline [][2]float64, cumDists []float64, la
 }
 
 func addGPSNoise(lat, lng, speedMS, brg float64, rng *rand.Rand) (nLat, nLng float64, nAcc, nSpd, nBrg float64) {
-	latNoise := (rng.Float64()*0.0001 + 0.00005) * randomSign(rng)
-	lngNoise := (rng.Float64()*0.0001 + 0.00005) * randomSign(rng)
+	// Position noise: ±5-10m (~0.00005 to 0.0001 degrees)
+	latNoise := (rng.Float64()*0.00005 + 0.00005) * randomSign(rng)
+	lngNoise := (rng.Float64()*0.00005 + 0.00005) * randomSign(rng)
 	nLat = lat + latNoise
 	nLng = lng + lngNoise
-	nAcc = 5 + rng.Float64()*20
-	nSpd = speedMS + (rng.Float64()*1.0+0.5)*randomSign(rng)
+	// Accuracy: 5-15m
+	nAcc = 5 + rng.Float64()*10
+	// Speed noise: ±0.2-0.5 m/s (~±0.7-1.8 km/h) — keep within DBSCAN speed eps of 5 km/h
+	nSpd = speedMS + (rng.Float64()*0.3+0.2)*randomSign(rng)
 	if nSpd < 0 {
 		nSpd = 0
 	}
-	nBrg = brg + (rng.Float64()*3+2)*randomSign(rng)
+	// Bearing noise: ±1-3 degrees
+	nBrg = brg + (rng.Float64()*2+1)*randomSign(rng)
 	nBrg = math.Mod(nBrg+360, 360)
 	return nLat, nLng, nAcc, nSpd, nBrg
 }

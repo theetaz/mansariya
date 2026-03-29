@@ -66,6 +66,39 @@ func (b *Broadcaster) Publish(ctx context.Context, vehicle model.Vehicle) error 
 	return nil
 }
 
+// ReplaceRouteVehicles atomically replaces all virtual vehicles for a route.
+// Removes old bus keys that are no longer in the current clustering result,
+// then publishes and stores the current set.
+func (b *Broadcaster) ReplaceRouteVehicles(ctx context.Context, routeID string, vehicles []model.Vehicle) {
+	busesKey := "route:" + routeID + ":buses"
+
+	// Get all existing virtual IDs for this route
+	oldMembers, _ := b.rdb.ZRange(ctx, busesKey, 0, -1).Result()
+
+	// Build set of current virtual IDs
+	currentIDs := make(map[string]bool)
+	for _, v := range vehicles {
+		currentIDs[v.VirtualID] = true
+	}
+
+	// Delete old bus position keys that are no longer current
+	pipe := b.rdb.Pipeline()
+	for _, old := range oldMembers {
+		if !currentIDs[old] {
+			pipe.Del(ctx, "bus:"+old+":pos")
+			pipe.ZRem(ctx, busesKey, old)
+		}
+	}
+	pipe.Exec(ctx)
+
+	// Publish current vehicles
+	for _, v := range vehicles {
+		if err := b.Publish(ctx, v); err != nil {
+			slog.Error("broadcast failed", "vehicle", v.VirtualID, "error", err)
+		}
+	}
+}
+
 // CleanStale removes vehicles from route sorted sets that haven't updated in 5 minutes.
 func (b *Broadcaster) CleanStale(ctx context.Context) error {
 	// This would be called periodically by a background goroutine

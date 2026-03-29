@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log/slog"
+	"strings"
 	"sync"
 	"time"
 
@@ -88,24 +89,36 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 		return
 	}
 
-	// Infer which route this trace belongs to
-	result := p.inference.Infer(trace)
-	if result == nil {
-		slog.Debug("no route inferred", "device", trace.DeviceHash[:8])
-		return
-	}
-
 	// Compute position from matched points (use last point as current position)
 	if len(trace.Points) == 0 {
 		return
 	}
 	lastPoint := trace.Points[len(trace.Points)-1]
 
+	// Determine route: simulated devices carry route_id in session_id,
+	// real devices need inference from spatial matching
+	var routeID string
+	if strings.HasPrefix(trace.SessionID, "sim_") {
+		// Session format: sim_{jobID}_{routeID}_{vehicleID}
+		parts := strings.SplitN(trace.SessionID, "_", 4)
+		if len(parts) >= 3 {
+			routeID = parts[2]
+		}
+	}
+	if routeID == "" {
+		result := p.inference.Infer(trace)
+		if result == nil {
+			slog.Debug("no route inferred", "device", trace.DeviceHash[:8])
+			return
+		}
+		routeID = result.RouteID
+	}
+
 	// Update device state
 	p.mu.Lock()
 	p.devices[trace.DeviceHash] = &DeviceState{
 		DeviceHash: trace.DeviceHash,
-		RouteID:    result.RouteID,
+		RouteID:    routeID,
 		Lat:        lastPoint.Lat,
 		Lng:        lastPoint.Lng,
 		SpeedKMH:   trace.AvgSpeed,
@@ -117,8 +130,7 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 
 	slog.Debug("device updated",
 		"device", trace.DeviceHash[:8],
-		"route", result.RouteID,
-		"confidence", result.Confidence,
+		"route", routeID,
 	)
 }
 
@@ -151,10 +163,16 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 
 	vehicles := ClusterVehicles(devices)
 
+	// Clear stale virtual vehicles: remove all old bus keys for routes that have
+	// new clustering results, then write only the current set. This prevents
+	// ghost buses from accumulating when cluster composition changes between cycles.
+	routeVehicles := make(map[string][]model.Vehicle)
 	for _, v := range vehicles {
-		if err := p.broadcaster.Publish(ctx, v); err != nil {
-			slog.Error("broadcast failed", "vehicle", v.VirtualID, "error", err)
-		}
+		routeVehicles[v.RouteID] = append(routeVehicles[v.RouteID], v)
+	}
+	for routeID, rvs := range routeVehicles {
+		// Get all current virtual vehicle IDs for this route
+		p.broadcaster.ReplaceRouteVehicles(ctx, routeID, rvs)
 	}
 }
 
