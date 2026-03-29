@@ -1,0 +1,924 @@
+[
+  {
+    "osm_id": 1634928,
+    "ref": "100",
+    "name": "Colombo Panadura",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2049075,
+    "ref": "147",
+    "name": "Mt. Lavinia - Bakery Junction",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2138012,
+    "ref": "751",
+    "name": "Jaffna-Point Pedro via Valvettiturai",
+    "from": "",
+    "to": "",
+    "operator": "SLTB",
+    "network": "CTB",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2138013,
+    "ref": "750",
+    "name": "Jaffna-Point Pedro via Nelliady",
+    "from": "",
+    "to": "",
+    "operator": "SLTB",
+    "network": "CTB",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2361479,
+    "ref": "138",
+    "name": "Maharagama/Kottawa/Homagama - Pettah",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2405132,
+    "ref": "138/3",
+    "name": "Rukmalgama - Pettah",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2405133,
+    "ref": "138/4",
+    "name": "Athurugiriya - Pettah",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2405157,
+    "ref": "128",
+    "name": "Kiriwaththuduwa - Kottawa",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2405158,
+    "ref": "",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2405225,
+    "ref": "280",
+    "name": "Maharagama - Horana",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2456796,
+    "ref": "228/1",
+    "name": "Kaduwela - Gampaha",
+    "from": "",
+    "to": "",
+    "operator": "SLTB & Private",
+    "network": "Kaduwela - Gampaha",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2613162,
+    "ref": "342",
+    "name": "Kottawa - Piliyandala",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2613163,
+    "ref": "138/2",
+    "name": "Mettegoda - Pettah",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2613164,
+    "ref": "296",
+    "name": "Kottawa - Piliyndala",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2613165,
+    "ref": "255",
+    "name": "Kottawa - Mt.Lavinia",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2661318,
+    "ref": "240",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2661319,
+    "ref": "244",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2661839,
+    "ref": "905",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2661840,
+    "ref": "01",
+    "name": "Kandy - Negombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2663816,
+    "ref": "187",
+    "name": "Airport - Colombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667784,
+    "ref": "644",
+    "name": "Kandy - Pilimatalawa",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667809,
+    "ref": "654",
+    "name": "Colombo - Bibila",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667810,
+    "ref": "21",
+    "name": "Colombo - Walapane",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667811,
+    "ref": "654",
+    "name": "Kandy - Badulla",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667812,
+    "ref": "01",
+    "name": "Kandy - Colombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667813,
+    "ref": "38",
+    "name": "Kandy - Dehiattakandiya",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667814,
+    "ref": "10",
+    "name": "Kandy - Katharagama",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667815,
+    "ref": "662",
+    "name": "Kandy - Kegalle",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2667816,
+    "ref": "654",
+    "name": "Kandy - Manaungamuwa",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2681020,
+    "ref": "152",
+    "name": "Gothatuwa - Pettah",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2681037,
+    "ref": "131, 140, 152, 164, 166",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2681217,
+    "ref": "175",
+    "name": "Kohilawththa - Kollupitiya",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2691372,
+    "ref": "47",
+    "name": "Kandy - Nuwara Eliya",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      11432008302
+    ]
+  },
+  {
+    "osm_id": 2698883,
+    "ref": "49",
+    "name": "Colombo - Trincomalee",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2699371,
+    "ref": "34",
+    "name": "Kurunegala - Negombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      8771443531
+    ]
+  },
+  {
+    "osm_id": 2759961,
+    "ref": "87",
+    "name": "Colombo - Jaffna",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2834941,
+    "ref": "",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2959951,
+    "ref": "163",
+    "name": "Jayawadana gama",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2959956,
+    "ref": "174",
+    "name": "Kottawa -Borella",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 2965055,
+    "ref": "06",
+    "name": "Colombo - Kurunegala",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 3245811,
+    "ref": "425",
+    "name": "Kalutara-Bandaragama",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 3245815,
+    "ref": "284",
+    "name": "Horana-Morontuduwa",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4070098,
+    "ref": "",
+    "name": "Watagedara Matara",
+    "from": "",
+    "to": "",
+    "operator": "CTB",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4117821,
+    "ref": "",
+    "name": "168 Nugegoda Kotahena",
+    "from": "",
+    "to": "",
+    "operator": "SLTB",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4117853,
+    "ref": "608",
+    "name": "Avissawella - Panawala Road",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4117855,
+    "ref": "",
+    "name": "Eheliyagoda Dehiowita Road",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4118061,
+    "ref": "",
+    "name": "177 Kaduwela Kolpity",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4130107,
+    "ref": "",
+    "name": "993 Maharagama Malabe",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4130129,
+    "ref": "",
+    "name": "122 Colombo Avissawella",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4142178,
+    "ref": "",
+    "name": "Kegalle Kurunegala",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4144780,
+    "ref": "",
+    "name": "190 Pettah Meegoda",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4144781,
+    "ref": "",
+    "name": "170 Pettah Athurugiriya",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4148061,
+    "ref": "",
+    "name": "122 Avissawella Colombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4148062,
+    "ref": "",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4175444,
+    "ref": "",
+    "name": "Kegalle Kurunegala",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4246485,
+    "ref": "",
+    "name": "3 Avissawella Colombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4246486,
+    "ref": "",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4514022,
+    "ref": "",
+    "name": "176 Karagampitiya Hettiyawatte",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4514023,
+    "ref": "103",
+    "name": "103 Fort Narahenpita",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4514024,
+    "ref": "103",
+    "name": "103 Fort Borella",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4853720,
+    "ref": "",
+    "name": "Kegalle",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4853721,
+    "ref": "",
+    "name": "122 Avissawella",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4867702,
+    "ref": "",
+    "name": "17, Panadura Kandy",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 4867703,
+    "ref": "",
+    "name": "17, Panadura Kurunegala",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 5119244,
+    "ref": "",
+    "name": "190 Meegoda Pettah",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 5119245,
+    "ref": "",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 5178425,
+    "ref": "",
+    "name": "138, Kadawatha Colombo Fort",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 5308574,
+    "ref": "190",
+    "name": "Godagama",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 5332159,
+    "ref": "",
+    "name": "171 Fort Pelawatte",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 6452912,
+    "ref": "87",
+    "name": "Jaffna - Colombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 7078758,
+    "ref": "49",
+    "name": "Trincomalee - Colombo",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      11029634505,
+      200567919
+    ]
+  },
+  {
+    "osm_id": 7078759,
+    "ref": "187",
+    "name": "Colombo - Airport",
+    "from": "Fort",
+    "to": "Airport",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 9303563,
+    "ref": "1",
+    "name": "Colombo - Kandy",
+    "from": "Colombo",
+    "to": "Kandy",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 9303564,
+    "ref": "1",
+    "name": "Colombo - Kegalle",
+    "from": "Colombo",
+    "to": "Kegalle",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 9635563,
+    "ref": "155",
+    "name": "",
+    "from": "Mattakkuliya",
+    "to": "Soysapura",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      5178326322,
+      6508484023
+    ]
+  },
+  {
+    "osm_id": 9635564,
+    "ref": "176",
+    "name": "",
+    "from": "Hettiyawatta",
+    "to": "Dehiwala",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      5178326322,
+      6508484023
+    ]
+  },
+  {
+    "osm_id": 14765615,
+    "ref": "",
+    "name": "",
+    "from": "",
+    "to": "",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 15028687,
+    "ref": "141",
+    "name": "Wellawatte → Narahenpita",
+    "from": "Wellawatte",
+    "to": "Narahenpita",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      10276987730,
+      10276987731,
+      10264696073,
+      3990510778,
+      10264692131,
+      10264692129
+    ]
+  },
+  {
+    "osm_id": 15449974,
+    "ref": "101",
+    "name": "",
+    "from": "Moratuwa",
+    "to": "Colombo Fort",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      8557817533,
+      8557846017,
+      8557846018,
+      8557849262,
+      8557849263,
+      6557167083,
+      8557906260,
+      8557906261,
+      8557906262,
+      8557904482,
+      8557904483,
+      8557928900,
+      8557935436,
+      8557885084,
+      10605451586,
+      10605451587,
+      10135024709,
+      10605451588,
+      10605451589,
+      5188235123,
+      10605451590,
+      10605451591,
+      10605451592,
+      10605451593,
+      3922271601,
+      10605451598,
+      10605451599
+    ]
+  },
+  {
+    "osm_id": 15481067,
+    "ref": "154",
+    "name": "",
+    "from": "Kiribathgoda",
+    "to": "Angulana",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      10708633324,
+      10726982260,
+      10726982261,
+      6382587155,
+      10726982262,
+      10726982263,
+      10726982264,
+      10726982267,
+      10726982276,
+      10726982277,
+      10726982278,
+      10726982279,
+      10726982280,
+      10726982281,
+      10726982282,
+      10726982283,
+      10726982284,
+      2096504870,
+      10726982285,
+      10726982286,
+      10661154472,
+      10660932913,
+      10661045849,
+      10661045850,
+      10661045853,
+      10661045855,
+      10661045857,
+      5189870821,
+      10661045858,
+      10661045859,
+      10661045862,
+      10661045863,
+      4526341892,
+      10661045864,
+      10661045875,
+      10661045876,
+      10661045877,
+      10112922222,
+      10661045878,
+      10661045879
+    ]
+  },
+  {
+    "osm_id": 17277989,
+    "ref": "117",
+    "name": "",
+    "from": "Nugegoda",
+    "to": "Ratmalana",
+    "operator": "",
+    "network": "",
+    "stop_ids": [
+      3937750671,
+      11668743944
+    ]
+  },
+  {
+    "osm_id": 18105953,
+    "ref": "176",
+    "name": "Dehiwala Hettiyawatta",
+    "from": "Dehiwala",
+    "to": "Hettiyawaththa",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  },
+  {
+    "osm_id": 18106014,
+    "ref": "176",
+    "name": "Dehiwala to Hettiyawatta",
+    "from": "Dehiwala",
+    "to": "Hettiyawatta",
+    "operator": "",
+    "network": "",
+    "stop_ids": []
+  }
+]

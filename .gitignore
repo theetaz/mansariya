@@ -62,3 +62,9 @@ tmp/
 docs/node_modules/
 docs/.next/
 docs/.source/
+*.env.mk
+admin/node_modules/
+admin/dist/
+admin/.env
+*.env.mk
+*.env.make

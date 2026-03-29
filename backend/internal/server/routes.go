@@ -38,7 +38,8 @@ func NewRouter(deps *Deps) *chi.Mux {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/ping"))
 
-	// Health check
+	// Health / root
+	r.Get("/", healthCheck)
 	r.Get("/health", healthCheck)
 
 	// API Documentation
@@ -80,17 +81,26 @@ func NewRouter(deps *Deps) *chi.Mux {
 	r.Route("/api/v1/admin", func(r chi.Router) {
 		r.Use(deps.Admin.AuthMiddleware)
 
+		// Dashboard
+		r.Get("/routes", deps.Admin.ListRoutes)
+		r.Get("/routes/{routeID}", deps.Admin.GetRouteDetail)
+		r.Get("/stats", deps.Admin.GetStats)
+
 		// Routes
 		r.Post("/routes", deps.Admin.CreateRoute)
 		r.Put("/routes/{routeID}", deps.Admin.UpdateRoute)
 		r.Delete("/routes/{routeID}", deps.Admin.DeleteRoute)
 		r.Post("/routes/{routeID}/validate", deps.Admin.ValidateRoute)
 		r.Put("/routes/{routeID}/stops", deps.Admin.SetRouteStops)
+		r.Get("/routes/{routeID}/patterns", deps.Admin.GetPatterns)
 		r.Put("/routes/{routeID}/timetable", deps.Admin.SetTimetable)
+		r.Get("/routes/{routeID}/timetable", deps.Admin.GetTimetable)
+		r.Put("/routes/{routeID}/polyline", deps.Admin.UpdatePolyline)
 
 		// Stops
 		r.Post("/stops", deps.Admin.CreateStop)
 		r.Put("/stops/{stopID}", deps.Admin.UpdateStop)
+		r.Delete("/stops/{stopID}", deps.Admin.DeleteStop)
 	})
 
 	return r

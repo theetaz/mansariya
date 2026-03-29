@@ -19,17 +19,6 @@
       "turn_penalty_factor": 100
     }
   },
-  "service_limits": {
-    "trace": {
-      "max_distance": 200000,
-      "max_shape": 16000,
-      "max_best_paths": 4
-    },
-    "route": {
-      "max_distance": 500000,
-      "max_locations": 50
-    }
-  },
   "httpd": {
     "service": {
       "listen": "tcp://0.0.0.0:9992"
