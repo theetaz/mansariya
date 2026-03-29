@@ -94,8 +94,8 @@ func (mm *MapMatcher) processMessage(ctx context.Context, msg redis.XMessage) er
 		return fmt.Errorf("unmarshal batch: %w", err)
 	}
 
-	if len(batch.Pings) < 2 {
-		return nil // need at least 2 points for map matching
+	if len(batch.Pings) == 0 {
+		return nil
 	}
 
 	// Convert to Valhalla shape points
@@ -108,8 +108,14 @@ func (mm *MapMatcher) processMessage(ctx context.Context, msg redis.XMessage) er
 		}
 	}
 
-	// Call Valhalla trace_route (fallback to raw GPS if Valhalla unavailable)
-	result, err := mm.valhalla.TraceRoute(ctx, shape)
+	// Call Valhalla trace_route (fallback to raw GPS if Valhalla unavailable or < 2 points)
+	var result *valhalla.TraceRouteResponse
+	var err error
+	if len(batch.Pings) >= 2 {
+		result, err = mm.valhalla.TraceRoute(ctx, shape)
+	} else {
+		err = fmt.Errorf("single ping, skip valhalla")
+	}
 
 	matched := model.MatchedTrace{
 		DeviceHash: batch.DeviceHash,
