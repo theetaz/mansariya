@@ -29,7 +29,7 @@ interface PolylineEditorProps {
   stops: { lat: number; lng: number; name: string; stop_order: number }[];
   mapCenter: [number, number];
   mapZoom: number;
-  onSave: (coordinates: [number, number][]) => void;
+  onSave: (coordinates: [number, number][], mapView?: { center: [number, number]; zoom: number }) => void;
   onCancel: () => void;
   isSaving?: boolean;
 }
@@ -45,6 +45,7 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
   const [isRebuilding, setIsRebuilding] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [history, setHistory] = useState<[number, number][][]>([]);
+  const mapInstanceRef = useRef<any>(null);
 
   const pushHistory = useCallback(() => {
     setHistory((prev) => [...prev.slice(-10), workingPolyline]);
@@ -207,8 +208,11 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
 
         <Badge variant="outline" className="text-xs">{workingPolyline.length} pts</Badge>
 
-        <Button size="sm" onClick={() => onSave(workingPolyline)}
-          disabled={!hasChanges || isSaving || !!previewPolyline}>
+        <Button size="sm" onClick={() => {
+          const m = mapInstanceRef.current;
+          const view = m ? { center: [m.getCenter().lng, m.getCenter().lat] as [number, number], zoom: m.getZoom() } : undefined;
+          onSave(workingPolyline, view);
+        }} disabled={!hasChanges || isSaving || !!previewPolyline}>
           <RiSaveLine className="size-4 mr-1" />
           {isSaving ? 'Saving...' : 'Save'}
         </Button>
@@ -222,6 +226,7 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
       <div className="flex-1 min-h-0">
         <Map center={mapCenter} zoom={mapZoom}>
           <MapControls showZoom showLocate showFullscreen />
+          <MapRefCapture mapRef={mapInstanceRef} />
 
           {/* Add point click handler */}
           {mode === 'add' && <MapClickHandler onMapClick={handleAddPoint} />}
@@ -254,8 +259,8 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
                 <MarkerContent>
                   <div className={`rounded-full border shadow-sm cursor-pointer transition-all ${
                     isSelected
-                      ? 'size-3 bg-red-500 border-red-300 ring-2 ring-red-400/50'
-                      : 'size-1.5 bg-white/80 border-white/50 hover:size-2.5 hover:bg-blue-400 hover:border-blue-300'
+                      ? 'size-4 bg-red-500 border-red-300 ring-2 ring-red-400/50'
+                      : 'size-2.5 bg-white border-primary/40 hover:size-3.5 hover:bg-blue-400 hover:border-blue-300'
                   }`} />
                 </MarkerContent>
                 {isSelected && <MarkerTooltip>Point {i} — selected</MarkerTooltip>}
@@ -278,8 +283,17 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
             </MapMarker>
           ))}
 
-          {/* Shift key tracker */}
+          {/* Box select + shift key tracker */}
           <ShiftKeyTracker />
+          {showPoints && !previewPolyline && mode !== 'add' && (
+            <BoxSelect polyline={workingPolyline} onSelect={(indices) => {
+              setSelectedPoints((prev) => {
+                const next = new Set(prev);
+                for (const i of indices) next.add(i);
+                return next;
+              });
+            }} />
+          )}
         </Map>
       </div>
     </div>
@@ -298,6 +312,13 @@ function ShiftKeyTracker() {
   return null;
 }
 
+// Captures map instance into a ref
+function MapRefCapture({ mapRef }: { mapRef: React.MutableRefObject<any> }) {
+  const { map } = useMap();
+  useEffect(() => { mapRef.current = map; }, [map, mapRef]);
+  return null;
+}
+
 // Map click handler for adding points
 function MapClickHandler({ onMapClick }: { onMapClick: (lngLat: { lng: number; lat: number }) => void }) {
   const { map } = useMap();
@@ -310,6 +331,108 @@ function MapClickHandler({ onMapClick }: { onMapClick: (lngLat: { lng: number; l
     map.on('click', handler);
     map.getCanvas().style.cursor = 'crosshair';
     return () => { map.off('click', handler); map.getCanvas().style.cursor = ''; };
+  }, [map]);
+
+  return null;
+}
+
+// Box select: shift+drag draws a rectangle on the map, selects all points inside
+function BoxSelect({ polyline, onSelect }: {
+  polyline: [number, number][];
+  onSelect: (indices: number[]) => void;
+}) {
+  const { map } = useMap();
+  const polyRef = useRef(polyline);
+  polyRef.current = polyline;
+  const onSelectRef = useRef(onSelect);
+  onSelectRef.current = onSelect;
+
+  useEffect(() => {
+    if (!map) return;
+
+    // Disable MapLibre's built-in shift+drag zoom (BoxZoom)
+    if (map.boxZoom) map.boxZoom.disable();
+
+    let startPoint: { x: number; y: number } | null = null;
+    let box: HTMLDivElement | null = null;
+    const canvas = map.getCanvasContainer();
+
+    const onMouseDown = (e: MouseEvent) => {
+      if (!e.shiftKey) return;
+      e.preventDefault();
+      startPoint = { x: e.clientX, y: e.clientY };
+
+      box = document.createElement('div');
+      box.style.position = 'fixed';
+      box.style.border = '2px dashed #ef4444';
+      box.style.background = 'rgba(239,68,68,0.1)';
+      box.style.pointerEvents = 'none';
+      box.style.zIndex = '1000';
+      document.body.appendChild(box);
+
+      // Prevent map panning during box draw
+      map.dragPan.disable();
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!startPoint || !box) return;
+      const left = Math.min(startPoint.x, e.clientX);
+      const top = Math.min(startPoint.y, e.clientY);
+      const width = Math.abs(e.clientX - startPoint.x);
+      const height = Math.abs(e.clientY - startPoint.y);
+      box.style.left = `${left}px`;
+      box.style.top = `${top}px`;
+      box.style.width = `${width}px`;
+      box.style.height = `${height}px`;
+    };
+
+    const onMouseUp = (e: MouseEvent) => {
+      if (!startPoint || !box) return;
+      map.dragPan.enable();
+
+      const rect = {
+        left: Math.min(startPoint.x, e.clientX),
+        right: Math.max(startPoint.x, e.clientX),
+        top: Math.min(startPoint.y, e.clientY),
+        bottom: Math.max(startPoint.y, e.clientY),
+      };
+
+      box.remove();
+      box = null;
+      startPoint = null;
+
+      // Ignore tiny rectangles (accidental clicks)
+      if (rect.right - rect.left < 5 || rect.bottom - rect.top < 5) return;
+
+      // Find all polyline points inside the rectangle (screen coordinates)
+      const indices: number[] = [];
+      for (let i = 0; i < polyRef.current.length; i++) {
+        const [lng, lat] = polyRef.current[i];
+        const screenPt = map.project([lng, lat]);
+        if (screenPt.x >= rect.left && screenPt.x <= rect.right &&
+            screenPt.y >= rect.top && screenPt.y <= rect.bottom) {
+          indices.push(i);
+        }
+      }
+
+      if (indices.length > 0) {
+        onSelectRef.current(indices);
+        toast.success(`Selected ${indices.length} points in rectangle`);
+      }
+    };
+
+    canvas.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      canvas.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+      if (box) box.remove();
+      if (map.boxZoom) map.boxZoom.enable();
+      map.dragPan.enable();
+    };
   }, [map]);
 
   return null;

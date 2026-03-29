@@ -207,7 +207,10 @@ function RouteDetailPage() {
                   }))}
                   mapCenter={savedMapView?.center ?? (detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93])}
                   mapZoom={savedMapView?.zoom ?? 12}
-                  onSave={(coords) => polylineMutation.mutate(coords)}
+                  onSave={(coords, mapView) => {
+                    if (mapView) setSavedMapView(mapView);
+                    polylineMutation.mutate(coords);
+                  }}
                   onCancel={() => setIsEditingPolyline(false)}
                   isSaving={polylineMutation.isPending}
                 />
@@ -231,7 +234,7 @@ function RouteDetailPage() {
                       Edit Polyline
                     </Button>
                   </div>
-                  <Map center={detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93]} zoom={12}>
+                  <Map center={savedMapView?.center ?? (detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93])} zoom={savedMapView?.zoom ?? 12}>
                     <MapControls showZoom showLocate showFullscreen />
                     <MapRefCapture mapRef={mapRef} />
                     {detail.polyline.length >= 2 && (
