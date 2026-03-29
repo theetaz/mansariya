@@ -1,23 +1,24 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { type ColumnDef } from '@tanstack/react-table';
 import {
   RiPlayLine,
   RiPauseLine,
   RiStopLine,
-  RiEditLine,
-  RiDeleteBinLine,
+  RiMoreLine,
   RiAddLine,
 } from '@remixicon/react';
-import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { DataTable, DataTableColumnHeader } from '@/components/shared/data-table';
 import {
   fetchSimulations,
   startSimulation,
@@ -47,105 +48,151 @@ function SimulationsPage() {
     refetchInterval: 5000,
   });
 
-  const startMut = useMutation({ mutationFn: startSimulation, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['simulations'] }) });
-  const pauseMut = useMutation({ mutationFn: pauseSimulation, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['simulations'] }) });
-  const resumeMut = useMutation({ mutationFn: resumeSimulation, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['simulations'] }) });
-  const stopMut = useMutation({ mutationFn: stopSimulation, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['simulations'] }) });
-  const deleteMut = useMutation({ mutationFn: deleteSimulation, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['simulations'] }) });
+  const invalidate = () => queryClient.invalidateQueries({ queryKey: ['simulations'] });
+  const startMut = useMutation({ mutationFn: startSimulation, onSuccess: () => { invalidate(); toast.success('Simulation started'); } });
+  const pauseMut = useMutation({ mutationFn: pauseSimulation, onSuccess: () => { invalidate(); toast.success('Simulation paused'); } });
+  const resumeMut = useMutation({ mutationFn: resumeSimulation, onSuccess: () => { invalidate(); toast.success('Simulation resumed'); } });
+  const stopMut = useMutation({ mutationFn: stopSimulation, onSuccess: () => { invalidate(); toast.success('Simulation stopped'); } });
+  const deleteMut = useMutation({ mutationFn: deleteSimulation, onSuccess: () => { invalidate(); toast.success('Simulation deleted'); }, onError: () => toast.error('Failed to delete simulation') });
 
-  const simulations = data?.simulations ?? [];
+  const columns: ColumnDef<SimulationJob>[] = [
+    {
+      accessorKey: 'name',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+      cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
+    },
+    {
+      accessorKey: 'route_name',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Route" />,
+      cell: ({ row }) => (
+        <div>
+          <span className="font-mono text-xs text-muted-foreground mr-1">{row.original.route_id}</span>
+          {row.original.route_name && (
+            <span className="text-sm">{row.original.route_name}</span>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'vehicle_count',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Buses" className="text-right" />,
+      cell: ({ row }) => <div className="text-right tabular-nums">{row.original.vehicle_count ?? 0}</div>,
+    },
+    {
+      accessorKey: 'device_count',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Devices" className="text-right" />,
+      cell: ({ row }) => <div className="text-right tabular-nums">{row.original.device_count ?? 0}</div>,
+    },
+    {
+      accessorKey: 'status',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+      cell: ({ row }) => {
+        const cfg = statusConfig[row.original.status];
+        return <Badge variant={cfg.variant}>{cfg.label}</Badge>;
+      },
+      meta: {
+        filterConfig: {
+          type: 'select' as const,
+          label: 'Status',
+          options: [
+            { label: 'Draft', value: 'draft' },
+            { label: 'Running', value: 'running' },
+            { label: 'Paused', value: 'paused' },
+            { label: 'Stopped', value: 'stopped' },
+          ],
+        },
+      },
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => {
+        const sim = row.original;
+        return (
+          <div className="flex items-center gap-1">
+            {/* Quick action buttons */}
+            {(sim.status === 'draft' || sim.status === 'stopped') && (
+              <Button size="sm" variant="ghost" className="size-8 p-0" onClick={() => startMut.mutate(sim.id)} title="Start">
+                <RiPlayLine className="size-4 text-green-600" />
+              </Button>
+            )}
+            {sim.status === 'running' && (
+              <Button size="sm" variant="ghost" className="size-8 p-0" onClick={() => pauseMut.mutate(sim.id)} title="Pause">
+                <RiPauseLine className="size-4 text-amber-500" />
+              </Button>
+            )}
+            {sim.status === 'paused' && (
+              <Button size="sm" variant="ghost" className="size-8 p-0" onClick={() => resumeMut.mutate(sim.id)} title="Resume">
+                <RiPlayLine className="size-4 text-green-600" />
+              </Button>
+            )}
+            {(sim.status === 'running' || sim.status === 'paused') && (
+              <Button size="sm" variant="ghost" className="size-8 p-0" onClick={() => stopMut.mutate(sim.id)} title="Stop">
+                <RiStopLine className="size-4 text-red-500" />
+              </Button>
+            )}
+
+            {/* More menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="size-8" size="icon">
+                  <RiMoreLine />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-36">
+                {(sim.status === 'draft' || sim.status === 'stopped') && (
+                  <DropdownMenuItem asChild>
+                    <Link to={`/simulations/${sim.id}/edit`}>Edit</Link>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem
+                  onClick={() => {
+                    navigator.clipboard.writeText(sim.id);
+                    toast.success('ID copied');
+                  }}
+                >
+                  Copy ID
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-destructive"
+                  disabled={sim.status === 'running' || sim.status === 'paused'}
+                  onClick={() => deleteMut.mutate(sim.id)}
+                >
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="flex items-center justify-between px-4 lg:px-6">
         <div>
-          <h1 className="text-2xl font-bold">Simulations</h1>
-          <p className="text-sm text-muted-foreground">Create and manage simulation jobs</p>
+          <h1 className="text-2xl font-semibold">Simulations</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            {data?.count ?? 0} simulation jobs
+          </p>
         </div>
-        <Button asChild>
+        <Button size="sm" asChild>
           <Link to="/simulations/new">
-            <RiAddLine className="mr-2 size-4" />
+            <RiAddLine className="size-4 mr-1" />
             New Simulation
           </Link>
         </Button>
       </div>
 
-      <div className="rounded-lg border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Route</TableHead>
-              <TableHead className="text-right">Buses</TableHead>
-              <TableHead className="text-right">Devices</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">Loading...</TableCell>
-              </TableRow>
-            ) : simulations.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No simulations yet. Create one to get started.</TableCell>
-              </TableRow>
-            ) : (
-              simulations.map((sim: SimulationJob) => (
-                <TableRow key={sim.id}>
-                  <TableCell className="font-medium">{sim.name}</TableCell>
-                  <TableCell>{sim.route_name ?? sim.route_id}</TableCell>
-                  <TableCell className="text-right">{sim.vehicle_count ?? 0}</TableCell>
-                  <TableCell className="text-right">{sim.device_count ?? 0}</TableCell>
-                  <TableCell>
-                    <Badge variant={statusConfig[sim.status].variant}>
-                      {statusConfig[sim.status].label}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      {sim.status === 'draft' || sim.status === 'stopped' ? (
-                        <>
-                          <Button size="sm" variant="ghost" onClick={() => startMut.mutate(sim.id)} title="Start">
-                            <RiPlayLine className="size-4 text-green-600" />
-                          </Button>
-                          <Button size="sm" variant="ghost" asChild title="Edit">
-                            <Link to={`/simulations/${sim.id}/edit`}>
-                              <RiEditLine className="size-4 text-blue-500" />
-                            </Link>
-                          </Button>
-                          <Button size="sm" variant="ghost" onClick={() => deleteMut.mutate(sim.id)} title="Delete">
-                            <RiDeleteBinLine className="size-4 text-red-500" />
-                          </Button>
-                        </>
-                      ) : sim.status === 'running' ? (
-                        <>
-                          <Button size="sm" variant="ghost" onClick={() => pauseMut.mutate(sim.id)} title="Pause">
-                            <RiPauseLine className="size-4 text-amber-500" />
-                          </Button>
-                          <Button size="sm" variant="ghost" onClick={() => stopMut.mutate(sim.id)} title="Stop">
-                            <RiStopLine className="size-4 text-red-500" />
-                          </Button>
-                        </>
-                      ) : sim.status === 'paused' ? (
-                        <>
-                          <Button size="sm" variant="ghost" onClick={() => resumeMut.mutate(sim.id)} title="Resume">
-                            <RiPlayLine className="size-4 text-green-600" />
-                          </Button>
-                          <Button size="sm" variant="ghost" onClick={() => stopMut.mutate(sim.id)} title="Stop">
-                            <RiStopLine className="size-4 text-red-500" />
-                          </Button>
-                        </>
-                      ) : null}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTable
+        columns={columns}
+        data={data?.simulations ?? []}
+        searchPlaceholder="Search simulations..."
+        isLoading={isLoading}
+      />
     </div>
   );
 }
