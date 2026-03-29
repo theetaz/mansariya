@@ -369,74 +369,76 @@ function TripProgress({ stops, progressPercent }: {
   stops: { name: string; passed: boolean; isCurrent: boolean }[];
   progressPercent: number;
 }) {
-  const maxVisible = 12;
-  const showAll = stops.length <= maxVisible;
-
-  // If too many stops, show first, last, and evenly sampled middle stops
-  const displayStops = useMemo(() => {
-    if (showAll) return stops;
-    const sampled: typeof stops = [stops[0]];
-    const step = Math.max(1, Math.floor((stops.length - 2) / (maxVisible - 2)));
-    for (let i = step; i < stops.length - 1; i += step) {
-      if (sampled.length < maxVisible - 1) sampled.push(stops[i]);
-    }
-    sampled.push(stops[stops.length - 1]);
-    return sampled;
-  }, [stops, showAll]);
+  const passed = stops.filter((s) => s.passed).length;
+  const currentStop = stops.find((s) => s.isCurrent);
+  const firstName = stops[0]?.name ?? '';
+  const lastName = stops[stops.length - 1]?.name ?? '';
 
   return (
-    <div>
-      {/* Progress bar with bus indicator */}
-      <div className="relative mb-2">
-        {/* Track */}
-        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary rounded-full transition-all duration-1000"
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-        {/* Bus position indicator */}
-        <div
-          className="absolute -top-1 transition-all duration-1000"
-          style={{ left: `${progressPercent}%`, transform: 'translateX(-50%)' }}
-        >
-          <div className="size-3.5 rounded-full bg-primary border-2 border-white shadow-md" />
-        </div>
+    <div className="space-y-2">
+      {/* Route endpoints + progress text */}
+      <div className="flex items-center justify-between text-[10px]">
+        <span className="text-muted-foreground font-medium truncate max-w-[120px]">{firstName}</span>
+        <span className="text-muted-foreground">{passed}/{stops.length} stops · {Math.round(progressPercent)}%</span>
+        <span className="text-muted-foreground font-medium truncate max-w-[120px] text-right">{lastName}</span>
       </div>
 
-      {/* Stop markers along the line */}
-      <div className="relative flex justify-between items-start">
-        {displayStops.map((stop, i) => {
-          const isFirst = i === 0;
-          const isLast = i === displayStops.length - 1;
+      {/* Progress track */}
+      <div className="relative h-6 flex items-center">
+        {/* Background track */}
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-1 bg-muted rounded-full" />
+
+        {/* Filled track */}
+        <div
+          className="absolute top-1/2 -translate-y-1/2 h-1 bg-primary rounded-full transition-all duration-1000"
+          style={{ width: `${progressPercent}%` }}
+        />
+
+        {/* Stop dots */}
+        {stops.map((stop, i) => {
+          const pct = stops.length <= 1 ? 0 : (i / (stops.length - 1)) * 100;
           return (
-            <div key={i} className="flex flex-col items-center" style={{ width: 0, flexShrink: 0 }}>
-              {/* Stop dot */}
-              <div className={`size-2 rounded-full border ${
-                stop.passed
-                  ? 'bg-primary border-primary'
-                  : stop.isCurrent
-                    ? 'bg-primary/50 border-primary ring-2 ring-primary/20'
-                    : 'bg-muted-foreground/20 border-muted-foreground/30'
+            <div
+              key={i}
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 group"
+              style={{ left: `${pct}%` }}
+            >
+              <div className={`rounded-full transition-all ${
+                stop.isCurrent
+                  ? 'size-3 bg-primary ring-[3px] ring-primary/25'
+                  : stop.passed
+                    ? 'size-2 bg-primary'
+                    : 'size-2 bg-muted-foreground/30'
               }`} />
-              {/* Stop name — only show for first, last, and current */}
-              {(isFirst || isLast || stop.isCurrent) && (
-                <span className={`text-[9px] mt-1 whitespace-nowrap max-w-[60px] truncate text-center ${
-                  stop.isCurrent ? 'text-primary font-semibold' : 'text-muted-foreground'
-                }`}>
+              {/* Hover tooltip */}
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block z-20">
+                <div className="bg-foreground text-background text-[10px] px-2 py-1 rounded shadow-lg whitespace-nowrap">
                   {stop.name}
-                </span>
-              )}
+                </div>
+              </div>
             </div>
           );
         })}
+
+        {/* Bus indicator */}
+        <div
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 transition-all duration-1000"
+          style={{ left: `${progressPercent}%` }}
+        >
+          <div className="size-5 rounded-full bg-primary border-[2.5px] border-background shadow-lg flex items-center justify-center">
+            <RiBusLine className="size-2.5 text-white" />
+          </div>
+        </div>
       </div>
 
-      {/* Summary */}
-      <div className="flex justify-between mt-2 text-[10px] text-muted-foreground">
-        <span>{stops.filter((s) => s.passed).length} of {stops.length} stops passed</span>
-        <span>{Math.round(progressPercent)}% complete</span>
-      </div>
+      {/* Current stop label */}
+      {currentStop && (
+        <div className="flex items-center gap-1.5 text-[10px]">
+          <RiNavigationLine className="size-3 text-primary" />
+          <span className="text-muted-foreground">Next:</span>
+          <span className="text-primary font-medium">{currentStop.name}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -527,10 +529,16 @@ function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number
     isCurrent: i === nextStopIdx,
   }));
 
-  // Progress percent along route
-  const totalRouteDist = lastStop.distance_from_start_km || 1;
-  const currentDist = nextStop.distance_from_start_km - distToNext;
-  const progressPercent = Math.max(0, Math.min(100, (currentDist / totalRouteDist) * 100));
+  // Progress percent — use stop index as primary, distance as fine-tuning
+  const totalRouteDist = lastStop.distance_from_start_km;
+  let progressPercent: number;
+  if (totalRouteDist > 0) {
+    const currentDist = Math.max(0, nextStop.distance_from_start_km - distToNext);
+    progressPercent = Math.max(0, Math.min(100, (currentDist / totalRouteDist) * 100));
+  } else {
+    // Fallback: use stop index ratio
+    progressPercent = Math.max(0, Math.min(100, (nextStopIdx / Math.max(stops.length - 1, 1)) * 100));
+  }
 
   return {
     nextStopName: nextStop.name_en,
