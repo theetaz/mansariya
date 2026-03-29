@@ -23,8 +23,9 @@ type Deps struct {
 	WS      *handler.WSHandler
 	Sync    *handler.SyncHandler
 	Journey *handler.JourneyHandler
-	Admin   *handler.AdminHandler
-	Buses   *handler.BusesHandler
+	Admin      *handler.AdminHandler
+	Buses      *handler.BusesHandler
+	Simulation *handler.SimulationHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -102,6 +103,18 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Post("/stops", deps.Admin.CreateStop)
 		r.Put("/stops/{stopID}", deps.Admin.UpdateStop)
 		r.Delete("/stops/{stopID}", deps.Admin.DeleteStop)
+
+		// Simulations
+		r.Get("/simulations", deps.Simulation.List)
+		r.Post("/simulations", deps.Simulation.Create)
+		r.Get("/simulations/active", deps.Simulation.ActiveStats)
+		r.Get("/simulations/{simID}", deps.Simulation.Get)
+		r.Put("/simulations/{simID}", deps.Simulation.Update)
+		r.Delete("/simulations/{simID}", deps.Simulation.Delete)
+		r.Post("/simulations/{simID}/start", deps.Simulation.StartJob)
+		r.Post("/simulations/{simID}/pause", deps.Simulation.PauseJob)
+		r.Post("/simulations/{simID}/resume", deps.Simulation.ResumeJob)
+		r.Post("/simulations/{simID}/stop", deps.Simulation.StopJob)
 	})
 
 	return r

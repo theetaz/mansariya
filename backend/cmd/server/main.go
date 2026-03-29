@@ -18,6 +18,7 @@ import (
 	redisclient "github.com/masariya/backend/internal/redis"
 	"github.com/masariya/backend/internal/server"
 	"github.com/masariya/backend/internal/service"
+	"github.com/masariya/backend/internal/simulation"
 	"github.com/masariya/backend/internal/spatial"
 	"github.com/masariya/backend/internal/store"
 	"github.com/masariya/backend/internal/valhalla"
@@ -64,6 +65,7 @@ func run() error {
 	stopStore := store.NewStopStore(pool)
 	journeyStore := store.NewJourneyStore(pool)
 	adminStore := store.NewAdminStore(pool)
+	simStore := store.NewSimulationStore(pool)
 	_ = store.NewTripStore(pool) // used later for ETA
 
 	// Load route spatial index
@@ -107,18 +109,29 @@ func run() error {
 	wsHub := ws.NewHub()
 	go runPubSubBridge(ctx, rdb, wsHub)
 
+	// Reset any simulations that were running when server last stopped
+	if err := simStore.ResetRunningToStopped(ctx); err != nil {
+		slog.Warn("failed to reset running simulations", "error", err)
+	}
+
+	// Initialize simulation engine
+	routeProvider := simulation.NewDBRouteProvider(pool)
+	apiBaseURL := "http://localhost:" + cfg.Port
+	simManager := simulation.NewManager(simStore, routeProvider, apiBaseURL)
+
 	// Wire up HTTP handlers
 	deps := &server.Deps{
-		GPS:     handler.NewGPSHandler(ingester),
-		Routes:  handler.NewRoutesHandler(routeStore, stopStore),
-		Search:  handler.NewSearchHandler(routeStore),
-		Stops:   handler.NewStopsHandler(stopStore),
-		ETA:     handler.NewETAHandler(service.NewETAService(rdb, routeIndex)),
-		WS:      handler.NewWSHandler(wsHub),
-		Sync:    handler.NewSyncHandler(routeStore),
-		Journey: handler.NewJourneyHandler(journeyStore),
-		Admin:   handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
-		Buses:   handler.NewBusesHandler(rdb),
+		GPS:        handler.NewGPSHandler(ingester),
+		Routes:     handler.NewRoutesHandler(routeStore, stopStore),
+		Search:     handler.NewSearchHandler(routeStore),
+		Stops:      handler.NewStopsHandler(stopStore),
+		ETA:        handler.NewETAHandler(service.NewETAService(rdb, routeIndex)),
+		WS:         handler.NewWSHandler(wsHub),
+		Sync:       handler.NewSyncHandler(routeStore),
+		Journey:    handler.NewJourneyHandler(journeyStore),
+		Admin:      handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
+		Buses:      handler.NewBusesHandler(rdb),
+		Simulation: handler.NewSimulationHandler(simStore, simManager),
 	}
 
 	router := server.NewRouter(deps)
