@@ -209,7 +209,7 @@ function RouteDetailPage() {
             <Card>
               <CardContent className="p-0">
                 <MapView
-                  className="h-[500px] rounded-lg overflow-hidden"
+                  className="h-[calc(100vh-20rem)] min-h-[400px] rounded-lg overflow-hidden"
                   polyline={detail.polyline as [number, number][]}
                   stops={detail.stops.map((s) => ({
                     lat: s.lat,
