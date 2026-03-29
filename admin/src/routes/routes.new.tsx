@@ -381,6 +381,7 @@ function NewRoutePage() {
               <CardTitle className="text-base">Route Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
+              {/* Row 1: Route ID + Operator (equal width) */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <Label className="text-xs">Route ID *</Label>
@@ -389,7 +390,7 @@ function NewRoutePage() {
                 <div className="space-y-1">
                   <Label className="text-xs">Operator</Label>
                   <Select value={operator} onValueChange={setOperator}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                     <SelectContent><SelectGroup>
                       <SelectItem value="SLTB">SLTB</SelectItem>
                       <SelectItem value="Private">Private</SelectItem>
@@ -397,25 +398,31 @@ function NewRoutePage() {
                   </Select>
                 </div>
               </div>
+
+              {/* Row 2: Name EN (full width) */}
               <div className="space-y-1">
                 <Label className="text-xs">Name (EN) *</Label>
                 <Input value={nameEn} onChange={(e) => setNameEn(e.target.value)} placeholder="Auto-generated from stops" />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <Label className="text-xs">Name (SI)</Label>
-                  <Input value={nameSi} onChange={(e) => setNameSi(e.target.value)} />
-                </div>
-                <div className="space-y-1">
-                  <Label className="text-xs">Name (TA)</Label>
-                  <Input value={nameTa} onChange={(e) => setNameTa(e.target.value)} />
-                </div>
+
+              {/* Row 3: Name SI (full width) */}
+              <div className="space-y-1">
+                <Label className="text-xs">Name (SI) — සිංහල</Label>
+                <Input value={nameSi} onChange={(e) => setNameSi(e.target.value)} placeholder="සිංහල නම" />
               </div>
+
+              {/* Row 4: Name TA (full width) */}
+              <div className="space-y-1">
+                <Label className="text-xs">Name (TA) — தமிழ்</Label>
+                <Input value={nameTa} onChange={(e) => setNameTa(e.target.value)} placeholder="தமிழ் பெயர்" />
+              </div>
+
+              {/* Row 5: Service Type + Fare (equal width) */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <Label className="text-xs">Service Type</Label>
                   <Select value={serviceType} onValueChange={setServiceType}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                     <SelectContent><SelectGroup>
                       <SelectItem value="Normal">Normal</SelectItem>
                       <SelectItem value="Semi-Luxury">Semi-Luxury</SelectItem>
@@ -426,17 +433,39 @@ function NewRoutePage() {
                 </div>
                 <div className="space-y-1">
                   <Label className="text-xs">Fare (LKR)</Label>
-                  <Input type="number" value={fareLkr || ''} onChange={(e) => setFareLkr(Number(e.target.value))} />
+                  <Input type="number" value={fareLkr || ''} onChange={(e) => setFareLkr(Number(e.target.value))} placeholder="0" />
                 </div>
               </div>
+
+              {/* Row 6: Frequency + Operating Hours (time pickers) */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <Label className="text-xs">Frequency (min)</Label>
-                  <Input type="number" value={frequencyMin || ''} onChange={(e) => setFrequencyMin(Number(e.target.value))} />
+                  <Input type="number" value={frequencyMin || ''} onChange={(e) => setFrequencyMin(Number(e.target.value))} placeholder="15" />
                 </div>
                 <div className="space-y-1">
                   <Label className="text-xs">Operating Hours</Label>
-                  <Input value={operatingHours} onChange={(e) => setOperatingHours(e.target.value)} placeholder="05:00-22:00" />
+                  <div className="flex items-center gap-1.5">
+                    <Input
+                      type="time"
+                      className="flex-1"
+                      value={operatingHours.split('-')[0] ?? ''}
+                      onChange={(e) => {
+                        const end = operatingHours.split('-')[1] ?? '22:00';
+                        setOperatingHours(`${e.target.value}-${end}`);
+                      }}
+                    />
+                    <span className="text-xs text-muted-foreground">to</span>
+                    <Input
+                      type="time"
+                      className="flex-1"
+                      value={operatingHours.split('-')[1] ?? ''}
+                      onChange={(e) => {
+                        const start = operatingHours.split('-')[0] ?? '05:00';
+                        setOperatingHours(`${start}-${e.target.value}`);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </CardContent>
