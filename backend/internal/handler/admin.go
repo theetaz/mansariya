@@ -37,6 +37,7 @@ type AdminStore interface {
 	ListRoutesFiltered(ctx context.Context, filter AdminRouteFilter) (*AdminRouteListResponse, error)
 
 	GetRoutePatterns(ctx context.Context, routeID string) ([]AdminRoutePattern, error)
+	GetPatternStops(ctx context.Context, patternID string) ([]AdminEnrichedStop, error)
 }
 
 // --- Input types ---
@@ -486,6 +487,17 @@ func (h *AdminHandler) GetPatterns(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, patterns)
+}
+
+func (h *AdminHandler) GetPatternStops(w http.ResponseWriter, r *http.Request) {
+	patternID := chi.URLParam(r, "patternID")
+	stops, err := h.store.GetPatternStops(r.Context(), patternID)
+	if err != nil {
+		slog.Error("get pattern stops", "error", err)
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		return
+	}
+	writeJSON(w, http.StatusOK, stops)
 }
 
 // RegisterAdminTime is unused but shows the intended validation timestamp

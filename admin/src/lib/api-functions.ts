@@ -1,5 +1,6 @@
 import api from './api';
 import type {
+  AdminEnrichedStop,
   AdminRouteDetail,
   AdminRouteInput,
   AdminRouteListResponse,
@@ -74,6 +75,9 @@ export const fetchRouteTimetable = (routeId: string) =>
 
 export const deleteStop = (id: string) =>
   api.delete(`/api/v1/admin/stops/${id}`).then((r) => r.data);
+
+export const fetchPatternStops = (routeId: string, patternId: string) =>
+  api.get<AdminEnrichedStop[]>(`/api/v1/admin/routes/${routeId}/patterns/${patternId}/stops`).then((r) => r.data);
 
 export const fetchAdminRoutesFiltered = (params: {
   q?: string;

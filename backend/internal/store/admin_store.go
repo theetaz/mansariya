@@ -488,6 +488,35 @@ func (s *AdminStore) GetRoutePatterns(ctx context.Context, routeID string) ([]ha
 	return patterns, rows.Err()
 }
 
+func (s *AdminStore) GetPatternStops(ctx context.Context, patternID string) ([]handler.AdminEnrichedStop, error) {
+	rows, err := s.pool.Query(ctx, `
+		SELECT ps.stop_id, ps.stop_order, s.name_en, COALESCE(s.name_si,''), COALESCE(s.name_ta,''),
+		       ST_Y(s.location::geometry), ST_X(s.location::geometry),
+		       COALESCE(ps.distance_from_start_km, 0), COALESCE(ps.typical_duration_min, 0),
+		       COALESCE(ps.fare_from_start_lkr, 0), COALESCE(s.is_terminal, false)
+		FROM pattern_stops ps JOIN stops s ON ps.stop_id = s.id
+		WHERE ps.pattern_id = $1 ORDER BY ps.stop_order`, patternID)
+	if err != nil {
+		return nil, fmt.Errorf("query pattern stops: %w", err)
+	}
+	defer rows.Close()
+
+	var stops []handler.AdminEnrichedStop
+	for rows.Next() {
+		var stop handler.AdminEnrichedStop
+		if err := rows.Scan(&stop.StopID, &stop.StopOrder, &stop.NameEN, &stop.NameSI, &stop.NameTA,
+			&stop.Lat, &stop.Lng, &stop.DistanceFromStart, &stop.DurationMin,
+			&stop.FareFromStart, &stop.IsTerminal); err != nil {
+			return nil, fmt.Errorf("scan pattern stop: %w", err)
+		}
+		stops = append(stops, stop)
+	}
+	if stops == nil {
+		stops = []handler.AdminEnrichedStop{}
+	}
+	return stops, rows.Err()
+}
+
 func coalesce(val, fallback string) string {
 	if val == "" {
 		return fallback

@@ -53,6 +53,7 @@ import {
 import { MapView } from '@/components/shared/map-view';
 import {
   fetchAdminRouteDetail,
+  fetchPatternStops,
   updateRoute,
   setRouteStops,
   setTimetable,
@@ -179,21 +180,17 @@ function RouteDetailPage() {
           </TabsList>
 
           <TabsContent value="map" className="mt-3 flex-1">
-            <Card className="h-full">
-              <CardContent className="p-0 h-full">
-                <MapView
-                  className="h-full min-h-[400px] rounded-lg overflow-hidden"
-                  polyline={detail.polyline as [number, number][]}
-                  stops={detail.stops.map((s) => ({
-                    lat: s.lat,
-                    lng: s.lng,
-                    name: s.name_en,
-                    order: s.stop_order,
-                    isTerminal: s.is_terminal,
-                  }))}
-                />
-              </CardContent>
-            </Card>
+            <MapView
+              className="h-full min-h-[400px] rounded-lg overflow-hidden border"
+              polyline={detail.polyline as [number, number][]}
+              stops={detail.stops.map((s) => ({
+                lat: s.lat,
+                lng: s.lng,
+                name: s.name_en,
+                order: s.stop_order,
+                isTerminal: s.is_terminal,
+              }))}
+            />
           </TabsContent>
 
           <TabsContent value="stops" className="mt-3">
@@ -373,7 +370,7 @@ function formatDate(iso: string): string {
 
 function StopsSection({
   routeId,
-  stops: initialStops,
+  stops: primaryStops,
   patterns,
   activePattern,
   onPatternChange,
@@ -388,7 +385,23 @@ function StopsSection({
   isEditing: boolean;
   onSaved: () => void;
 }) {
-  const [stops, setStops] = useState<AdminEnrichedStop[]>(initialStops);
+  // Fetch stops for the selected pattern (non-primary)
+  const isPrimarySelected = !activePattern || activePattern.is_primary;
+  const { data: patternStopsData } = useQuery({
+    queryKey: ['pattern-stops', activePattern?.id],
+    queryFn: () => fetchPatternStops(routeId, activePattern!.id),
+    enabled: !!activePattern && !isPrimarySelected,
+  });
+
+  // Use pattern-specific stops when non-primary selected, else use primary stops from detail
+  const displayStops = isPrimarySelected ? primaryStops : (patternStopsData ?? []);
+  const [stops, setStops] = useState<AdminEnrichedStop[]>(displayStops);
+
+  // Sync when displayed stops change (pattern switch or data loaded)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  if (displayStops !== stops && displayStops.length > 0) {
+    setStops(displayStops);
+  }
 
   const mutation = useMutation({
     mutationFn: () =>
