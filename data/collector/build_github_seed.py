@@ -21,6 +21,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR.parent
 GITHUB_PATH = BASE_DIR / "github_colombo.json"
+TRANSLATIONS_PATH = BASE_DIR / "stop_translations.json"
 FIX_ENRICH_PATH = BASE_DIR / "fix_and_enrich.py"
 OUTPUT_PATH = DATA_DIR / "seed_data.json"
 OSRM_BASE = "https://router.project-osrm.org"
@@ -76,25 +77,34 @@ def main():
     # Load sources
     with open(GITHUB_PATH) as f:
         github = json.load(f)
+    with open(TRANSLATIONS_PATH) as f:
+        translations = json.load(f)
     known_routes = extract_known_routes()
 
     places = {p['id']: p for p in github['places']}
     print(f"  GitHub: {len(github['routes'])} routes, {len(places)} places")
+    print(f"  Translations: {len(translations)} stop names (SI/TA)")
     print(f"  KNOWN_ROUTES: {len(known_routes)} entries")
 
-    # Build stops from GitHub places
+    # Build stops from GitHub places with trilingual names
     all_stops: dict[str, dict] = {}
+    translated_count = 0
     for p in places.values():
         if not p.get('lat') or not p.get('lng'):
             continue
         sid = f"gh_{p['id']}"
+        tr = translations.get(p['name'], {})
+        if tr:
+            translated_count += 1
         all_stops[sid] = {
             'id': sid,
             'name_en': p['name'],
-            'name_si': '', 'name_ta': '',
+            'name_si': tr.get('si', ''),
+            'name_ta': tr.get('ta', ''),
             'lat': p['lat'], 'lng': p['lng'],
             'source': 'github',
         }
+    print(f"  Translated: {translated_count}/{len(all_stops)} stops have SI/TA names")
 
     # Group routes by route_no, collect all variants
     route_buses: dict[str, list] = defaultdict(list)
@@ -121,9 +131,16 @@ def main():
 
     print(f"\n  Building {len(route_buses)} routes with OSRM polylines...\n")
 
+    # Extra route translations not in KNOWN_ROUTES
+    extra_routes: dict[str, tuple[str, str, str, str, str]] = {
+        "138/2": ("Pettah - Mattegoda", "පිටකොටුව - මත්තේගොඩ", "புறக்கோட்டை - மத்தேகொடை", "Private", "Normal"),
+        "138/3": ("Pettah - Rukmalgama", "පිටකොටුව - රුක්මල්ගම", "புறக்கோட்டை - ருக்மல்கம", "Private", "Normal"),
+        "138/4": ("Pettah - Athurugiriya", "පිටකොටුව - අතුරුගිරිය", "புறக்கோட்டை - அதுருகிரிய", "Private", "Normal"),
+    }
+
     for rno, variants in sorted(route_buses.items(), key=lambda x: x[0]):
-        # Route metadata from KNOWN_ROUTES or GitHub
-        kr = known_routes.get(rno)
+        # Route metadata: KNOWN_ROUTES → extra_routes → generate from GitHub
+        kr = known_routes.get(rno) or extra_routes.get(rno)
         if kr:
             name_en, name_si, name_ta, operator, service_type = kr
         else:

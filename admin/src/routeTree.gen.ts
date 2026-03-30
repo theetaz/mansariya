@@ -11,14 +11,19 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimetablesRouteImport } from './routes/timetables'
 import { Route as StopsRouteImport } from './routes/stops'
+import { Route as SimulationsRouteImport } from './routes/simulations'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RoutesRouteImport } from './routes/routes'
 import { Route as RouteBuilderRouteImport } from './routes/route-builder'
 import { Route as LiveMapRouteImport } from './routes/live-map'
 import { Route as DataRouteImport } from './routes/data'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SimulationsIndexRouteImport } from './routes/simulations.index'
 import { Route as RoutesIndexRouteImport } from './routes/routes.index'
+import { Route as SimulationsNewRouteImport } from './routes/simulations.new'
+import { Route as RoutesNewRouteImport } from './routes/routes.new'
 import { Route as RoutesRouteIdRouteImport } from './routes/routes.$routeId'
+import { Route as SimulationsSimIdEditRouteImport } from './routes/simulations.$simId.edit'
 
 const TimetablesRoute = TimetablesRouteImport.update({
   id: '/timetables',
@@ -28,6 +33,11 @@ const TimetablesRoute = TimetablesRouteImport.update({
 const StopsRoute = StopsRouteImport.update({
   id: '/stops',
   path: '/stops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SimulationsRoute = SimulationsRouteImport.update({
+  id: '/simulations',
+  path: '/simulations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -60,15 +70,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SimulationsIndexRoute = SimulationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SimulationsRoute,
+} as any)
 const RoutesIndexRoute = RoutesIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => RoutesRoute,
+} as any)
+const SimulationsNewRoute = SimulationsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => SimulationsRoute,
+} as any)
+const RoutesNewRoute = RoutesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
   getParentRoute: () => RoutesRoute,
 } as any)
 const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
   id: '/$routeId',
   path: '/$routeId',
   getParentRoute: () => RoutesRoute,
+} as any)
+const SimulationsSimIdEditRoute = SimulationsSimIdEditRouteImport.update({
+  id: '/$simId/edit',
+  path: '/$simId/edit',
+  getParentRoute: () => SimulationsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -78,10 +108,15 @@ export interface FileRoutesByFullPath {
   '/route-builder': typeof RouteBuilderRoute
   '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/simulations': typeof SimulationsRouteWithChildren
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
+  '/simulations/new': typeof SimulationsNewRoute
   '/routes/': typeof RoutesIndexRoute
+  '/simulations/': typeof SimulationsIndexRoute
+  '/simulations/$simId/edit': typeof SimulationsSimIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -92,7 +127,11 @@ export interface FileRoutesByTo {
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
+  '/simulations/new': typeof SimulationsNewRoute
   '/routes': typeof RoutesIndexRoute
+  '/simulations': typeof SimulationsIndexRoute
+  '/simulations/$simId/edit': typeof SimulationsSimIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -102,10 +141,15 @@ export interface FileRoutesById {
   '/route-builder': typeof RouteBuilderRoute
   '/routes': typeof RoutesRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/simulations': typeof SimulationsRouteWithChildren
   '/stops': typeof StopsRoute
   '/timetables': typeof TimetablesRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
+  '/routes/new': typeof RoutesNewRoute
+  '/simulations/new': typeof SimulationsNewRoute
   '/routes/': typeof RoutesIndexRoute
+  '/simulations/': typeof SimulationsIndexRoute
+  '/simulations/$simId/edit': typeof SimulationsSimIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -116,10 +160,15 @@ export interface FileRouteTypes {
     | '/route-builder'
     | '/routes'
     | '/settings'
+    | '/simulations'
     | '/stops'
     | '/timetables'
     | '/routes/$routeId'
+    | '/routes/new'
+    | '/simulations/new'
     | '/routes/'
+    | '/simulations/'
+    | '/simulations/$simId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -130,7 +179,11 @@ export interface FileRouteTypes {
     | '/stops'
     | '/timetables'
     | '/routes/$routeId'
+    | '/routes/new'
+    | '/simulations/new'
     | '/routes'
+    | '/simulations'
+    | '/simulations/$simId/edit'
   id:
     | '__root__'
     | '/'
@@ -139,10 +192,15 @@ export interface FileRouteTypes {
     | '/route-builder'
     | '/routes'
     | '/settings'
+    | '/simulations'
     | '/stops'
     | '/timetables'
     | '/routes/$routeId'
+    | '/routes/new'
+    | '/simulations/new'
     | '/routes/'
+    | '/simulations/'
+    | '/simulations/$simId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,6 +210,7 @@ export interface RootRouteChildren {
   RouteBuilderRoute: typeof RouteBuilderRoute
   RoutesRoute: typeof RoutesRouteWithChildren
   SettingsRoute: typeof SettingsRoute
+  SimulationsRoute: typeof SimulationsRouteWithChildren
   StopsRoute: typeof StopsRoute
   TimetablesRoute: typeof TimetablesRoute
 }
@@ -170,6 +229,13 @@ declare module '@tanstack/react-router' {
       path: '/stops'
       fullPath: '/stops'
       preLoaderRoute: typeof StopsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/simulations': {
+      id: '/simulations'
+      path: '/simulations'
+      fullPath: '/simulations'
+      preLoaderRoute: typeof SimulationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -214,11 +280,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/simulations/': {
+      id: '/simulations/'
+      path: '/'
+      fullPath: '/simulations/'
+      preLoaderRoute: typeof SimulationsIndexRouteImport
+      parentRoute: typeof SimulationsRoute
+    }
     '/routes/': {
       id: '/routes/'
       path: '/'
       fullPath: '/routes/'
       preLoaderRoute: typeof RoutesIndexRouteImport
+      parentRoute: typeof RoutesRoute
+    }
+    '/simulations/new': {
+      id: '/simulations/new'
+      path: '/new'
+      fullPath: '/simulations/new'
+      preLoaderRoute: typeof SimulationsNewRouteImport
+      parentRoute: typeof SimulationsRoute
+    }
+    '/routes/new': {
+      id: '/routes/new'
+      path: '/new'
+      fullPath: '/routes/new'
+      preLoaderRoute: typeof RoutesNewRouteImport
       parentRoute: typeof RoutesRoute
     }
     '/routes/$routeId': {
@@ -228,21 +315,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutesRouteIdRouteImport
       parentRoute: typeof RoutesRoute
     }
+    '/simulations/$simId/edit': {
+      id: '/simulations/$simId/edit'
+      path: '/$simId/edit'
+      fullPath: '/simulations/$simId/edit'
+      preLoaderRoute: typeof SimulationsSimIdEditRouteImport
+      parentRoute: typeof SimulationsRoute
+    }
   }
 }
 
 interface RoutesRouteChildren {
   RoutesRouteIdRoute: typeof RoutesRouteIdRoute
+  RoutesNewRoute: typeof RoutesNewRoute
   RoutesIndexRoute: typeof RoutesIndexRoute
 }
 
 const RoutesRouteChildren: RoutesRouteChildren = {
   RoutesRouteIdRoute: RoutesRouteIdRoute,
+  RoutesNewRoute: RoutesNewRoute,
   RoutesIndexRoute: RoutesIndexRoute,
 }
 
 const RoutesRouteWithChildren =
   RoutesRoute._addFileChildren(RoutesRouteChildren)
+
+interface SimulationsRouteChildren {
+  SimulationsNewRoute: typeof SimulationsNewRoute
+  SimulationsIndexRoute: typeof SimulationsIndexRoute
+  SimulationsSimIdEditRoute: typeof SimulationsSimIdEditRoute
+}
+
+const SimulationsRouteChildren: SimulationsRouteChildren = {
+  SimulationsNewRoute: SimulationsNewRoute,
+  SimulationsIndexRoute: SimulationsIndexRoute,
+  SimulationsSimIdEditRoute: SimulationsSimIdEditRoute,
+}
+
+const SimulationsRouteWithChildren = SimulationsRoute._addFileChildren(
+  SimulationsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -251,6 +363,7 @@ const rootRouteChildren: RootRouteChildren = {
   RouteBuilderRoute: RouteBuilderRoute,
   RoutesRoute: RoutesRouteWithChildren,
   SettingsRoute: SettingsRoute,
+  SimulationsRoute: SimulationsRouteWithChildren,
   StopsRoute: StopsRoute,
   TimetablesRoute: TimetablesRoute,
 }

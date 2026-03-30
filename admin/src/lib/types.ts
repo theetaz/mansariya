@@ -220,3 +220,73 @@ export interface AdminRouteListResponse {
   per_page: number;
   total_pages: number;
 }
+
+// ── Simulation ──
+export type SimulationStatus = 'draft' | 'running' | 'paused' | 'stopped';
+
+export interface SimulationJob {
+  id: string;
+  route_id: string;
+  name: string;
+  status: SimulationStatus;
+  ping_interval_sec: number;
+  default_speed_min_kmh: number;
+  default_speed_max_kmh: number;
+  default_dwell_min_sec: number;
+  default_dwell_max_sec: number;
+  created_at: string;
+  updated_at: string;
+  vehicle_count?: number;
+  device_count?: number;
+  route_name?: string;
+}
+
+export interface SimulationVehicle {
+  id: string;
+  job_id: string;
+  vehicle_id: string;
+  passenger_count: number;
+  speed_min_kmh?: number | null;
+  speed_max_kmh?: number | null;
+  dwell_min_sec?: number | null;
+  dwell_max_sec?: number | null;
+  start_stop_id?: string | null;
+  start_lat?: number | null;
+  start_lng?: number | null;
+  ping_interval_sec?: number | null;
+}
+
+export interface SimulationVehicleInput {
+  vehicle_id: string;
+  passenger_count: number;
+  speed_min_kmh?: number | null;
+  speed_max_kmh?: number | null;
+  dwell_min_sec?: number | null;
+  dwell_max_sec?: number | null;
+  start_stop_id?: string | null;
+  start_lat?: number | null;
+  start_lng?: number | null;
+  ping_interval_sec?: number | null;
+}
+
+export interface SimulationJobInput {
+  route_id: string;
+  name: string;
+  ping_interval_sec: number;
+  default_speed_min_kmh: number;
+  default_speed_max_kmh: number;
+  default_dwell_min_sec: number;
+  default_dwell_max_sec: number;
+  vehicles: SimulationVehicleInput[];
+}
+
+export interface SimulationJobDetail {
+  job: SimulationJob;
+  vehicles: SimulationVehicle[];
+}
+
+export interface SimulationActiveResponse {
+  running_jobs: number;
+  total_buses: number;
+  total_devices: number;
+}

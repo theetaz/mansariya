@@ -1,5 +1,6 @@
 import api from './api';
 import type {
+  AdminEnrichedStop,
   AdminRouteDetail,
   AdminRouteInput,
   AdminRouteListResponse,
@@ -9,6 +10,10 @@ import type {
   DashboardStats,
   HealthResponse,
   Route,
+  SimulationActiveResponse,
+  SimulationJob,
+  SimulationJobDetail,
+  SimulationJobInput,
   Stop,
   TimetableInput,
   Vehicle,
@@ -75,6 +80,9 @@ export const fetchRouteTimetable = (routeId: string) =>
 export const deleteStop = (id: string) =>
   api.delete(`/api/v1/admin/stops/${id}`).then((r) => r.data);
 
+export const fetchPatternStops = (routeId: string, patternId: string) =>
+  api.get<AdminEnrichedStop[]>(`/api/v1/admin/routes/${routeId}/patterns/${patternId}/stops`).then((r) => r.data);
+
 export const fetchAdminRoutesFiltered = (params: {
   q?: string;
   operator?: string;
@@ -90,3 +98,34 @@ export const fetchAdminRoutesFiltered = (params: {
   if (params.per_page) searchParams.set('per_page', String(params.per_page));
   return api.get<AdminRouteListResponse>(`/api/v1/admin/routes?${searchParams}`).then((r) => r.data);
 };
+
+// ── Admin: Simulations ──
+export const fetchSimulations = () =>
+  api.get<{ simulations: SimulationJob[]; count: number }>('/api/v1/admin/simulations').then((r) => r.data);
+
+export const fetchSimulation = (id: string) =>
+  api.get<SimulationJobDetail>(`/api/v1/admin/simulations/${id}`).then((r) => r.data);
+
+export const createSimulation = (data: SimulationJobInput) =>
+  api.post('/api/v1/admin/simulations', data).then((r) => r.data);
+
+export const updateSimulation = (id: string, data: SimulationJobInput) =>
+  api.put(`/api/v1/admin/simulations/${id}`, data).then((r) => r.data);
+
+export const deleteSimulation = (id: string) =>
+  api.delete(`/api/v1/admin/simulations/${id}`).then((r) => r.data);
+
+export const startSimulation = (id: string) =>
+  api.post(`/api/v1/admin/simulations/${id}/start`).then((r) => r.data);
+
+export const pauseSimulation = (id: string) =>
+  api.post(`/api/v1/admin/simulations/${id}/pause`).then((r) => r.data);
+
+export const resumeSimulation = (id: string) =>
+  api.post(`/api/v1/admin/simulations/${id}/resume`).then((r) => r.data);
+
+export const stopSimulation = (id: string) =>
+  api.post(`/api/v1/admin/simulations/${id}/stop`).then((r) => r.data);
+
+export const fetchSimulationActiveStats = () =>
+  api.get<SimulationActiveResponse>('/api/v1/admin/simulations/active').then((r) => r.data);

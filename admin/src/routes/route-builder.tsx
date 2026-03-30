@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardAction } from '@/componen
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { LocationAutocomplete } from '@/components/shared/location-autocomplete';
-import { MapView } from '@/components/shared/map-view';
+import { Map, MapMarker, MarkerContent, MarkerTooltip, MapRoute, MapControls } from '@/components/ui/map';
 import { getRoute, type NominatimResult, type OSRMRoute } from '@/lib/geo';
 
 export const Route = createFileRoute('/route-builder')({
@@ -99,7 +99,7 @@ function RouteBuilderPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex flex-1 flex-col gap-4 py-4 md:gap-6 md:py-6 overflow-hidden">
       <div className="px-4 lg:px-6">
         <h1 className="text-2xl font-semibold">Route Builder</h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -107,10 +107,10 @@ function RouteBuilderPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 px-4 lg:px-6 @3xl/main:grid-cols-[400px_1fr]">
+      <div className="grid gap-4 px-4 lg:px-6 @3xl/main:grid-cols-[400px_1fr] @3xl/main:items-stretch flex-1 min-h-0">
         {/* Left Panel — Controls */}
-        <div className="flex flex-col gap-4">
-          <Card>
+        <div className="flex flex-col gap-4 min-h-0 overflow-y-auto">
+          <Card className="flex-1">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
                 <RiRouteLine className="size-4" />
@@ -331,15 +331,24 @@ function RouteBuilderPage() {
         </div>
 
         {/* Right Panel — Map */}
-        <Card className="min-h-[500px]">
+        <Card className="min-h-[500px] p-0">
           <CardContent className="p-0 h-full">
-            <MapView
-              className="h-full min-h-[500px] rounded-lg overflow-hidden"
-              polyline={routeResult?.geometry.coordinates as [number, number][] | undefined}
-              stops={mapStops.length > 0 ? mapStops : undefined}
-              center={[79.8612, 7.0]}
-              zoom={8}
-            />
+            <div className="h-full rounded-lg overflow-hidden">
+              <Map center={[79.8612, 7.0]} zoom={8}>
+                <MapControls showZoom showLocate />
+                {routeResult && routeResult.geometry.coordinates.length >= 2 && (
+                  <MapRoute coordinates={routeResult.geometry.coordinates as [number, number][]} color="#e53e3e" width={4} />
+                )}
+                {mapStops.map((s, i) => (
+                  <MapMarker key={`${s.lat}-${s.lng}-${i}`} longitude={s.lng} latitude={s.lat}>
+                    <MarkerContent>
+                      <div className={`size-4 rounded-full border-2 border-white shadow-md ${s.isTerminal ? 'bg-green-500' : 'bg-indigo-500'}`} />
+                    </MarkerContent>
+                    <MarkerTooltip>{s.name}</MarkerTooltip>
+                  </MapMarker>
+                ))}
+              </Map>
+            </div>
           </CardContent>
         </Card>
       </div>
