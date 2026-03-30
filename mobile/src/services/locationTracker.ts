@@ -1,5 +1,4 @@
 import * as Location from 'expo-location';
-import { Platform } from 'react-native';
 import { sendGPSBatch } from './api';
 
 let isTracking = false;
@@ -8,12 +7,17 @@ let deviceHash = '';
 let pingBuffer: any[] = [];
 let uploadInterval: NodeJS.Timeout | null = null;
 let locationSubscription: Location.LocationSubscription | null = null;
+let tripMeta: { route_id?: string; bus_number?: string; crowd_level?: number } = {};
 
 function generateHash(): string {
   return Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
 }
 
-export async function startTracking(): Promise<boolean> {
+export async function startTracking(meta?: {
+  routeId?: string | null;
+  busNumber?: string | null;
+  crowdLevel?: number | null;
+}): Promise<boolean> {
   if (isTracking) return true;
 
   const { status } = await Location.requestForegroundPermissionsAsync();
@@ -23,6 +27,10 @@ export async function startTracking(): Promise<boolean> {
   sessionId = generateHash();
   isTracking = true;
   pingBuffer = [];
+  tripMeta = {};
+  if (meta?.routeId) tripMeta.route_id = meta.routeId;
+  if (meta?.busNumber) tripMeta.bus_number = meta.busNumber;
+  if (meta?.crowdLevel) tripMeta.crowd_level = meta.crowdLevel;
 
   locationSubscription = await Location.watchPositionAsync(
     {
@@ -54,6 +62,7 @@ export function stopTracking() {
   if (uploadInterval) clearInterval(uploadInterval);
   uploadInterval = null;
   flushBuffer();
+  tripMeta = {};
 }
 
 export function isTrackingActive(): boolean {
@@ -65,7 +74,7 @@ async function flushBuffer() {
   const pings = [...pingBuffer];
   pingBuffer = [];
   try {
-    await sendGPSBatch(deviceHash, sessionId, pings);
+    await sendGPSBatch(deviceHash, sessionId, pings, tripMeta);
   } catch {
     pingBuffer.unshift(...pings);
   }
