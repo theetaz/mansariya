@@ -155,7 +155,7 @@ function SimulationsPage() {
               <DropdownMenuContent align="end" className="w-36">
                 {(sim.status === 'draft' || sim.status === 'stopped') && (
                   <DropdownMenuItem asChild>
-                    <Link to={`/simulations/${sim.id}/edit`}>Edit</Link>
+                    <Link to={'/simulations/$simId/edit' as string} params={{ simId: sim.id }}>Edit</Link>
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem

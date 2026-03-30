@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import MapLibreGL from 'maplibre-gl';
 import { useMap } from '@/components/ui/map';
@@ -22,7 +22,7 @@ const COLORS = {
 };
 
 export function AnimatedBusMarker({
-  id, lat, lng, bearing, confidence, tooltip,
+  id: _id, lat, lng, bearing, confidence, tooltip,
   selected = false, visible = true, onClick,
 }: AnimatedBusMarkerProps) {
   const { map } = useMap();

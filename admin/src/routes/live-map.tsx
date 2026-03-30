@@ -10,7 +10,6 @@ import {
   RiEyeLine,
   RiEyeOffLine,
   RiCheckLine,
-  RiMapPinLine,
   RiTimeLine,
   RiPinDistanceLine,
   RiNavigationLine,
@@ -482,7 +481,7 @@ interface ETAResult {
   stops: { name: string; passed: boolean; isCurrent: boolean }[];
 }
 
-function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number, number][]): ETAResult | null {
+function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], _polyline: [number, number][]): ETAResult | null {
   if (stops.length === 0) return null;
 
   // Find nearest stop to bus current position
@@ -500,7 +499,6 @@ function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number
   let nextStopIdx = nearestIdx;
   if (nearestIdx < stops.length - 1) {
     const dToNearest = haversineKM(bus.lat, bus.lng, stops[nearestIdx].lat, stops[nearestIdx].lng);
-    const dToNext = haversineKM(bus.lat, bus.lng, stops[nearestIdx + 1].lat, stops[nearestIdx + 1].lng);
     // If we're closer to the nearest than to the gap between nearest and next, we've likely passed it
     const gapDist = haversineKM(stops[nearestIdx].lat, stops[nearestIdx].lng, stops[nearestIdx + 1].lat, stops[nearestIdx + 1].lng);
     if (dToNearest < gapDist * 0.3) {
