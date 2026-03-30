@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useTranslation} from 'react-i18next';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 
 import MapScreen from '../screens/MapScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -70,18 +70,13 @@ function MainTabs() {
 export default function RootNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={({ navigation }) => ({
+      screenOptions={{
         headerTintColor: colors.green,
-        headerBackVisible: false,
-        headerTitleStyle: { fontSize: 16, fontWeight: '600' },
+        headerBackTitleVisible: false,
+        headerTitleStyle: { fontSize: 17, fontWeight: '600' },
         headerStyle: { backgroundColor: colors.background },
         headerShadowVisible: false,
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 4 }}>
-            <Text style={{ fontSize: 18, color: colors.green }}>‹</Text>
-          </TouchableOpacity>
-        ),
-      })}>
+      }}>
       <Stack.Screen
         name="MainTabs"
         component={MainTabs}
