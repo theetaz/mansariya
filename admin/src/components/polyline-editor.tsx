@@ -9,10 +9,16 @@ import {
   RiAddLine,
   RiEyeLine,
   RiEyeOffLine,
+  RiInformationLine,
+  RiKeyboardLine,
+  RiDragMoveLine,
+  RiCursorLine,
+  RiCheckboxMultipleLine,
 } from '@remixicon/react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Map,
   useMap,
@@ -281,6 +287,8 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
           <RiCloseLine className="size-4 mr-1" />
           Cancel
         </Button>
+
+        <EditorHelpPopover />
       </div>
 
       {/* Map */}
@@ -509,4 +517,75 @@ function BoxSelect({ polyline, onSelect }: {
   }, [map]);
 
   return null;
+}
+
+// Help popover with all editor shortcuts and actions
+function EditorHelpPopover() {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button size="sm" variant="ghost" className="size-8 p-0">
+          <RiInformationLine className="size-4 text-muted-foreground" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80 p-0" align="end">
+        <div className="p-3 border-b">
+          <h4 className="font-semibold text-sm">Polyline Editor Help</h4>
+          <p className="text-xs text-muted-foreground mt-0.5">Tools and keyboard shortcuts</p>
+        </div>
+        <div className="p-3 space-y-3 text-xs">
+          <HelpSection icon={RiCursorLine} title="Select Points">
+            <HelpItem keys="Click" desc="Select / deselect a point" />
+            <HelpItem keys="Shift + Click" desc="Select range between points" />
+            <HelpItem keys="Shift + Drag" desc="Box select — draw rectangle to select area" />
+            <HelpItem keys="⌘A / Ctrl+A" desc="Select all points" />
+            <HelpItem keys="Esc" desc="Deselect all" />
+          </HelpSection>
+
+          <HelpSection icon={RiDragMoveLine} title="Edit Points">
+            <HelpItem keys="Drag selected" desc="Move point to new position" />
+            <HelpItem keys="Del / Backspace" desc="Remove selected points" />
+            <HelpItem keys="A" desc="Toggle Add Point mode (click map to insert)" />
+          </HelpSection>
+
+          <HelpSection icon={RiKeyboardLine} title="General">
+            <HelpItem keys="⌘S / Ctrl+S" desc="Save polyline" />
+            <HelpItem keys="⌘Z / Ctrl+Z" desc="Undo last change" />
+            <HelpItem keys="Esc" desc="Cancel current mode" />
+          </HelpSection>
+
+          <HelpSection icon={RiCheckboxMultipleLine} title="Tools">
+            <HelpItem keys="Rebuild" desc="Re-generate polyline from stops via OSRM" />
+            <HelpItem keys="Points" desc="Toggle point visibility on/off" />
+            <HelpItem keys="Add Point" desc="Click on map to insert new point" />
+          </HelpSection>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function HelpSection({ icon: Icon, title, children }: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <div className="flex items-center gap-1.5 mb-1.5">
+        <Icon className="size-3.5 text-primary" />
+        <span className="font-medium text-foreground">{title}</span>
+      </div>
+      <div className="space-y-1 pl-5">{children}</div>
+    </div>
+  );
+}
+
+function HelpItem({ keys, desc }: { keys: string; desc: string }) {
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <span className="text-muted-foreground">{desc}</span>
+      <kbd className="shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground border">{keys}</kbd>
+    </div>
+  );
 }
