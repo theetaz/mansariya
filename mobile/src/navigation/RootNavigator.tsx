@@ -21,7 +21,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const TAB_ICONS: Record<string, {active: string; inactive: string}> = {
   Map: {active: '🗺️', inactive: '🗺️'},
   Search: {active: '🔍', inactive: '🔍'},
-  Saved: {active: '⭐', inactive: '☆'},
+  Saved: {active: '⭐', inactive: '⭐'},
   Settings: {active: '⚙️', inactive: '⚙️'},
 };
 
