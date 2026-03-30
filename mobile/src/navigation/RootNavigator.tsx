@@ -72,6 +72,8 @@ export default function RootNavigator() {
     <Stack.Navigator
       screenOptions={{
         headerTintColor: colors.green,
+        headerBackTitle: 'Back',
+        headerBackTitleVisible: false,
       }}>
       <Stack.Screen
         name="MainTabs"
