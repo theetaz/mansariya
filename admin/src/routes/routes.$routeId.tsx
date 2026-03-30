@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import {
   RiArrowLeftLine,
   RiEditLine,
@@ -50,13 +50,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Map, MapMarker, MarkerContent, MarkerTooltip, MapRoute, MapControls } from '@/components/ui/map';
+import { Map, useMap, MapMarker, MarkerContent, MarkerTooltip, MapRoute, MapControls } from '@/components/ui/map';
+import { PolylineEditor } from '@/components/polyline-editor';
 import {
   fetchAdminRouteDetail,
   fetchPatternStops,
   updateRoute,
   setRouteStops,
   setTimetable,
+  updatePolyline,
 } from '@/lib/api-functions';
 import type {
   AdminRouteDetailInfo,
@@ -74,10 +76,23 @@ function RouteDetailPage() {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [selectedPatternId, setSelectedPatternId] = useState<string | null>(null);
+  const [isEditingPolyline, setIsEditingPolyline] = useState(false);
+  const [savedMapView, setSavedMapView] = useState<{ center: [number, number]; zoom: number } | null>(null);
+  const mapRef = useRef<{ getCenter: () => { lng: number; lat: number }; getZoom: () => number } | null>(null);
 
   const { data: detail, isLoading } = useQuery({
     queryKey: ['admin-route', routeId],
     queryFn: () => fetchAdminRouteDetail(routeId),
+  });
+
+  const polylineMutation = useMutation({
+    mutationFn: (coords: [number, number][]) => updatePolyline(routeId, coords, 0.5),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-route', routeId] });
+      setIsEditingPolyline(false);
+      toast.success('Polyline saved');
+    },
+    onError: () => toast.error('Failed to save polyline'),
   });
 
   // Resolve selected pattern
@@ -180,32 +195,73 @@ function RouteDetailPage() {
           </TabsList>
 
           <TabsContent value="map" className="mt-3 flex-1">
-            <div className="h-full min-h-[400px] rounded-lg overflow-hidden border">
-              <Map center={detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93]} zoom={12}>
-                <MapControls showZoom showLocate showFullscreen />
-                {detail.polyline.length >= 2 && (
-                  <MapRoute coordinates={detail.polyline as [number, number][]} color="#e53e3e" width={4} />
-                )}
-                {detail.stops.map((s, i) => {
-                  const isFirst = i === 0;
-                  const isLast = i === detail.stops.length - 1 && detail.stops.length > 1;
-                  const color = isFirst ? '#22c55e' : isLast ? '#ef4444' : s.is_terminal ? '#f59e0b' : '#6366f1';
-                  return (
-                    <MapMarker key={s.stop_id} longitude={s.lng} latitude={s.lat}>
-                      <MarkerContent>
-                        <div className="flex items-center justify-center size-6 rounded-full border-2 border-white shadow-md text-[10px] font-bold text-white" style={{ background: color }}>
-                          {s.stop_order + 1}
-                        </div>
-                      </MarkerContent>
-                      <MarkerTooltip>
-                        <div className="font-medium">#{s.stop_order + 1} {s.name_en}</div>
-                        {s.name_si && <div className="opacity-80">{s.name_si}</div>}
-                        {s.name_ta && <div className="opacity-80">{s.name_ta}</div>}
-                      </MarkerTooltip>
-                    </MapMarker>
-                  );
-                })}
-              </Map>
+            <div className="h-full min-h-[400px] rounded-lg overflow-hidden border relative">
+              {isEditingPolyline ? (
+                <PolylineEditor
+                  polyline={detail.polyline as [number, number][]}
+                  stops={detail.stops.map((s) => ({
+                    lat: s.lat,
+                    lng: s.lng,
+                    name: s.name_en,
+                    stop_order: s.stop_order,
+                  }))}
+                  mapCenter={savedMapView?.center ?? (detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93])}
+                  mapZoom={savedMapView?.zoom ?? 12}
+                  onSave={(coords, mapView) => {
+                    if (mapView) setSavedMapView(mapView);
+                    polylineMutation.mutate(coords);
+                  }}
+                  onCancel={() => setIsEditingPolyline(false)}
+                  isSaving={polylineMutation.isPending}
+                />
+              ) : (
+                <>
+                  <div className="absolute top-2 right-2 z-10">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="shadow-md"
+                      onClick={() => {
+                        const m = mapRef.current;
+                        if (m) {
+                          const c = m.getCenter();
+                          setSavedMapView({ center: [c.lng, c.lat], zoom: m.getZoom() });
+                        }
+                        setIsEditingPolyline(true);
+                      }}
+                    >
+                      <RiEditLine className="size-4 mr-1" />
+                      Edit Polyline
+                    </Button>
+                  </div>
+                  <Map center={savedMapView?.center ?? (detail.polyline.length > 0 ? detail.polyline[0] as [number, number] : [79.86, 6.93])} zoom={savedMapView?.zoom ?? 12}>
+                    <MapControls showZoom showLocate showFullscreen />
+                    <MapRefCapture mapRef={mapRef} />
+                    {detail.polyline.length >= 2 && (
+                      <MapRoute coordinates={detail.polyline as [number, number][]} color="#e53e3e" width={4} />
+                    )}
+                    {detail.stops.map((s, i) => {
+                      const isFirst = i === 0;
+                      const isLast = i === detail.stops.length - 1 && detail.stops.length > 1;
+                      const color = isFirst ? '#22c55e' : isLast ? '#ef4444' : s.is_terminal ? '#f59e0b' : '#6366f1';
+                      return (
+                        <MapMarker key={s.stop_id} longitude={s.lng} latitude={s.lat}>
+                          <MarkerContent>
+                            <div className="flex items-center justify-center size-6 rounded-full border-2 border-white shadow-md text-[10px] font-bold text-white" style={{ background: color }}>
+                              {s.stop_order + 1}
+                            </div>
+                          </MarkerContent>
+                          <MarkerTooltip>
+                            <div className="font-medium">#{s.stop_order + 1} {s.name_en}</div>
+                            {s.name_si && <div className="opacity-80">{s.name_si}</div>}
+                            {s.name_ta && <div className="opacity-80">{s.name_ta}</div>}
+                          </MarkerTooltip>
+                        </MapMarker>
+                      );
+                    })}
+                  </Map>
+                </>
+              )}
             </div>
           </TabsContent>
 
@@ -357,6 +413,15 @@ function RouteInfoCard({
       </Card>
     </div>
   );
+}
+
+// Captures the map instance into a ref for external use (e.g., reading zoom/center)
+function MapRefCapture({ mapRef }: { mapRef: React.MutableRefObject<any> }) {
+  const { map } = useMap();
+  useEffect(() => {
+    mapRef.current = map;
+  }, [map, mapRef]);
+  return null;
 }
 
 function StatPill({ label, value }: { label: string; value: string | number }) {
