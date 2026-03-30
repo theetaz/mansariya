@@ -390,7 +390,8 @@ function BoxSelect({ polyline, onSelect }: {
       if (!startPoint || !box) return;
       map.dragPan.enable();
 
-      const rect = {
+      // Rectangle in viewport (fixed) coordinates
+      const viewRect = {
         left: Math.min(startPoint.x, e.clientX),
         right: Math.max(startPoint.x, e.clientX),
         top: Math.min(startPoint.y, e.clientY),
@@ -402,9 +403,19 @@ function BoxSelect({ polyline, onSelect }: {
       startPoint = null;
 
       // Ignore tiny rectangles (accidental clicks)
-      if (rect.right - rect.left < 5 || rect.bottom - rect.top < 5) return;
+      if (viewRect.right - viewRect.left < 5 || viewRect.bottom - viewRect.top < 5) return;
 
-      // Find all polyline points inside the rectangle (screen coordinates)
+      // Convert viewport rect to map-canvas-relative rect
+      // map.project() returns coordinates relative to the map canvas, not the viewport
+      const canvasBounds = canvas.getBoundingClientRect();
+      const rect = {
+        left: viewRect.left - canvasBounds.left,
+        right: viewRect.right - canvasBounds.left,
+        top: viewRect.top - canvasBounds.top,
+        bottom: viewRect.bottom - canvasBounds.top,
+      };
+
+      // Find all polyline points inside the rectangle (canvas coordinates)
       const indices: number[] = [];
       for (let i = 0; i < polyRef.current.length; i++) {
         const [lng, lat] = polyRef.current[i];
