@@ -11,6 +11,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
 import JourneySearchScreen from '../screens/JourneySearchScreen';
 import {colors} from '../constants/theme';
+import {useTheme} from '../hooks/useTheme';
 
 import type {RootStackParamList, TabParamList} from './types';
 
@@ -26,6 +27,7 @@ const TAB_ICONS: Record<string, {active: string; inactive: string}> = {
 
 function MainTabs() {
   const {t} = useTranslation();
+  const {colors: tc} = useTheme();
 
   return (
     <Tab.Navigator
@@ -39,7 +41,7 @@ function MainTabs() {
         ),
         tabBarActiveTintColor: colors.green,
         tabBarInactiveTintColor: colors.neutral500,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [styles.tabBar, {backgroundColor: tc.tabBar, borderTopColor: tc.tabBarBorder}],
         tabBarLabelStyle: styles.tabLabel,
         headerShown: false,
       })}>
@@ -68,14 +70,16 @@ function MainTabs() {
 }
 
 export default function RootNavigator() {
+  const {colors: tc} = useTheme();
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerTintColor: colors.green,
         headerBackTitle: '',
         headerBackButtonDisplayMode: 'minimal',
-        headerTitleStyle: { fontSize: 17, fontWeight: '600' },
-        headerStyle: { backgroundColor: colors.background },
+        headerTitleStyle: {fontSize: 17, fontWeight: '600', color: tc.text},
+        headerStyle: {backgroundColor: tc.headerBg},
         headerShadowVisible: false,
       }}>
       <Stack.Screen

@@ -18,12 +18,14 @@ import {colors, spacing, typography, radii} from '../constants/theme';
 import {useRouteSearch} from '../hooks/useRouteSearch';
 import {Route} from '../services/api';
 import RouteCard from '../components/route/RouteCard';
+import {useTheme} from '../hooks/useTheme';
 
 const FILTERS = ['All', 'SLTB', 'NTC', 'Private'] as const;
 
 export default function SearchScreen() {
   const {t} = useTranslation();
   const insets = useSafeAreaInsets();
+  const {colors: tc} = useTheme();
   const {results, loading, search} = useRouteSearch();
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<string>('All');
@@ -40,7 +42,7 @@ export default function SearchScreen() {
     : results.filter((r) => r.operator === activeFilter);
 
   return (
-    <View style={[styles.container, {paddingTop: insets.top}]}>
+    <View style={[styles.container, {paddingTop: insets.top, backgroundColor: tc.background}]}>
       {/* Journey planner button */}
       <TouchableOpacity
         style={styles.journeyButton}
@@ -56,19 +58,19 @@ export default function SearchScreen() {
 
       {/* Search bar */}
       <View style={styles.searchBarContainer}>
-        <View style={styles.searchBar}>
+        <View style={[styles.searchBar, {backgroundColor: tc.inputBg, borderColor: tc.border}]}>
           <Text style={styles.searchIcon}>🔍</Text>
           <TextInput
-            style={styles.searchInput}
+            style={[styles.searchInput, {color: tc.text}]}
             placeholder={t('search.placeholder')}
-            placeholderTextColor={colors.neutral500}
+            placeholderTextColor={tc.textTertiary}
             value={query}
             onChangeText={handleSearch}
             returnKeyType="search"
           />
           {query.length > 0 && (
             <TouchableOpacity onPress={() => handleSearch('')}>
-              <Text style={styles.clearIcon}>✕</Text>
+              <Text style={[styles.clearIcon, {color: tc.textSecondary}]}>✕</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -85,12 +87,14 @@ export default function SearchScreen() {
             key={filter}
             style={[
               styles.chip,
+              {borderColor: tc.border, backgroundColor: tc.surface},
               activeFilter === filter && styles.chipActive,
             ]}
             onPress={() => setActiveFilter(filter)}>
             <Text
               style={[
                 styles.chipText,
+                {color: tc.textSecondary},
                 activeFilter === filter && styles.chipTextActive,
               ]}>
               {filter}
@@ -123,7 +127,7 @@ export default function SearchScreen() {
           query.length > 0 && !loading ? (
             <View style={styles.emptyState}>
               <Text style={styles.emptyIcon}>🔍</Text>
-              <Text style={styles.emptyText}>{t('search.no_results')}</Text>
+              <Text style={[styles.emptyText, {color: tc.textSecondary}]}>{t('search.no_results')}</Text>
             </View>
           ) : null
         }

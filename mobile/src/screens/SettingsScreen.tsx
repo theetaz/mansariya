@@ -45,17 +45,17 @@ export default function SettingsScreen() {
       <Text style={[styles.screenTitle, {color: tc.text}]}>{t('settings.title')}</Text>
 
       {/* GENERAL */}
-      <Text style={[styles.sectionHeader, isDark && {color: tc.textSecondary}]}>GENERAL</Text>
+      <Text style={[styles.sectionHeader, {color: tc.textSecondary}]}>GENERAL</Text>
 
       <TouchableOpacity style={styles.row}>
-        <Text style={styles.rowLabel}>{t('settings.language')}</Text>
+        <Text style={[styles.rowLabel, {color: tc.text}]}>{t('settings.language')}</Text>
         <View style={styles.rowRight}>
-          <Text style={styles.rowValue}>{currentLangLabel}</Text>
-          <Text style={styles.chevron}>›</Text>
+          <Text style={[styles.rowValue, {color: tc.textSecondary}]}>{currentLangLabel}</Text>
+          <Text style={[styles.chevron, {color: tc.textTertiary}]}>›</Text>
         </View>
       </TouchableOpacity>
 
-      <View style={styles.divider} />
+      <View style={[styles.divider, {backgroundColor: tc.divider}]} />
 
       {/* Language quick-select (inline for now) */}
       <View style={styles.langRow}>
@@ -64,12 +64,14 @@ export default function SettingsScreen() {
             key={lang.code}
             style={[
               styles.langChip,
+              {borderColor: tc.border, backgroundColor: tc.surface},
               language === lang.code && styles.langChipActive,
             ]}
             onPress={() => handleLanguageChange(lang.code)}>
             <Text
               style={[
                 styles.langChipText,
+                {color: tc.textSecondary},
                 language === lang.code && styles.langChipTextActive,
               ]}>
               {lang.label}
@@ -79,7 +81,7 @@ export default function SettingsScreen() {
       </View>
 
       {/* APPEARANCE */}
-      <Text style={[styles.sectionHeader, isDark && {color: tc.textSecondary}]}>APPEARANCE</Text>
+      <Text style={[styles.sectionHeader, {color: tc.textSecondary}]}>APPEARANCE</Text>
 
       <View style={styles.langRow}>
         {THEMES.map((theme) => (
@@ -87,14 +89,14 @@ export default function SettingsScreen() {
             key={theme.code}
             style={[
               styles.langChip,
-              isDark && {borderColor: tc.border, backgroundColor: tc.surface},
+              {borderColor: tc.border, backgroundColor: tc.surface},
               themeMode === theme.code && styles.langChipActive,
             ]}
             onPress={() => setThemeMode(theme.code)}>
             <Text
               style={[
                 styles.langChipText,
-                isDark && {color: tc.textSecondary},
+                {color: tc.textSecondary},
                 themeMode === theme.code && styles.langChipTextActive,
               ]}>
               {theme.label}
@@ -104,57 +106,57 @@ export default function SettingsScreen() {
       </View>
 
       {/* DATA */}
-      <Text style={[styles.sectionHeader, isDark && {color: tc.textSecondary}]}>DATA</Text>
+      <Text style={[styles.sectionHeader, {color: tc.textSecondary}]}>DATA</Text>
 
       <View style={styles.row}>
         <View style={styles.rowLabelContainer}>
-          <Text style={styles.rowLabel}>Low data mode</Text>
+          <Text style={[styles.rowLabel, {color: tc.text}]}>Low data mode</Text>
         </View>
         <Switch
           value={false}
-          trackColor={{true: colors.green, false: colors.neutral300}}
-          thumbColor={colors.background}
+          trackColor={{true: colors.green, false: tc.border}}
+          thumbColor={tc.card}
         />
       </View>
-      <View style={styles.divider} />
+      <View style={[styles.divider, {backgroundColor: tc.divider}]} />
 
       <View style={styles.row}>
         <View style={styles.rowLabelContainer}>
-          <Text style={styles.rowLabel}>Share trip data</Text>
+          <Text style={[styles.rowLabel, {color: tc.text}]}>Share trip data</Text>
         </View>
         <Switch
           value={trackingConsent}
           onValueChange={setTrackingConsent}
-          trackColor={{true: colors.green, false: colors.neutral300}}
-          thumbColor={colors.background}
+          trackColor={{true: colors.green, false: tc.border}}
+          thumbColor={tc.card}
         />
       </View>
 
       {/* TRACKING */}
-      <Text style={styles.sectionHeader}>TRACKING</Text>
+      <Text style={[styles.sectionHeader, {color: tc.textSecondary}]}>TRACKING</Text>
 
       <View style={styles.row}>
         <View style={styles.rowLabelContainer}>
-          <Text style={styles.rowLabel}>Auto-detect bus stops</Text>
+          <Text style={[styles.rowLabel, {color: tc.text}]}>Auto-detect bus stops</Text>
         </View>
         <Switch
           value={true}
-          trackColor={{true: colors.green, false: colors.neutral300}}
-          thumbColor={colors.background}
+          trackColor={{true: colors.green, false: tc.border}}
+          thumbColor={tc.card}
         />
       </View>
-      <View style={styles.divider} />
+      <View style={[styles.divider, {backgroundColor: tc.divider}]} />
 
       <TouchableOpacity style={styles.row}>
-        <Text style={styles.rowLabel}>Background tracking</Text>
+        <Text style={[styles.rowLabel, {color: tc.text}]}>Background tracking</Text>
         <View style={styles.rowRight}>
-          <Text style={styles.rowValue}>Only when active</Text>
-          <Text style={styles.chevron}>›</Text>
+          <Text style={[styles.rowValue, {color: tc.textSecondary}]}>Only when active</Text>
+          <Text style={[styles.chevron, {color: tc.textTertiary}]}>›</Text>
         </View>
       </TouchableOpacity>
 
       {/* ABOUT */}
-      <Text style={styles.sectionHeader}>ABOUT</Text>
+      <Text style={[styles.sectionHeader, {color: tc.textSecondary}]}>ABOUT</Text>
 
       {totalTrips > 0 && (
         <>
@@ -164,13 +166,13 @@ export default function SettingsScreen() {
               {t('settings.trips_shared', {count: totalTrips})}
             </Text>
           </View>
-          <View style={styles.divider} />
+          <View style={[styles.divider, {backgroundColor: tc.divider}]} />
         </>
       )}
 
       <View style={styles.row}>
-        <Text style={styles.rowLabel}>Version</Text>
-        <Text style={styles.rowValue}>1.0.0</Text>
+        <Text style={[styles.rowLabel, {color: tc.text}]}>Version</Text>
+        <Text style={[styles.rowValue, {color: tc.textSecondary}]}>1.0.0</Text>
       </View>
 
       <View style={{height: 40}} />

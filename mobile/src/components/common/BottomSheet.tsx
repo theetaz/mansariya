@@ -8,6 +8,7 @@ import {
   Text,
 } from 'react-native';
 import {colors} from '../../constants/theme';
+import {useTheme} from '../../hooks/useTheme';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -22,18 +23,19 @@ interface BottomSheetProps {
  */
 export default function BottomSheet({children}: BottomSheetProps) {
   const [expanded, setExpanded] = useState(false);
+  const {colors: tc} = useTheme();
   const sheetHeight = expanded ? SCREEN_HEIGHT * 0.6 : COLLAPSED_HEIGHT;
 
   return (
-    <View style={[styles.container, {height: sheetHeight}]}>
+    <View style={[styles.container, {height: sheetHeight, backgroundColor: tc.card, borderTopColor: tc.border}]}>
       {/* Pull handle — tap to toggle */}
       <TouchableOpacity
         style={styles.handleArea}
         onPress={() => setExpanded(!expanded)}
         activeOpacity={0.8}>
-        <View style={styles.handle} />
+        <View style={[styles.handle, {backgroundColor: tc.border}]} />
         {expanded && (
-          <Text style={styles.collapseHint}>Tap to collapse</Text>
+          <Text style={[styles.collapseHint, {color: tc.textTertiary}]}>Tap to collapse</Text>
         )}
       </TouchableOpacity>
 

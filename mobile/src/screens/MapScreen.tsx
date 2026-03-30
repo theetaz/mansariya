@@ -23,9 +23,11 @@ import ConfidenceDots from '../components/common/ConfidenceDots';
 import {useRouteOnMap} from '../hooks/useRouteOnMap';
 import {useLiveBuses} from '../hooks/useLiveBuses';
 import {useActiveRoutes} from '../hooks/useActiveRoutes';
+import {useTheme} from '../hooks/useTheme';
 
 export default function MapScreen() {
   const {t} = useTranslation();
+  const {colors: tc} = useTheme();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const buses = useMapStore((s) => s.buses);
@@ -106,9 +108,9 @@ export default function MapScreen() {
 
         {/* Live bus count overlay */}
         {busEntries.length > 0 && (
-          <View style={styles.busCountOverlay}>
+          <View style={[styles.busCountOverlay, {backgroundColor: tc.card}]}>
             <View style={styles.liveDot} />
-            <Text style={styles.busCountText}>
+            <Text style={[styles.busCountText, {color: tc.text}]}>
               {busEntries.length} live bus{busEntries.length > 1 ? 'es' : ''}
             </Text>
           </View>
@@ -137,19 +139,19 @@ export default function MapScreen() {
 
       {/* Bottom sheet — nearby buses grouped by route */}
       <BottomSheet>
-        <Text style={styles.sheetTitle}>{t('map.nearby_routes')}</Text>
+        <Text style={[styles.sheetTitle, {color: tc.text}]}>{t('map.nearby_routes')}</Text>
 
         {routeSummaries.length === 0 ? (
           <View style={styles.emptySheet}>
             <Text style={styles.emptyIcon}>🚌</Text>
-            <Text style={styles.emptyText}>{t('map.no_buses')}</Text>
-            <Text style={styles.emptyHint}>Waiting for live data...</Text>
+            <Text style={[styles.emptyText, {color: tc.textSecondary}]}>{t('map.no_buses')}</Text>
+            <Text style={[styles.emptyHint, {color: tc.textTertiary}]}>Waiting for live data...</Text>
           </View>
         ) : (
           routeSummaries.map((item) => (
             <TouchableOpacity
               key={item.routeId}
-              style={styles.liveRouteCard}
+              style={[styles.liveRouteCard, {borderBottomColor: tc.divider}]}
               onPress={() => {
                 // First tap: show route on map. Second tap: open detail.
                 if (selectedRouteId === item.routeId) {
@@ -163,8 +165,8 @@ export default function MapScreen() {
                 <Text style={styles.routeBadgeText}>{item.routeId}</Text>
               </View>
               <View style={styles.routeInfo}>
-                <Text style={styles.routeName}>Route {item.routeId}</Text>
-                <Text style={styles.routeMeta}>
+                <Text style={[styles.routeName, {color: tc.text}]}>Route {item.routeId}</Text>
+                <Text style={[styles.routeMeta, {color: tc.textSecondary}]}>
                   {item.busCount} bus{item.busCount > 1 ? 'es' : ''} ·{' '}
                   {item.nearestBus.speed_kmh.toFixed(0)} km/h
                 </Text>

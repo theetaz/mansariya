@@ -16,10 +16,12 @@ import type {RootStackParamList} from '../navigation/types';
 import {colors, spacing, typography, radii} from '../constants/theme';
 import {searchJourney, searchStops, Stop, JourneyResult} from '../services/api';
 import RouteNumberBadge from '../components/common/RouteNumberBadge';
+import {useTheme} from '../hooks/useTheme';
 
 export default function JourneySearchScreen() {
   const {t} = useTranslation();
   const insets = useSafeAreaInsets();
+  const {colors: tc} = useTheme();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -88,17 +90,17 @@ export default function JourneySearchScreen() {
   const suggestions = activeField === 'from' ? fromSuggestions : toSuggestions;
 
   return (
-    <View style={[styles.container, {paddingTop: insets.top}]}>
+    <View style={[styles.container, {paddingTop: insets.top, backgroundColor: tc.background}]}>
       {/* Search inputs */}
-      <View style={styles.searchSection}>
-        <Text style={styles.title}>Plan your journey</Text>
+      <View style={[styles.searchSection, {borderBottomColor: tc.border}]}>
+        <Text style={[styles.title, {color: tc.text}]}>Plan your journey</Text>
 
         <View style={styles.inputRow}>
           <View style={styles.dotGreen} />
           <TextInput
-            style={styles.input}
+            style={[styles.input, {backgroundColor: tc.inputBg, borderColor: tc.border, color: tc.text}]}
             placeholder="From (stop or area)"
-            placeholderTextColor={colors.neutral500}
+            placeholderTextColor={tc.textTertiary}
             value={fromText}
             onChangeText={handleFromChange}
             onFocus={() => setActiveField('from')}
@@ -108,9 +110,9 @@ export default function JourneySearchScreen() {
         <View style={styles.inputRow}>
           <View style={styles.dotRed} />
           <TextInput
-            style={styles.input}
+            style={[styles.input, {backgroundColor: tc.inputBg, borderColor: tc.border, color: tc.text}]}
             placeholder="To (destination)"
-            placeholderTextColor={colors.neutral500}
+            placeholderTextColor={tc.textTertiary}
             value={toText}
             onChangeText={handleToChange}
             onFocus={() => setActiveField('to')}
@@ -134,20 +136,20 @@ export default function JourneySearchScreen() {
 
       {/* Autocomplete suggestions */}
       {suggestions.length > 0 && (
-        <View style={styles.suggestionsContainer}>
+        <View style={[styles.suggestionsContainer, {backgroundColor: tc.surface, borderBottomColor: tc.border}]}>
           {suggestions.map((stop) => (
             <TouchableOpacity
               key={stop.id}
-              style={styles.suggestionItem}
+              style={[styles.suggestionItem, {borderBottomColor: tc.divider}]}
               onPress={() =>
                 activeField === 'from'
                   ? selectFromStop(stop)
                   : selectToStop(stop)
               }>
               <Text style={styles.suggestionIcon}>📍</Text>
-              <Text style={styles.suggestionText}>{stop.name_en}</Text>
+              <Text style={[styles.suggestionText, {color: tc.text}]}>{stop.name_en}</Text>
               {stop.name_si ? (
-                <Text style={styles.suggestionLocal}>{stop.name_si}</Text>
+                <Text style={[styles.suggestionLocal, {color: tc.textSecondary}]}>{stop.name_si}</Text>
               ) : null}
             </TouchableOpacity>
           ))}
@@ -161,7 +163,7 @@ export default function JourneySearchScreen() {
         contentContainerStyle={styles.results}
         renderItem={({item}) => (
           <TouchableOpacity
-            style={styles.journeyCard}
+            style={[styles.journeyCard, {backgroundColor: tc.surface, borderColor: tc.border}]}
             onPress={() =>
               navigation.navigate('RouteDetail', {routeId: item.route.id})
             }
@@ -171,20 +173,20 @@ export default function JourneySearchScreen() {
                 routeNumber={item.route.id}
                 serviceType={(item.route.service_type as any) ?? 'Normal'}
               />
-              <Text style={styles.journeyRouteName}>{item.route.name_en}</Text>
+              <Text style={[styles.journeyRouteName, {color: tc.text}]}>{item.route.name_en}</Text>
             </View>
 
             <View style={styles.journeyDetails}>
               <View style={styles.journeyStops}>
                 <View style={styles.miniDotGreen} />
-                <Text style={styles.journeyStopName}>
+                <Text style={[styles.journeyStopName, {color: tc.text}]}>
                   {item.board_stop.stop_name_en}
                 </Text>
               </View>
-              <Text style={styles.journeyArrow}>↓ {item.stops_between} stops</Text>
+              <Text style={[styles.journeyArrow, {color: tc.textSecondary}]}>↓ {item.stops_between} stops</Text>
               <View style={styles.journeyStops}>
                 <View style={styles.miniDotRed} />
-                <Text style={styles.journeyStopName}>
+                <Text style={[styles.journeyStopName, {color: tc.text}]}>
                   {item.exit_stop.stop_name_en}
                 </Text>
               </View>
@@ -192,14 +194,14 @@ export default function JourneySearchScreen() {
 
             <View style={styles.journeyMeta}>
               {item.estimated_duration_min > 0 && (
-                <Text style={styles.metaChip}>
+                <Text style={[styles.metaChip, {color: tc.textSecondary, backgroundColor: tc.divider}]}>
                   {item.estimated_duration_min} min
                 </Text>
               )}
               {item.fare_lkr > 0 && (
-                <Text style={styles.metaChip}>Rs.{item.fare_lkr}</Text>
+                <Text style={[styles.metaChip, {color: tc.textSecondary, backgroundColor: tc.divider}]}>Rs.{item.fare_lkr}</Text>
               )}
-              <Text style={styles.metaChip}>
+              <Text style={[styles.metaChip, {color: tc.textSecondary, backgroundColor: tc.divider}]}>
                 {item.route.operator ?? 'SLTB'}
               </Text>
             </View>
@@ -209,7 +211,7 @@ export default function JourneySearchScreen() {
           searched && !loading ? (
             <View style={styles.emptyState}>
               <Text style={styles.emptyIcon}>🔍</Text>
-              <Text style={styles.emptyText}>
+              <Text style={[styles.emptyText, {color: tc.textSecondary}]}>
                 No direct routes found between these stops
               </Text>
             </View>
