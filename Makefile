@@ -311,18 +311,24 @@ seed-osm-stops: ## Seed OSM bus stops only
 simulate: ## Start GPS simulator (fake buses for testing live tracking)
 	cd backend && go run ./cmd/simulator -api "http://localhost:$${PORT:-9900}" -buses 3 -routes 1,2,138,100,120
 
-##@ Mobile (run separately)
+##@ Mobile
 mobile-install: ## Install mobile dependencies
 	cd mobile && npm install
 
-mobile-ios: ## Run mobile app on iOS simulator
-	cd mobile && npx react-native run-ios
+mobile-local: ## Run mobile app connected to LOCAL backend (iOS)
+	cd mobile && npm run local:ios
 
-mobile-android: ## Run mobile app on Android emulator
-	cd mobile && npx react-native run-android
+mobile-prod: ## Run mobile app connected to PRODUCTION backend (iOS)
+	cd mobile && npm run prod:ios
 
-mobile-pods: ## Install iOS CocoaPods
-	cd mobile/ios && bundle exec pod install
+mobile-local-android: ## Run mobile app connected to LOCAL backend (Android)
+	cd mobile && npm run local:android
+
+mobile-prod-android: ## Run mobile app connected to PRODUCTION backend (Android)
+	cd mobile && npm run prod:android
+
+mobile-prebuild: ## Prebuild iOS/Android native projects
+	cd mobile && npx expo prebuild
 
 mobile-ts-check: ## Type-check mobile TypeScript
 	cd mobile && npx tsc --noEmit

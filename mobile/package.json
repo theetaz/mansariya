@@ -6,7 +6,13 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "local": "cp .env.local .env && expo start --clear",
+    "local:ios": "cp .env.local .env && expo run:ios",
+    "local:android": "cp .env.local .env && expo run:android",
+    "prod": "cp .env.production .env && expo start --clear",
+    "prod:ios": "cp .env.production .env && expo run:ios",
+    "prod:android": "cp .env.production .env && expo run:android"
   },
   "dependencies": {
     "@maplibre/maplibre-react-native": "^10.4.2",
