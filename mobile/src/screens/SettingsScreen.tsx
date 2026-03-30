@@ -114,8 +114,8 @@ export default function SettingsScreen() {
         </View>
         <Switch
           value={false}
-          trackColor={{true: colors.green, false: tc.border}}
-          thumbColor={tc.card}
+          trackColor={{true: colors.green, false: isDark ? '#4A4A4A' : '#D1D5DB'}}
+          thumbColor={isDark ? '#E5E7EB' : '#FFFFFF'}
         />
       </View>
       <View style={[styles.divider, {backgroundColor: tc.divider}]} />
@@ -127,8 +127,8 @@ export default function SettingsScreen() {
         <Switch
           value={trackingConsent}
           onValueChange={setTrackingConsent}
-          trackColor={{true: colors.green, false: tc.border}}
-          thumbColor={tc.card}
+          trackColor={{true: colors.green, false: isDark ? '#4A4A4A' : '#D1D5DB'}}
+          thumbColor={isDark ? '#E5E7EB' : '#FFFFFF'}
         />
       </View>
 
@@ -141,8 +141,8 @@ export default function SettingsScreen() {
         </View>
         <Switch
           value={true}
-          trackColor={{true: colors.green, false: tc.border}}
-          thumbColor={tc.card}
+          trackColor={{true: colors.green, false: isDark ? '#4A4A4A' : '#D1D5DB'}}
+          thumbColor={isDark ? '#E5E7EB' : '#FFFFFF'}
         />
       </View>
       <View style={[styles.divider, {backgroundColor: tc.divider}]} />

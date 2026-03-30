@@ -33,14 +33,14 @@ function MainTabs() {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => (
-          <Text style={[styles.tabIcon, {opacity: focused ? 1 : 0.5}]}>
+          <Text style={[styles.tabIcon, {opacity: focused ? 1 : 0.7}]}>
             {focused
               ? TAB_ICONS[route.name]?.active
               : TAB_ICONS[route.name]?.inactive}
           </Text>
         ),
         tabBarActiveTintColor: colors.green,
-        tabBarInactiveTintColor: colors.neutral500,
+        tabBarInactiveTintColor: tc.textSecondary,
         tabBarStyle: [styles.tabBar, {backgroundColor: tc.tabBar, borderTopColor: tc.tabBarBorder}],
         tabBarLabelStyle: styles.tabLabel,
         headerShown: false,
