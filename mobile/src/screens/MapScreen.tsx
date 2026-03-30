@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import BusMarkers from '../components/map/BusMarker';
 import RoutePolyline from '../components/map/RoutePolyline';
 import StopMarkers from '../components/map/StopMarkers';
 import ConfidenceDots from '../components/common/ConfidenceDots';
+import TripStartModal from '../components/TripStartModal';
 import {useRouteOnMap} from '../hooks/useRouteOnMap';
 import {useLiveBuses} from '../hooks/useLiveBuses';
 import {useActiveRoutes} from '../hooks/useActiveRoutes';
@@ -38,6 +39,8 @@ export default function MapScreen() {
   const activeRouteIds = useActiveRoutes();
   useLiveBuses(activeRouteIds);
 
+  const [showTripModal, setShowTripModal] = useState(false);
+
   // Selected route — shows polyline + stops on map
   const [selectedRouteId, setSelectedRouteId] = React.useState<string | null>(null);
   const {stops: routeStops, polylineCoords} = useRouteOnMap(selectedRouteId);
@@ -55,10 +58,25 @@ export default function MapScreen() {
       stopTracking();
       useTrackingStore.getState().stopTracking();
     } else {
-      startTracking();
-      useTrackingStore.getState().startTracking();
+      setShowTripModal(true);
     }
   }, [isTracking]);
+
+  const handleStartWithMeta = useCallback((meta: {routeId?: string; busNumber?: string; crowdLevel?: number}) => {
+    setShowTripModal(false);
+    startTracking({routeId: meta.routeId, busNumber: meta.busNumber, crowdLevel: meta.crowdLevel});
+    useTrackingStore.getState().startTracking({
+      routeId: meta.routeId ?? null,
+      busNumber: meta.busNumber ?? null,
+      crowdLevel: meta.crowdLevel ?? null,
+    });
+  }, []);
+
+  const handleSkipMeta = useCallback(() => {
+    setShowTripModal(false);
+    startTracking();
+    useTrackingStore.getState().startTracking();
+  }, []);
 
   const busEntries = Object.values(buses);
 
@@ -136,6 +154,13 @@ export default function MapScreen() {
         activeOpacity={0.8}>
         <Text style={styles.fabIcon}>{isTracking ? '■' : '🚌'}</Text>
       </TouchableOpacity>
+
+      <TripStartModal
+        visible={showTripModal}
+        onStart={handleStartWithMeta}
+        onSkip={handleSkipMeta}
+        onCancel={() => setShowTripModal(false)}
+      />
 
       {/* Bottom sheet — nearby buses grouped by route */}
       <BottomSheet>
