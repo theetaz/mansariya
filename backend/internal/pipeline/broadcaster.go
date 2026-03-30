@@ -44,6 +44,8 @@ func (b *Broadcaster) Publish(ctx context.Context, vehicle model.Vehicle) error 
 		"confidence": vehicle.Confidence,
 		"count":      vehicle.ContributorCount,
 		"ts":         vehicle.LastUpdate.Unix(),
+		"crowd":      vehicle.CrowdLevel,
+		"bus_no":     vehicle.BusNumber,
 	})
 	pipe.Expire(ctx, posKey, 5*time.Minute)
 

@@ -120,6 +120,9 @@ func (mm *MapMatcher) processMessage(ctx context.Context, msg redis.XMessage) er
 	matched := model.MatchedTrace{
 		DeviceHash: batch.DeviceHash,
 		SessionID:  batch.SessionID,
+		RouteID:    batch.RouteID,
+		BusNumber:  batch.BusNumber,
+		CrowdLevel: batch.CrowdLevel,
 	}
 
 	if err != nil {

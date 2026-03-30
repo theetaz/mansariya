@@ -66,7 +66,7 @@ func run() error {
 	journeyStore := store.NewJourneyStore(pool)
 	adminStore := store.NewAdminStore(pool)
 	simStore := store.NewSimulationStore(pool)
-	_ = store.NewTripStore(pool) // used later for ETA
+	tripStore := store.NewTripStore(pool)
 
 	// Load route spatial index
 	routeIndex := spatial.NewRouteIndex()
@@ -121,7 +121,7 @@ func run() error {
 
 	// Wire up HTTP handlers
 	deps := &server.Deps{
-		GPS:        handler.NewGPSHandler(ingester),
+		GPS:        handler.NewGPSHandler(ingester, tripStore),
 		Routes:     handler.NewRoutesHandler(routeStore, stopStore),
 		Search:     handler.NewSearchHandler(routeStore),
 		Stops:      handler.NewStopsHandler(stopStore),

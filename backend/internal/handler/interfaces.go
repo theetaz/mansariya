@@ -12,6 +12,11 @@ type GPSIngester interface {
 	Ingest(ctx context.Context, batch model.GPSBatch) error
 }
 
+// TripSessionStore abstracts trip session persistence (implemented by store.TripStore).
+type TripSessionStore interface {
+	UpsertSession(ctx context.Context, batch model.GPSBatch) error
+}
+
 // RouteQuerier abstracts route database queries (implemented by store.RouteStore).
 type RouteQuerier interface {
 	GetAll(ctx context.Context) (map[string]orb.LineString, error)

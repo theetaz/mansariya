@@ -1,61 +1,26 @@
-import {Platform, PermissionsAndroid, Alert} from 'react-native';
+import * as Location from 'expo-location';
+import { Alert } from 'react-native';
 
-/**
- * Request location permissions for Android.
- * Returns true if granted.
- */
 export async function requestLocationPermission(): Promise<boolean> {
-  if (Platform.OS !== 'android') return true;
-
-  try {
-    const fineLocation = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Location Permission',
-        message:
-          'Mansariya needs your location to track buses and show nearby routes.',
-        buttonPositive: 'Allow',
-        buttonNegative: 'Deny',
-      },
-    );
-
-    if (fineLocation === PermissionsAndroid.RESULTS.GRANTED) {
-      return true;
-    }
-
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') {
     Alert.alert(
-      'Permission Required',
-      'Location access is needed to track buses. Please enable it in Settings.',
+      'Location Permission',
+      'Location access is needed to track bus positions. Please enable it in settings.',
     );
-    return false;
-  } catch (err) {
-    console.warn('Location permission error:', err);
     return false;
   }
+  return true;
 }
 
-/**
- * Request background location permission (Android 10+).
- * Should only be called after foreground permission is granted.
- */
 export async function requestBackgroundLocationPermission(): Promise<boolean> {
-  if (Platform.OS !== 'android' || Platform.Version < 29) return true;
-
-  try {
-    const result = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_BACKGROUND_LOCATION,
-      {
-        title: 'Background Location',
-        message:
-          'Allow Mansariya to access your location in the background so we can track your bus even when the app is minimized.',
-        buttonPositive: 'Allow',
-        buttonNegative: 'Deny',
-      },
+  const { status } = await Location.requestBackgroundPermissionsAsync();
+  if (status !== 'granted') {
+    Alert.alert(
+      'Background Location',
+      'Background location is needed to track while the app is minimized.',
     );
-
-    return result === PermissionsAndroid.RESULTS.GRANTED;
-  } catch (err) {
-    console.warn('Background location permission error:', err);
     return false;
   }
+  return true;
 }

@@ -25,7 +25,7 @@ class WebSocketManager {
     this.ws = new WebSocket(url);
 
     this.ws.onopen = () => {
-      console.log(`[WS] Connected to route ${this.routeId}`);
+      if (__DEV__) console.log(`[WS] Connected to route ${this.routeId}`);
       this.reconnectAttempts = 0;
     };
 
@@ -38,13 +38,12 @@ class WebSocketManager {
       }
     };
 
-    this.ws.onclose = (event) => {
-      console.log(`[WS] Disconnected (code: ${event.code})`);
+    this.ws.onclose = () => {
       this.scheduleReconnect();
     };
 
-    this.ws.onerror = (error) => {
-      console.warn('[WS] Error:', error);
+    this.ws.onerror = () => {
+      // onclose will fire after this
     };
   }
 
@@ -61,7 +60,7 @@ class WebSocketManager {
     );
     this.reconnectAttempts++;
 
-    console.log(`[WS] Reconnecting in ${delay}ms (attempt ${this.reconnectAttempts})`);
+    if (__DEV__ && this.reconnectAttempts <= 1) console.log(`[WS] Reconnecting route ${this.routeId} (attempt ${this.reconnectAttempts})`);
     this.reconnectTimer = setTimeout(() => this.doConnect(), delay);
   }
 

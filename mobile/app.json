@@ -1,4 +1,57 @@
 {
-  "name": "MasariyaApp",
-  "displayName": "MasariyaApp"
+  "expo": {
+    "name": "Mansariya",
+    "slug": "masariya",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1D9E75"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.masariya.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Mansariya needs your location to track bus positions and help other commuters.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Mansariya tracks your location in the background to share bus positions with other commuters."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1D9E75"
+      },
+      "package": "com.masariya.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-localization",
+      "expo-font",
+      "expo-sqlite",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Mansariya tracks your location in the background to share bus positions."
+        }
+      ],
+      [
+        "@maplibre/maplibre-react-native",
+        {}
+      ]
+    ],
+    "extra": {
+      "API_URL_IOS": "http://localhost:9900",
+      "API_URL_ANDROID": "http://10.0.2.2:9900",
+      "API_URL_PROD": "https://api.masariya.lk",
+      "MAP_STYLE_URL": "https://tiles.openfreemap.org/styles/liberty"
+    }
+  }
 }
