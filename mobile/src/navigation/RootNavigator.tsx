@@ -74,6 +74,10 @@ export default function RootNavigator() {
         headerTintColor: colors.green,
         headerBackTitle: 'Back',
         headerBackTitleVisible: false,
+        headerTitleStyle: { fontSize: 17, fontWeight: '600' },
+        headerStyle: { backgroundColor: colors.background },
+        headerShadowVisible: false,
+        headerBackButtonDisplayMode: 'minimal',
       }}>
       <Stack.Screen
         name="MainTabs"
