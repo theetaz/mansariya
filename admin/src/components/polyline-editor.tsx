@@ -139,14 +139,76 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
     toast.success('Polyline updated');
   }, [previewPolyline, pushHistory]);
 
-  // Select all / deselect all
-  const handleSelectAll = useCallback(() => {
-    if (selectedPoints.size === workingPolyline.length) {
-      setSelectedPoints(new Set());
-    } else {
-      setSelectedPoints(new Set(workingPolyline.map((_, i) => i)));
-    }
-  }, [selectedPoints, workingPolyline]);
+  // Move selected point by dragging
+  const handlePointDrag = useCallback((idx: number, lngLat: { lng: number; lat: number }) => {
+    pushHistory();
+    setWorkingPolyline((prev) => {
+      const next = [...prev];
+      next[idx] = [lngLat.lng, lngLat.lat];
+      return next;
+    });
+    setHasChanges(true);
+  }, [pushHistory]);
+
+  // Save with map view
+  const handleSave = useCallback(() => {
+    const m = mapInstanceRef.current;
+    const view = m ? { center: [m.getCenter().lng, m.getCenter().lat] as [number, number], zoom: m.getZoom() } : undefined;
+    onSave(workingPolyline, view);
+  }, [workingPolyline, onSave, mapInstanceRef]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      // Don't fire if user is typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      // Ctrl+S / Cmd+S — Save
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (hasChanges && !isSaving && !previewPolyline) handleSave();
+        return;
+      }
+
+      // Ctrl+Z / Cmd+Z — Undo
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        handleUndo();
+        return;
+      }
+
+      // Delete / Backspace — Remove selected
+      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedPoints.size > 0) {
+        e.preventDefault();
+        handleRemoveSelected();
+        return;
+      }
+
+      // Escape — Deselect or cancel mode
+      if (e.key === 'Escape') {
+        if (selectedPoints.size > 0) setSelectedPoints(new Set());
+        else if (mode !== 'idle') setMode('idle');
+        return;
+      }
+
+      // A — Toggle add point mode
+      if (e.key === 'a' && !e.ctrlKey && !e.metaKey) {
+        setMode((prev) => prev === 'add' ? 'idle' : 'add');
+        return;
+      }
+
+      // Ctrl+A / Cmd+A — Select all
+      if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+        e.preventDefault();
+        if (selectedPoints.size === workingPolyline.length) setSelectedPoints(new Set());
+        else setSelectedPoints(new Set(workingPolyline.map((_, i) => i)));
+        return;
+      }
+    };
+
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [hasChanges, isSaving, previewPolyline, handleSave, handleUndo, handleRemoveSelected, selectedPoints, mode, workingPolyline]);
 
   return (
     <div className="h-full flex flex-col">
@@ -201,18 +263,17 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
 
         <div className="flex-1" />
 
-        {mode === 'add' && <Badge variant="default" className="text-xs">Click map to add point</Badge>}
+        {mode === 'add' && <Badge variant="default" className="text-xs">Click map to add point (Esc to cancel)</Badge>}
         {showPoints && selectedPoints.size === 0 && mode !== 'add' && (
-          <Badge variant="outline" className="text-xs">Click points to select, Shift+click for range</Badge>
+          <Badge variant="outline" className="text-xs">Click to select · Shift+drag box · ⌘Z undo · Del remove · ⌘S save</Badge>
+        )}
+        {selectedPoints.size > 0 && (
+          <Badge variant="outline" className="text-xs">Drag to move · Del remove · Esc deselect</Badge>
         )}
 
         <Badge variant="outline" className="text-xs">{workingPolyline.length} pts</Badge>
 
-        <Button size="sm" onClick={() => {
-          const m = mapInstanceRef.current;
-          const view = m ? { center: [m.getCenter().lng, m.getCenter().lat] as [number, number], zoom: m.getZoom() } : undefined;
-          onSave(workingPolyline, view);
-        }} disabled={!hasChanges || isSaving || !!previewPolyline}>
+        <Button size="sm" onClick={handleSave} disabled={!hasChanges || isSaving || !!previewPolyline}>
           <RiSaveLine className="size-4 mr-1" />
           {isSaving ? 'Saving...' : 'Save'}
         </Button>
@@ -250,20 +311,21 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
             const isSelected = selectedPoints.has(i);
             return (
               <MapMarker key={`pt-${i}-${lng}-${lat}`} longitude={lng} latitude={lat}
+                draggable={isSelected}
+                onDragEnd={(lngLat) => handlePointDrag(i, lngLat)}
                 onClick={() => {
                   if (mode === 'add') return;
-                  // Check if shift is held (we store it via a global listener)
                   if ((window as any).__shiftHeld) selectRange(i);
                   else togglePoint(i);
                 }}>
                 <MarkerContent>
                   <div className={`rounded-full border shadow-sm cursor-pointer transition-all ${
                     isSelected
-                      ? 'size-4 bg-red-500 border-red-300 ring-2 ring-red-400/50'
+                      ? 'size-4 bg-red-500 border-red-300 ring-2 ring-red-400/50 cursor-grab active:cursor-grabbing'
                       : 'size-2.5 bg-white border-primary/40 hover:size-3.5 hover:bg-blue-400 hover:border-blue-300'
                   }`} />
                 </MarkerContent>
-                {isSelected && <MarkerTooltip>Point {i} — selected</MarkerTooltip>}
+                {isSelected && <MarkerTooltip>Point {i} — drag to move</MarkerTooltip>}
               </MapMarker>
             );
           })}
