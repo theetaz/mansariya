@@ -27,6 +27,10 @@
     {
       "source": "/osrm/:path*",
       "destination": "https://router.project-osrm.org/:path*"
+    },
+    {
+      "source": "/((?!api|ws|health|docs|nominatim|osrm|assets).*)",
+      "destination": "/index.html"
     }
   ]
 }
