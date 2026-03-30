@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -40,6 +40,14 @@ export default function MapScreen() {
   useLiveBuses(activeRouteIds);
 
   const [showTripModal, setShowTripModal] = useState(false);
+
+  // Periodically remove stale buses (not updated for 30s)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      useMapStore.getState().removeStaleBuses(30000);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Selected route — shows polyline + stops on map
   const [selectedRouteId, setSelectedRouteId] = React.useState<string | null>(null);
