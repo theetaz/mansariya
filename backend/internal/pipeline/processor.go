@@ -112,7 +112,7 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 	if routeID == "" {
 		result := p.inference.Infer(trace)
 		if result == nil {
-			slog.Debug("no route inferred", "device", trace.DeviceHash[:8])
+			slog.Debug("no route inferred", "device", trace.DeviceHash)
 			return
 		}
 		routeID = result.RouteID
@@ -134,8 +134,12 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 	}
 	p.mu.Unlock()
 
+	devLabel := trace.DeviceHash
+	if len(devLabel) > 8 {
+		devLabel = devLabel[:8]
+	}
 	slog.Debug("device updated",
-		"device", trace.DeviceHash[:8],
+		"device", devLabel,
 		"route", routeID,
 	)
 }

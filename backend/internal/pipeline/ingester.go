@@ -42,7 +42,7 @@ func (ing *Ingester) Ingest(ctx context.Context, batch model.GPSBatch) error {
 	}
 
 	slog.Debug("ingested gps batch",
-		"device", batch.DeviceHash[:8],
+		"device", batch.DeviceHash,
 		"pings", len(batch.Pings),
 	)
 	return nil
