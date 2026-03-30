@@ -18,7 +18,8 @@
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Mansariya needs your location to track bus positions and help other commuters.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Mansariya tracks your location in the background to share bus positions with other commuters.",
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["location", "fetch"]
       }
     },
     "android": {
@@ -42,7 +43,9 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Mansariya tracks your location in the background to share bus positions."
+          "locationAlwaysAndWhenInUsePermission": "Mansariya tracks your location in the background to share bus positions.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true
         }
       ],
       [

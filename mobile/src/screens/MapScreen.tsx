@@ -61,29 +61,51 @@ export default function MapScreen() {
     location: [s.stop_lng, s.stop_lat] as [number, number],
   }));
 
-  const handleTrackingToggle = useCallback(() => {
-    if (isTracking) {
-      stopTracking();
-      useTrackingStore.getState().stopTracking();
-    } else {
-      setShowTripModal(true);
-    }
-  }, [isTracking]);
+  const [isToggling, setIsToggling] = useState(false);
 
-  const handleStartWithMeta = useCallback((meta: {routeId?: string; busNumber?: string; crowdLevel?: number}) => {
+  const handleTrackingToggle = useCallback(async () => {
+    if (isToggling) return; // prevent double tap
+    setIsToggling(true);
+    try {
+      if (isTracking) {
+        await stopTracking();
+        useTrackingStore.getState().stopTracking();
+      } else {
+        setShowTripModal(true);
+      }
+    } finally {
+      setIsToggling(false);
+    }
+  }, [isTracking, isToggling]);
+
+  const handleStartWithMeta = useCallback(async (meta: {routeId?: string; busNumber?: string; crowdLevel?: number}) => {
     setShowTripModal(false);
-    startTracking({routeId: meta.routeId, busNumber: meta.busNumber, crowdLevel: meta.crowdLevel});
-    useTrackingStore.getState().startTracking({
-      routeId: meta.routeId ?? null,
-      busNumber: meta.busNumber ?? null,
-      crowdLevel: meta.crowdLevel ?? null,
-    });
+    setIsToggling(true);
+    try {
+      const started = await startTracking({routeId: meta.routeId, busNumber: meta.busNumber, crowdLevel: meta.crowdLevel});
+      if (started) {
+        useTrackingStore.getState().startTracking({
+          routeId: meta.routeId ?? null,
+          busNumber: meta.busNumber ?? null,
+          crowdLevel: meta.crowdLevel ?? null,
+        });
+      }
+    } finally {
+      setIsToggling(false);
+    }
   }, []);
 
-  const handleSkipMeta = useCallback(() => {
+  const handleSkipMeta = useCallback(async () => {
     setShowTripModal(false);
-    startTracking();
-    useTrackingStore.getState().startTracking();
+    setIsToggling(true);
+    try {
+      const started = await startTracking();
+      if (started) {
+        useTrackingStore.getState().startTracking();
+      }
+    } finally {
+      setIsToggling(false);
+    }
   }, []);
 
   const busEntries = Object.values(buses);
