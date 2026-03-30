@@ -9,11 +9,12 @@ import (
 )
 
 type GPSHandler struct {
-	ingester GPSIngester
+	ingester  GPSIngester
+	tripStore TripSessionStore
 }
 
-func NewGPSHandler(ingester GPSIngester) *GPSHandler {
-	return &GPSHandler{ingester: ingester}
+func NewGPSHandler(ingester GPSIngester, tripStore TripSessionStore) *GPSHandler {
+	return &GPSHandler{ingester: ingester, tripStore: tripStore}
 }
 
 // HandleBatch receives GPS batches from mobile clients and pushes to Redis Stream.
@@ -34,6 +35,15 @@ func (h *GPSHandler) HandleBatch(w http.ResponseWriter, r *http.Request) {
 		slog.Error("gps ingest failed", "error", err)
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "failed to process"})
 		return
+	}
+
+	// Track trip session (non-blocking)
+	if h.tripStore != nil {
+		go func() {
+			if err := h.tripStore.UpsertSession(r.Context(), batch); err != nil {
+				slog.Debug("trip session upsert", "error", err)
+			}
+		}()
 	}
 
 	writeJSON(w, http.StatusOK, map[string]interface{}{
