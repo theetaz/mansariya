@@ -20,6 +20,8 @@ type Vehicle struct {
 	ContributorCount int       `json:"contributor_count"`
 	Confidence       string    `json:"confidence"`
 	LastUpdate       time.Time `json:"last_update"`
+	CrowdLevel       int       `json:"crowd_level,omitempty"`
+	BusNumber        string    `json:"bus_number,omitempty"`
 }
 
 // TripSegment records historical travel time between two stops for ETA learning.

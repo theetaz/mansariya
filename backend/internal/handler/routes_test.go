@@ -54,6 +54,10 @@ func (m *mockRouteStore) Search(_ context.Context, _ string, _ int) ([]model.Rou
 	return m.searchRes, nil
 }
 
+func (m *mockRouteStore) GetPolyline(_ context.Context, _ string) ([][]float64, error) {
+	return nil, nil
+}
+
 // mockStopStore implements StopQuerier for testing.
 type mockStopStore struct {
 	stops     []model.Stop

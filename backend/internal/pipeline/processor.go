@@ -105,10 +105,14 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 			routeID = parts[2]
 		}
 	}
+	// User-provided route from trip metadata
+	if routeID == "" && trace.RouteID != "" {
+		routeID = trace.RouteID
+	}
 	if routeID == "" {
 		result := p.inference.Infer(trace)
 		if result == nil {
-			slog.Debug("no route inferred", "device", trace.DeviceHash[:8])
+			slog.Debug("no route inferred", "device", trace.DeviceHash)
 			return
 		}
 		routeID = result.RouteID
@@ -125,11 +129,17 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 		Bearing:    trace.AvgBearing,
 		Accuracy:   10.0, // default, could come from original pings
 		LastSeen:   time.Now(),
+		CrowdLevel: trace.CrowdLevel,
+		BusNumber:  trace.BusNumber,
 	}
 	p.mu.Unlock()
 
+	devLabel := trace.DeviceHash
+	if len(devLabel) > 8 {
+		devLabel = devLabel[:8]
+	}
 	slog.Debug("device updated",
-		"device", trace.DeviceHash[:8],
+		"device", devLabel,
 		"route", routeID,
 	)
 }
@@ -216,9 +226,11 @@ func (p *Processor) devicesForRoute(routeID string) []DeviceState {
 	return result
 }
 
-// cleanLoop removes stale devices (no update for 5 minutes).
+// cleanLoop removes stale devices and their bus keys from Redis.
+// Runs every 10 seconds, removes devices not seen for 30 seconds.
+// This ensures buses disappear promptly when users stop sharing.
 func (p *Processor) cleanLoop(ctx context.Context) {
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
 
 	for {
@@ -226,14 +238,28 @@ func (p *Processor) cleanLoop(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			cutoff := time.Now().Add(-5 * time.Minute)
+			cutoff := time.Now().Add(-30 * time.Second)
+			staleRoutes := make(map[string]bool)
+
 			p.mu.Lock()
 			for hash, d := range p.devices {
 				if d.LastSeen.Before(cutoff) {
+					staleRoutes[d.RouteID] = true
 					delete(p.devices, hash)
 				}
 			}
 			p.mu.Unlock()
+
+			// For routes that lost devices, re-cluster to clean up Redis bus keys
+			if len(staleRoutes) > 0 {
+				for routeID := range staleRoutes {
+					remaining := p.devicesForRoute(routeID)
+					if len(remaining) == 0 {
+						p.broadcaster.ReplaceRouteVehicles(ctx, routeID, nil)
+					}
+				}
+				p.clusterAndBroadcast(ctx)
+			}
 
 			p.broadcaster.CleanStale(ctx)
 		}

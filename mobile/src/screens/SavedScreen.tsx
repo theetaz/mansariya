@@ -8,17 +8,19 @@ import type {RootStackParamList} from '../navigation/types';
 import {useSavedStore} from '../stores/useSavedStore';
 import {colors, spacing, typography} from '../constants/theme';
 import RouteCard from '../components/route/RouteCard';
+import {useTheme} from '../hooks/useTheme';
 
 export default function SavedScreen() {
   const {t} = useTranslation();
   const insets = useSafeAreaInsets();
+  const {colors: tc} = useTheme();
   const savedRoutes = useSavedStore((s) => s.savedRoutes);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <View style={[styles.container, {paddingTop: insets.top}]}>
-      <Text style={styles.screenTitle}>{t('saved.title')}</Text>
+    <View style={[styles.container, {paddingTop: insets.top, backgroundColor: tc.background}]}>
+      <Text style={[styles.screenTitle, {color: tc.text}]}>{t('saved.title')}</Text>
 
       <FlatList
         data={savedRoutes}
@@ -38,8 +40,8 @@ export default function SavedScreen() {
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <Text style={styles.emptyIcon}>⭐</Text>
-            <Text style={styles.emptyTitle}>{t('saved.empty')}</Text>
-            <Text style={styles.emptyHint}>{t('saved.add_hint')}</Text>
+            <Text style={[styles.emptyTitle, {color: tc.text}]}>{t('saved.empty')}</Text>
+            <Text style={[styles.emptyHint, {color: tc.textSecondary}]}>{t('saved.add_hint')}</Text>
           </View>
         }
       />

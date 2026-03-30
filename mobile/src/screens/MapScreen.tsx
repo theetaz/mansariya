@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -20,12 +20,15 @@ import BusMarkers from '../components/map/BusMarker';
 import RoutePolyline from '../components/map/RoutePolyline';
 import StopMarkers from '../components/map/StopMarkers';
 import ConfidenceDots from '../components/common/ConfidenceDots';
+import TripStartModal from '../components/TripStartModal';
 import {useRouteOnMap} from '../hooks/useRouteOnMap';
 import {useLiveBuses} from '../hooks/useLiveBuses';
 import {useActiveRoutes} from '../hooks/useActiveRoutes';
+import {useTheme} from '../hooks/useTheme';
 
 export default function MapScreen() {
   const {t} = useTranslation();
+  const {colors: tc} = useTheme();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const buses = useMapStore((s) => s.buses);
@@ -35,6 +38,16 @@ export default function MapScreen() {
   // Fetch active routes and subscribe to their WebSocket channels
   const activeRouteIds = useActiveRoutes();
   useLiveBuses(activeRouteIds);
+
+  const [showTripModal, setShowTripModal] = useState(false);
+
+  // Periodically remove stale buses (not updated for 30s)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      useMapStore.getState().removeStaleBuses(30000);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Selected route — shows polyline + stops on map
   const [selectedRouteId, setSelectedRouteId] = React.useState<string | null>(null);
@@ -53,10 +66,25 @@ export default function MapScreen() {
       stopTracking();
       useTrackingStore.getState().stopTracking();
     } else {
-      startTracking();
-      useTrackingStore.getState().startTracking();
+      setShowTripModal(true);
     }
   }, [isTracking]);
+
+  const handleStartWithMeta = useCallback((meta: {routeId?: string; busNumber?: string; crowdLevel?: number}) => {
+    setShowTripModal(false);
+    startTracking({routeId: meta.routeId, busNumber: meta.busNumber, crowdLevel: meta.crowdLevel});
+    useTrackingStore.getState().startTracking({
+      routeId: meta.routeId ?? null,
+      busNumber: meta.busNumber ?? null,
+      crowdLevel: meta.crowdLevel ?? null,
+    });
+  }, []);
+
+  const handleSkipMeta = useCallback(() => {
+    setShowTripModal(false);
+    startTracking();
+    useTrackingStore.getState().startTracking();
+  }, []);
 
   const busEntries = Object.values(buses);
 
@@ -106,9 +134,9 @@ export default function MapScreen() {
 
         {/* Live bus count overlay */}
         {busEntries.length > 0 && (
-          <View style={styles.busCountOverlay}>
+          <View style={[styles.busCountOverlay, {backgroundColor: tc.card}]}>
             <View style={styles.liveDot} />
-            <Text style={styles.busCountText}>
+            <Text style={[styles.busCountText, {color: tc.text}]}>
               {busEntries.length} live bus{busEntries.length > 1 ? 'es' : ''}
             </Text>
           </View>
@@ -135,21 +163,28 @@ export default function MapScreen() {
         <Text style={styles.fabIcon}>{isTracking ? '■' : '🚌'}</Text>
       </TouchableOpacity>
 
+      <TripStartModal
+        visible={showTripModal}
+        onStart={handleStartWithMeta}
+        onSkip={handleSkipMeta}
+        onCancel={() => setShowTripModal(false)}
+      />
+
       {/* Bottom sheet — nearby buses grouped by route */}
       <BottomSheet>
-        <Text style={styles.sheetTitle}>{t('map.nearby_routes')}</Text>
+        <Text style={[styles.sheetTitle, {color: tc.text}]}>{t('map.nearby_routes')}</Text>
 
         {routeSummaries.length === 0 ? (
           <View style={styles.emptySheet}>
             <Text style={styles.emptyIcon}>🚌</Text>
-            <Text style={styles.emptyText}>{t('map.no_buses')}</Text>
-            <Text style={styles.emptyHint}>Waiting for live data...</Text>
+            <Text style={[styles.emptyText, {color: tc.textSecondary}]}>{t('map.no_buses')}</Text>
+            <Text style={[styles.emptyHint, {color: tc.textTertiary}]}>Waiting for live data...</Text>
           </View>
         ) : (
           routeSummaries.map((item) => (
             <TouchableOpacity
               key={item.routeId}
-              style={styles.liveRouteCard}
+              style={[styles.liveRouteCard, {borderBottomColor: tc.divider}]}
               onPress={() => {
                 // First tap: show route on map. Second tap: open detail.
                 if (selectedRouteId === item.routeId) {
@@ -163,8 +198,8 @@ export default function MapScreen() {
                 <Text style={styles.routeBadgeText}>{item.routeId}</Text>
               </View>
               <View style={styles.routeInfo}>
-                <Text style={styles.routeName}>Route {item.routeId}</Text>
-                <Text style={styles.routeMeta}>
+                <Text style={[styles.routeName, {color: tc.text}]}>Route {item.routeId}</Text>
+                <Text style={[styles.routeMeta, {color: tc.textSecondary}]}>
                   {item.busCount} bus{item.busCount > 1 ? 'es' : ''} ·{' '}
                   {item.nearestBus.speed_kmh.toFixed(0)} km/h
                 </Text>

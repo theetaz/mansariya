@@ -44,8 +44,10 @@ func (b *Broadcaster) Publish(ctx context.Context, vehicle model.Vehicle) error 
 		"confidence": vehicle.Confidence,
 		"count":      vehicle.ContributorCount,
 		"ts":         vehicle.LastUpdate.Unix(),
+		"crowd":      vehicle.CrowdLevel,
+		"bus_no":     vehicle.BusNumber,
 	})
-	pipe.Expire(ctx, posKey, 5*time.Minute)
+	pipe.Expire(ctx, posKey, 30*time.Second)
 
 	// Add to route's active buses sorted set (score = timestamp)
 	pipe.ZAdd(ctx, "route:"+vehicle.RouteID+":buses", redis.Z{
@@ -99,10 +101,9 @@ func (b *Broadcaster) ReplaceRouteVehicles(ctx context.Context, routeID string, 
 	}
 }
 
-// CleanStale removes vehicles from route sorted sets that haven't updated in 5 minutes.
+// CleanStale removes vehicles from route sorted sets that haven't updated in 30 seconds.
 func (b *Broadcaster) CleanStale(ctx context.Context) error {
-	// This would be called periodically by a background goroutine
-	cutoff := float64(time.Now().Add(-5 * time.Minute).Unix())
+	cutoff := float64(time.Now().Add(-30 * time.Second).Unix())
 
 	// Get all route keys matching pattern
 	keys, err := b.rdb.Keys(ctx, "route:*:buses").Result()

@@ -11,6 +11,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
 import JourneySearchScreen from '../screens/JourneySearchScreen';
 import {colors} from '../constants/theme';
+import {useTheme} from '../hooks/useTheme';
 
 import type {RootStackParamList, TabParamList} from './types';
 
@@ -20,26 +21,27 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const TAB_ICONS: Record<string, {active: string; inactive: string}> = {
   Map: {active: '🗺️', inactive: '🗺️'},
   Search: {active: '🔍', inactive: '🔍'},
-  Saved: {active: '⭐', inactive: '☆'},
+  Saved: {active: '⭐', inactive: '⭐'},
   Settings: {active: '⚙️', inactive: '⚙️'},
 };
 
 function MainTabs() {
   const {t} = useTranslation();
+  const {colors: tc} = useTheme();
 
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => (
-          <Text style={[styles.tabIcon, {opacity: focused ? 1 : 0.5}]}>
+          <Text style={[styles.tabIcon, {opacity: focused ? 1 : 0.7}]}>
             {focused
               ? TAB_ICONS[route.name]?.active
               : TAB_ICONS[route.name]?.inactive}
           </Text>
         ),
         tabBarActiveTintColor: colors.green,
-        tabBarInactiveTintColor: colors.neutral500,
-        tabBarStyle: styles.tabBar,
+        tabBarInactiveTintColor: tc.textSecondary,
+        tabBarStyle: [styles.tabBar, {backgroundColor: tc.tabBar, borderTopColor: tc.tabBarBorder}],
         tabBarLabelStyle: styles.tabLabel,
         headerShown: false,
       })}>
@@ -68,15 +70,22 @@ function MainTabs() {
 }
 
 export default function RootNavigator() {
+  const {colors: tc} = useTheme();
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerTintColor: colors.green,
+        headerBackTitle: '',
+        headerBackButtonDisplayMode: 'minimal',
+        headerTitleStyle: {fontSize: 17, fontWeight: '600', color: tc.text},
+        headerStyle: {backgroundColor: tc.headerBg},
+        headerShadowVisible: false,
       }}>
       <Stack.Screen
         name="MainTabs"
         component={MainTabs}
-        options={{headerShown: false}}
+        options={{headerShown: false, title: ''}}
       />
       <Stack.Screen
         name="RouteDetail"

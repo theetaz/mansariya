@@ -5,6 +5,9 @@ type GPSBatch struct {
 	DeviceHash string    `json:"device_hash"`
 	SessionID  string    `json:"session_id"`
 	Pings      []GPSPing `json:"pings"`
+	RouteID    string    `json:"route_id,omitempty"`
+	BusNumber  string    `json:"bus_number,omitempty"`
+	CrowdLevel int       `json:"crowd_level,omitempty"`
 }
 
 // GPSPing is a single GPS observation from a phone.
@@ -33,4 +36,7 @@ type MatchedTrace struct {
 	Points     []MatchedPoint `json:"points"`
 	AvgSpeed   float64        `json:"avg_speed"` // km/h
 	AvgBearing float64        `json:"avg_bearing"`
+	RouteID    string         `json:"route_id,omitempty"`
+	BusNumber  string         `json:"bus_number,omitempty"`
+	CrowdLevel int            `json:"crowd_level,omitempty"`
 }

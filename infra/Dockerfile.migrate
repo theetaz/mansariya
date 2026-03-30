@@ -1,0 +1,7 @@
+FROM golang:1.25-alpine
+
+RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+COPY backend/migrations /migrations
+
+ENTRYPOINT ["sh", "-c", "migrate -path /migrations -database \"$DATABASE_URL\" up"]

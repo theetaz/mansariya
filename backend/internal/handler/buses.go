@@ -99,6 +99,8 @@ func parseBusFromRedis(ctx context.Context, rdb *redis.Client, key string) *mode
 	fmt.Sscanf(pos["count"], "%d", &bus.ContributorCount)
 	bus.RouteID = pos["route_id"]
 	bus.Confidence = pos["confidence"]
+	bus.BusNumber = pos["bus_no"]
+	fmt.Sscanf(pos["crowd"], "%d", &bus.CrowdLevel)
 
 	// Extract virtual_id from key: "bus:v_xxx:pos" → "v_xxx"
 	if len(key) > 8 {
