@@ -105,6 +105,10 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 			routeID = parts[2]
 		}
 	}
+	// User-provided route from trip metadata
+	if routeID == "" && trace.RouteID != "" {
+		routeID = trace.RouteID
+	}
 	if routeID == "" {
 		result := p.inference.Infer(trace)
 		if result == nil {
@@ -125,6 +129,8 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 		Bearing:    trace.AvgBearing,
 		Accuracy:   10.0, // default, could come from original pings
 		LastSeen:   time.Now(),
+		CrowdLevel: trace.CrowdLevel,
+		BusNumber:  trace.BusNumber,
 	}
 	p.mu.Unlock()
 

@@ -26,6 +26,8 @@ type DeviceState struct {
 	Bearing    float64
 	Accuracy   float64
 	LastSeen   time.Time
+	CrowdLevel int
+	BusNumber  string
 }
 
 // ClusterVehicles groups co-moving devices on the same route into virtual vehicles.
@@ -56,6 +58,8 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 				ContributorCount: 1,
 				Confidence:       model.ConfidenceLow,
 				LastUpdate:       d.LastSeen,
+				CrowdLevel:       d.CrowdLevel,
+				BusNumber:        d.BusNumber,
 			})
 			continue
 		}
@@ -113,6 +117,26 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 				}
 			}
 
+			var crowdSum, crowdCount int
+			var busNumber string
+			for _, d := range routeDevices {
+				for _, p := range cluster.Points {
+					if d.DeviceHash == p.ID {
+						if d.CrowdLevel > 0 {
+							crowdSum += d.CrowdLevel
+							crowdCount++
+						}
+						if d.BusNumber != "" && busNumber == "" {
+							busNumber = d.BusNumber
+						}
+					}
+				}
+			}
+			avgCrowd := 0
+			if crowdCount > 0 {
+				avgCrowd = (crowdSum + crowdCount/2) / crowdCount
+			}
+
 			vehicles = append(vehicles, model.Vehicle{
 				VirtualID:        virtualID(routeID, deviceIDs),
 				RouteID:          routeID,
@@ -123,6 +147,8 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 				ContributorCount: n,
 				Confidence:       confidence,
 				LastUpdate:       latest,
+				CrowdLevel:       avgCrowd,
+				BusNumber:        busNumber,
 			})
 		}
 	}
