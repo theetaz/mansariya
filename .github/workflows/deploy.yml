@@ -1,0 +1,39 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'infra/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: root
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /opt/masariya
+
+            # Pull latest code
+            git pull origin main
+
+            # Build and restart
+            cd infra
+            docker compose -f docker-compose.prod.yml --env-file .env.prod build backend migrate
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d
+
+            # Run migrations
+            docker compose -f docker-compose.prod.yml --env-file .env.prod run --rm migrate
+
+            # Clean up old images
+            docker image prune -f
+
+            echo "✅ Deployment complete"
