@@ -1,7 +1,9 @@
-import Config from 'react-native-config';
+import Constants from 'expo-constants';
+
+const extra = Constants.expoConfig?.extra ?? {};
 
 export const MAP_STYLE_URL =
-  Config.MAP_STYLE_URL || 'https://tiles.openfreemap.org/styles/liberty';
+  extra.MAP_STYLE_URL || 'https://tiles.openfreemap.org/styles/liberty';
 
 // Colombo, Sri Lanka
 export const DEFAULT_CENTER: [number, number] = [79.8612, 6.9271];
