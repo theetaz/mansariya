@@ -3,8 +3,9 @@ import {View, Text, Switch, TouchableOpacity, StyleSheet, ScrollView} from 'reac
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {colors, spacing, typography} from '../constants/theme';
-import {useSettingsStore} from '../stores/useSettingsStore';
+import {useSettingsStore, type ThemeMode} from '../stores/useSettingsStore';
 import {useTrackingStore} from '../stores/useTrackingStore';
+import {useTheme} from '../hooks/useTheme';
 import i18n from '../i18n';
 
 const LANGUAGES: {code: 'si' | 'ta' | 'en'; label: string}[] = [
@@ -20,7 +21,16 @@ export default function SettingsScreen() {
   const setLanguage = useSettingsStore((s) => s.setLanguage);
   const trackingConsent = useSettingsStore((s) => s.trackingConsent);
   const setTrackingConsent = useSettingsStore((s) => s.setTrackingConsent);
+  const themeMode = useSettingsStore((s) => s.themeMode);
+  const setThemeMode = useSettingsStore((s) => s.setThemeMode);
+  const {isDark, colors: tc} = useTheme();
   const totalTrips = useTrackingStore((s) => s.totalTripsShared);
+
+  const THEMES: {code: ThemeMode; label: string; icon: string}[] = [
+    {code: 'light', label: '☀️ Light', icon: '☀️'},
+    {code: 'dark', label: '🌙 Dark', icon: '🌙'},
+    {code: 'system', label: '📱 System', icon: '📱'},
+  ];
 
   const handleLanguageChange = (code: 'si' | 'ta' | 'en') => {
     setLanguage(code);
@@ -31,11 +41,11 @@ export default function SettingsScreen() {
     LANGUAGES.find((l) => l.code === language)?.label ?? 'English';
 
   return (
-    <ScrollView style={[styles.container, {paddingTop: insets.top}]}>
-      <Text style={styles.screenTitle}>{t('settings.title')}</Text>
+    <ScrollView style={[styles.container, {paddingTop: insets.top, backgroundColor: tc.background}]}>
+      <Text style={[styles.screenTitle, {color: tc.text}]}>{t('settings.title')}</Text>
 
       {/* GENERAL */}
-      <Text style={styles.sectionHeader}>GENERAL</Text>
+      <Text style={[styles.sectionHeader, isDark && {color: tc.textSecondary}]}>GENERAL</Text>
 
       <TouchableOpacity style={styles.row}>
         <Text style={styles.rowLabel}>{t('settings.language')}</Text>
@@ -68,8 +78,33 @@ export default function SettingsScreen() {
         ))}
       </View>
 
+      {/* APPEARANCE */}
+      <Text style={[styles.sectionHeader, isDark && {color: tc.textSecondary}]}>APPEARANCE</Text>
+
+      <View style={styles.langRow}>
+        {THEMES.map((theme) => (
+          <TouchableOpacity
+            key={theme.code}
+            style={[
+              styles.langChip,
+              isDark && {borderColor: tc.border, backgroundColor: tc.surface},
+              themeMode === theme.code && styles.langChipActive,
+            ]}
+            onPress={() => setThemeMode(theme.code)}>
+            <Text
+              style={[
+                styles.langChipText,
+                isDark && {color: tc.textSecondary},
+                themeMode === theme.code && styles.langChipTextActive,
+              ]}>
+              {theme.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
       {/* DATA */}
-      <Text style={styles.sectionHeader}>DATA</Text>
+      <Text style={[styles.sectionHeader, isDark && {color: tc.textSecondary}]}>DATA</Text>
 
       <View style={styles.row}>
         <View style={styles.rowLabelContainer}>

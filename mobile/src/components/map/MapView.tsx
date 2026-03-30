@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import MapLibreGL, {Logger} from '@maplibre/maplibre-react-native';
-import {MAP_STYLE_URL, DEFAULT_CENTER, DEFAULT_ZOOM} from '../../constants/map';
+import {MAP_STYLES, DEFAULT_CENTER, DEFAULT_ZOOM} from '../../constants/map';
+import {useTheme} from '../../hooks/useTheme';
 
 // Initialize MapLibre (required before any map usage)
 MapLibreGL.setAccessToken(null);
 
-// Suppress non-fatal MapLibre font/style errors (OpenFreeMap doesn't serve all fonts)
+// Suppress non-fatal MapLibre font/style errors
 Logger.setLogLevel('warning');
 const originalError = console.error;
 console.error = (...args: any[]) => {
@@ -20,10 +21,13 @@ interface MapViewWrapperProps {
 }
 
 export default function MapViewWrapper({children, onPress}: MapViewWrapperProps) {
+  const {isDark} = useTheme();
+  const mapStyle = isDark ? MAP_STYLES.dark : MAP_STYLES.light;
+
   return (
     <MapLibreGL.MapView
       style={styles.map}
-      mapStyle={MAP_STYLE_URL}
+      mapStyle={mapStyle}
       compassEnabled
       rotateEnabled={false}
       onPress={onPress}>
@@ -34,7 +38,6 @@ export default function MapViewWrapper({children, onPress}: MapViewWrapperProps)
         }}
       />
 
-      {/* User location — disabled animated to avoid AnimatedNode crash on RN 0.84 */}
       <MapLibreGL.UserLocation visible animated={false} />
 
       {children}
