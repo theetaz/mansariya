@@ -73,6 +73,8 @@ export default function RootNavigator() {
       screenOptions={{
         headerTintColor: colors.green,
         headerBackTitleVisible: false,
+        headerBackTitle: '',
+        headerBackButtonDisplayMode: 'minimal',
         headerTitleStyle: { fontSize: 17, fontWeight: '600' },
         headerStyle: { backgroundColor: colors.background },
         headerShadowVisible: false,
@@ -80,7 +82,7 @@ export default function RootNavigator() {
       <Stack.Screen
         name="MainTabs"
         component={MainTabs}
-        options={{headerShown: false}}
+        options={{headerShown: false, title: ''}}
       />
       <Stack.Screen
         name="RouteDetail"
