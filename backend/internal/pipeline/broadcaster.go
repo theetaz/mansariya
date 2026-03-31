@@ -116,3 +116,58 @@ func (b *Broadcaster) CleanStale(ctx context.Context) error {
 	}
 	return nil
 }
+
+// PublishAllDevices publishes all device states to the "devices:all" Pub/Sub channel
+// for the admin WebSocket endpoint.
+func (b *Broadcaster) PublishAllDevices(ctx context.Context, devices []DeviceState) {
+	if len(devices) == 0 {
+		return
+	}
+
+	var counts model.DeviceCounts
+	counts.Total = len(devices)
+
+	infos := make([]model.DeviceInfo, len(devices))
+	for i, d := range devices {
+		infos[i] = model.DeviceInfo{
+			DeviceHash:           d.DeviceHash,
+			Classification:       d.Classification,
+			ClassificationReason: d.ClassificationReason,
+			Lat:                  d.Lat,
+			Lng:                  d.Lng,
+			SpeedKMH:             d.SpeedKMH,
+			Bearing:              d.Bearing,
+			Accuracy:             d.Accuracy,
+			RouteID:              d.RouteID,
+			BusNumber:            d.BusNumber,
+			CrowdLevel:           d.CrowdLevel,
+			HasMetadata:          d.HasMetadata,
+			LastSeen:             d.LastSeen,
+		}
+
+		switch d.Classification {
+		case "noise":
+			counts.Noise++
+		case "potential":
+			counts.Potential++
+		case "cluster":
+			counts.Cluster++
+		case "confirmed":
+			counts.Confirmed++
+		}
+	}
+
+	update := model.DevicesUpdate{
+		Type:    "devices_update",
+		Devices: infos,
+		Counts:  counts,
+	}
+
+	data, err := json.Marshal(update)
+	if err != nil {
+		slog.Error("marshal devices update", "error", err)
+		return
+	}
+
+	b.rdb.Publish(ctx, "devices:all", string(data))
+}
