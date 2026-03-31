@@ -3,9 +3,9 @@ import * as TaskManager from 'expo-task-manager';
 import { sendGPSBatch } from './api';
 
 const BACKGROUND_LOCATION_TASK = 'mansariya-background-location';
-const MIN_BATCH_SIZE = 2;
+const MIN_BATCH_SIZE = 1;
 const MAX_BUFFER_SIZE = 100;
-const FLUSH_INTERVAL_MS = 10000;
+const FLUSH_INTERVAL_MS = 5000;
 
 let sessionId = '';
 let deviceHash = '';

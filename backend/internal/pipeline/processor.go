@@ -293,7 +293,7 @@ func (p *Processor) cleanLoop(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			cutoff := time.Now().Add(-15 * time.Second)
+			cutoff := time.Now().Add(-20 * time.Second)
 			staleRoutes := make(map[string]bool)
 
 			p.mu.Lock()
