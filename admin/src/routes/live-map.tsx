@@ -172,8 +172,9 @@ function LiveMapPage() {
             />
           ))}
 
-          {/* Pan to selected bus */}
+          {/* Pan to selected bus or device */}
           {selectedBus && <PanTo lat={selectedBus.lat} lng={selectedBus.lng} />}
+          {selectedDevice && <PanTo lat={selectedDevice.lat} lng={selectedDevice.lng} />}
         </Map>
 
         {/* Floating stats */}

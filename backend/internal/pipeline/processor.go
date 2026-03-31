@@ -302,14 +302,18 @@ func (p *Processor) cleanLoop(ctx context.Context) {
 			}
 			p.mu.Unlock()
 
-			// For routes that lost devices, re-cluster to clean up Redis bus keys
 			if len(staleRoutes) > 0 {
+				// For routed devices that were removed, clean up Redis bus keys
 				for routeID := range staleRoutes {
+					if routeID == "" {
+						continue
+					}
 					remaining := p.devicesForRoute(routeID)
 					if len(remaining) == 0 {
 						p.broadcaster.ReplaceRouteVehicles(ctx, routeID, nil)
 					}
 				}
+				// Re-cluster and broadcast updated device list (removes stale from admin WS too)
 				p.clusterAndBroadcast(ctx)
 			}
 
