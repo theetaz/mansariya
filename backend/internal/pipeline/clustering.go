@@ -34,6 +34,7 @@ type DeviceState struct {
 }
 
 // ClusterVehicles groups co-moving devices on the same route into virtual vehicles.
+// Only devices with a non-empty RouteID participate in clustering.
 func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 	if len(devices) == 0 {
 		return nil
@@ -42,7 +43,9 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 	// Group by route
 	byRoute := make(map[string][]DeviceState)
 	for _, d := range devices {
-		byRoute[d.RouteID] = append(byRoute[d.RouteID], d)
+		if d.RouteID != "" {
+			byRoute[d.RouteID] = append(byRoute[d.RouteID], d)
+		}
 	}
 
 	var vehicles []model.Vehicle
