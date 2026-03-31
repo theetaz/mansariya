@@ -173,6 +173,18 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 	}
 	p.mu.RUnlock()
 
+	// Always broadcast device states for admin, even when empty
+	// (so the admin UI sees devices disappear in real-time)
+	defer func() {
+		p.mu.RLock()
+		allDevices := make([]DeviceState, 0, len(p.devices))
+		for _, d := range p.devices {
+			allDevices = append(allDevices, *d)
+		}
+		p.mu.RUnlock()
+		p.broadcaster.PublishAllDevices(ctx, allDevices)
+	}()
+
 	if len(devices) == 0 {
 		return
 	}
@@ -227,15 +239,6 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 		p.broadcaster.ReplaceRouteVehicles(ctx, routeID, rvs)
 	}
 
-	// Broadcast ALL device states for admin (new behavior)
-	p.mu.RLock()
-	allDevices := make([]DeviceState, 0, len(p.devices))
-	for _, d := range p.devices {
-		allDevices = append(allDevices, *d)
-	}
-	p.mu.RUnlock()
-
-	p.broadcaster.PublishAllDevices(ctx, allDevices)
 }
 
 // RemoveSimDevices removes all simulated device states matching a job prefix

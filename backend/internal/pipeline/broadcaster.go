@@ -120,10 +120,6 @@ func (b *Broadcaster) CleanStale(ctx context.Context) error {
 // PublishAllDevices publishes all device states to the "devices:all" Pub/Sub channel
 // for the admin WebSocket endpoint.
 func (b *Broadcaster) PublishAllDevices(ctx context.Context, devices []DeviceState) {
-	if len(devices) == 0 {
-		return
-	}
-
 	var counts model.DeviceCounts
 	counts.Total = len(devices)
 
