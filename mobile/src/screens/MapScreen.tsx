@@ -34,6 +34,7 @@ export default function MapScreen() {
   const buses = useMapStore((s) => s.buses);
   const isTracking = useTrackingStore((s) => s.isTracking);
   const detectedRouteName = useTrackingStore((s) => s.detectedRouteName);
+  const pingCount = useTrackingStore((s) => s.pingCount);
 
   // Fetch active routes and subscribe to their WebSocket channels
   const activeRouteIds = useActiveRoutes();
@@ -61,29 +62,51 @@ export default function MapScreen() {
     location: [s.stop_lng, s.stop_lat] as [number, number],
   }));
 
-  const handleTrackingToggle = useCallback(() => {
-    if (isTracking) {
-      stopTracking();
-      useTrackingStore.getState().stopTracking();
-    } else {
-      setShowTripModal(true);
-    }
-  }, [isTracking]);
+  const [isToggling, setIsToggling] = useState(false);
 
-  const handleStartWithMeta = useCallback((meta: {routeId?: string; busNumber?: string; crowdLevel?: number}) => {
+  const handleTrackingToggle = useCallback(async () => {
+    if (isToggling) return; // prevent double tap
+    setIsToggling(true);
+    try {
+      if (isTracking) {
+        await stopTracking();
+        useTrackingStore.getState().stopTracking();
+      } else {
+        setShowTripModal(true);
+      }
+    } finally {
+      setIsToggling(false);
+    }
+  }, [isTracking, isToggling]);
+
+  const handleStartWithMeta = useCallback(async (meta: {routeId?: string; busNumber?: string; crowdLevel?: number}) => {
     setShowTripModal(false);
-    startTracking({routeId: meta.routeId, busNumber: meta.busNumber, crowdLevel: meta.crowdLevel});
-    useTrackingStore.getState().startTracking({
-      routeId: meta.routeId ?? null,
-      busNumber: meta.busNumber ?? null,
-      crowdLevel: meta.crowdLevel ?? null,
-    });
+    setIsToggling(true);
+    try {
+      const started = await startTracking({routeId: meta.routeId, busNumber: meta.busNumber, crowdLevel: meta.crowdLevel});
+      if (started) {
+        useTrackingStore.getState().startTracking({
+          routeId: meta.routeId ?? null,
+          busNumber: meta.busNumber ?? null,
+          crowdLevel: meta.crowdLevel ?? null,
+        });
+      }
+    } finally {
+      setIsToggling(false);
+    }
   }, []);
 
-  const handleSkipMeta = useCallback(() => {
+  const handleSkipMeta = useCallback(async () => {
     setShowTripModal(false);
-    startTracking();
-    useTrackingStore.getState().startTracking();
+    setIsToggling(true);
+    try {
+      const started = await startTracking();
+      if (started) {
+        useTrackingStore.getState().startTracking();
+      }
+    } finally {
+      setIsToggling(false);
+    }
   }, []);
 
   const busEntries = Object.values(buses);
@@ -145,13 +168,16 @@ export default function MapScreen() {
 
       {/* Tracking banner */}
       {isTracking && (
-        <View style={styles.trackingBanner}>
-          <View style={styles.pulseDot} />
-          <Text style={styles.trackingText}>
-            {detectedRouteName
-              ? t('tracking.detected', {route: detectedRouteName})
-              : t('tracking.detecting')}
+        <View style={[styles.trackingBanner, {backgroundColor: tc.card, borderColor: tc.border}]}>
+          <View style={{width: 8, height: 8, borderRadius: 4, backgroundColor: colors.green, marginRight: 8}} />
+          <Text style={[styles.trackingText, {color: tc.text}]}>
+            {detectedRouteName ? `Sharing: ${detectedRouteName}` : 'Sharing location'}
           </Text>
+          {pingCount > 0 && (
+            <Text style={{fontSize: 12, color: tc.textSecondary, marginLeft: 'auto'}}>
+              {pingCount} pings
+            </Text>
+          )}
         </View>
       )}
 

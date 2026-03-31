@@ -290,3 +290,44 @@ export interface SimulationActiveResponse {
   total_buses: number;
   total_devices: number;
 }
+
+// ── Device (Data Provider) ──
+export type DeviceClassification = 'noise' | 'potential' | 'cluster' | 'confirmed';
+export type DeviceQualityStatus = 'ok' | 'low_accuracy' | 'out_of_service_region';
+export type DeviceFreshnessStatus = 'active' | 'suspect' | 'disconnected';
+
+export interface DeviceInfo {
+  contributor_id: string;
+  classification: DeviceClassification;
+  classification_reason: string;
+  quality_status: DeviceQualityStatus;
+  freshness_status: DeviceFreshnessStatus;
+  lat: number;
+  lng: number;
+  speed_kmh: number;
+  bearing: number;
+  accuracy: number;
+  route_id: string;
+  bus_number: string;
+  crowd_level: number;
+  has_metadata: boolean;
+  last_seen: string;
+}
+
+export interface DeviceCounts {
+  total: number;
+  noise: number;
+  potential: number;
+  cluster: number;
+  confirmed: number;
+  active: number;
+  suspect: number;
+  disconnected: number;
+}
+
+export interface DevicesUpdate {
+  type: 'devices_update';
+  snapshot_version: number;
+  devices: DeviceInfo[];
+  counts: DeviceCounts;
+}

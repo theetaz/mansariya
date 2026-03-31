@@ -3,14 +3,13 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import {
   RiBusLine,
-  RiSignalWifiLine,
+  RiSensorLine,
   RiSpeedLine,
   RiSearchLine,
   RiCloseLine,
   RiEyeLine,
   RiEyeOffLine,
   RiCheckLine,
-  RiMapPinLine,
   RiTimeLine,
   RiPinDistanceLine,
   RiNavigationLine,
@@ -27,8 +26,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
 import { Map, MapRoute, MapMarker, MarkerContent, MarkerTooltip, MapControls, useMap } from '@/components/ui/map';
 import { AnimatedBusMarker } from '@/components/animated-bus-marker';
+import { DeviceArrowMarker } from '@/components/device-arrow-marker';
+import { useAdminDevicesWS } from '@/hooks/use-admin-devices-ws';
 import { fetchActiveBuses, fetchAdminRoutes, fetchAdminRouteDetail } from '@/lib/api-functions';
-import type { Vehicle, AdminRouteWithStats, AdminEnrichedStop } from '@/lib/types';
+import type { Vehicle, AdminRouteWithStats, AdminEnrichedStop, DeviceInfo, DeviceClassification } from '@/lib/types';
 
 export const Route = createFileRoute('/live-map')({
   component: LiveMapPage,
@@ -36,11 +37,25 @@ export const Route = createFileRoute('/live-map')({
 
 const ROUTE_COLORS = ['#1D9E75', '#378ADD', '#E24B4A', '#BA7517', '#8B5CF6', '#EC4899', '#06B6D4', '#F97316'];
 
+const CLASSIFICATION_COLORS: Record<DeviceClassification, string> = {
+  noise: '#6B7280',
+  potential: '#BA7517',
+  cluster: '#378ADD',
+  confirmed: '#1D9E75',
+};
+
+type SidebarTab = 'providers' | 'buses';
+
 function LiveMapPage() {
   const [selectedRoutes, setSelectedRoutes] = useState<string[]>([]);
   const [hiddenBuses, setHiddenBuses] = useState<Set<string>>(new Set());
   const [selectedBusId, setSelectedBusId] = useState<string | null>(null);
   const [routeSearchOpen, setRouteSearchOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<SidebarTab>('providers');
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
+  const [visibleClassifications, setVisibleClassifications] = useState<Set<DeviceClassification>>(
+    new Set(['noise', 'potential', 'cluster', 'confirmed']),
+  );
 
   const { data: busData, isLoading } = useQuery({
     queryKey: ['active-buses'],
@@ -52,6 +67,8 @@ function LiveMapPage() {
     queryKey: ['admin-routes'],
     queryFn: fetchAdminRoutes,
   });
+
+  const { devices, counts, isConnected: wsConnected } = useAdminDevicesWS();
 
   const buses: Vehicle[] = busData?.buses ?? [];
   const busCount = busData?.count ?? 0;
@@ -67,6 +84,14 @@ function LiveMapPage() {
     (a, b) => b[1].length - a[1].length,
   );
 
+  const visibleDevices = useMemo(
+    () => devices.filter((d) => visibleClassifications.has(d.classification)),
+    [devices, visibleClassifications],
+  );
+
+  const selectedDevice = selectedDeviceId ? devices.find((d) => d.contributor_id === selectedDeviceId) : null;
+  const selectedBus = selectedBusId ? buses.find((b) => b.virtual_id === selectedBusId) : null;
+
   const toggleBusVisibility = useCallback((busId: string) => {
     setHiddenBuses((prev) => {
       const next = new Set(prev);
@@ -78,6 +103,10 @@ function LiveMapPage() {
 
   const handleBusClick = useCallback((busId: string) => {
     setSelectedBusId((prev) => (prev === busId ? null : busId));
+  }, []);
+
+  const handleDeviceClick = useCallback((deviceHash: string) => {
+    setSelectedDeviceId((prev) => (prev === deviceHash ? null : deviceHash));
   }, []);
 
   const addRoute = useCallback((routeId: string) => {
@@ -93,8 +122,6 @@ function LiveMapPage() {
     const idx = selectedRoutes.indexOf(routeId);
     return ROUTE_COLORS[idx % ROUTE_COLORS.length];
   };
-
-  const selectedBus = selectedBusId ? buses.find((b) => b.virtual_id === selectedBusId) : null;
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
@@ -129,16 +156,45 @@ function LiveMapPage() {
             />
           ))}
 
-          {/* Pan to selected bus */}
+          {/* Device arrow markers */}
+          {visibleDevices.map((d) => (
+            <DeviceArrowMarker
+              key={d.contributor_id}
+              id={d.contributor_id}
+              lat={d.lat}
+              lng={d.lng}
+              bearing={d.bearing}
+              speedKmh={d.speed_kmh}
+              classification={d.classification}
+              visible={true}
+              selected={selectedDeviceId === d.contributor_id}
+              onClick={() => handleDeviceClick(d.contributor_id)}
+              tooltip={`${d.contributor_id} · ${d.classification} · ${d.speed_kmh.toFixed(0)} km/h`}
+            />
+          ))}
+
+          {/* Pan to selected bus or device */}
           {selectedBus && <PanTo lat={selectedBus.lat} lng={selectedBus.lng} />}
+          {selectedDevice && <PanTo lat={selectedDevice.lat} lng={selectedDevice.lng} />}
         </Map>
 
         {/* Floating stats */}
         <div className="absolute top-4 left-4 bg-card/90 backdrop-blur rounded-lg border p-3 shadow-lg z-10">
-          <div className="flex items-center gap-2">
-            <RiBusLine className="size-4 text-primary" />
-            <span className="font-semibold tabular-nums">{busCount}</span>
-            <span className="text-sm text-muted-foreground">active buses</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <RiSensorLine className="size-4 text-primary" />
+              <span className="font-semibold tabular-nums">{counts.total}</span>
+              <span className="text-sm text-muted-foreground">devices</span>
+            </div>
+            <Separator orientation="vertical" className="h-4" />
+            <div className="flex items-center gap-2">
+              <RiBusLine className="size-4 text-primary" />
+              <span className="font-semibold tabular-nums">{busCount}</span>
+              <span className="text-sm text-muted-foreground">buses</span>
+            </div>
+            {!wsConnected && (
+              <Badge variant="destructive" className="text-xs">WS disconnected</Badge>
+            )}
           </div>
         </div>
 
@@ -146,133 +202,400 @@ function LiveMapPage() {
         {selectedBus && (
           <BusDetailOverlay bus={selectedBus} onClose={() => setSelectedBusId(null)} />
         )}
+
+        {/* Device tooltip */}
+        {selectedDevice && (
+          <DeviceTooltipOverlay device={selectedDevice} onClose={() => setSelectedDeviceId(null)} />
+        )}
       </div>
 
       {/* Sidebar */}
       <div className="w-80 border-l flex flex-col bg-card">
-        <div className="p-4 border-b">
-          <h2 className="font-semibold">Live Tracking</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Real-time bus positions</p>
+        {/* Tabs */}
+        <div className="flex border-b">
+          <button
+            className={`flex-1 py-3 text-sm font-medium text-center transition-colors relative ${
+              activeTab === 'providers' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+            }`}
+            onClick={() => setActiveTab('providers')}
+          >
+            Data Providers
+            {activeTab === 'providers' && <div className="absolute bottom-0 inset-x-0 h-0.5 bg-primary" />}
+          </button>
+          <button
+            className={`flex-1 py-3 text-sm font-medium text-center transition-colors relative ${
+              activeTab === 'buses' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+            }`}
+            onClick={() => setActiveTab('buses')}
+          >
+            Active Buses
+            <Badge className="ml-1.5 text-[10px] px-1.5 py-0" variant="default">{busCount}</Badge>
+            {activeTab === 'buses' && <div className="absolute bottom-0 inset-x-0 h-0.5 bg-primary" />}
+          </button>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 gap-2 p-4 border-b">
-          <MiniStat icon={RiBusLine} label="Buses" value={busCount} loading={isLoading} />
-          <MiniStat icon={RiSignalWifiLine} label="Routes" value={Object.keys(busesByRoute).length} loading={isLoading} />
+        {activeTab === 'providers' ? (
+          <DataProvidersTab
+            counts={counts}
+            devices={devices}
+            visibleClassifications={visibleClassifications}
+            onToggleClassification={(cls) => {
+              setVisibleClassifications((prev) => {
+                const next = new Set(prev);
+                if (next.has(cls)) next.delete(cls);
+                else next.add(cls);
+                return next;
+              });
+            }}
+            selectedDeviceId={selectedDeviceId}
+            onSelectDevice={handleDeviceClick}
+          />
+        ) : (
+          <ActiveBusesTab
+            isLoading={isLoading}
+            sortedRoutes={sortedRoutes}
+            selectedBusId={selectedBusId}
+            hiddenBuses={hiddenBuses}
+            allRoutes={allRoutes}
+            selectedRoutes={selectedRoutes}
+            routeSearchOpen={routeSearchOpen}
+            onRouteSearchOpenChange={setRouteSearchOpen}
+            onBusClick={handleBusClick}
+            onToggleBusVisibility={toggleBusVisibility}
+            onAddRoute={addRoute}
+            onRemoveRoute={removeRoute}
+            getRouteColor={getRouteColor}
+            busCount={busCount}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Data Providers Tab ──
+interface DataProvidersTabProps {
+  counts: {
+    total: number;
+    noise: number;
+    potential: number;
+    cluster: number;
+    confirmed: number;
+    active: number;
+    suspect: number;
+    disconnected: number;
+  };
+  devices: DeviceInfo[];
+  visibleClassifications: Set<DeviceClassification>;
+  onToggleClassification: (cls: DeviceClassification) => void;
+  selectedDeviceId: string | null;
+  onSelectDevice: (contributorId: string) => void;
+}
+
+function DataProvidersTab({
+  counts,
+  devices,
+  visibleClassifications,
+  onToggleClassification,
+  selectedDeviceId,
+  onSelectDevice,
+}: DataProvidersTabProps) {
+  const classifications: { key: DeviceClassification; label: string }[] = [
+    { key: 'confirmed', label: 'Confirmed' },
+    { key: 'cluster', label: 'Cluster' },
+    { key: 'potential', label: 'Potential' },
+    { key: 'noise', label: 'Noise' },
+  ];
+
+  const visibleDevices = devices.filter((d) => visibleClassifications.has(d.classification));
+
+  return (
+    <>
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 gap-2 p-4 border-b">
+        <MiniStat icon={RiSensorLine} label="Total" value={counts.total} />
+        <MiniStat icon={RiCheckLine} label="Active" value={counts.active} />
+        <MiniStat icon={RiTimeLine} label="Suspect" value={counts.suspect} />
+        <MiniStat icon={RiCloseLine} label="Disconnected" value={counts.disconnected} />
+      </div>
+
+      {/* Filter chips */}
+      <div className="p-3 border-b space-y-2">
+        <span className="text-xs font-medium text-muted-foreground">CLASSIFICATION FILTER</span>
+        <div className="flex flex-wrap gap-1.5">
+          {classifications.map(({ key, label }) => {
+            const isVisible = visibleClassifications.has(key);
+            const color = CLASSIFICATION_COLORS[key];
+            return (
+              <button
+                key={key}
+                onClick={() => onToggleClassification(key)}
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${
+                  isVisible
+                    ? 'border-transparent text-white'
+                    : 'bg-transparent text-muted-foreground border-border'
+                }`}
+                style={isVisible ? { backgroundColor: color } : undefined}
+              >
+                <span
+                  className="size-1.5 rounded-full"
+                  style={{ backgroundColor: isVisible ? 'white' : color }}
+                />
+                {label}
+                <span className="opacity-75">
+                  {counts[key]}
+                </span>
+              </button>
+            );
+          })}
         </div>
+        <p className="text-xs text-muted-foreground">
+          Noise is visible by default so unmatched and out-of-service-region devices stay debuggable.
+        </p>
+      </div>
 
-        {/* Route filter */}
-        <div className="p-3 border-b space-y-2">
-          <span className="text-xs font-medium text-muted-foreground">ROUTE OVERLAYS</span>
-          <Popover open={routeSearchOpen} onOpenChange={setRouteSearchOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="w-full justify-start gap-2 text-muted-foreground font-normal">
-                <RiSearchLine className="size-3.5" />
-                Add route overlay...
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-72 p-0" align="start">
-              <Command>
-                <CommandInput placeholder="Search routes..." />
-                <CommandList>
-                  <CommandEmpty>No routes found.</CommandEmpty>
-                  <CommandGroup>
-                    {allRoutes.map((r) => (
-                      <CommandItem
-                        key={r.id}
-                        value={`${r.id} ${r.name_en}`}
-                        onSelect={() => addRoute(r.id)}
-                        disabled={selectedRoutes.includes(r.id)}
-                      >
-                        <RiCheckLine className={`mr-2 size-4 ${selectedRoutes.includes(r.id) ? 'opacity-100' : 'opacity-0'}`} />
-                        <span className="font-medium">{r.id}</span>
-                        <span className="ml-1 truncate text-muted-foreground">— {r.name_en}</span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-
-          {selectedRoutes.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {selectedRoutes.map((routeId) => (
-                <Badge key={routeId} variant="secondary" className="gap-1 pr-1">
-                  <div className="size-2 rounded-full" style={{ background: getRouteColor(routeId) }} />
-                  {routeId}
-                  <button onClick={() => removeRoute(routeId)} className="ml-0.5 rounded-full hover:bg-muted p-0.5">
-                    <RiCloseLine className="size-3" />
-                  </button>
-                </Badge>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Bus list */}
-        <ScrollArea className="flex-1">
-          {isLoading ? (
-            <div className="p-4 space-y-3">
-              {[1, 2, 3].map((i) => <Skeleton key={i} className="h-16 w-full" />)}
-            </div>
-          ) : sortedRoutes.length === 0 ? (
-            <div className="p-4 text-center text-sm text-muted-foreground">No active buses</div>
-          ) : (
-            sortedRoutes.map(([routeId, routeBuses]) => (
-              <div key={routeId}>
-                <div className="px-4 py-2 bg-muted/50 flex items-center justify-between sticky top-0 z-10">
-                  <span className="text-sm font-medium">Route {routeId}</span>
-                  <Badge variant="secondary" className="text-xs">
-                    {routeBuses.length} bus{routeBuses.length > 1 ? 'es' : ''}
+      {/* Device list */}
+      <ScrollArea className="flex-1">
+        {visibleDevices.length === 0 ? (
+          <div className="p-4 text-center text-sm text-muted-foreground">No devices visible</div>
+        ) : (
+          visibleDevices.map((device) => {
+            const isSelected = selectedDeviceId === device.contributor_id;
+            const color = CLASSIFICATION_COLORS[device.classification];
+            return (
+              <div
+                key={device.contributor_id}
+                className={`px-4 py-2.5 border-b last:border-b-0 cursor-pointer transition-colors ${
+                  isSelected ? 'bg-primary/10 border-l-2 border-l-primary' : 'hover:bg-muted/50'
+                }`}
+                onClick={() => onSelectDevice(device.contributor_id)}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs">{device.contributor_id}</span>
+                  <Badge
+                    variant="outline"
+                    className="text-xs"
+                    style={{ borderColor: color, color }}
+                  >
+                    {device.classification}
                   </Badge>
                 </div>
-                {routeBuses.map((bus) => {
-                  const isSelected = selectedBusId === bus.virtual_id;
-                  const isHidden = hiddenBuses.has(bus.virtual_id);
-                  return (
-                    <div
-                      key={bus.virtual_id}
-                      className={`px-4 py-2.5 border-b last:border-b-0 cursor-pointer transition-colors ${isSelected ? 'bg-primary/10 border-l-2 border-l-primary' : 'hover:bg-muted/50'}`}
-                      onClick={() => handleBusClick(bus.virtual_id)}
+                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <RiSpeedLine className="size-3" />
+                    {device.speed_kmh.toFixed(0)} km/h
+                  </span>
+                  <span>{device.freshness_status}</span>
+                  <span>{device.quality_status.replaceAll('_', ' ')}</span>
+                  {device.route_id && (
+                    <span>Route {device.route_id}</span>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        )}
+      </ScrollArea>
+    </>
+  );
+}
+
+// ── Active Buses Tab ──
+interface ActiveBusesTabProps {
+  isLoading: boolean;
+  sortedRoutes: [string, Vehicle[]][];
+  selectedBusId: string | null;
+  hiddenBuses: Set<string>;
+  allRoutes: AdminRouteWithStats[];
+  selectedRoutes: string[];
+  routeSearchOpen: boolean;
+  onRouteSearchOpenChange: (open: boolean) => void;
+  onBusClick: (busId: string) => void;
+  onToggleBusVisibility: (busId: string) => void;
+  onAddRoute: (routeId: string) => void;
+  onRemoveRoute: (routeId: string) => void;
+  getRouteColor: (routeId: string) => string;
+  busCount: number;
+}
+
+function ActiveBusesTab({
+  isLoading,
+  sortedRoutes,
+  selectedBusId,
+  hiddenBuses,
+  allRoutes,
+  selectedRoutes,
+  routeSearchOpen,
+  onRouteSearchOpenChange,
+  onBusClick,
+  onToggleBusVisibility,
+  onAddRoute,
+  onRemoveRoute,
+  getRouteColor,
+  busCount,
+}: ActiveBusesTabProps) {
+  return (
+    <>
+      {/* Stats */}
+      <div className="grid grid-cols-2 gap-2 p-4 border-b">
+        <MiniStat icon={RiBusLine} label="Buses" value={busCount} loading={isLoading} />
+        <MiniStat icon={RiBusLine} label="Routes" value={sortedRoutes.length} loading={isLoading} />
+      </div>
+
+      {/* Route filter */}
+      <div className="p-3 border-b space-y-2">
+        <span className="text-xs font-medium text-muted-foreground">ROUTE OVERLAYS</span>
+        <Popover open={routeSearchOpen} onOpenChange={onRouteSearchOpenChange}>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className="w-full justify-start gap-2 text-muted-foreground font-normal">
+              <RiSearchLine className="size-3.5" />
+              Add route overlay...
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-72 p-0" align="start">
+            <Command>
+              <CommandInput placeholder="Search routes..." />
+              <CommandList>
+                <CommandEmpty>No routes found.</CommandEmpty>
+                <CommandGroup>
+                  {allRoutes.map((r) => (
+                    <CommandItem
+                      key={r.id}
+                      value={`${r.id} ${r.name_en}`}
+                      onSelect={() => onAddRoute(r.id)}
+                      disabled={selectedRoutes.includes(r.id)}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-xs">{bus.virtual_id}</span>
-                        <div className="flex items-center gap-1">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="size-6 p-0"
-                            onClick={(e) => { e.stopPropagation(); toggleBusVisibility(bus.virtual_id); }}
-                            title={isHidden ? 'Show on map' : 'Hide from map'}
-                          >
-                            {isHidden
-                              ? <RiEyeOffLine className="size-3.5 text-muted-foreground" />
-                              : <RiEyeLine className="size-3.5 text-muted-foreground" />}
-                          </Button>
-                          <Badge
-                            variant={bus.confidence === 'verified' ? 'default' : bus.confidence === 'good' ? 'secondary' : 'outline'}
-                            className="text-xs"
-                          >
-                            {bus.confidence}
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <RiSpeedLine className="size-3" />
-                          {bus.speed_kmh.toFixed(0)} km/h
-                        </span>
-                        <span>{bus.contributor_count} contributor{bus.contributor_count > 1 ? 's' : ''}</span>
+                      <RiCheckLine className={`mr-2 size-4 ${selectedRoutes.includes(r.id) ? 'opacity-100' : 'opacity-0'}`} />
+                      <span className="font-medium">{r.id}</span>
+                      <span className="ml-1 truncate text-muted-foreground">— {r.name_en}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+
+        {selectedRoutes.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {selectedRoutes.map((routeId) => (
+              <Badge key={routeId} variant="secondary" className="gap-1 pr-1">
+                <div className="size-2 rounded-full" style={{ background: getRouteColor(routeId) }} />
+                {routeId}
+                <button onClick={() => onRemoveRoute(routeId)} className="ml-0.5 rounded-full hover:bg-muted p-0.5">
+                  <RiCloseLine className="size-3" />
+                </button>
+              </Badge>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Bus list */}
+      <ScrollArea className="flex-1">
+        {isLoading ? (
+          <div className="p-4 space-y-3">
+            {[1, 2, 3].map((i) => <Skeleton key={i} className="h-16 w-full" />)}
+          </div>
+        ) : sortedRoutes.length === 0 ? (
+          <div className="p-4 text-center text-sm text-muted-foreground">No active buses</div>
+        ) : (
+          sortedRoutes.map(([routeId, routeBuses]) => (
+            <div key={routeId}>
+              <div className="px-4 py-2 bg-muted/50 flex items-center justify-between sticky top-0 z-10">
+                <span className="text-sm font-medium">Route {routeId}</span>
+                <Badge variant="secondary" className="text-xs">
+                  {routeBuses.length} bus{routeBuses.length > 1 ? 'es' : ''}
+                </Badge>
+              </div>
+              {routeBuses.map((bus) => {
+                const isSelected = selectedBusId === bus.virtual_id;
+                const isHidden = hiddenBuses.has(bus.virtual_id);
+                return (
+                  <div
+                    key={bus.virtual_id}
+                    className={`px-4 py-2.5 border-b last:border-b-0 cursor-pointer transition-colors ${isSelected ? 'bg-primary/10 border-l-2 border-l-primary' : 'hover:bg-muted/50'}`}
+                    onClick={() => onBusClick(bus.virtual_id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs">{bus.virtual_id}</span>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="size-6 p-0"
+                          onClick={(e) => { e.stopPropagation(); onToggleBusVisibility(bus.virtual_id); }}
+                          title={isHidden ? 'Show on map' : 'Hide from map'}
+                        >
+                          {isHidden
+                            ? <RiEyeOffLine className="size-3.5 text-muted-foreground" />
+                            : <RiEyeLine className="size-3.5 text-muted-foreground" />}
+                        </Button>
+                        <Badge
+                          variant={bus.confidence === 'verified' ? 'default' : bus.confidence === 'good' ? 'secondary' : 'outline'}
+                          className="text-xs"
+                        >
+                          {bus.confidence}
+                        </Badge>
                       </div>
                     </div>
-                  );
-                })}
-                <Separator />
-              </div>
-            ))
+                    <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <RiSpeedLine className="size-3" />
+                        {bus.speed_kmh.toFixed(0)} km/h
+                      </span>
+                      <span>{bus.contributor_count} contributor{bus.contributor_count > 1 ? 's' : ''}</span>
+                    </div>
+                  </div>
+                );
+              })}
+              <Separator />
+            </div>
+          ))
+        )}
+      </ScrollArea>
+    </>
+  );
+}
+
+// ── Device Tooltip Overlay ──
+function DeviceTooltipOverlay({ device, onClose }: { device: DeviceInfo; onClose: () => void }) {
+  const color = CLASSIFICATION_COLORS[device.classification];
+
+  return (
+    <div className="absolute bottom-4 left-4 bg-card/95 backdrop-blur rounded-lg border shadow-lg z-10 overflow-hidden min-w-[260px]">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b bg-muted/30">
+        <div className="flex items-center gap-2">
+          <RiSensorLine className="size-5" style={{ color }} />
+          <span className="font-mono text-sm">{device.contributor_id}</span>
+          <Badge variant="outline" className="text-xs" style={{ borderColor: color, color }}>
+            {device.classification}
+          </Badge>
+        </div>
+        <Button size="sm" variant="ghost" onClick={onClose} className="size-7 p-0">
+          <RiCloseLine className="size-4" />
+        </Button>
+      </div>
+
+      {/* Details */}
+      <div className="px-4 py-3 space-y-2">
+        {device.classification_reason && (
+          <p className="text-xs text-muted-foreground">{device.classification_reason}</p>
+        )}
+        <p className="text-xs text-muted-foreground">Freshness: {device.freshness_status}</p>
+        <p className="text-xs text-muted-foreground">Quality: {device.quality_status.replaceAll('_', ' ')}</p>
+        <div className="grid grid-cols-3 gap-x-4 gap-y-2">
+          <InfoItem icon={RiSpeedLine} label="Speed" value={`${device.speed_kmh.toFixed(1)} km/h`} />
+          <InfoItem icon={RiCompassLine} label="Bearing" value={formatBearing(device.bearing, device.speed_kmh)} />
+          <InfoItem icon={RiNavigationLine} label="Accuracy" value={`±${device.accuracy.toFixed(0)} m`} />
+          {device.route_id && (
+            <InfoItem icon={RiGroupLine} label="Route" value={device.route_id} />
           )}
-        </ScrollArea>
+          {device.has_metadata && (
+            <InfoItem icon={RiCheckLine} label="Metadata" value="Yes" />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -350,7 +673,7 @@ function BusDetailOverlay({ bus, onClose }: { bus: Vehicle; onClose: () => void 
       <div className="px-4 py-3">
         <div className="grid grid-cols-3 gap-x-6 gap-y-3">
           <InfoItem icon={RiSpeedLine} label="Speed" value={`${bus.speed_kmh.toFixed(1)} km/h`} />
-          <InfoItem icon={RiCompassLine} label="Bearing" value={`${bus.bearing.toFixed(0)}° ${bearingToCardinal(bus.bearing)}`} />
+          <InfoItem icon={RiCompassLine} label="Bearing" value={formatBearing(bus.bearing, bus.speed_kmh)} />
           <InfoItem icon={RiGroupLine} label="Devices" value={`${bus.contributor_count}`} />
 
           {eta && (
@@ -482,7 +805,7 @@ interface ETAResult {
   stops: { name: string; passed: boolean; isCurrent: boolean }[];
 }
 
-function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number, number][]): ETAResult | null {
+function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], _polyline: [number, number][]): ETAResult | null {
   if (stops.length === 0) return null;
 
   // Find nearest stop to bus current position
@@ -500,7 +823,6 @@ function computeETAs(bus: Vehicle, stops: AdminEnrichedStop[], polyline: [number
   let nextStopIdx = nearestIdx;
   if (nearestIdx < stops.length - 1) {
     const dToNearest = haversineKM(bus.lat, bus.lng, stops[nearestIdx].lat, stops[nearestIdx].lng);
-    const dToNext = haversineKM(bus.lat, bus.lng, stops[nearestIdx + 1].lat, stops[nearestIdx + 1].lng);
     // If we're closer to the nearest than to the gap between nearest and next, we've likely passed it
     const gapDist = haversineKM(stops[nearestIdx].lat, stops[nearestIdx].lng, stops[nearestIdx + 1].lat, stops[nearestIdx + 1].lng);
     if (dToNearest < gapDist * 0.3) {
@@ -588,6 +910,14 @@ function formatETA(minutes: number): string {
 function bearingToCardinal(bearing: number): string {
   const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   return dirs[Math.round(bearing / 45) % 8];
+}
+
+function formatBearing(bearing: number, speedKmh: number): string {
+  if (!Number.isFinite(bearing) || speedKmh < 3 || bearing <= 0) {
+    return 'Unknown while stationary';
+  }
+
+  return `${bearing.toFixed(0)}° ${bearingToCardinal(bearing)}`;
 }
 
 // ── Smooth pan to selected bus ──

@@ -1,13 +1,23 @@
 package model
 
+const (
+	GPSEventPing    = "ping"
+	GPSEventStarted = "started"
+	GPSEventStopped = "stopped"
+)
+
 // GPSBatch represents a batch of GPS pings from a single device.
 type GPSBatch struct {
-	DeviceHash string    `json:"device_hash"`
-	SessionID  string    `json:"session_id"`
-	Pings      []GPSPing `json:"pings"`
-	RouteID    string    `json:"route_id,omitempty"`
-	BusNumber  string    `json:"bus_number,omitempty"`
-	CrowdLevel int       `json:"crowd_level,omitempty"`
+	DeviceHash       string    `json:"device_hash"`
+	SessionID        string    `json:"session_id"`
+	Pings            []GPSPing `json:"pings"`
+	RouteID          string    `json:"route_id,omitempty"`
+	BusNumber        string    `json:"bus_number,omitempty"`
+	CrowdLevel       int       `json:"crowd_level,omitempty"`
+	EventType        string    `json:"event_type,omitempty"`
+	IdentityVersion  int       `json:"identity_version,omitempty"`
+	SessionStartedAt int64     `json:"session_started_at,omitempty"`
+	BatchSeq         int64     `json:"batch_seq,omitempty"`
 }
 
 // GPSPing is a single GPS observation from a phone.
@@ -31,12 +41,16 @@ type MatchedPoint struct {
 
 // MatchedTrace is the result of map-matching a GPS batch.
 type MatchedTrace struct {
-	DeviceHash string         `json:"device_hash"`
-	SessionID  string         `json:"session_id"`
-	Points     []MatchedPoint `json:"points"`
-	AvgSpeed   float64        `json:"avg_speed"` // km/h
-	AvgBearing float64        `json:"avg_bearing"`
-	RouteID    string         `json:"route_id,omitempty"`
-	BusNumber  string         `json:"bus_number,omitempty"`
-	CrowdLevel int            `json:"crowd_level,omitempty"`
+	DeviceHash       string         `json:"device_hash"`
+	SessionID        string         `json:"session_id"`
+	Points           []MatchedPoint `json:"points"`
+	AvgSpeed         float64        `json:"avg_speed"` // km/h
+	AvgBearing       float64        `json:"avg_bearing"`
+	RouteID          string         `json:"route_id,omitempty"`
+	BusNumber        string         `json:"bus_number,omitempty"`
+	CrowdLevel       int            `json:"crowd_level,omitempty"`
+	EventType        string         `json:"event_type,omitempty"`
+	IdentityVersion  int            `json:"identity_version,omitempty"`
+	SessionStartedAt int64          `json:"session_started_at,omitempty"`
+	BatchSeq         int64          `json:"batch_seq,omitempty"`
 }
