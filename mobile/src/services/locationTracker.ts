@@ -1,22 +1,23 @@
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import { sendGPSBatch } from './api';
-import { useTrackingStore } from '../stores/useTrackingStore';
 
 const BACKGROUND_LOCATION_TASK = 'mansariya-background-location';
 
-// Module-level state
+// Module-level state — persists across foreground/background
 let sessionId = '';
 let deviceHash = '';
 let pingBuffer: any[] = [];
-let uploadInterval: NodeJS.Timeout | null = null;
 let tripMeta: { route_id?: string; bus_number?: string; crowd_level?: number } = {};
+let lastFlushTime = 0;
+const FLUSH_INTERVAL_MS = 10000; // flush every 10 seconds
 
 function generateHash(): string {
   return Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
 }
 
-// Define background task — this runs even when the app is backgrounded/screen locked
+// Background task — receives location updates even when screen is locked / app backgrounded.
+// Buffers pings and flushes to server every 10 seconds.
 TaskManager.defineTask(BACKGROUND_LOCATION_TASK, async ({ data, error }: any) => {
   if (error) {
     console.warn('[Location] Background task error:', error.message);
@@ -34,6 +35,13 @@ TaskManager.defineTask(BACKGROUND_LOCATION_TASK, async ({ data, error }: any) =>
         brg: location.coords.heading ?? 0,
       });
     }
+
+    // Flush to server if enough time has passed
+    const now = Date.now();
+    if (now - lastFlushTime >= FLUSH_INTERVAL_MS && pingBuffer.length > 0) {
+      lastFlushTime = now;
+      await flushBuffer();
+    }
   }
 });
 
@@ -42,31 +50,28 @@ export async function startTracking(meta?: {
   busNumber?: string | null;
   crowdLevel?: number | null;
 }): Promise<boolean> {
-  // Prevent double start
   if (await isTrackingActive()) return true;
 
-  // Request foreground permission first
   const { status: fgStatus } = await Location.requestForegroundPermissionsAsync();
   if (fgStatus !== 'granted') return false;
 
-  // Request background permission
   const { status: bgStatus } = await Location.requestBackgroundPermissionsAsync();
   if (bgStatus !== 'granted') {
-    console.warn('[Location] Background permission denied, using foreground only');
+    console.warn('[Location] Background permission denied');
   }
 
   deviceHash = generateHash();
   sessionId = generateHash();
   pingBuffer = [];
+  lastFlushTime = Date.now();
   tripMeta = {};
   if (meta?.routeId) tripMeta.route_id = meta.routeId;
   if (meta?.busNumber) tripMeta.bus_number = meta.busNumber;
   if (meta?.crowdLevel) tripMeta.crowd_level = meta.crowdLevel;
 
-  // Start background location updates
   await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
     accuracy: Location.Accuracy.High,
-    distanceInterval: 20,
+    distanceInterval: 10,
     timeInterval: 5000,
     showsBackgroundLocationIndicator: true,
     foregroundService: {
@@ -74,28 +79,27 @@ export async function startTracking(meta?: {
       notificationBody: 'Sharing your location to help track buses',
       notificationColor: '#1D9E75',
     },
+    // iOS: pause updates automatically when no movement detected
+    pausesUpdatesAutomatically: false,
+    // iOS: activity type hint for better background performance
+    activityType: Location.ActivityType.AutomotiveNavigation,
   });
 
-  // Periodic upload
-  uploadInterval = setInterval(flushBuffer, 10000);
   return true;
 }
 
 export async function stopTracking() {
-  // Stop background location
   const isRunning = await TaskManager.isTaskRegisteredAsync(BACKGROUND_LOCATION_TASK);
   if (isRunning) {
     await Location.stopLocationUpdatesAsync(BACKGROUND_LOCATION_TASK);
   }
 
-  // Clear upload interval
-  if (uploadInterval) clearInterval(uploadInterval);
-  uploadInterval = null;
-
-  // Flush remaining pings
+  // Final flush
   await flushBuffer();
   tripMeta = {};
   pingBuffer = [];
+  sessionId = '';
+  deviceHash = '';
 }
 
 export async function isTrackingActive(): Promise<boolean> {
@@ -103,12 +107,13 @@ export async function isTrackingActive(): Promise<boolean> {
 }
 
 async function flushBuffer() {
-  if (pingBuffer.length === 0 || !sessionId) return;
+  if (pingBuffer.length === 0 || !sessionId || !deviceHash) return;
   const pings = [...pingBuffer];
   pingBuffer = [];
   try {
     await sendGPSBatch(deviceHash, sessionId, pings, tripMeta);
   } catch {
+    // Re-buffer on failure
     pingBuffer.unshift(...pings);
   }
 }

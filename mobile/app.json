@@ -54,8 +54,8 @@
       ]
     ],
     "extra": {
-      "API_URL_IOS": "http://localhost:9900",
-      "API_URL_ANDROID": "http://10.0.2.2:9900",
+      "API_URL_IOS": "http://192.168.2.169:9900",
+      "API_URL_ANDROID": "http://192.168.2.169:9900",
       "API_URL_PROD": "https://mansariya-api.nipuntheekshana.com",
       "MAP_STYLE_URL": "https://tiles.openfreemap.org/styles/liberty",
       "eas": {
