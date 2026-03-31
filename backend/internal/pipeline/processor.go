@@ -282,10 +282,10 @@ func (p *Processor) devicesForRoute(routeID string) []DeviceState {
 }
 
 // cleanLoop removes stale devices and their bus keys from Redis.
-// Runs every 10 seconds, removes devices not seen for 30 seconds.
-// This ensures buses disappear promptly when users stop sharing.
+// Runs every 5 seconds, removes devices not seen for 15 seconds.
+// This ensures devices disappear promptly when users stop sharing.
 func (p *Processor) cleanLoop(ctx context.Context) {
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 
 	for {
@@ -293,7 +293,7 @@ func (p *Processor) cleanLoop(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			cutoff := time.Now().Add(-30 * time.Second)
+			cutoff := time.Now().Add(-15 * time.Second)
 			staleRoutes := make(map[string]bool)
 
 			p.mu.Lock()

@@ -102,6 +102,26 @@ export async function startTracking(meta?: {
     },
   });
 
+  // Send an immediate ping so the device appears on the admin map instantly,
+  // without waiting for the background task's first callback + MIN_BATCH_SIZE
+  try {
+    const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    const immediatePing = {
+      lat: loc.coords.latitude,
+      lng: loc.coords.longitude,
+      ts: Math.floor(loc.timestamp / 1000),
+      acc: loc.coords.accuracy ?? 10,
+      spd: Math.max(0, loc.coords.speed ?? 0),
+      brg: Math.max(0, loc.coords.heading ?? 0),
+    };
+    await sendGPSBatch(deviceHash, sessionId, [immediatePing], tripMeta);
+    totalPingsSent += 1;
+    lastFlushTime = Date.now();
+    onPingCountUpdate?.(totalPingsSent);
+  } catch (e) {
+    console.warn('[GPS] Failed to send immediate ping:', e);
+  }
+
   return true;
 }
 
