@@ -21,13 +21,15 @@ type Conn struct {
 // Hub manages WebSocket connections grouped by route ID.
 // When a bus position update arrives for a route, it broadcasts to all subscribers.
 type Hub struct {
-	mu    sync.RWMutex
-	conns map[string]map[*Conn]struct{} // routeID → set of connections
+	mu         sync.RWMutex
+	conns      map[string]map[*Conn]struct{} // routeID → set of connections
+	adminConns map[*Conn]struct{}            // admin device stream connections
 }
 
 func NewHub() *Hub {
 	return &Hub{
-		conns: make(map[string]map[*Conn]struct{}),
+		conns:      make(map[string]map[*Conn]struct{}),
+		adminConns: make(map[*Conn]struct{}),
 	}
 }
 
@@ -124,4 +126,68 @@ func (h *Hub) SubscribedRoutes() []string {
 		routes = append(routes, id)
 	}
 	return routes
+}
+
+// SubscribeAdmin registers a WebSocket connection for the admin device stream.
+func (h *Hub) SubscribeAdmin(ctx context.Context, ws *websocket.Conn) *Conn {
+	connCtx, cancel := context.WithCancel(ctx)
+	conn := &Conn{
+		ws:      ws,
+		routeID: "__admin__",
+		ctx:     connCtx,
+		cancel:  cancel,
+	}
+
+	h.mu.Lock()
+	h.adminConns[conn] = struct{}{}
+	h.mu.Unlock()
+
+	slog.Info("ws admin subscribe", "total_admin", h.AdminConnCount())
+	return conn
+}
+
+// UnsubscribeAdmin removes an admin connection.
+func (h *Hub) UnsubscribeAdmin(conn *Conn) {
+	conn.cancel()
+
+	h.mu.Lock()
+	delete(h.adminConns, conn)
+	h.mu.Unlock()
+
+	slog.Info("ws admin unsubscribe")
+}
+
+// BroadcastAdmin sends a message to all admin device stream connections.
+func (h *Hub) BroadcastAdmin(data any) {
+	msg, err := json.Marshal(data)
+	if err != nil {
+		slog.Error("ws admin broadcast marshal", "error", err)
+		return
+	}
+
+	h.mu.RLock()
+	conns := make([]*Conn, 0, len(h.adminConns))
+	for conn := range h.adminConns {
+		conns = append(conns, conn)
+	}
+	h.mu.RUnlock()
+
+	for _, conn := range conns {
+		go func(c *Conn) {
+			ctx, cancel := context.WithTimeout(c.ctx, 5*time.Second)
+			defer cancel()
+
+			if err := c.ws.Write(ctx, websocket.MessageText, msg); err != nil {
+				slog.Debug("ws admin write failed, removing", "error", err)
+				h.UnsubscribeAdmin(c)
+			}
+		}(conn)
+	}
+}
+
+// AdminConnCount returns the number of admin connections.
+func (h *Hub) AdminConnCount() int {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+	return len(h.adminConns)
 }

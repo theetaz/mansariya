@@ -17,6 +17,11 @@ type TripSessionStore interface {
 	UpsertSession(ctx context.Context, batch model.GPSBatch) error
 }
 
+// DeviceSnapshotProvider abstracts loading the latest admin devices snapshot.
+type DeviceSnapshotProvider interface {
+	CurrentDevicesSnapshot(ctx context.Context) (model.DevicesUpdate, error)
+}
+
 // RouteQuerier abstracts route database queries (implemented by store.RouteStore).
 type RouteQuerier interface {
 	GetAll(ctx context.Context) (map[string]orb.LineString, error)

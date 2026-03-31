@@ -17,7 +17,9 @@
       "bundleIdentifier": "com.masariya.app",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Mansariya needs your location to track bus positions and help other commuters.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Mansariya tracks your location in the background to share bus positions with other commuters."
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Mansariya tracks your location in the background to share bus positions with other commuters.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["location", "fetch"]
       }
     },
     "android": {
@@ -29,7 +31,9 @@
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION"
+        "ACCESS_BACKGROUND_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
       ]
     },
     "plugins": [
@@ -39,7 +43,9 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Mansariya tracks your location in the background to share bus positions."
+          "locationAlwaysAndWhenInUsePermission": "Mansariya tracks your location in the background to share bus positions.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true
         }
       ],
       [
@@ -48,10 +54,13 @@
       ]
     ],
     "extra": {
-      "API_URL_IOS": "http://localhost:9900",
-      "API_URL_ANDROID": "http://10.0.2.2:9900",
-      "API_URL_PROD": "https://api.masariya.lk",
-      "MAP_STYLE_URL": "https://tiles.openfreemap.org/styles/liberty"
+      "API_URL_IOS": "http://192.168.2.169:9900",
+      "API_URL_ANDROID": "http://192.168.2.169:9900",
+      "API_URL_PROD": "https://mansariya-api.nipuntheekshana.com",
+      "MAP_STYLE_URL": "https://tiles.openfreemap.org/styles/liberty",
+      "eas": {
+        "projectId": "3cc52731-0975-4f5f-b82c-db4ca1daf9be"
+      }
     }
   }
 }
