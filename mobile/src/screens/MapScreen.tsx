@@ -34,6 +34,7 @@ export default function MapScreen() {
   const buses = useMapStore((s) => s.buses);
   const isTracking = useTrackingStore((s) => s.isTracking);
   const detectedRouteName = useTrackingStore((s) => s.detectedRouteName);
+  const pingCount = useTrackingStore((s) => s.pingCount);
 
   // Fetch active routes and subscribe to their WebSocket channels
   const activeRouteIds = useActiveRoutes();
@@ -167,13 +168,16 @@ export default function MapScreen() {
 
       {/* Tracking banner */}
       {isTracking && (
-        <View style={styles.trackingBanner}>
-          <View style={styles.pulseDot} />
-          <Text style={styles.trackingText}>
-            {detectedRouteName
-              ? t('tracking.detected', {route: detectedRouteName})
-              : t('tracking.detecting')}
+        <View style={[styles.trackingBanner, {backgroundColor: tc.card, borderColor: tc.border}]}>
+          <View style={{width: 8, height: 8, borderRadius: 4, backgroundColor: colors.green, marginRight: 8}} />
+          <Text style={[styles.trackingText, {color: tc.text}]}>
+            {detectedRouteName ? `Sharing: ${detectedRouteName}` : 'Sharing location'}
           </Text>
+          {pingCount > 0 && (
+            <Text style={{fontSize: 12, color: tc.textSecondary, marginLeft: 'auto'}}>
+              {pingCount} pings
+            </Text>
+          )}
         </View>
       )}
 
