@@ -24,7 +24,7 @@ export function useAdminDevicesWS(enabled = true): UseAdminDevicesWSReturn {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const host = window.location.host;
     // Pass API key as query param (WS can't send custom headers from browser)
-    const apiKey = localStorage.getItem('admin_api_key') ?? '';
+    const apiKey = import.meta.env.VITE_API_KEY ?? '';
     const url = `${protocol}//${host}/ws/admin/devices?api_key=${encodeURIComponent(apiKey)}`;
 
     const ws = new WebSocket(url);
