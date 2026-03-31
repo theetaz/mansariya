@@ -111,27 +111,32 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 	}
 	if routeID == "" {
 		result := p.inference.Infer(trace)
-		if result == nil {
-			slog.Debug("no route inferred", "device", trace.DeviceHash)
-			return
+		if result != nil {
+			routeID = result.RouteID
 		}
-		routeID = result.RouteID
+		// No early return — store device even without route match
 	}
 
-	// Update device state
-	p.mu.Lock()
-	p.devices[trace.DeviceHash] = &DeviceState{
+	// Build device state
+	ds := &DeviceState{
 		DeviceHash: trace.DeviceHash,
 		RouteID:    routeID,
 		Lat:        lastPoint.Lat,
 		Lng:        lastPoint.Lng,
 		SpeedKMH:   trace.AvgSpeed,
 		Bearing:    trace.AvgBearing,
-		Accuracy:   10.0, // default, could come from original pings
+		Accuracy:   10.0,
 		LastSeen:   time.Now(),
 		CrowdLevel: trace.CrowdLevel,
 		BusNumber:  trace.BusNumber,
 	}
+
+	// Classify the device
+	Classify(ds)
+
+	// Update device state
+	p.mu.Lock()
+	p.devices[trace.DeviceHash] = ds
 	p.mu.Unlock()
 
 	devLabel := trace.DeviceHash
@@ -141,6 +146,7 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 	slog.Debug("device updated",
 		"device", devLabel,
 		"route", routeID,
+		"classification", ds.Classification,
 	)
 }
 
