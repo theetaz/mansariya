@@ -179,17 +179,63 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 
 	vehicles := ClusterVehicles(devices)
 
-	// Clear stale virtual vehicles: remove all old bus keys for routes that have
-	// new clustering results, then write only the current set. This prevents
-	// ghost buses from accumulating when cluster composition changes between cycles.
+	// Promote cluster members: devices in a multi-contributor vehicle
+	// get upgraded to "cluster" or "confirmed"
+	clusterMembers := make(map[string]string) // deviceHash → classification
+	for _, v := range vehicles {
+		if v.ContributorCount >= 2 {
+			for _, d := range devices {
+				if d.RouteID == v.RouteID {
+					clusterMembers[d.DeviceHash] = "cluster"
+				}
+			}
+		}
+		// Confirmed: cluster matched to a known route (routeID != "")
+		if v.RouteID != "" && v.ContributorCount >= 1 {
+			for _, d := range devices {
+				if d.RouteID == v.RouteID {
+					if _, ok := clusterMembers[d.DeviceHash]; !ok || v.ContributorCount >= 2 {
+						clusterMembers[d.DeviceHash] = "confirmed"
+					}
+				}
+			}
+		}
+	}
+
+	// Apply cluster promotions to device states
+	p.mu.Lock()
+	for hash, cls := range clusterMembers {
+		if d, ok := p.devices[hash]; ok {
+			if cls == "confirmed" || (cls == "cluster" && d.Classification != "confirmed") {
+				d.Classification = cls
+				if cls == "cluster" {
+					d.ClassificationReason = "part of DBSCAN cluster (2+ co-moving devices)"
+				} else {
+					d.ClassificationReason = "route-matched vehicle"
+				}
+			}
+		}
+	}
+	p.mu.Unlock()
+
+	// Broadcast vehicles per route (existing behavior)
 	routeVehicles := make(map[string][]model.Vehicle)
 	for _, v := range vehicles {
 		routeVehicles[v.RouteID] = append(routeVehicles[v.RouteID], v)
 	}
 	for routeID, rvs := range routeVehicles {
-		// Get all current virtual vehicle IDs for this route
 		p.broadcaster.ReplaceRouteVehicles(ctx, routeID, rvs)
 	}
+
+	// Broadcast ALL device states for admin (new behavior)
+	p.mu.RLock()
+	allDevices := make([]DeviceState, 0, len(p.devices))
+	for _, d := range p.devices {
+		allDevices = append(allDevices, *d)
+	}
+	p.mu.RUnlock()
+
+	p.broadcaster.PublishAllDevices(ctx, allDevices)
 }
 
 // RemoveSimDevices removes all simulated device states matching a job prefix
