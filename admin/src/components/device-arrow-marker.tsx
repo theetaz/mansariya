@@ -16,6 +16,7 @@ interface DeviceArrowMarkerProps {
   lat: number;
   lng: number;
   bearing: number;
+  speedKmh: number;
   classification: DeviceClassification;
   visible: boolean;
   selected: boolean;
@@ -28,6 +29,7 @@ export function DeviceArrowMarker({
   lat,
   lng,
   bearing,
+  speedKmh,
   classification,
   visible,
   selected,
@@ -44,6 +46,7 @@ export function DeviceArrowMarker({
     if (!map) return;
 
     const el = document.createElement('div');
+    el.dataset.deviceId = id;
     el.style.cursor = 'pointer';
     el.title = tooltip;
     el.addEventListener('click', (e) => {
@@ -64,7 +67,7 @@ export function DeviceArrowMarker({
       markerRef.current = null;
       elRef.current = null;
     };
-  }, [map]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id, map]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Animate position
   useEffect(() => {
@@ -100,28 +103,43 @@ export function DeviceArrowMarker({
   }, [visible]);
 
   const color = CLASSIFICATION_COLORS[classification];
+  const showDirectionalBearing = speedKmh >= 3 && Number.isFinite(bearing) && bearing > 0;
 
   if (!elRef.current) return null;
 
   return createPortal(
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 14 14"
-      style={{
-        transform: `rotate(${bearing}deg)`,
-        transition: 'transform 1s ease',
-        filter: selected ? `drop-shadow(0 0 4px ${color})` : undefined,
-      }}
-    >
-      <polygon
-        points="7,1 13,12 7,9 1,12"
-        fill={color}
-        opacity={selected ? 1 : 0.85}
-        stroke={selected ? '#fff' : 'none'}
-        strokeWidth={selected ? 1 : 0}
+    showDirectionalBearing ? (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 14 14"
+        style={{
+          transform: `rotate(${bearing}deg)`,
+          transition: 'transform 1s ease',
+          filter: selected ? `drop-shadow(0 0 4px ${color})` : undefined,
+        }}
+      >
+        <polygon
+          points="7,1 13,12 7,9 1,12"
+          fill={color}
+          opacity={selected ? 1 : 0.85}
+          stroke={selected ? '#fff' : 'none'}
+          strokeWidth={selected ? 1 : 0}
+        />
+      </svg>
+    ) : (
+      <div
+        style={{
+          width: 12,
+          height: 12,
+          borderRadius: 999,
+          backgroundColor: color,
+          opacity: selected ? 1 : 0.85,
+          border: selected ? '2px solid white' : '1px solid rgba(255,255,255,0.75)',
+          boxShadow: selected ? `0 0 4px ${color}` : undefined,
+        }}
       />
-    </svg>,
+    ),
     elRef.current,
   );
 }

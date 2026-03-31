@@ -54,7 +54,7 @@ function LiveMapPage() {
   const [activeTab, setActiveTab] = useState<SidebarTab>('providers');
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
   const [visibleClassifications, setVisibleClassifications] = useState<Set<DeviceClassification>>(
-    new Set(['potential', 'cluster', 'confirmed']),
+    new Set(['noise', 'potential', 'cluster', 'confirmed']),
   );
 
   const { data: busData, isLoading } = useQuery({
@@ -89,7 +89,7 @@ function LiveMapPage() {
     [devices, visibleClassifications],
   );
 
-  const selectedDevice = selectedDeviceId ? devices.find((d) => d.device_hash === selectedDeviceId) : null;
+  const selectedDevice = selectedDeviceId ? devices.find((d) => d.contributor_id === selectedDeviceId) : null;
   const selectedBus = selectedBusId ? buses.find((b) => b.virtual_id === selectedBusId) : null;
 
   const toggleBusVisibility = useCallback((busId: string) => {
@@ -159,16 +159,17 @@ function LiveMapPage() {
           {/* Device arrow markers */}
           {visibleDevices.map((d) => (
             <DeviceArrowMarker
-              key={d.device_hash}
-              id={d.device_hash}
+              key={d.contributor_id}
+              id={d.contributor_id}
               lat={d.lat}
               lng={d.lng}
               bearing={d.bearing}
+              speedKmh={d.speed_kmh}
               classification={d.classification}
               visible={true}
-              selected={selectedDeviceId === d.device_hash}
-              onClick={() => handleDeviceClick(d.device_hash)}
-              tooltip={`${d.device_hash.slice(0, 8)}… · ${d.classification} · ${d.speed_kmh.toFixed(0)} km/h`}
+              selected={selectedDeviceId === d.contributor_id}
+              onClick={() => handleDeviceClick(d.contributor_id)}
+              tooltip={`${d.contributor_id} · ${d.classification} · ${d.speed_kmh.toFixed(0)} km/h`}
             />
           ))}
 
@@ -274,12 +275,21 @@ function LiveMapPage() {
 
 // ── Data Providers Tab ──
 interface DataProvidersTabProps {
-  counts: { total: number; noise: number; potential: number; cluster: number; confirmed: number };
+  counts: {
+    total: number;
+    noise: number;
+    potential: number;
+    cluster: number;
+    confirmed: number;
+    active: number;
+    suspect: number;
+    disconnected: number;
+  };
   devices: DeviceInfo[];
   visibleClassifications: Set<DeviceClassification>;
   onToggleClassification: (cls: DeviceClassification) => void;
   selectedDeviceId: string | null;
-  onSelectDevice: (deviceHash: string) => void;
+  onSelectDevice: (contributorId: string) => void;
 }
 
 function DataProvidersTab({
@@ -304,9 +314,9 @@ function DataProvidersTab({
       {/* Stats grid */}
       <div className="grid grid-cols-2 gap-2 p-4 border-b">
         <MiniStat icon={RiSensorLine} label="Total" value={counts.total} />
-        <MiniStat icon={RiSensorLine} label="Confirmed" value={counts.confirmed} />
-        <MiniStat icon={RiSensorLine} label="Cluster" value={counts.cluster} />
-        <MiniStat icon={RiSensorLine} label="Potential" value={counts.potential} />
+        <MiniStat icon={RiCheckLine} label="Active" value={counts.active} />
+        <MiniStat icon={RiTimeLine} label="Suspect" value={counts.suspect} />
+        <MiniStat icon={RiCloseLine} label="Disconnected" value={counts.disconnected} />
       </div>
 
       {/* Filter chips */}
@@ -339,6 +349,9 @@ function DataProvidersTab({
             );
           })}
         </div>
+        <p className="text-xs text-muted-foreground">
+          Noise is visible by default so unmatched and out-of-service-region devices stay debuggable.
+        </p>
       </div>
 
       {/* Device list */}
@@ -347,18 +360,18 @@ function DataProvidersTab({
           <div className="p-4 text-center text-sm text-muted-foreground">No devices visible</div>
         ) : (
           visibleDevices.map((device) => {
-            const isSelected = selectedDeviceId === device.device_hash;
+            const isSelected = selectedDeviceId === device.contributor_id;
             const color = CLASSIFICATION_COLORS[device.classification];
             return (
               <div
-                key={device.device_hash}
+                key={device.contributor_id}
                 className={`px-4 py-2.5 border-b last:border-b-0 cursor-pointer transition-colors ${
                   isSelected ? 'bg-primary/10 border-l-2 border-l-primary' : 'hover:bg-muted/50'
                 }`}
-                onClick={() => onSelectDevice(device.device_hash)}
+                onClick={() => onSelectDevice(device.contributor_id)}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs">{device.device_hash.slice(0, 12)}…</span>
+                  <span className="font-mono text-xs">{device.contributor_id}</span>
                   <Badge
                     variant="outline"
                     className="text-xs"
@@ -372,6 +385,8 @@ function DataProvidersTab({
                     <RiSpeedLine className="size-3" />
                     {device.speed_kmh.toFixed(0)} km/h
                   </span>
+                  <span>{device.freshness_status}</span>
+                  <span>{device.quality_status.replaceAll('_', ' ')}</span>
                   {device.route_id && (
                     <span>Route {device.route_id}</span>
                   )}
@@ -553,7 +568,7 @@ function DeviceTooltipOverlay({ device, onClose }: { device: DeviceInfo; onClose
       <div className="flex items-center justify-between px-4 py-3 border-b bg-muted/30">
         <div className="flex items-center gap-2">
           <RiSensorLine className="size-5" style={{ color }} />
-          <span className="font-mono text-sm">{device.device_hash.slice(0, 12)}…</span>
+          <span className="font-mono text-sm">{device.contributor_id}</span>
           <Badge variant="outline" className="text-xs" style={{ borderColor: color, color }}>
             {device.classification}
           </Badge>
@@ -568,9 +583,11 @@ function DeviceTooltipOverlay({ device, onClose }: { device: DeviceInfo; onClose
         {device.classification_reason && (
           <p className="text-xs text-muted-foreground">{device.classification_reason}</p>
         )}
+        <p className="text-xs text-muted-foreground">Freshness: {device.freshness_status}</p>
+        <p className="text-xs text-muted-foreground">Quality: {device.quality_status.replaceAll('_', ' ')}</p>
         <div className="grid grid-cols-3 gap-x-4 gap-y-2">
           <InfoItem icon={RiSpeedLine} label="Speed" value={`${device.speed_kmh.toFixed(1)} km/h`} />
-          <InfoItem icon={RiCompassLine} label="Bearing" value={`${device.bearing.toFixed(0)}° ${bearingToCardinal(device.bearing)}`} />
+          <InfoItem icon={RiCompassLine} label="Bearing" value={formatBearing(device.bearing, device.speed_kmh)} />
           <InfoItem icon={RiNavigationLine} label="Accuracy" value={`±${device.accuracy.toFixed(0)} m`} />
           {device.route_id && (
             <InfoItem icon={RiGroupLine} label="Route" value={device.route_id} />
@@ -656,7 +673,7 @@ function BusDetailOverlay({ bus, onClose }: { bus: Vehicle; onClose: () => void 
       <div className="px-4 py-3">
         <div className="grid grid-cols-3 gap-x-6 gap-y-3">
           <InfoItem icon={RiSpeedLine} label="Speed" value={`${bus.speed_kmh.toFixed(1)} km/h`} />
-          <InfoItem icon={RiCompassLine} label="Bearing" value={`${bus.bearing.toFixed(0)}° ${bearingToCardinal(bus.bearing)}`} />
+          <InfoItem icon={RiCompassLine} label="Bearing" value={formatBearing(bus.bearing, bus.speed_kmh)} />
           <InfoItem icon={RiGroupLine} label="Devices" value={`${bus.contributor_count}`} />
 
           {eta && (
@@ -893,6 +910,14 @@ function formatETA(minutes: number): string {
 function bearingToCardinal(bearing: number): string {
   const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   return dirs[Math.round(bearing / 45) % 8];
+}
+
+function formatBearing(bearing: number, speedKmh: number): string {
+  if (!Number.isFinite(bearing) || speedKmh < 3 || bearing <= 0) {
+    return 'Unknown while stationary';
+  }
+
+  return `${bearing.toFixed(0)}° ${bearingToCardinal(bearing)}`;
 }
 
 // ── Smooth pan to selected bus ──

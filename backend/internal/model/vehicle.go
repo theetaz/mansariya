@@ -22,6 +22,7 @@ type Vehicle struct {
 	LastUpdate       time.Time `json:"last_update"`
 	CrowdLevel       int       `json:"crowd_level,omitempty"`
 	BusNumber        string    `json:"bus_number,omitempty"`
+	Contributors     []string  `json:"-"`
 }
 
 // TripSegment records historical travel time between two stops for ETA learning.
@@ -39,9 +40,9 @@ type TripSegment struct {
 
 // ETAResponse is the ETA for buses arriving at a specific stop.
 type ETAResponse struct {
-	RouteID string    `json:"route_id"`
-	StopID  string    `json:"stop_id"`
-	Buses   []BusETA  `json:"buses"`
+	RouteID string   `json:"route_id"`
+	StopID  string   `json:"stop_id"`
+	Buses   []BusETA `json:"buses"`
 }
 
 type BusETA struct {

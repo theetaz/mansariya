@@ -2,7 +2,9 @@ package pipeline
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"strings"
 	"sync"
@@ -22,7 +24,7 @@ type Processor struct {
 	broadcaster *Broadcaster
 
 	mu      sync.RWMutex
-	devices map[string]*DeviceState // device_hash → latest state
+	devices map[string]*DeviceState // session_id → latest state
 }
 
 func NewProcessor(rdb *redis.Client, inference *InferenceEngine, broadcaster *Broadcaster) *Processor {
@@ -37,6 +39,11 @@ func NewProcessor(rdb *redis.Client, inference *InferenceEngine, broadcaster *Br
 // Run starts the processor consumer loop. Blocks until context is cancelled.
 func (p *Processor) Run(ctx context.Context) error {
 	slog.Info("processor worker started")
+
+	if err := p.restoreActiveDevices(ctx); err != nil {
+		slog.Warn("restore active devices", "error", err)
+	}
+	p.clusterAndBroadcast(ctx)
 
 	// Background: periodically cluster and broadcast
 	go p.clusterLoop(ctx)
@@ -89,6 +96,15 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 		return
 	}
 
+	if trace.SessionID == "" {
+		return
+	}
+
+	if trace.EventType == model.GPSEventStopped {
+		p.removeSession(ctx, trace.SessionID)
+		return
+	}
+
 	// Compute position from matched points (use last point as current position)
 	if len(trace.Points) == 0 {
 		return
@@ -119,16 +135,19 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 
 	// Build device state
 	ds := &DeviceState{
-		DeviceHash: trace.DeviceHash,
-		RouteID:    routeID,
-		Lat:        lastPoint.Lat,
-		Lng:        lastPoint.Lng,
-		SpeedKMH:   trace.AvgSpeed,
-		Bearing:    trace.AvgBearing,
-		Accuracy:   10.0,
-		LastSeen:   time.Now(),
-		CrowdLevel: trace.CrowdLevel,
-		BusNumber:  trace.BusNumber,
+		SessionID:    trace.SessionID,
+		DeviceHash:   trace.DeviceHash,
+		AdminID:      adminContributorID(trace.SessionID),
+		RouteID:      routeID,
+		Lat:          lastPoint.Lat,
+		Lng:          lastPoint.Lng,
+		SpeedKMH:     trace.AvgSpeed,
+		Bearing:      trace.AvgBearing,
+		Accuracy:     10.0,
+		LastSeen:     time.Now(),
+		LastBatchSeq: trace.BatchSeq,
+		CrowdLevel:   trace.CrowdLevel,
+		BusNumber:    trace.BusNumber,
 	}
 
 	// Classify the device
@@ -136,10 +155,18 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 
 	// Update device state
 	p.mu.Lock()
-	p.devices[trace.DeviceHash] = ds
+	if existing, ok := p.devices[trace.SessionID]; ok && trace.BatchSeq > 0 && existing.LastBatchSeq >= trace.BatchSeq {
+		p.mu.Unlock()
+		return
+	}
+	p.devices[trace.SessionID] = ds
 	p.mu.Unlock()
 
-	devLabel := trace.DeviceHash
+	if err := p.broadcaster.UpsertDeviceState(ctx, *ds); err != nil {
+		slog.Warn("persist device state", "session_id", trace.SessionID, "error", err)
+	}
+
+	devLabel := ds.AdminID
 	if len(devLabel) > 8 {
 		devLabel = devLabel[:8]
 	}
@@ -147,6 +174,7 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 		"device", devLabel,
 		"route", routeID,
 		"classification", ds.Classification,
+		"quality", ds.QualityStatus,
 	)
 }
 
@@ -166,10 +194,13 @@ func (p *Processor) clusterLoop(ctx context.Context) {
 }
 
 func (p *Processor) clusterAndBroadcast(ctx context.Context) {
+	now := time.Now()
 	p.mu.RLock()
 	devices := make([]DeviceState, 0, len(p.devices))
 	for _, d := range p.devices {
-		devices = append(devices, *d)
+		copy := *d
+		copy.FreshnessStatus = freshnessStatus(copy.LastSeen, now)
+		devices = append(devices, copy)
 	}
 	p.mu.RUnlock()
 
@@ -189,26 +220,33 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 		return
 	}
 
-	vehicles := ClusterVehicles(devices)
+	activeDevices := make([]DeviceState, 0, len(devices))
+	allRoutes := make(map[string]struct{})
+	for _, d := range devices {
+		if d.RouteID != "" {
+			allRoutes[d.RouteID] = struct{}{}
+		}
+		if isClusterEligible(d.LastSeen, now) {
+			activeDevices = append(activeDevices, d)
+		}
+	}
+
+	vehicles := ClusterVehicles(activeDevices)
 
 	// Promote cluster members: devices in a multi-contributor vehicle
 	// get upgraded to "cluster" or "confirmed"
-	clusterMembers := make(map[string]string) // deviceHash → classification
+	clusterMembers := make(map[string]string) // sessionID → classification
 	for _, v := range vehicles {
 		if v.ContributorCount >= 2 {
-			for _, d := range devices {
-				if d.RouteID == v.RouteID {
-					clusterMembers[d.DeviceHash] = "cluster"
-				}
+			for _, contributorID := range v.Contributors {
+				clusterMembers[contributorID] = model.ClassificationCluster
 			}
 		}
 		// Confirmed: cluster matched to a known route (routeID != "")
 		if v.RouteID != "" && v.ContributorCount >= 1 {
-			for _, d := range devices {
-				if d.RouteID == v.RouteID {
-					if _, ok := clusterMembers[d.DeviceHash]; !ok || v.ContributorCount >= 2 {
-						clusterMembers[d.DeviceHash] = "confirmed"
-					}
+			for _, contributorID := range v.Contributors {
+				if _, ok := clusterMembers[contributorID]; !ok || v.ContributorCount >= 2 {
+					clusterMembers[contributorID] = model.ClassificationConfirmed
 				}
 			}
 		}
@@ -216,11 +254,11 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 
 	// Apply cluster promotions to device states
 	p.mu.Lock()
-	for hash, cls := range clusterMembers {
-		if d, ok := p.devices[hash]; ok {
-			if cls == "confirmed" || (cls == "cluster" && d.Classification != "confirmed") {
+	for sessionID, cls := range clusterMembers {
+		if d, ok := p.devices[sessionID]; ok {
+			if cls == model.ClassificationConfirmed || (cls == model.ClassificationCluster && d.Classification != model.ClassificationConfirmed) {
 				d.Classification = cls
-				if cls == "cluster" {
+				if cls == model.ClassificationCluster {
 					d.ClassificationReason = "part of DBSCAN cluster (2+ co-moving devices)"
 				} else {
 					d.ClassificationReason = "route-matched vehicle"
@@ -238,7 +276,65 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 	for routeID, rvs := range routeVehicles {
 		p.broadcaster.ReplaceRouteVehicles(ctx, routeID, rvs)
 	}
+	for routeID := range allRoutes {
+		if _, ok := routeVehicles[routeID]; !ok {
+			p.broadcaster.ReplaceRouteVehicles(ctx, routeID, nil)
+		}
+	}
 
+}
+
+func (p *Processor) removeSession(ctx context.Context, sessionID string) {
+	p.mu.Lock()
+	d, ok := p.devices[sessionID]
+	if ok {
+		delete(p.devices, sessionID)
+	}
+	p.mu.Unlock()
+
+	if !ok {
+		return
+	}
+
+	if d.RouteID != "" {
+		remaining := p.devicesForRoute(d.RouteID)
+		if len(remaining) == 0 {
+			p.broadcaster.ReplaceRouteVehicles(ctx, d.RouteID, nil)
+		}
+	}
+
+	if err := p.broadcaster.RemoveDeviceState(ctx, sessionID); err != nil {
+		slog.Warn("remove device state", "session_id", sessionID, "error", err)
+	}
+
+	p.clusterAndBroadcast(ctx)
+}
+
+func adminContributorID(sessionID string) string {
+	hash := sha256.Sum256([]byte(sessionID))
+	return fmt.Sprintf("c_%x", hash[:6])
+}
+
+func (p *Processor) restoreActiveDevices(ctx context.Context) error {
+	devices, err := p.broadcaster.LoadActiveDeviceStates(ctx)
+	if err != nil {
+		return err
+	}
+
+	p.mu.Lock()
+	for _, device := range devices {
+		if device.SessionID == "" {
+			continue
+		}
+		p.devices[device.SessionID] = &DeviceState{}
+		*p.devices[device.SessionID] = device
+	}
+	p.mu.Unlock()
+
+	if len(devices) > 0 {
+		slog.Info("restored active devices", "count", len(devices))
+	}
+	return nil
 }
 
 // RemoveSimDevices removes all simulated device states matching a job prefix
@@ -246,10 +342,10 @@ func (p *Processor) clusterAndBroadcast(ctx context.Context) {
 func (p *Processor) RemoveSimDevices(ctx context.Context, jobPrefix string) {
 	p.mu.Lock()
 	affectedRoutes := make(map[string]bool)
-	for hash, d := range p.devices {
-		if strings.HasPrefix(hash, "sim_"+jobPrefix) {
+	for sessionID, d := range p.devices {
+		if strings.HasPrefix(sessionID, "sim_"+jobPrefix) {
 			affectedRoutes[d.RouteID] = true
-			delete(p.devices, hash)
+			delete(p.devices, sessionID)
 		}
 	}
 	p.mu.Unlock()
@@ -293,17 +389,25 @@ func (p *Processor) cleanLoop(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			cutoff := time.Now().Add(-20 * time.Second)
+			now := time.Now()
 			staleRoutes := make(map[string]bool)
+			expiredSessions := make([]string, 0)
 
 			p.mu.Lock()
-			for hash, d := range p.devices {
-				if d.LastSeen.Before(cutoff) {
+			for sessionID, d := range p.devices {
+				if isExpired(d.LastSeen, now) {
 					staleRoutes[d.RouteID] = true
-					delete(p.devices, hash)
+					delete(p.devices, sessionID)
+					expiredSessions = append(expiredSessions, sessionID)
 				}
 			}
 			p.mu.Unlock()
+
+			for _, sessionID := range expiredSessions {
+				if err := p.broadcaster.RemoveDeviceState(ctx, sessionID); err != nil {
+					slog.Warn("remove expired device state", "session_id", sessionID, "error", err)
+				}
+			}
 
 			if len(staleRoutes) > 0 {
 				// For routed devices that were removed, clean up Redis bus keys
@@ -321,6 +425,9 @@ func (p *Processor) cleanLoop(ctx context.Context) {
 			}
 
 			p.broadcaster.CleanStale(ctx)
+			if err := p.broadcaster.CleanStaleDeviceStates(ctx, now.Add(-deviceExpiryWindow)); err != nil {
+				slog.Warn("clean stale device states", "error", err)
+			}
 		}
 	}
 }

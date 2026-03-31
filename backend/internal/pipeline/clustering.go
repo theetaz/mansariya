@@ -11,26 +11,38 @@ import (
 )
 
 const (
-	clusterEpsKM      = 0.05 // 50 meters
-	clusterSpeedEps   = 5.0  // 5 km/h difference tolerance
-	clusterMinPts     = 1    // single device is a valid bus
+	clusterEpsKM    = 0.05 // 50 meters
+	clusterSpeedEps = 5.0  // 5 km/h difference tolerance
+	clusterMinPts   = 1    // single device is a valid bus
 )
 
 // DeviceState holds the latest position for a contributing device.
 type DeviceState struct {
-	DeviceHash string
-	RouteID    string
-	Lat        float64
-	Lng        float64
-	SpeedKMH   float64
-	Bearing    float64
-	Accuracy   float64
-	LastSeen   time.Time
+	SessionID            string
+	DeviceHash           string
+	AdminID              string
+	RouteID              string
+	Lat                  float64
+	Lng                  float64
+	SpeedKMH             float64
+	Bearing              float64
+	Accuracy             float64
+	LastSeen             time.Time
+	LastBatchSeq         int64
 	CrowdLevel           int
 	BusNumber            string
 	Classification       string
 	ClassificationReason string
 	HasMetadata          bool
+	QualityStatus        string
+	FreshnessStatus      string
+}
+
+func (d DeviceState) contributorKey() string {
+	if d.SessionID != "" {
+		return d.SessionID
+	}
+	return d.DeviceHash
 }
 
 // ClusterVehicles groups co-moving devices on the same route into virtual vehicles.
@@ -54,8 +66,9 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 		if len(routeDevices) == 1 {
 			// Single contributor — no clustering needed
 			d := routeDevices[0]
+			contributorKey := d.contributorKey()
 			vehicles = append(vehicles, model.Vehicle{
-				VirtualID:        virtualID(routeID, []string{d.DeviceHash}),
+				VirtualID:        virtualID(routeID, []string{contributorKey}),
 				RouteID:          routeID,
 				Lat:              d.Lat,
 				Lng:              d.Lng,
@@ -66,6 +79,7 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 				LastUpdate:       d.LastSeen,
 				CrowdLevel:       d.CrowdLevel,
 				BusNumber:        d.BusNumber,
+				Contributors:     []string{contributorKey},
 			})
 			continue
 		}
@@ -78,7 +92,7 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 				Lng:      d.Lng,
 				Speed:    d.SpeedKMH,
 				Accuracy: d.Accuracy,
-				ID:       d.DeviceHash,
+				ID:       d.contributorKey(),
 			}
 		}
 
@@ -116,7 +130,7 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 			var bestBearing float64
 			for _, d := range routeDevices {
 				for _, p := range cluster.Points {
-					if d.DeviceHash == p.ID && d.LastSeen.After(latest) {
+					if d.contributorKey() == p.ID && d.LastSeen.After(latest) {
 						latest = d.LastSeen
 						bestBearing = d.Bearing
 					}
@@ -127,7 +141,7 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 			var busNumber string
 			for _, d := range routeDevices {
 				for _, p := range cluster.Points {
-					if d.DeviceHash == p.ID {
+					if d.contributorKey() == p.ID {
 						if d.CrowdLevel > 0 {
 							crowdSum += d.CrowdLevel
 							crowdCount++
@@ -155,6 +169,7 @@ func ClusterVehicles(devices []DeviceState) []model.Vehicle {
 				LastUpdate:       latest,
 				CrowdLevel:       avgCrowd,
 				BusNumber:        busNumber,
+				Contributors:     deviceIDs,
 			})
 		}
 	}

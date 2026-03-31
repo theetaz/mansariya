@@ -134,6 +134,46 @@ func TestGPSHandler_EmptyPings(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
+func TestGPSHandler_StoppedEventAllowsEmptyPings(t *testing.T) {
+	ing := &mockIngester{}
+	h := NewGPSHandler(ing, nil)
+
+	batch := model.GPSBatch{
+		DeviceHash: "abc123",
+		SessionID:  "sess_1",
+		EventType:  model.GPSEventStopped,
+	}
+	body, _ := json.Marshal(batch)
+
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/gps/batch", bytes.NewReader(body))
+	w := httptest.NewRecorder()
+
+	h.HandleBatch(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	require.Len(t, ing.batches, 1)
+	assert.Equal(t, model.GPSEventStopped, ing.batches[0].EventType)
+	assert.Len(t, ing.batches[0].Pings, 0)
+}
+
+func TestGPSHandler_InvalidCoordinates(t *testing.T) {
+	h := NewGPSHandler(&mockIngester{}, nil)
+
+	batch := model.GPSBatch{
+		DeviceHash: "abc123",
+		SessionID:  "sess_1",
+		Pings:      []model.GPSPing{{Lat: 120, Lng: 79.8, Timestamp: 1000, Accuracy: 10, Speed: 12, Bearing: 45}},
+	}
+	body, _ := json.Marshal(batch)
+
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/gps/batch", bytes.NewReader(body))
+	w := httptest.NewRecorder()
+
+	h.HandleBatch(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+
 func TestGPSHandler_IngesterError(t *testing.T) {
 	ing := &mockIngester{err: fmt.Errorf("redis connection failed")}
 	h := NewGPSHandler(ing, nil)

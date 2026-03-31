@@ -7,7 +7,16 @@ interface UseAdminDevicesWSReturn {
   isConnected: boolean;
 }
 
-const emptyCounts: DeviceCounts = { total: 0, noise: 0, potential: 0, cluster: 0, confirmed: 0 };
+const emptyCounts: DeviceCounts = {
+  total: 0,
+  noise: 0,
+  potential: 0,
+  cluster: 0,
+  confirmed: 0,
+  active: 0,
+  suspect: 0,
+  disconnected: 0,
+};
 
 export function useAdminDevicesWS(enabled = true): UseAdminDevicesWSReturn {
   const [devices, setDevices] = useState<DeviceInfo[]>([]);

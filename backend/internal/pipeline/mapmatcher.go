@@ -95,7 +95,32 @@ func (mm *MapMatcher) processMessage(ctx context.Context, msg redis.XMessage) er
 	}
 
 	if len(batch.Pings) == 0 {
-		return nil
+		matched := model.MatchedTrace{
+			DeviceHash:       batch.DeviceHash,
+			SessionID:        batch.SessionID,
+			RouteID:          batch.RouteID,
+			BusNumber:        batch.BusNumber,
+			CrowdLevel:       batch.CrowdLevel,
+			EventType:        batch.EventType,
+			IdentityVersion:  batch.IdentityVersion,
+			SessionStartedAt: batch.SessionStartedAt,
+			BatchSeq:         batch.BatchSeq,
+		}
+
+		matchedData, err := json.Marshal(matched)
+		if err != nil {
+			return fmt.Errorf("marshal matched: %w", err)
+		}
+
+		_, err = mm.rdb.XAdd(ctx, &redis.XAddArgs{
+			Stream: StreamMatchedGPS,
+			MaxLen: 100000,
+			Approx: true,
+			Values: map[string]interface{}{
+				"data": string(matchedData),
+			},
+		}).Result()
+		return err
 	}
 
 	// Convert to Valhalla shape points
@@ -118,11 +143,15 @@ func (mm *MapMatcher) processMessage(ctx context.Context, msg redis.XMessage) er
 	}
 
 	matched := model.MatchedTrace{
-		DeviceHash: batch.DeviceHash,
-		SessionID:  batch.SessionID,
-		RouteID:    batch.RouteID,
-		BusNumber:  batch.BusNumber,
-		CrowdLevel: batch.CrowdLevel,
+		DeviceHash:       batch.DeviceHash,
+		SessionID:        batch.SessionID,
+		RouteID:          batch.RouteID,
+		BusNumber:        batch.BusNumber,
+		CrowdLevel:       batch.CrowdLevel,
+		EventType:        batch.EventType,
+		IdentityVersion:  batch.IdentityVersion,
+		SessionStartedAt: batch.SessionStartedAt,
+		BatchSeq:         batch.BatchSeq,
 	}
 
 	if err != nil {
@@ -140,6 +169,14 @@ func (mm *MapMatcher) processMessage(ctx context.Context, msg redis.XMessage) er
 				Lat:    mp.Lat,
 				Lng:    mp.Lon,
 				EdgeID: int64(mp.EdgeIndex),
+			})
+		}
+	} else {
+		slog.Debug("valhalla returned no matched points, using raw GPS")
+		for _, p := range batch.Pings {
+			matched.Points = append(matched.Points, model.MatchedPoint{
+				Lat: p.Lat,
+				Lng: p.Lng,
 			})
 		}
 	}

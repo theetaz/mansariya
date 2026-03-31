@@ -133,7 +133,7 @@ func run() error {
 		Admin:      handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
 		Buses:      handler.NewBusesHandler(rdb),
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
-		AdminWS:    handler.NewAdminWSHandler(wsHub, cfg.AdminAPIKey),
+		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey),
 	}
 
 	router := server.NewRouter(deps)

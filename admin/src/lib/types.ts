@@ -293,11 +293,15 @@ export interface SimulationActiveResponse {
 
 // ── Device (Data Provider) ──
 export type DeviceClassification = 'noise' | 'potential' | 'cluster' | 'confirmed';
+export type DeviceQualityStatus = 'ok' | 'low_accuracy' | 'out_of_service_region';
+export type DeviceFreshnessStatus = 'active' | 'suspect' | 'disconnected';
 
 export interface DeviceInfo {
-  device_hash: string;
+  contributor_id: string;
   classification: DeviceClassification;
   classification_reason: string;
+  quality_status: DeviceQualityStatus;
+  freshness_status: DeviceFreshnessStatus;
   lat: number;
   lng: number;
   speed_kmh: number;
@@ -316,10 +320,14 @@ export interface DeviceCounts {
   potential: number;
   cluster: number;
   confirmed: number;
+  active: number;
+  suspect: number;
+  disconnected: number;
 }
 
 export interface DevicesUpdate {
   type: 'devices_update';
+  snapshot_version: number;
   devices: DeviceInfo[];
   counts: DeviceCounts;
 }

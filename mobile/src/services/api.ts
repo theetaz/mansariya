@@ -53,6 +53,8 @@ export interface GPSPing {
   brg: number;
 }
 
+export type GPSEventType = 'started' | 'ping' | 'stopped';
+
 export interface BusPosition {
   virtual_id: string;
   route_id: string;
@@ -83,6 +85,12 @@ export async function sendGPSBatch(
   sessionId: string,
   pings: GPSPing[],
   meta?: { route_id?: string; bus_number?: string; crowd_level?: number },
+  lifecycle?: {
+    event_type?: GPSEventType;
+    identity_version?: number;
+    session_started_at?: number;
+    batch_seq?: number;
+  },
 ) {
   return api.post(ENDPOINTS.GPS_BATCH, {
     device_hash: deviceHash,
@@ -91,6 +99,10 @@ export async function sendGPSBatch(
     ...(meta?.route_id && { route_id: meta.route_id }),
     ...(meta?.bus_number && { bus_number: meta.bus_number }),
     ...(meta?.crowd_level && { crowd_level: meta.crowd_level }),
+    ...(lifecycle?.event_type && { event_type: lifecycle.event_type }),
+    ...(lifecycle?.identity_version && { identity_version: lifecycle.identity_version }),
+    ...(lifecycle?.session_started_at && { session_started_at: lifecycle.session_started_at }),
+    ...(lifecycle?.batch_seq && { batch_seq: lifecycle.batch_seq }),
   });
 }
 
