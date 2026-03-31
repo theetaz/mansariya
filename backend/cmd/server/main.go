@@ -108,6 +108,7 @@ func run() error {
 	// Start Redis Pub/Sub listener that forwards to WebSocket hub
 	wsHub := ws.NewHub()
 	go runPubSubBridge(ctx, rdb, wsHub)
+	go runDevicesPubSubBridge(ctx, rdb, wsHub)
 
 	// Reset any simulations that were running when server last stopped
 	if err := simStore.ResetRunningToStopped(ctx); err != nil {
@@ -132,6 +133,7 @@ func run() error {
 		Admin:      handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
 		Buses:      handler.NewBusesHandler(rdb),
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
+		AdminWS:    handler.NewAdminWSHandler(wsHub, cfg.AdminAPIKey),
 	}
 
 	router := server.NewRouter(deps)
@@ -182,6 +184,26 @@ func runPubSubBridge(ctx context.Context, rdb *goredis.Client, hub *ws.Hub) {
 				routeID := msg.Channel[6:] // strip "route:"
 				hub.Broadcast(routeID, json.RawMessage(msg.Payload))
 			}
+		}
+	}
+}
+
+// runDevicesPubSubBridge subscribes to the "devices:all" Pub/Sub channel
+// and forwards messages to all admin WebSocket connections.
+func runDevicesPubSubBridge(ctx context.Context, rdb *goredis.Client, hub *ws.Hub) {
+	pubsub := rdb.Subscribe(ctx, "devices:all")
+	defer pubsub.Close()
+
+	ch := pubsub.Channel()
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case msg, ok := <-ch:
+			if !ok {
+				return
+			}
+			hub.BroadcastAdmin(json.RawMessage(msg.Payload))
 		}
 	}
 }

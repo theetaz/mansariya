@@ -26,6 +26,7 @@ type Deps struct {
 	Admin      *handler.AdminHandler
 	Buses      *handler.BusesHandler
 	Simulation *handler.SimulationHandler
+	AdminWS    *handler.AdminWSHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -77,6 +78,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 
 	// WebSocket
 	r.Get("/ws/track/{routeID}", deps.WS.HandleTrack)
+	r.Get("/ws/admin/devices", deps.AdminWS.HandleDevices)
 
 	// Admin API (API key protected)
 	r.Route("/api/v1/admin", func(r chi.Router) {
