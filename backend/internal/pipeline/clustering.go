@@ -26,8 +26,11 @@ type DeviceState struct {
 	Bearing    float64
 	Accuracy   float64
 	LastSeen   time.Time
-	CrowdLevel int
-	BusNumber  string
+	CrowdLevel           int
+	BusNumber            string
+	Classification       string
+	ClassificationReason string
+	HasMetadata          bool
 }
 
 // ClusterVehicles groups co-moving devices on the same route into virtual vehicles.
