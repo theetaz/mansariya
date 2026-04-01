@@ -28,13 +28,32 @@ jobs:
             git checkout main
             git pull origin main
 
-            # Build and restart
+            # Ensure dependencies are up first
             cd infra
-            docker compose -f docker-compose.prod.yml --env-file .env.prod build backend migrate
-            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d postgres redis
 
-            # Run migrations
+            # Build fresh images
+            docker compose -f docker-compose.prod.yml --env-file .env.prod build backend migrate
+
+            # Run migrations before starting the new backend
             docker compose -f docker-compose.prod.yml --env-file .env.prod run --rm migrate
+
+            # Start application services and wait for health
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d backend nginx
+            docker compose -f docker-compose.prod.yml --env-file .env.prod ps
+
+            if ! curl --fail --silent --show-error --retry 20 --retry-all-errors --retry-delay 2 http://127.0.0.1:9900/health; then
+              echo "Backend health check failed"
+              docker compose -f docker-compose.prod.yml --env-file .env.prod logs backend --tail=200
+              exit 1
+            fi
+
+            if ! curl --fail --silent --show-error --retry 20 --retry-all-errors --retry-delay 2 http://127.0.0.1/health; then
+              echo "Nginx health check failed"
+              docker compose -f docker-compose.prod.yml --env-file .env.prod logs nginx --tail=200
+              docker compose -f docker-compose.prod.yml --env-file .env.prod logs backend --tail=200
+              exit 1
+            fi
 
             # Clean up old images
             docker image prune -f
