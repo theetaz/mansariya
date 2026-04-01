@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 	"strconv"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 // AdminStore abstracts admin CRUD operations.
@@ -218,18 +220,25 @@ func (h *AdminHandler) AuthMiddleware(next http.Handler) http.Handler {
 func (h *AdminHandler) CreateRoute(w http.ResponseWriter, r *http.Request) {
 	var input AdminRouteInput
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		writeError(w, http.StatusBadRequest, "invalid_body", "Request body is invalid.", "")
 		return
 	}
 	if input.ID == "" || input.NameEN == "" {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "id and name_en required"})
+		writeError(w, http.StatusBadRequest, "validation_failed", "Route ID and English name are required.", "")
 		return
 	}
 
 	id, err := h.store.CreateRoute(r.Context(), input)
 	if err != nil {
 		slog.Error("admin create route", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "create failed"})
+
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
+			writeError(w, http.StatusConflict, "route_id_exists", "A route with this Route ID already exists. Use a different ID or edit the existing route.", "id")
+			return
+		}
+
+		writeError(w, http.StatusInternalServerError, "route_create_failed", "Could not save the route right now. Please try again.", "")
 		return
 	}
 
