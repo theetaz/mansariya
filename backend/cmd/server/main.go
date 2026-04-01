@@ -134,6 +134,11 @@ func run() error {
 		Buses:      handler.NewBusesHandler(rdb),
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
 		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey),
+		System: handler.NewSystemHandler(
+			func(ctx context.Context) error { return pool.Ping(ctx) },
+			func(ctx context.Context) error { return rdb.Ping(ctx).Err() },
+			cfg.ValhallaURL,
+		),
 	}
 
 	router := server.NewRouter(deps)

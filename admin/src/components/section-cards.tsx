@@ -1,5 +1,3 @@
-"use client"
-
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -9,101 +7,127 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { TrendingUpIcon, TrendingDownIcon } from "lucide-react"
+import type { DashboardSnapshot } from "@/lib/api"
+import { ActivityIcon, BusFrontIcon, MapPinnedIcon, RouteIcon } from "lucide-react"
 
-export function SectionCards() {
+function formatMetric(value: number | undefined) {
+  if (typeof value !== "number") {
+    return "--"
+  }
+
+  return value.toLocaleString()
+}
+
+function formatCoverage(value: number, total: number) {
+  if (total === 0) {
+    return "0%"
+  }
+
+  return `${Math.round((value / total) * 100)}%`
+}
+
+export function SectionCards({
+  snapshot,
+}: {
+  snapshot: DashboardSnapshot | null
+}) {
+  const stats = snapshot?.stats
+  const simulations = snapshot?.simulations
+
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Total Routes</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {formatMetric(stats?.total_routes)}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingUpIcon
-              />
-              +12.5%
+              <RouteIcon />
+              {formatMetric(stats?.active_routes)} active
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month{" "}
-            <TrendingUpIcon className="size-4" />
+            Stop coverage is live
+            <MapPinnedIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            {formatMetric(stats?.routes_with_stops)} routes already include mapped stops
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Total Stops</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {formatMetric(stats?.total_stops)}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingDownIcon
-              />
-              -20%
+              <MapPinnedIcon />
+              {formatMetric(stats?.routes_with_timetable)} scheduled routes
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period{" "}
-            <TrendingDownIcon className="size-4" />
+            Timetable rollout is progressing
+            <ActivityIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Acquisition needs attention
+            {formatMetric(stats?.routes_with_polyline)} routes already have polylines
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Live Buses</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {formatMetric(snapshot?.activeBusesCount)}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingUpIcon
-              />
-              +12.5%
+              <BusFrontIcon />
+              {formatMetric(simulations?.total_buses)} simulated buses
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention{" "}
-            <TrendingUpIcon className="size-4" />
+            Real-time feed is connected
+            <ActivityIcon className="size-4" />
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">
+            {formatMetric(simulations?.total_devices)} devices are attached to active simulations
+          </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Route Coverage</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {stats
+              ? formatCoverage(stats.routes_with_polyline, stats.total_routes)
+              : "--"}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingUpIcon
-              />
-              +4.5%
+              <ActivityIcon />
+              {formatMetric(simulations?.running_jobs)} jobs running
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase{" "}
-            <TrendingUpIcon className="size-4" />
+            Geometry readiness across routes
+            <RouteIcon className="size-4" />
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">
+            {formatMetric(stats?.routes_with_timetable)} routes already expose timetable data
+          </div>
         </CardFooter>
       </Card>
     </div>

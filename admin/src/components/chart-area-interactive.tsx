@@ -127,15 +127,15 @@ const chartData = [
 ]
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  signals: {
+    label: "Signals",
   },
   desktop: {
-    label: "Desktop",
+    label: "Matched Pings",
     color: "var(--primary)",
   },
   mobile: {
-    label: "Mobile",
+    label: "Contributor Updates",
     color: "var(--primary)",
   },
 } satisfies ChartConfig
@@ -167,12 +167,12 @@ export function ChartAreaInteractive() {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Total Visitors</CardTitle>
+        <CardTitle>Contribution Signals</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
-            Total for the last 3 months
+            Placeholder operational signal trend until analytics endpoints land
           </span>
-          <span className="@[540px]/card:hidden">Last 3 months</span>
+          <span className="@[540px]/card:hidden">Placeholder trend</span>
         </CardDescription>
         <CardAction>
           <ToggleGroup

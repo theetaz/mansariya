@@ -27,6 +27,7 @@ type Deps struct {
 	Buses      *handler.BusesHandler
 	Simulation *handler.SimulationHandler
 	AdminWS    *handler.AdminWSHandler
+	System     *handler.SystemHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -88,6 +89,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Get("/routes", deps.Admin.ListRoutes)
 		r.Get("/routes/{routeID}", deps.Admin.GetRouteDetail)
 		r.Get("/stats", deps.Admin.GetStats)
+		r.Get("/system/health", deps.System.GetHealth)
 
 		// Routes
 		r.Post("/routes", deps.Admin.CreateRoute)
