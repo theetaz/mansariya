@@ -4,6 +4,10 @@ import react from "@vitejs/plugin-react"
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import { defineConfig } from "vite"
 
+const apiTarget = process.env.ADMIN_API_PROXY_TARGET ?? "http://localhost:9900"
+const nominatimTarget = process.env.ADMIN_NOMINATIM_PROXY_TARGET ?? "https://nominatim.openstreetmap.org"
+const osrmTarget = process.env.ADMIN_OSRM_PROXY_TARGET ?? "https://router.project-osrm.org"
+
 export default defineConfig({
   plugins: [TanStackRouterVite({ quoteStyle: "single" }), react(), tailwindcss()],
   resolve: {
@@ -15,20 +19,20 @@ export default defineConfig({
     port: 5174,
     proxy: {
       "/api": {
-        target: "http://localhost:9900",
+        target: apiTarget,
         changeOrigin: true,
       },
       "/ws": {
-        target: "ws://localhost:9900",
+        target: apiTarget.replace(/^http/, "ws"),
         ws: true,
       },
       "/nominatim": {
-        target: "http://localhost:9990",
+        target: nominatimTarget,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/nominatim/, ""),
       },
       "/osrm": {
-        target: "https://router.project-osrm.org",
+        target: osrmTarget,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/osrm/, ""),
       },

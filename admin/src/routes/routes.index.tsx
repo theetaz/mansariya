@@ -1,8 +1,19 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { type ColumnDef } from '@tanstack/react-table';
 import { RiMoreLine, RiAddLine, RiCheckLine, RiCloseLine } from '@remixicon/react';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +24,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DataTable, DataTableColumnHeader } from '@/components/shared/data-table';
-import { fetchAdminRoutes, deleteRoute } from '@/lib/api-functions';
+import { fetchAdminRoutes, deleteRoute, setRouteActive } from '@/lib/api-functions';
 import type { AdminRouteWithStats } from '@/lib/types';
 
 export const Route = createFileRoute('/routes/')({
@@ -22,6 +33,11 @@ export const Route = createFileRoute('/routes/')({
 
 function RoutesPage() {
   const queryClient = useQueryClient();
+  const [pendingAction, setPendingAction] = useState<{
+    routeId: string;
+    routeName: string;
+    action: 'delete' | 'inactivate' | 'activate';
+  } | null>(null);
   const { data, isLoading } = useQuery({
     queryKey: ['admin-routes'],
     queryFn: fetchAdminRoutes,
@@ -31,10 +47,24 @@ function RoutesPage() {
     mutationFn: deleteRoute,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-routes'] });
-      toast.success('Route deleted');
+      setPendingAction(null);
+      toast.success('Route deleted permanently');
     },
     onError: () => toast.error('Failed to delete route'),
   });
+
+  const statusMutation = useMutation({
+    mutationFn: ({ routeId, isActive }: { routeId: string; isActive: boolean }) =>
+      setRouteActive(routeId, isActive),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['admin-routes'] });
+      setPendingAction(null);
+      toast.success(variables.isActive ? 'Route activated' : 'Route inactivated');
+    },
+    onError: () => toast.error('Failed to update route status'),
+  });
+
+  const isConfirming = deleteMutation.isPending || statusMutation.isPending;
 
   const columns: ColumnDef<AdminRouteWithStats>[] = [
     {
@@ -164,11 +194,36 @@ function RoutesPage() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            {row.original.is_active ? (
+              <DropdownMenuItem
+                onClick={() => setPendingAction({
+                  routeId: row.original.id,
+                  routeName: row.original.name_en || row.original.id,
+                  action: 'inactivate',
+                })}
+              >
+                Inactivate
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem
+                onClick={() => setPendingAction({
+                  routeId: row.original.id,
+                  routeName: row.original.name_en || row.original.id,
+                  action: 'activate',
+                })}
+              >
+                Activate
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem
               className="text-destructive"
-              onClick={() => deleteMutation.mutate(row.original.id)}
+              onClick={() => setPendingAction({
+                routeId: row.original.id,
+                routeName: row.original.name_en || row.original.id,
+                action: 'delete',
+              })}
             >
-              Delete
+              Delete Permanently
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -199,6 +254,57 @@ function RoutesPage() {
         searchPlaceholder="Search routes..."
         isLoading={isLoading}
       />
+
+      {pendingAction && (
+        <AlertDialog open onOpenChange={(open) => { if (!open) setPendingAction(null); }}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {pendingAction.action === 'delete'
+                  ? 'Delete route permanently?'
+                  : pendingAction.action === 'activate'
+                    ? 'Activate route?'
+                    : 'Inactivate route?'}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {pendingAction.action === 'delete'
+                  ? `This will permanently remove ${pendingAction.routeId} and its related route data.`
+                  : pendingAction.action === 'activate'
+                    ? `This will mark ${pendingAction.routeId} as active again.`
+                    : `This will keep ${pendingAction.routeId} in the database but mark it as inactive.`}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isConfirming}>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className={pendingAction.action === 'delete' ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90' : ''}
+                disabled={isConfirming}
+                onClick={(event) => {
+                  event.preventDefault();
+
+                  if (pendingAction.action === 'delete') {
+                    deleteMutation.mutate(pendingAction.routeId);
+                    return;
+                  }
+
+                  statusMutation.mutate({
+                    routeId: pendingAction.routeId,
+                    isActive: pendingAction.action === 'activate',
+                  });
+                }}
+              >
+                {isConfirming
+                  ? 'Working...'
+                  : pendingAction.action === 'delete'
+                    ? 'Delete'
+                    : pendingAction.action === 'activate'
+                      ? 'Activate'
+                      : 'Inactivate'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </div>
   );
 }
