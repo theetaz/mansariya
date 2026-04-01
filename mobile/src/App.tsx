@@ -60,6 +60,7 @@ export default function App() {
       if (nextState === 'background' || nextState === 'inactive') {
         await forceFlush();
       } else if (nextState === 'active') {
+        syncRoutesIfNeeded(true).catch(() => {});
         const store = useTrackingStore.getState();
         if (store.isTracking) {
           const ok = await recoverTracking({
