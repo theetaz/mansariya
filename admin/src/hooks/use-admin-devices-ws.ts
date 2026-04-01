@@ -30,11 +30,9 @@ export function useAdminDevicesWS(enabled = true): UseAdminDevicesWSReturn {
   const connect = useCallback(() => {
     if (!enabled) return;
 
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const host = window.location.host;
-    // Pass API key as query param (WS can't send custom headers from browser)
+    const wsBaseUrl = resolveDevicesWebSocketBaseUrl();
     const apiKey = import.meta.env.VITE_API_KEY ?? '';
-    const url = `${protocol}//${host}/ws/admin/devices?api_key=${encodeURIComponent(apiKey)}`;
+    const url = `${wsBaseUrl}/ws/admin/devices?api_key=${encodeURIComponent(apiKey)}`;
 
     const ws = new WebSocket(url);
     wsRef.current = ws;
@@ -89,4 +87,19 @@ export function useAdminDevicesWS(enabled = true): UseAdminDevicesWSReturn {
   }, [connect]);
 
   return { devices, counts, isConnected };
+}
+
+function resolveDevicesWebSocketBaseUrl(): string {
+  const explicitWsUrl = import.meta.env.VITE_WS_URL;
+  if (explicitWsUrl) {
+    return explicitWsUrl.replace(/\/$/, '');
+  }
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (apiUrl) {
+    return apiUrl.replace(/^http/, 'ws').replace(/\/$/, '');
+  }
+
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${protocol}//${window.location.host}`;
 }
