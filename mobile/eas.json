@@ -11,6 +11,22 @@
         "simulator": true
       }
     },
+    "development-remote": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "API_URL_IOS": "https://mansariya-api.nipuntheekshana.com",
+        "API_URL_ANDROID": "https://mansariya-api.nipuntheekshana.com",
+        "API_URL_PROD": "https://mansariya-api.nipuntheekshana.com",
+        "MAP_STYLE_URL": "https://tiles.openfreemap.org/styles/liberty"
+      },
+      "ios": {
+        "simulator": false
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "preview": {
       "distribution": "internal",
       "env": {

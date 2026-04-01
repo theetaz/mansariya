@@ -17,6 +17,7 @@ export const Route = createFileRoute('/settings')({
 function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const apiUrl = import.meta.env.VITE_API_URL || '(using proxy)';
+  const wsUrl = import.meta.env.VITE_WS_URL || (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/^http/, 'ws') : '(using proxy)');
   const apiKey = import.meta.env.VITE_API_KEY || '';
   const maskedKey = apiKey ? apiKey.slice(0, 4) + '****' + apiKey.slice(-4) : '(not set)';
 
@@ -54,6 +55,10 @@ function SettingsPage() {
             <div className="flex flex-col gap-2">
               <Label>API Key</Label>
               <Input value={maskedKey} readOnly className="bg-muted font-mono" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>WebSocket URL</Label>
+              <Input value={wsUrl} readOnly className="bg-muted" />
             </div>
             <div className="flex items-center gap-2">
               <Label>Status</Label>
