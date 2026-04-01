@@ -8,7 +8,10 @@ import {
   RiArrowUpLine,
   RiArrowDownLine,
   RiSearchLine,
-  RiCloseLine,
+  RiCheckLine,
+  RiLoader4Line,
+  RiErrorWarningLine,
+  RiCheckboxCircleLine,
   RiRouteLine,
 } from '@remixicon/react';
 import { toast } from 'sonner';
@@ -17,6 +20,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { getApiError } from '@/lib/api';
+import { cn } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -35,7 +40,7 @@ import {
   MapRoute,
   MapControls,
 } from '@/components/ui/map';
-import { createRoute, createStop, setRouteStops, updatePolyline } from '@/lib/api-functions';
+import { createRoute, createStop, fetchAdminRouteDetail, setRouteStops, updatePolyline } from '@/lib/api-functions';
 import { getRoute, reverseGeocode, type NominatimResult } from '@/lib/geo';
 
 export const Route = createFileRoute('/routes/new')({
@@ -52,6 +57,8 @@ interface StopEntry {
   order: number;
 }
 
+type RouteIdStatus = 'idle' | 'checking' | 'available' | 'taken' | 'error';
+
 function slugifyStopName(value: string): string {
   const ascii = value
     .normalize('NFKD')
@@ -67,12 +74,21 @@ function buildStopId(routeId: string, stopName: string, index: number): string {
   return `${routeId}-${String(index + 1).padStart(2, '0')}-${slugifyStopName(stopName).slice(0, 40)}`;
 }
 
+function generateRouteName(stops: StopEntry[]): string {
+  if (stops.length >= 2) return `${stops[0].name_en} - ${stops[stops.length - 1].name_en}`;
+  if (stops.length === 1) return stops[0].name_en;
+  return '';
+}
+
 function NewRoutePage() {
   const navigate = useNavigate();
 
   // Route metadata
   const [routeId, setRouteId] = useState('');
   const [nameEn, setNameEn] = useState('');
+  const [isNameEnManual, setIsNameEnManual] = useState(false);
+  const [routeIdStatus, setRouteIdStatus] = useState<RouteIdStatus>('idle');
+  const [routeIdMessage, setRouteIdMessage] = useState('');
   const [nameSi, setNameSi] = useState('');
   const [nameTa, setNameTa] = useState('');
   const [operator, setOperator] = useState('Private');
@@ -87,7 +103,46 @@ function NewRoutePage() {
   const [polylineCoords, setPolylineCoords] = useState<[number, number][]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const nextId = useRef(0);
+  const routeIdCheckSeq = useRef(0);
   const genId = () => `new_stop_${nextId.current++}`;
+
+  useEffect(() => {
+    const trimmedRouteId = routeId.trim();
+
+    if (!trimmedRouteId) {
+      setRouteIdStatus('idle');
+      setRouteIdMessage('');
+      return;
+    }
+
+    setRouteIdStatus('checking');
+    setRouteIdMessage('Checking Route ID availability...');
+
+    const currentCheck = ++routeIdCheckSeq.current;
+    const timeoutId = window.setTimeout(async () => {
+      try {
+        await fetchAdminRouteDetail(trimmedRouteId);
+
+        if (routeIdCheckSeq.current !== currentCheck) return;
+        setRouteIdStatus('taken');
+        setRouteIdMessage(`Route ${trimmedRouteId} already exists.`);
+      } catch (error) {
+        if (routeIdCheckSeq.current !== currentCheck) return;
+
+        const apiError = getApiError(error);
+        if (apiError.status === 404) {
+          setRouteIdStatus('available');
+          setRouteIdMessage(`Route ${trimmedRouteId} is available.`);
+          return;
+        }
+
+        setRouteIdStatus('error');
+        setRouteIdMessage(apiError.message || 'Could not verify Route ID right now.');
+      }
+    }, 450);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [routeId]);
 
   // Build OSRM route
   const buildRoute = useCallback(async (currentStops: StopEntry[]) => {
@@ -102,12 +157,18 @@ function NewRoutePage() {
     }
   }, []);
 
-  // Auto-update route name
-  const updateName = (updated: StopEntry[]) => {
-    if (updated.length >= 2) setNameEn(`${updated[0].name_en} - ${updated[updated.length - 1].name_en}`);
-    else if (updated.length === 1) setNameEn(updated[0].name_en);
-    else setNameEn('');
-  };
+  const syncRouteName = useCallback((updated: StopEntry[]) => {
+    const generated = generateRouteName(updated);
+    if (!isNameEnManual || !nameEn.trim()) {
+      setNameEn(generated);
+    }
+  }, [isNameEnManual, nameEn]);
+
+  const handleNameEnChange = useCallback((value: string) => {
+    setNameEn(value);
+    const generated = generateRouteName(stops);
+    setIsNameEnManual(value.trim().length > 0 && value.trim() !== generated.trim());
+  }, [stops]);
 
   // Add stop from coordinates (map click)
   const addStopFromCoords = useCallback(async (lat: number, lng: number) => {
@@ -117,8 +178,8 @@ function NewRoutePage() {
     const updated = [...stops, newStop];
     setStops(updated);
     buildRoute(updated);
-    updateName(updated);
-  }, [stops, buildRoute]);
+    syncRouteName(updated);
+  }, [stops, buildRoute, syncRouteName]);
 
   // Add stop from search
   const addStopFromSearch = useCallback((result: NominatimResult) => {
@@ -131,15 +192,15 @@ function NewRoutePage() {
     const updated = [...stops, newStop];
     setStops(updated);
     buildRoute(updated);
-    updateName(updated);
-  }, [stops, buildRoute]);
+    syncRouteName(updated);
+  }, [stops, buildRoute, syncRouteName]);
 
   const removeStop = useCallback((index: number) => {
     const updated = stops.filter((_, i) => i !== index).map((s, i) => ({ ...s, order: i }));
     setStops(updated);
     buildRoute(updated);
-    updateName(updated);
-  }, [stops, buildRoute]);
+    syncRouteName(updated);
+  }, [stops, buildRoute, syncRouteName]);
 
   const moveStop = useCallback((index: number, direction: 'up' | 'down') => {
     const newIndex = direction === 'up' ? index - 1 : index + 1;
@@ -149,12 +210,18 @@ function NewRoutePage() {
     const reordered = updated.map((s, i) => ({ ...s, order: i }));
     setStops(reordered);
     buildRoute(reordered);
-    updateName(reordered);
-  }, [stops, buildRoute]);
+    syncRouteName(reordered);
+  }, [stops, buildRoute, syncRouteName]);
 
   const updateStop = useCallback((index: number, field: keyof StopEntry, value: string | number) => {
-    setStops((prev) => prev.map((s, i) => (i === index ? { ...s, [field]: value } : s)));
-  }, []);
+    setStops((prev) => {
+      const updated = prev.map((s, i) => (i === index ? { ...s, [field]: value } : s));
+      if (field === 'name_en') {
+        syncRouteName(updated);
+      }
+      return updated;
+    });
+  }, [syncRouteName]);
 
   const handleDragEnd = useCallback((index: number, lngLat: { lng: number; lat: number }) => {
     setStops((prev) => {
@@ -169,10 +236,15 @@ function NewRoutePage() {
     if (!routeId.trim()) { toast.error('Route ID is required'); return; }
     if (!nameEn.trim()) { toast.error('Route name is required'); return; }
     if (stops.length < 2) { toast.error('At least 2 stops are required'); return; }
+    const trimmedRouteId = routeId.trim();
+    if (routeIdStatus === 'taken') {
+      toast.error('Route ID already exists', {
+        description: `Route ${trimmedRouteId} is already saved. Use a different Route ID or edit the existing route.`,
+      });
+      return;
+    }
     setIsSaving(true);
     try {
-      const trimmedRouteId = routeId.trim();
-
       await createRoute({
         id: trimmedRouteId, name_en: nameEn, name_si: nameSi, name_ta: nameTa,
         operator, service_type: serviceType, fare_lkr: fareLkr,
@@ -211,7 +283,19 @@ function NewRoutePage() {
 
       toast.success('Route created successfully');
       navigate({ to: '/routes/$routeId', params: { routeId: trimmedRouteId } });
-    } catch { toast.error('Failed to create route'); }
+    } catch (error) {
+      const apiError = getApiError(error);
+
+      if (apiError.code === 'route_id_exists') {
+        toast.error('Route ID already exists', {
+          description: `Route ${trimmedRouteId} is already saved. Use a different Route ID or edit the existing route.`,
+        });
+      } else {
+        toast.error('Could not save route', {
+          description: apiError.message,
+        });
+      }
+    }
     finally { setIsSaving(false); }
   };
 
@@ -226,9 +310,9 @@ function NewRoutePage() {
           <h1 className="text-2xl font-semibold">Add New Route</h1>
           <p className="text-sm text-muted-foreground">Create a route with stops using the interactive map</p>
         </div>
-        <Button onClick={handleSave} disabled={isSaving || stops.length < 2}>
+        <Button onClick={handleSave} disabled={isSaving || stops.length < 2 || routeIdStatus === 'checking' || routeIdStatus === 'taken'}>
           <RiSaveLine className="size-4 mr-1" />
-          {isSaving ? 'Creating...' : 'Create Route'}
+          {isSaving ? 'Saving...' : 'Save Route'}
         </Button>
       </div>
 
@@ -241,12 +325,38 @@ function NewRoutePage() {
             <CardHeader><CardTitle className="text-base">Route Information</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1"><Label className="text-xs">Route ID *</Label><Input value={routeId} onChange={(e) => setRouteId(e.target.value)} placeholder="e.g. 138" /></div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Route ID *</Label>
+                  <Input
+                    value={routeId}
+                    onChange={(e) => setRouteId(e.target.value)}
+                    placeholder="e.g. 138"
+                    className={cn(
+                      routeIdStatus === 'taken' && 'border-destructive focus-visible:ring-destructive/20',
+                      routeIdStatus === 'available' && 'border-emerald-500 focus-visible:ring-emerald-500/20',
+                    )}
+                  />
+                  {routeIdStatus !== 'idle' && (
+                    <div className={cn(
+                      'flex items-center gap-1.5 text-[11px]',
+                      routeIdStatus === 'taken' && 'text-destructive',
+                      routeIdStatus === 'available' && 'text-emerald-600 dark:text-emerald-400',
+                      routeIdStatus === 'checking' && 'text-muted-foreground',
+                      routeIdStatus === 'error' && 'text-amber-600 dark:text-amber-400',
+                    )}>
+                      {routeIdStatus === 'checking' && <RiLoader4Line className="size-3 animate-spin" />}
+                      {routeIdStatus === 'taken' && <RiErrorWarningLine className="size-3" />}
+                      {routeIdStatus === 'available' && <RiCheckboxCircleLine className="size-3" />}
+                      {routeIdStatus === 'error' && <RiErrorWarningLine className="size-3" />}
+                      <span>{routeIdMessage}</span>
+                    </div>
+                  )}
+                </div>
                 <div className="space-y-1"><Label className="text-xs">Operator</Label>
                   <Select value={operator} onValueChange={setOperator}><SelectTrigger className="w-full"><SelectValue /></SelectTrigger><SelectContent><SelectGroup><SelectItem value="SLTB">SLTB</SelectItem><SelectItem value="Private">Private</SelectItem></SelectGroup></SelectContent></Select>
                 </div>
               </div>
-              <div className="space-y-1"><Label className="text-xs">Name (EN) *</Label><Input value={nameEn} onChange={(e) => setNameEn(e.target.value)} placeholder="Auto-generated from stops" /></div>
+              <div className="space-y-1"><Label className="text-xs">Name (EN) *</Label><Input value={nameEn} onChange={(e) => handleNameEnChange(e.target.value)} placeholder="Auto-generated from stops" /></div>
               <div className="space-y-1"><Label className="text-xs">Name (SI) — සිංහල</Label><Input value={nameSi} onChange={(e) => setNameSi(e.target.value)} placeholder="සිංහල නම" /></div>
               <div className="space-y-1"><Label className="text-xs">Name (TA) — தமிழ்</Label><Input value={nameTa} onChange={(e) => setNameTa(e.target.value)} placeholder="தமிழ் பெயர்" /></div>
               <div className="grid grid-cols-2 gap-3">
@@ -280,7 +390,7 @@ function NewRoutePage() {
               <CardTitle className="text-base flex items-center justify-between">
                 <span className="flex items-center gap-2"><RiRouteLine className="size-4" />Stops<Badge variant="secondary" className="text-xs">{stops.length}</Badge></span>
                 <Button size="sm" variant={mapMode === 'add' ? 'default' : 'outline'} onClick={() => setMapMode(mapMode === 'add' ? 'view' : 'add')} className="gap-1">
-                  {mapMode === 'add' ? <><RiCloseLine className="size-3.5" /> Done</> : <><RiMapPinAddLine className="size-3.5" /> Add on Map</>}
+                  {mapMode === 'add' ? <><RiCheckLine className="size-3.5" /> Done</> : <><RiMapPinAddLine className="size-3.5" /> Add on Map</>}
                 </Button>
               </CardTitle>
             </CardHeader>
@@ -297,13 +407,13 @@ function NewRoutePage() {
               ) : (
                 <div className="space-y-1">
                   {stops.map((stop, i) => (
-                    <div key={stop.id} className="flex items-center gap-2 rounded-lg border p-2 group">
+                    <div key={stop.id} className="flex items-start gap-2 rounded-lg border p-2 group">
                       <span className={`flex items-center justify-center size-6 rounded-full text-xs font-bold text-white shrink-0 ${i === 0 ? 'bg-green-500' : i === stops.length - 1 ? 'bg-red-500' : 'bg-indigo-500'}`}>{i + 1}</span>
-                      <div className="flex-1 min-w-0">
-                        <Input className="h-7 text-sm font-medium border-0 px-1 bg-transparent focus-visible:bg-background" value={stop.name_en} onChange={(e) => updateStop(i, 'name_en', e.target.value)} placeholder="Stop name" />
+                      <div className="flex-1 min-w-0 space-y-1">
+                        <Input className="h-8 px-2 py-1 text-sm font-medium" value={stop.name_en} onChange={(e) => updateStop(i, 'name_en', e.target.value)} placeholder="Rename stop" />
                         <span className="text-[10px] text-muted-foreground font-mono px-1">{stop.lat.toFixed(5)}, {stop.lng.toFixed(5)}</span>
                       </div>
-                      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity pt-1">
                         <Button variant="ghost" size="icon" className="size-6" onClick={() => moveStop(i, 'up')} disabled={i === 0}><RiArrowUpLine className="size-3" /></Button>
                         <Button variant="ghost" size="icon" className="size-6" onClick={() => moveStop(i, 'down')} disabled={i === stops.length - 1}><RiArrowDownLine className="size-3" /></Button>
                         <Button variant="ghost" size="icon" className="size-6 text-destructive" onClick={() => removeStop(i)}><RiDeleteBinLine className="size-3" /></Button>
