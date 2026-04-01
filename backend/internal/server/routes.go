@@ -15,14 +15,14 @@ var openapiSpec []byte
 
 // Deps holds all handler dependencies, injected from main.
 type Deps struct {
-	GPS     *handler.GPSHandler
-	Routes  *handler.RoutesHandler
-	Search  *handler.SearchHandler
-	Stops   *handler.StopsHandler
-	ETA     *handler.ETAHandler
-	WS      *handler.WSHandler
-	Sync    *handler.SyncHandler
-	Journey *handler.JourneyHandler
+	GPS        *handler.GPSHandler
+	Routes     *handler.RoutesHandler
+	Search     *handler.SearchHandler
+	Stops      *handler.StopsHandler
+	ETA        *handler.ETAHandler
+	WS         *handler.WSHandler
+	Sync       *handler.SyncHandler
+	Journey    *handler.JourneyHandler
 	Admin      *handler.AdminHandler
 	Buses      *handler.BusesHandler
 	Simulation *handler.SimulationHandler
@@ -92,6 +92,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 		// Routes
 		r.Post("/routes", deps.Admin.CreateRoute)
 		r.Put("/routes/{routeID}", deps.Admin.UpdateRoute)
+		r.Put("/routes/{routeID}/status", deps.Admin.SetRouteActive)
 		r.Delete("/routes/{routeID}", deps.Admin.DeleteRoute)
 		r.Post("/routes/{routeID}/validate", deps.Admin.ValidateRoute)
 		r.Put("/routes/{routeID}/stops", deps.Admin.SetRouteStops)

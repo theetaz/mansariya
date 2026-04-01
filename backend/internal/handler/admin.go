@@ -17,6 +17,7 @@ type AdminStore interface {
 	CreateRoute(ctx context.Context, route AdminRouteInput) (string, error)
 	UpdateRoute(ctx context.Context, id string, route AdminRouteInput) error
 	DeleteRoute(ctx context.Context, id string) error
+	SetRouteActive(ctx context.Context, id string, isActive bool) error
 	ValidateRoute(ctx context.Context, id string, validatedBy string) error
 
 	CreateStop(ctx context.Context, stop AdminStopInput) (string, error)
@@ -68,11 +69,11 @@ type AdminStopInput struct {
 }
 
 type AdminRouteStopInput struct {
-	StopID             string  `json:"stop_id"`
-	StopOrder          int     `json:"stop_order"`
+	StopID              string  `json:"stop_id"`
+	StopOrder           int     `json:"stop_order"`
 	DistanceFromStartKM float64 `json:"distance_from_start_km"`
-	TypicalDurationMin  int    `json:"typical_duration_min"`
-	FareFromStartLKR    int    `json:"fare_from_start_lkr"`
+	TypicalDurationMin  int     `json:"typical_duration_min"`
+	FareFromStartLKR    int     `json:"fare_from_start_lkr"`
 }
 
 type AdminTimetableInput struct {
@@ -115,11 +116,11 @@ type AdminRoutePattern struct {
 }
 
 type DashboardStats struct {
-	TotalRoutes        int `json:"total_routes"`
-	TotalStops         int `json:"total_stops"`
-	ActiveRoutes       int `json:"active_routes"`
-	RoutesWithStops    int `json:"routes_with_stops"`
-	RoutesWithPolyline int `json:"routes_with_polyline"`
+	TotalRoutes         int `json:"total_routes"`
+	TotalStops          int `json:"total_stops"`
+	ActiveRoutes        int `json:"active_routes"`
+	RoutesWithStops     int `json:"routes_with_stops"`
+	RoutesWithPolyline  int `json:"routes_with_polyline"`
 	RoutesWithTimetable int `json:"routes_with_timetable"`
 }
 
@@ -258,6 +259,37 @@ func (h *AdminHandler) DeleteRoute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]string{"id": id, "status": "deleted"})
+}
+
+func (h *AdminHandler) SetRouteActive(w http.ResponseWriter, r *http.Request) {
+	routeID := chi.URLParam(r, "routeID")
+	var input struct {
+		IsActive *bool `json:"is_active"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		return
+	}
+	if input.IsActive == nil {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "is_active is required"})
+		return
+	}
+
+	if err := h.store.SetRouteActive(r.Context(), routeID, *input.IsActive); err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "update status failed"})
+		return
+	}
+
+	status := "inactive"
+	if *input.IsActive {
+		status = "active"
+	}
+
+	writeJSON(w, http.StatusOK, map[string]any{
+		"id":        routeID,
+		"is_active": *input.IsActive,
+		"status":    status,
+	})
 }
 
 func (h *AdminHandler) ValidateRoute(w http.ResponseWriter, r *http.Request) {
