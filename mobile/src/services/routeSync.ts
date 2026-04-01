@@ -3,6 +3,7 @@ import { getDb } from './offlineDb';
 
 const SYNC_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
 const LAST_SYNC_KEY = 'last_route_sync';
+let syncInFlight: Promise<void> | null = null;
 
 interface SyncRoute {
   id: string;
@@ -17,7 +18,11 @@ interface SyncRoute {
   is_active: boolean;
 }
 
-export async function syncRoutesIfNeeded(): Promise<void> {
+export async function syncRoutesIfNeeded(force = false): Promise<void> {
+  if (syncInFlight) {
+    return syncInFlight;
+  }
+
   const db = getDb();
   const result = db.getFirstSync(
     "SELECT value FROM app_meta WHERE key = ?",
@@ -29,9 +34,14 @@ export async function syncRoutesIfNeeded(): Promise<void> {
   const countResult = db.getFirstSync("SELECT COUNT(*) as cnt FROM routes");
   const routeCount = Number((countResult as any)?.cnt ?? 0);
 
-  if (routeCount === 0 || now - lastSync > SYNC_INTERVAL_MS) {
-    console.log('[Sync] Route sync needed, fetching...');
-    await syncRoutes();
+  if (force || routeCount === 0 || now - lastSync > SYNC_INTERVAL_MS) {
+    console.log(force ? '[Sync] Forced route sync requested, fetching...' : '[Sync] Route sync needed, fetching...');
+    syncInFlight = syncRoutes();
+    try {
+      await syncInFlight;
+    } finally {
+      syncInFlight = null;
+    }
   } else {
     console.log('[Sync] Routes up to date');
   }
