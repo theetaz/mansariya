@@ -58,8 +58,21 @@ func (s *AdminStore) UpdateRoute(ctx context.Context, id string, input handler.A
 }
 
 func (s *AdminStore) DeleteRoute(ctx context.Context, id string) error {
-	_, err := s.pool.Exec(ctx, `UPDATE routes SET is_active = false, updated_at = NOW() WHERE id = $1`, id)
-	return err
+	_, err := s.pool.Exec(ctx, `DELETE FROM routes WHERE id = $1`, id)
+	if err != nil {
+		return fmt.Errorf("delete route: %w", err)
+	}
+	return nil
+}
+
+func (s *AdminStore) SetRouteActive(ctx context.Context, id string, isActive bool) error {
+	_, err := s.pool.Exec(ctx,
+		`UPDATE routes SET is_active = $2, updated_at = NOW() WHERE id = $1`,
+		id, isActive)
+	if err != nil {
+		return fmt.Errorf("set route active: %w", err)
+	}
+	return nil
 }
 
 func (s *AdminStore) ValidateRoute(ctx context.Context, id string, validatedBy string) error {

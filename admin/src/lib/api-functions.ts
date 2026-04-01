@@ -53,6 +53,9 @@ export const updateRoute = (id: string, data: Partial<AdminRouteInput>) =>
 export const deleteRoute = (id: string) =>
   api.delete(`/api/v1/admin/routes/${id}`).then((r) => r.data);
 
+export const setRouteActive = (id: string, isActive: boolean) =>
+  api.put(`/api/v1/admin/routes/${id}/status`, { is_active: isActive }).then((r) => r.data);
+
 // ── Admin: Stops CRUD ──
 export const createStop = (data: AdminStopInput) =>
   api.post('/api/v1/admin/stops', data).then((r) => r.data);

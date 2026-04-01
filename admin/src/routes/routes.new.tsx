@@ -35,7 +35,7 @@ import {
   MapRoute,
   MapControls,
 } from '@/components/ui/map';
-import { createRoute, setRouteStops } from '@/lib/api-functions';
+import { createRoute, createStop, setRouteStops, updatePolyline } from '@/lib/api-functions';
 import { getRoute, reverseGeocode, type NominatimResult } from '@/lib/geo';
 
 export const Route = createFileRoute('/routes/new')({
@@ -50,6 +50,21 @@ interface StopEntry {
   lat: number;
   lng: number;
   order: number;
+}
+
+function slugifyStopName(value: string): string {
+  const ascii = value
+    .normalize('NFKD')
+    .replace(/[^\x00-\x7F]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return ascii || 'stop';
+}
+
+function buildStopId(routeId: string, stopName: string, index: number): string {
+  return `${routeId}-${String(index + 1).padStart(2, '0')}-${slugifyStopName(stopName).slice(0, 40)}`;
 }
 
 function NewRoutePage() {
@@ -156,14 +171,46 @@ function NewRoutePage() {
     if (stops.length < 2) { toast.error('At least 2 stops are required'); return; }
     setIsSaving(true);
     try {
+      const trimmedRouteId = routeId.trim();
+
       await createRoute({
-        id: routeId, name_en: nameEn, name_si: nameSi, name_ta: nameTa,
+        id: trimmedRouteId, name_en: nameEn, name_si: nameSi, name_ta: nameTa,
         operator, service_type: serviceType, fare_lkr: fareLkr,
         frequency_minutes: frequencyMin, operating_hours: operatingHours,
       });
-      await setRouteStops(routeId, stops.map((s, i) => ({ stop_id: s.id, stop_order: i })));
+
+      const persistedStops = await Promise.all(stops.map(async (stop, index) => {
+        const stopId = buildStopId(trimmedRouteId, stop.name_en, index);
+        await createStop({
+          id: stopId,
+          name_en: stop.name_en,
+          name_si: stop.name_si,
+          name_ta: stop.name_ta,
+          lat: stop.lat,
+          lng: stop.lng,
+          is_terminal: index === 0 || index === stops.length - 1,
+        });
+
+        return {
+          ...stop,
+          id: stopId,
+          order: index,
+        };
+      }));
+
+      setStops(persistedStops);
+
+      await setRouteStops(trimmedRouteId, persistedStops.map((stop, index) => ({
+        stop_id: stop.id,
+        stop_order: index,
+      })));
+
+      if (polylineCoords.length >= 2) {
+        await updatePolyline(trimmedRouteId, polylineCoords, 0.5);
+      }
+
       toast.success('Route created successfully');
-      navigate({ to: '/routes/$routeId', params: { routeId } });
+      navigate({ to: '/routes/$routeId', params: { routeId: trimmedRouteId } });
     } catch { toast.error('Failed to create route'); }
     finally { setIsSaving(false); }
   };

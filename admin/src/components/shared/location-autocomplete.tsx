@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { RiMapPinLine, RiLoader4Line } from '@remixicon/react';
 import { Input } from '@/components/ui/input';
 import { geocodeSearch, type NominatimResult } from '@/lib/geo';
@@ -21,8 +22,10 @@ export function LocationAutocomplete({
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDisplay, setSelectedDisplay] = useState('');
+  const [dropdownStyle, setDropdownStyle] = useState<{ top: number; left: number; width: number } | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (value) {
@@ -35,13 +38,44 @@ export function LocationAutocomplete({
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        (!dropdownRef.current || !dropdownRef.current.contains(target))
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setDropdownStyle(null);
+      return;
+    }
+
+    const updatePosition = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      setDropdownStyle({
+        top: rect.bottom + 4,
+        left: rect.left,
+        width: rect.width,
+      });
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [isOpen, results.length]);
 
   const handleInputChange = (val: string) => {
     setQuery(val);
@@ -90,8 +124,17 @@ export function LocationAutocomplete({
         )}
       </div>
 
-      {isOpen && results.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full rounded-lg border bg-popover shadow-lg max-h-64 overflow-auto">
+      {isOpen && results.length > 0 && dropdownStyle && createPortal(
+        <div
+          ref={dropdownRef}
+          className="z-[1000] rounded-lg border bg-popover shadow-lg max-h-64 overflow-auto"
+          style={{
+            position: 'fixed',
+            top: dropdownStyle.top,
+            left: dropdownStyle.left,
+            width: dropdownStyle.width,
+          }}
+        >
           {results.map((r) => (
             <button
               key={r.place_id}
@@ -113,7 +156,8 @@ export function LocationAutocomplete({
               </div>
             </button>
           ))}
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
