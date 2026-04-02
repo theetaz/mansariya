@@ -30,9 +30,7 @@ func (h *JourneyHandler) HandleSearch(w http.ResponseWriter, r *http.Request) {
 	to := r.URL.Query().Get("to")
 
 	if from == "" || to == "" {
-		writeJSON(w, http.StatusBadRequest, map[string]string{
-			"error": "from and to parameters required (stop names)",
-		})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "from,to"))
 		return
 	}
 
@@ -41,18 +39,14 @@ func (h *JourneyHandler) HandleSearch(w http.ResponseWriter, r *http.Request) {
 	// Find matching stops for origin
 	fromStops, err := h.store.FindStopsByName(ctx, from, 1)
 	if err != nil || len(fromStops) == 0 {
-		writeJSON(w, http.StatusNotFound, map[string]string{
-			"error": "origin stop not found: " + from,
-		})
+		WriteAPIErr(w, r, ErrNotFound("not_found.stop"))
 		return
 	}
 
 	// Find matching stops for destination
 	toStops, err := h.store.FindStopsByName(ctx, to, 1)
 	if err != nil || len(toStops) == 0 {
-		writeJSON(w, http.StatusNotFound, map[string]string{
-			"error": "destination stop not found: " + to,
-		})
+		WriteAPIErr(w, r, ErrNotFound("not_found.stop"))
 		return
 	}
 
@@ -62,9 +56,7 @@ func (h *JourneyHandler) HandleSearch(w http.ResponseWriter, r *http.Request) {
 	// Find routes connecting them
 	journeys, err := h.store.FindJourneys(ctx, origin.ID, destination.ID)
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{
-			"error": "journey search failed",
-		})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -80,17 +72,13 @@ func (h *JourneyHandler) HandleSearch(w http.ResponseWriter, r *http.Request) {
 func (h *JourneyHandler) HandleStopSearch(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("q")
 	if query == "" {
-		writeJSON(w, http.StatusBadRequest, map[string]string{
-			"error": "q parameter required",
-		})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "q"))
 		return
 	}
 
 	stops, err := h.store.FindStopsByName(r.Context(), query, 10)
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{
-			"error": "stop search failed",
-		})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -104,9 +92,7 @@ func (h *JourneyHandler) HandleRouteStops(w http.ResponseWriter, r *http.Request
 
 	stops, err := h.store.GetRouteStops(r.Context(), routeID)
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{
-			"error": "failed to get route stops",
-		})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 

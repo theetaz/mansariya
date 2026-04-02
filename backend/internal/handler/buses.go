@@ -26,7 +26,7 @@ func (h *BusesHandler) Active(w http.ResponseWriter, r *http.Request) {
 
 	keys, err := h.rdb.Keys(ctx, "bus:*:pos").Result()
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "redis error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -52,7 +52,7 @@ func (h *BusesHandler) Nearby(w http.ResponseWriter, r *http.Request) {
 	radiusKM, _ := strconv.ParseFloat(r.URL.Query().Get("radius_km"), 64)
 
 	if lat == 0 || lng == 0 {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "lat and lng required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "lat,lng"))
 		return
 	}
 	if radiusKM == 0 {
@@ -62,7 +62,7 @@ func (h *BusesHandler) Nearby(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	keys, err := h.rdb.Keys(ctx, "bus:*:pos").Result()
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "redis error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 

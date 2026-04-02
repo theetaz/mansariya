@@ -23,7 +23,7 @@ func (h *RoutesHandler) List(w http.ResponseWriter, r *http.Request) {
 	radiusKM, _ := strconv.ParseFloat(r.URL.Query().Get("radius_km"), 64)
 
 	if lat == 0 || lng == 0 {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "lat and lng are required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "lat,lng"))
 		return
 	}
 	if radiusKM == 0 {
@@ -32,7 +32,7 @@ func (h *RoutesHandler) List(w http.ResponseWriter, r *http.Request) {
 
 	routes, err := h.routeStore.ListNearby(r.Context(), lat, lng, radiusKM)
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "query failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -44,7 +44,7 @@ func (h *RoutesHandler) GetPolyline(w http.ResponseWriter, r *http.Request) {
 	routeID := chi.URLParam(r, "routeID")
 	coords, err := h.routeStore.GetPolyline(r.Context(), routeID)
 	if err != nil {
-		writeJSON(w, http.StatusNotFound, map[string]string{"error": "polyline not found"})
+		WriteAPIErr(w, r, ErrNotFound("not_found.route"))
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]interface{}{
@@ -60,7 +60,7 @@ func (h *RoutesHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	route, err := h.routeStore.GetByID(r.Context(), routeID)
 	if err != nil {
-		writeJSON(w, http.StatusNotFound, map[string]string{"error": "route not found"})
+		WriteAPIErr(w, r, ErrNotFound("not_found.route"))
 		return
 	}
 
