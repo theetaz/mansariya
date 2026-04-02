@@ -284,6 +284,12 @@ func (s *AuthService) RevokeOtherSessions(ctx context.Context, userID, currentRe
 	return count, nil
 }
 
+// ValidateWSToken validates a JWT for WebSocket connections (satisfies handler.WSTokenValidator).
+func (s *AuthService) ValidateWSToken(token string) error {
+	_, err := s.ValidateAccessToken(token)
+	return err
+}
+
 // Logout deletes the session for the given refresh token.
 func (s *AuthService) Logout(ctx context.Context, refreshToken string) error {
 	sess, err := s.store.GetSessionByTokenHash(ctx, hashToken(refreshToken))

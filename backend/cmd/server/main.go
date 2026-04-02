@@ -141,7 +141,7 @@ func run() error {
 		Admin:      handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
 		Buses:      handler.NewBusesHandler(rdb),
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
-		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey),
+		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey, authService),
 		Auth:      handler.NewAuthHandler(authService, auditStore),
 		RBAC:      rbacMiddleware,
 		UserAdmin: handler.NewUserAdminHandler(authService, authStore, auditStore),
