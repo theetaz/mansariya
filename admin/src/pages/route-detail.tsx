@@ -8,6 +8,7 @@ import {
   PencilIcon,
   BusFrontIcon,
   SplineIcon,
+  InfoIcon,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -132,7 +133,7 @@ function RouteMapTab({
   const center = getPolylineMidpoint(polyline)
 
   return (
-    <div className="relative max-w-full overflow-hidden rounded-xl border" style={{ height: 500 }}>
+    <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl border" style={{ minHeight: 500 }}>
       <Map center={center} zoom={12} className="h-full w-full">
         {polyline.length >= 2 && (
           <MapRoute
@@ -191,7 +192,7 @@ function RouteMapTab({
 
 // ── Polyline editor wrapper ─────────────────────────────────────────────
 
-function RoutePolylineEditorTab({
+function PolylineEditorTab({
   detail,
   routeId,
   onDone,
@@ -399,106 +400,58 @@ export function RouteDetailPage() {
   const { route, stops, timetable } = data
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto py-4 md:gap-6 md:py-6">
-      {/* ── Header ─────────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-3 px-4 lg:px-6">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-col gap-1.5">
-            <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
-                <BusFrontIcon className="size-4 text-primary" />
-              </div>
-              <Badge variant="outline" className="font-mono text-xs">
-                {route.id}
-              </Badge>
-              {route.is_active ? (
-                <Badge variant="default">Active</Badge>
-              ) : (
-                <Badge variant="secondary">Inactive</Badge>
-              )}
-            </div>
-            <h2 className="text-2xl font-semibold tracking-tight">
-              {route.name_en || "Unnamed Route"}
-            </h2>
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto">
+      {/* ── Compact header ────────────────────────────────────────── */}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b px-4 py-3 lg:px-6">
+        <div className="flex items-center gap-2">
+          <div className="flex size-7 items-center justify-center rounded-md bg-primary/10">
+            <BusFrontIcon className="size-3.5 text-primary" />
           </div>
+          <span className="font-mono text-sm font-semibold text-primary">
+            {route.id}
+          </span>
+          <Separator orientation="vertical" className="h-4" />
+          <h2 className="text-base font-semibold">
+            {route.name_en || "Unnamed Route"}
+          </h2>
+        </div>
 
+        <div className="flex flex-wrap items-center gap-1.5">
+          {route.is_active ? (
+            <Badge variant="default" className="text-xs">Active</Badge>
+          ) : (
+            <Badge variant="secondary" className="text-xs">Inactive</Badge>
+          )}
+          {route.operator && (
+            <Badge variant="outline" className="text-xs">{route.operator}</Badge>
+          )}
+          {route.service_type && (
+            <Badge variant="outline" className="text-xs">{route.service_type}</Badge>
+          )}
+          {route.fare_lkr ? (
+            <Badge variant="outline" className="text-xs tabular-nums">
+              Rs. {route.fare_lkr.toLocaleString()}
+            </Badge>
+          ) : null}
+          <Badge variant="outline" className="text-xs tabular-nums">
+            {stops.length} stops
+          </Badge>
+        </div>
+
+        <div className="ml-auto">
           <Link to={`/routes/${routeId}/edit`}>
-            <Button variant="outline">
-              <PencilIcon className="mr-1.5 size-3.5" />
+            <Button variant="outline" size="sm">
+              <PencilIcon className="mr-1.5 size-3" />
               Edit
             </Button>
           </Link>
         </div>
       </div>
 
-      <Separator className="mx-4 lg:mx-6" />
-
-      {/* ── Info card ──────────────────────────────────────────────── */}
-      <div className="px-4 lg:px-6">
-        <Card className="rounded-xl shadow-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Route Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <InfoRow label="Operator" value={route.operator} />
-              <InfoRow label="Service Type" value={route.service_type} />
-              <InfoRow
-                label="Fare"
-                value={
-                  route.fare_lkr ? (
-                    <span className="tabular-nums">
-                      Rs. {route.fare_lkr.toLocaleString()}
-                    </span>
-                  ) : (
-                    "—"
-                  )
-                }
-              />
-              <InfoRow
-                label="Frequency"
-                value={
-                  route.frequency_minutes ? (
-                    <span className="tabular-nums">
-                      {route.frequency_minutes} min
-                    </span>
-                  ) : (
-                    "—"
-                  )
-                }
-              />
-              <InfoRow label="Operating Hours" value={route.operating_hours} />
-              <InfoRow
-                label="Stop Count"
-                value={<span className="tabular-nums">{route.stop_count}</span>}
-              />
-              <InfoRow
-                label="Has Polyline"
-                value={route.has_polyline ? "Yes" : "No"}
-              />
-              <InfoRow
-                label="Pattern Count"
-                value={
-                  <span className="tabular-nums">{route.pattern_count}</span>
-                }
-              />
-            </div>
-
-            <Separator className="my-4" />
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <InfoRow label="Name (English)" value={route.name_en} />
-              <InfoRow label="Name (Sinhala)" value={route.name_si} />
-              <InfoRow label="Name (Tamil)" value={route.name_ta} />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
       {/* ── Tabs ───────────────────────────────────────────────────── */}
-      <div className="px-4 lg:px-6">
-        <Tabs defaultValue="map" className="w-full">
-          <TabsList>
+      <div className="flex min-h-0 flex-1 flex-col px-4 pt-3 lg:px-6">
+        <Tabs defaultValue="map" className="flex min-h-0 flex-1 flex-col">
+          <TabsList className="shrink-0">
             <TabsTrigger value="map" className="gap-1.5">
               <MapIcon className="size-3.5" />
               Map
@@ -527,15 +480,21 @@ export function RouteDetailPage() {
                 </Badge>
               )}
             </TabsTrigger>
+            <TabsTrigger value="info" className="gap-1.5">
+              <InfoIcon className="size-3.5" />
+              Details
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="map" className="mt-4">
+          <TabsContent value="map" className="mt-3 flex min-h-0 flex-1 flex-col pb-4">
             {isEditingPolyline ? (
-              <RoutePolylineEditorTab
-                detail={data}
-                routeId={routeId!}
-                onDone={() => setIsEditingPolyline(false)}
-              />
+              <div className="min-h-0 flex-1 overflow-hidden rounded-xl border" style={{ minHeight: 500 }}>
+                <PolylineEditorTab
+                  detail={data}
+                  routeId={routeId!}
+                  onDone={() => setIsEditingPolyline(false)}
+                />
+              </div>
             ) : (
               <RouteMapTab
                 detail={data}
@@ -544,12 +503,44 @@ export function RouteDetailPage() {
             )}
           </TabsContent>
 
-          <TabsContent value="stops" className="mt-4">
+          <TabsContent value="stops" className="mt-3 pb-4">
             <RouteStopsTab stops={stops} />
           </TabsContent>
 
-          <TabsContent value="timetable" className="mt-4">
+          <TabsContent value="timetable" className="mt-3 pb-4">
             <RouteTimetableTab timetable={timetable} />
+          </TabsContent>
+
+          <TabsContent value="info" className="mt-3 pb-4">
+            <Card className="rounded-xl shadow-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Route Information</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  <InfoRow label="Operator" value={route.operator} />
+                  <InfoRow label="Service Type" value={route.service_type} />
+                  <InfoRow
+                    label="Fare"
+                    value={route.fare_lkr ? <span className="tabular-nums">Rs. {route.fare_lkr.toLocaleString()}</span> : "—"}
+                  />
+                  <InfoRow
+                    label="Frequency"
+                    value={route.frequency_minutes ? <span className="tabular-nums">{route.frequency_minutes} min</span> : "—"}
+                  />
+                  <InfoRow label="Operating Hours" value={route.operating_hours} />
+                  <InfoRow label="Stop Count" value={<span className="tabular-nums">{route.stop_count}</span>} />
+                  <InfoRow label="Has Polyline" value={route.has_polyline ? "Yes" : "No"} />
+                  <InfoRow label="Pattern Count" value={<span className="tabular-nums">{route.pattern_count}</span>} />
+                </div>
+                <Separator className="my-4" />
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <InfoRow label="Name (English)" value={route.name_en} />
+                  <InfoRow label="Name (Sinhala)" value={route.name_si} />
+                  <InfoRow label="Name (Tamil)" value={route.name_ta} />
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
