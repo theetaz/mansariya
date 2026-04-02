@@ -12,9 +12,12 @@ type AuditLogger interface {
 	LogAudit(ctx context.Context, actorID, actorEmail, action, targetType, targetID, ipAddress, userAgent string, metadata json.RawMessage) error
 }
 
-// AuditLister abstracts listing audit logs.
+// AuditLister abstracts listing audit logs with server-side filtering.
 type AuditLister interface {
-	ListAudit(ctx context.Context, actorID, action, targetType, targetID string, limit, offset int) (interface{}, int, error)
+	ListAuditServer(ctx context.Context,
+		actorID, actorEmail, action, targetType, targetID, search, sortBy, sortDir string,
+		limit, offset int,
+	) (interface{}, int, error)
 }
 
 type AuditHandler struct {
@@ -29,18 +32,26 @@ func (h *AuditHandler) List(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	limit, _ := strconv.Atoi(q.Get("limit"))
 	offset, _ := strconv.Atoi(q.Get("offset"))
+	if limit <= 0 {
+		limit = 20
+	}
 
-	entries, total, err := h.lister.ListAudit(r.Context(),
-		q.Get("actor_id"), q.Get("action"), q.Get("target_type"), q.Get("target_id"),
+	entries, total, err := h.lister.ListAuditServer(r.Context(),
+		q.Get("actor_id"), q.Get("actor_email"),
+		q.Get("action"), q.Get("target_type"), q.Get("target_id"),
+		q.Get("search"), q.Get("sort_by"), q.Get("sort_dir"),
 		limit, offset,
 	)
 	if err != nil {
-		writeError(w, http.StatusInternalServerError, "audit_failed", "Could not load audit logs.", "")
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
 	writeJSON(w, http.StatusOK, map[string]interface{}{
-		"entries": entries,
-		"total":   total,
+		"entries":  entries,
+		"total":    total,
+		"limit":    limit,
+		"offset":   offset,
+		"has_more": offset+limit < total,
 	})
 }

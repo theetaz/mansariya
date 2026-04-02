@@ -61,13 +61,20 @@ func (s *AuditStore) LogAudit(ctx context.Context, actorID, actorEmail, action, 
 	})
 }
 
-// ListAudit satisfies the handler.AuditLister interface.
-func (s *AuditStore) ListAudit(ctx context.Context, actorID, action, targetType, targetID string, limit, offset int) (interface{}, int, error) {
+// ListAuditServer satisfies the handler.AuditLister interface.
+func (s *AuditStore) ListAuditServer(ctx context.Context,
+	actorID, actorEmail, action, targetType, targetID, search, sortBy, sortDir string,
+	limit, offset int,
+) (interface{}, int, error) {
 	return s.List(ctx, AuditFilter{
 		ActorID:    actorID,
+		ActorEmail: actorEmail,
 		Action:     action,
 		TargetType: targetType,
 		TargetID:   targetID,
+		Search:     search,
+		SortBy:     sortBy,
+		SortDir:    sortDir,
 		Limit:      limit,
 		Offset:     offset,
 	})
@@ -75,16 +82,32 @@ func (s *AuditStore) ListAudit(ctx context.Context, actorID, action, targetType,
 
 type AuditFilter struct {
 	ActorID    string
+	ActorEmail string // partial match (ILIKE)
 	Action     string
 	TargetType string
 	TargetID   string
+	Search     string // global search across actor_email, action, target_type, ip_address
+	SortBy     string // "created_at", "action", "actor_email"
+	SortDir    string // "asc" or "desc"
 	Limit      int
 	Offset     int
 }
 
+// Allowed sort columns to prevent SQL injection
+var allowedSortColumns = map[string]string{
+	"created_at":  "created_at",
+	"action":      "action",
+	"actor_email": "actor_email",
+	"target_type": "target_type",
+	"ip_address":  "ip_address",
+}
+
 func (s *AuditStore) List(ctx context.Context, f AuditFilter) ([]AuditEntry, int, error) {
 	if f.Limit <= 0 {
-		f.Limit = 50
+		f.Limit = 20
+	}
+	if f.Limit > 100 {
+		f.Limit = 100
 	}
 
 	where := "WHERE 1=1"
@@ -95,6 +118,11 @@ func (s *AuditStore) List(ctx context.Context, f AuditFilter) ([]AuditEntry, int
 		n++
 		where += fmt.Sprintf(" AND actor_id = $%d", n)
 		args = append(args, f.ActorID)
+	}
+	if f.ActorEmail != "" {
+		n++
+		where += fmt.Sprintf(" AND actor_email ILIKE $%d", n)
+		args = append(args, "%"+f.ActorEmail+"%")
 	}
 	if f.Action != "" {
 		n++
@@ -111,12 +139,31 @@ func (s *AuditStore) List(ctx context.Context, f AuditFilter) ([]AuditEntry, int
 		where += fmt.Sprintf(" AND target_id = $%d", n)
 		args = append(args, f.TargetID)
 	}
+	if f.Search != "" {
+		n++
+		where += fmt.Sprintf(` AND (
+			actor_email ILIKE $%d OR action ILIKE $%d OR
+			target_type ILIKE $%d OR ip_address ILIKE $%d OR
+			target_id ILIKE $%d
+		)`, n, n, n, n, n)
+		args = append(args, "%"+f.Search+"%")
+	}
 
 	// Count
 	var total int
 	countQuery := "SELECT COUNT(*) FROM audit_logs " + where
 	if err := s.pool.QueryRow(ctx, countQuery, args...).Scan(&total); err != nil {
 		return nil, 0, fmt.Errorf("count audit: %w", err)
+	}
+
+	// Sort
+	sortCol := "created_at"
+	if col, ok := allowedSortColumns[f.SortBy]; ok {
+		sortCol = col
+	}
+	sortDir := "DESC"
+	if f.SortDir == "asc" {
+		sortDir = "ASC"
 	}
 
 	// Fetch
@@ -132,8 +179,8 @@ func (s *AuditStore) List(ctx context.Context, f AuditFilter) ([]AuditEntry, int
 		        COALESCE(target_type,''), COALESCE(target_id,''),
 		        COALESCE(metadata,'{}'), COALESCE(ip_address,''), COALESCE(user_agent,''),
 		        created_at
-		 FROM audit_logs %s ORDER BY created_at DESC LIMIT %s OFFSET %s`,
-		where, limitParam, offsetParam,
+		 FROM audit_logs %s ORDER BY %s %s LIMIT %s OFFSET %s`,
+		where, sortCol, sortDir, limitParam, offsetParam,
 	)
 
 	rows, err := s.pool.Query(ctx, query, args...)

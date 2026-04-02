@@ -440,13 +440,37 @@ export type AuditEntry = {
   created_at: string
 }
 
-export function fetchAuditLogs(params?: { action?: string; limit?: number; offset?: number }) {
+export type AuditLogsParams = {
+  action?: string
+  actor_email?: string
+  target_type?: string
+  search?: string
+  sort_by?: string
+  sort_dir?: string
+  limit?: number
+  offset?: number
+}
+
+export type AuditLogsResponse = {
+  entries: AuditEntry[]
+  total: number
+  limit: number
+  offset: number
+  has_more: boolean
+}
+
+export function fetchAuditLogs(params?: AuditLogsParams) {
   const q = new URLSearchParams()
   if (params?.action) q.set("action", params.action)
+  if (params?.actor_email) q.set("actor_email", params.actor_email)
+  if (params?.target_type) q.set("target_type", params.target_type)
+  if (params?.search) q.set("search", params.search)
+  if (params?.sort_by) q.set("sort_by", params.sort_by)
+  if (params?.sort_dir) q.set("sort_dir", params.sort_dir)
   if (params?.limit) q.set("limit", String(params.limit))
   if (params?.offset) q.set("offset", String(params.offset))
   const qs = q.toString()
-  return apiGet<{ entries: AuditEntry[]; total: number }>(
+  return apiGet<AuditLogsResponse>(
     `/api/v1/admin/audit-logs${qs ? `?${qs}` : ""}`, true
   )
 }
