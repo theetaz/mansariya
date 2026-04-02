@@ -38,6 +38,7 @@ type AuthStoreInterface interface {
 	ListUsersFiltered(ctx context.Context, search, status, sortBy, sortDir string, limit, offset int) ([]model.User, int, error)
 
 	GetUserRoles(ctx context.Context, userID string) ([]model.Role, error)
+	GetRoleBySlug(ctx context.Context, slug string) (*model.Role, error)
 	ListRoles(ctx context.Context) ([]model.Role, error)
 	ListRolesFiltered(ctx context.Context, search, sortBy, sortDir string, limit, offset int) ([]model.Role, int, error)
 	CheckSlugAvailable(ctx context.Context, slug string) (bool, string, error)

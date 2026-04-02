@@ -135,9 +135,20 @@ func (h *UserAdminHandler) UpdateUserStatus(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	// Prevent deactivating super admins
+	if req.Status == "disabled" {
+		roles, _ := h.store.GetUserRoles(r.Context(), userID)
+		for _, role := range roles {
+			if role.Slug == "super_admin" {
+				WriteAPIErr(w, r, ErrForbidden())
+				return
+			}
+		}
+	}
+
 	user, err := h.store.GetUserByID(r.Context(), userID)
 	if err != nil {
-		writeError(w, http.StatusNotFound, "user_not_found", "User not found.", "")
+		WriteAPIErr(w, r, ErrNotFound("not_found.user"))
 		return
 	}
 
@@ -186,6 +197,18 @@ func (h *UserAdminHandler) AssignRole(w http.ResponseWriter, r *http.Request) {
 func (h *UserAdminHandler) RemoveRole(w http.ResponseWriter, r *http.Request) {
 	userID := chi.URLParam(r, "userID")
 	roleID := chi.URLParam(r, "roleID")
+
+	// Prevent removing super_admin role from super admins
+	role, _ := h.store.GetRoleBySlug(r.Context(), "super_admin")
+	if role != nil && role.ID == roleID {
+		roles, _ := h.store.GetUserRoles(r.Context(), userID)
+		for _, ur := range roles {
+			if ur.Slug == "super_admin" {
+				WriteAPIErr(w, r, ErrForbidden())
+				return
+			}
+		}
+	}
 
 	if err := h.store.RemoveRole(r.Context(), userID, roleID); err != nil {
 		writeError(w, http.StatusInternalServerError, "remove_failed", "Could not remove role.", "")

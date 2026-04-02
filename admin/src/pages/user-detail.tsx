@@ -8,6 +8,7 @@ import {
   Loader2Icon,
   MailPlusIcon,
   ShieldIcon,
+  ShieldOffIcon,
   Trash2Icon,
   XCircleIcon,
 } from "lucide-react"
@@ -247,20 +248,49 @@ export function UserDetailPage() {
         <div className="flex flex-col gap-4">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Roles</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm">Roles</CardTitle>
+                {availableRoles.length > 0 && (
+                  <Select onValueChange={(v) => addRole.mutate(v)}>
+                    <SelectTrigger className="h-7 w-auto gap-1 border-dashed px-2 text-xs">
+                      <SelectValue placeholder="+ Add role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableRoles.map((r) => (
+                        <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
             </CardHeader>
-            <CardContent className="flex flex-wrap gap-2">
-              {user.roles?.map((r) => (
-                <Badge key={r.id} variant="outline" className="gap-1">
-                  <ShieldIcon className="size-3" />{r.name}
-                  <button onClick={() => delRole.mutate(r.id)} className="ml-1 hover:text-destructive"><XCircleIcon className="size-3" /></button>
-                </Badge>
-              ))}
-              {availableRoles.length > 0 && (
-                <Select onValueChange={(v) => addRole.mutate(v)}>
-                  <SelectTrigger className="h-7 w-auto gap-1 border-dashed px-2 text-xs"><SelectValue placeholder="+ Add role" /></SelectTrigger>
-                  <SelectContent>{availableRoles.map((r) => <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>)}</SelectContent>
-                </Select>
+            <CardContent>
+              {user.roles?.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No roles assigned.</p>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {user.roles?.map((r) => {
+                    const isProtected = isSuperAdmin && r.slug === "super_admin"
+                    return (
+                      <div key={r.id} className="flex items-center justify-between rounded-md border px-3 py-2">
+                        <div className="flex items-center gap-2">
+                          <ShieldIcon className="size-3.5 text-muted-foreground" />
+                          <span className="text-sm font-medium">{r.name}</span>
+                        </div>
+                        {!isProtected && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="size-6 p-0 text-muted-foreground hover:text-destructive"
+                            onClick={() => delRole.mutate(r.id)}
+                          >
+                            <XCircleIcon className="size-3.5" />
+                          </Button>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
               )}
             </CardContent>
           </Card>
@@ -268,18 +298,45 @@ export function UserDetailPage() {
           <Card>
             <CardHeader className="pb-3"><CardTitle className="text-sm">Actions</CardTitle></CardHeader>
             <CardContent className="flex flex-col gap-2">
-              {user.status !== "invited" && (
-                <Button variant="outline" size="sm" className="justify-start" onClick={() => toggleStatus.mutate()} disabled={toggleStatus.isPending}>
-                  {user.status === "active" ? "Deactivate User" : "Activate User"}
+              {user.status !== "invited" && !isSuperAdmin && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full gap-2"
+                  onClick={() => toggleStatus.mutate()}
+                  disabled={toggleStatus.isPending}
+                >
+                  {user.status === "active"
+                    ? <><ShieldOffIcon className="size-3.5" />Deactivate User</>
+                    : <><ShieldIcon className="size-3.5" />Activate User</>
+                  }
                 </Button>
               )}
-              <Button variant="outline" size="sm" className="justify-start" onClick={() => revokeAll.mutate()} disabled={revokeAll.isPending}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full gap-2"
+                onClick={() => revokeAll.mutate()}
+                disabled={revokeAll.isPending}
+              >
+                <Trash2Icon className="size-3.5" />
                 Revoke All Sessions
               </Button>
               {!isSuperAdmin && (
-                <Button variant="destructive" size="sm" className="justify-start" onClick={() => setDeleteOpen(true)}>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  className="w-full gap-2"
+                  onClick={() => setDeleteOpen(true)}
+                >
+                  <Trash2Icon className="size-3.5" />
                   Delete User
                 </Button>
+              )}
+              {isSuperAdmin && (
+                <p className="text-xs text-muted-foreground text-center pt-1">
+                  Super admin accounts cannot be deactivated or deleted.
+                </p>
               )}
             </CardContent>
           </Card>
@@ -287,8 +344,7 @@ export function UserDetailPage() {
       </div>
 
       {/* Sessions table */}
-      <div>
-        <h2 className="mb-3 text-lg font-semibold">Active Sessions</h2>
+      <div className="px-0 lg:px-0">
         <DataTable
           columns={sessionColumns}
           data={sessions}
