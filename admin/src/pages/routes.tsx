@@ -1,7 +1,18 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import type { ColumnDef } from "@tanstack/react-table"
-import { CheckIcon, XIcon, PlusIcon, EllipsisVerticalIcon } from "lucide-react"
+import {
+  BusFrontIcon,
+  CheckIcon,
+  XIcon,
+  PlusIcon,
+  EllipsisVerticalIcon,
+  RouteIcon,
+  ActivityIcon,
+  MapPinIcon,
+  SplineIcon,
+} from "lucide-react"
 import { toast } from "sonner"
 
 import {
@@ -16,12 +27,6 @@ import {
 } from "@/components/shared/data-table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -65,15 +70,20 @@ function makeColumns(
     {
       accessorKey: "id",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="ID" />
+        <DataTableColumnHeader column={column} title="Route" />
       ),
       cell: ({ row }) => (
-        <a
-          href={`/routes/${row.original.id}`}
-          className="font-mono text-xs text-primary underline-offset-4 hover:underline"
+        <Link
+          to={`/routes/${row.original.id}`}
+          className="flex items-center gap-2 hover:underline underline-offset-4"
         >
-          {row.original.id.slice(0, 8)}
-        </a>
+          <div className="flex size-7 items-center justify-center rounded-md bg-primary/10">
+            <BusFrontIcon className="size-3.5 text-primary" />
+          </div>
+          <span className="font-mono text-xs font-semibold text-primary">
+            {row.original.id}
+          </span>
+        </Link>
       ),
       enableHiding: false,
     },
@@ -83,14 +93,19 @@ function makeColumns(
         <DataTableColumnHeader column={column} title="Name" />
       ),
       cell: ({ row }) => (
-        <div className="flex flex-col gap-0.5">
-          <span className="font-medium">{row.original.name_en}</span>
+        <Link
+          to={`/routes/${row.original.id}`}
+          className="block max-w-[280px] hover:underline underline-offset-4"
+        >
+          <span className="font-medium truncate block">
+            {row.original.name_en || "—"}
+          </span>
           {row.original.name_si && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground truncate block">
               {row.original.name_si}
             </span>
           )}
-        </div>
+        </Link>
       ),
     },
     {
@@ -117,7 +132,9 @@ function makeColumns(
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Service" />
       ),
-      cell: ({ row }) => row.original.service_type,
+      cell: ({ row }) => (
+        <span className="text-sm">{row.original.service_type || "—"}</span>
+      ),
       meta: {
         filterConfig: {
           type: "select",
@@ -142,36 +159,36 @@ function makeColumns(
       ),
       cell: ({ row }) => (
         <div className="text-right tabular-nums">
-          Rs. {row.original.fare_lkr.toLocaleString()}
+          {row.original.fare_lkr ? `Rs. ${row.original.fare_lkr.toLocaleString()}` : "—"}
         </div>
       ),
     },
     {
       accessorKey: "stop_count",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Stops" />
+        <DataTableColumnHeader
+          column={column}
+          title="Stops"
+          className="text-right"
+        />
       ),
       cell: ({ row }) => (
-        <span className="tabular-nums">{row.original.stop_count}</span>
+        <div className="text-right tabular-nums">{row.original.stop_count}</div>
       ),
     },
     {
       accessorKey: "has_polyline",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Polyline" />
-      ),
+      header: "Polyline",
       cell: ({ row }) =>
         row.original.has_polyline ? (
-          <CheckIcon className="size-4 text-emerald-600" />
+          <CheckIcon className="size-4 text-emerald-500" />
         ) : (
-          <XIcon className="size-4 text-muted-foreground/50" />
+          <XIcon className="size-4 text-muted-foreground/40" />
         ),
     },
     {
       accessorKey: "is_active",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Active" />
-      ),
+      header: "Status",
       cell: ({ row }) =>
         row.original.is_active ? (
           <Badge variant="default">Active</Badge>
@@ -182,10 +199,6 @@ function makeColumns(
         filterConfig: {
           type: "boolean",
           label: "Active",
-          options: [
-            { label: "Active", value: "true" },
-            { label: "Inactive", value: "false" },
-          ],
         },
       },
     },
@@ -205,15 +218,13 @@ function makeColumns(
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
               <DropdownMenuItem asChild>
-                <a href={`/routes/${route.id}`}>View</a>
+                <Link to={`/routes/${route.id}`}>View</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href={`/routes/${route.id}/edit`}>Edit</a>
+                <Link to={`/routes/${route.id}/edit`}>Edit</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => onToggleActive(route)}
-              >
+              <DropdownMenuItem onClick={() => onToggleActive(route)}>
                 {route.is_active ? "Inactivate" : "Activate"}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -231,13 +242,39 @@ function makeColumns(
   ]
 }
 
+// ── Metric card ─────────────────────────────────────────────────────────
+
+function MetricCard({
+  icon: Icon,
+  label,
+  value,
+  isLoading,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  value: number
+  isLoading: boolean
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-xl border bg-card px-4 py-3 shadow-sm">
+      <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
+        <Icon className="size-4 text-primary" />
+      </div>
+      <div>
+        <p className="text-2xl font-semibold tabular-nums leading-tight">
+          {isLoading ? "—" : value}
+        </p>
+        <p className="text-xs text-muted-foreground">{label}</p>
+      </div>
+    </div>
+  )
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────
 
 export function RoutesPage() {
   const queryClient = useQueryClient()
   const [confirm, setConfirm] = useState<ConfirmState>(CLOSED)
-
-  // ── Queries & mutations ───────────────────────────────────────────────
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-routes"],
@@ -268,8 +305,6 @@ export function RoutesPage() {
       toast.error(`Failed to update status: ${err.message}`)
     },
   })
-
-  // ── Action handlers ───────────────────────────────────────────────────
 
   function handleToggleActive(route: AdminRouteWithStats) {
     const next = !route.is_active
@@ -302,16 +337,12 @@ export function RoutesPage() {
     })
   }
 
-  // ── Derived metrics ───────────────────────────────────────────────────
-
   const totalRoutes = routes.length
   const activeRoutes = routes.filter((r) => r.is_active).length
   const withPolyline = routes.filter((r) => r.has_polyline).length
   const withStops = routes.filter((r) => r.stop_count > 0).length
 
   const columns = makeColumns(handleToggleActive, handleDelete)
-
-  // ── Render ────────────────────────────────────────────────────────────
 
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
@@ -327,48 +358,40 @@ export function RoutesPage() {
             {totalRoutes} routes in the system
           </p>
         </div>
-        <a href="/routes/new">
+        <Link to="/routes/new">
           <Button>
             <PlusIcon className="mr-1 size-4" />
             Add Route
           </Button>
-        </a>
+        </Link>
       </div>
 
       {/* Metric cards */}
-      <div className="grid grid-cols-1 gap-4 px-4 sm:grid-cols-2 lg:px-6 xl:grid-cols-4">
-        <Card size="sm">
-          <CardHeader>
-            <CardDescription>Total Routes</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums">
-              {isLoading ? "--" : totalRoutes}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card size="sm">
-          <CardHeader>
-            <CardDescription>Active Routes</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums">
-              {isLoading ? "--" : activeRoutes}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card size="sm">
-          <CardHeader>
-            <CardDescription>With Polyline</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums">
-              {isLoading ? "--" : withPolyline}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card size="sm">
-          <CardHeader>
-            <CardDescription>With Stops</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums">
-              {isLoading ? "--" : withStops}
-            </CardTitle>
-          </CardHeader>
-        </Card>
+      <div className="grid grid-cols-2 gap-3 px-4 lg:px-6 xl:grid-cols-4">
+        <MetricCard
+          icon={RouteIcon}
+          label="Total Routes"
+          value={totalRoutes}
+          isLoading={isLoading}
+        />
+        <MetricCard
+          icon={ActivityIcon}
+          label="Active Routes"
+          value={activeRoutes}
+          isLoading={isLoading}
+        />
+        <MetricCard
+          icon={SplineIcon}
+          label="With Polyline"
+          value={withPolyline}
+          isLoading={isLoading}
+        />
+        <MetricCard
+          icon={MapPinIcon}
+          label="With Stops"
+          value={withStops}
+          isLoading={isLoading}
+        />
       </div>
 
       {/* Data table */}
@@ -377,7 +400,7 @@ export function RoutesPage() {
         data={routes}
         isLoading={isLoading}
         searchPlaceholder="Search routes by name, operator..."
-        pageSize={15}
+        pageSize={10}
       />
 
       {/* Confirmation dialog */}

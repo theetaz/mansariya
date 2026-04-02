@@ -7,13 +7,11 @@ import type { FilterConfig } from "./types"
 
 interface DataTableFilterPanelProps<TData> {
   table: Table<TData>
-  tableHeight?: number
   className?: string
 }
 
 export function DataTableFilterPanel<TData>({
   table,
-  tableHeight,
   className,
 }: DataTableFilterPanelProps<TData>) {
   const filterableColumns = table
@@ -24,8 +22,7 @@ export function DataTableFilterPanel<TData>({
 
   return (
     <div
-      className={`flex shrink-0 flex-col overflow-hidden rounded-xl border bg-card shadow-sm ${className ?? "w-64"}`}
-      style={{ height: tableHeight ? `${tableHeight}px` : undefined }}
+      className={`flex shrink-0 flex-col overflow-hidden rounded-xl border bg-card shadow-sm ${className ?? "w-full"}`}
     >
       <div className="shrink-0 border-b px-4 py-3">
         <span className="text-sm font-semibold">Filters</span>

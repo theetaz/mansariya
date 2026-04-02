@@ -16,6 +16,7 @@ import {
   SearchIcon,
   SlidersHorizontalIcon,
   Columns3Icon,
+  SearchXIcon,
 } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -27,6 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Sheet,
   SheetContent,
@@ -133,20 +135,23 @@ export function DataTable<TData, TValue>({
     )
   }
 
+  // Minimum table height: header (~41px) + pageSize rows (~49px each)
+  const minTableHeight = 41 + pageSize * 49
+
   return (
     <div className="flex w-full flex-col gap-0">
-      {/* Toolbar */}
-      <div className="flex flex-col gap-3 px-4 pb-3 lg:px-6">
-        <div className="relative">
+      {/* Toolbar — single row: search left, buttons right */}
+      <div className="flex items-center gap-3 px-4 pb-3 lg:px-6">
+        <div className="relative min-w-0 flex-1">
           <SearchIcon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder={searchPlaceholder ?? "Search..."}
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="h-10 rounded-xl bg-card pl-10 shadow-sm"
+            className="h-9 rounded-xl bg-card pl-10 shadow-sm"
           />
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           {hasFilterableColumns && (
             <Button
               variant={showFilters ? "default" : "outline"}
@@ -163,7 +168,7 @@ export function DataTable<TData, TValue>({
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-9 rounded-full">
                 <Columns3Icon className="mr-1 size-3.5" />
-                Columns
+                <span className="hidden sm:inline">Columns</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
@@ -191,17 +196,19 @@ export function DataTable<TData, TValue>({
       {/* Table + filter panel */}
       <div className="mx-4 flex min-w-0 gap-4 lg:mx-6">
         {!isMobile && showFilters && hasFilterableColumns && (
-          <div
-            style={{ height: tableHeight > 0 ? tableHeight : undefined }}
+          <ScrollArea
+            className="w-64 shrink-0"
+            style={{ height: tableHeight > 0 ? tableHeight : minTableHeight }}
           >
-            <DataTableFilterPanel table={table} tableHeight={tableHeight} />
-          </div>
+            <DataTableFilterPanel table={table} />
+          </ScrollArea>
         )}
 
         <div className="min-w-0 flex-1">
           <div
             ref={tableRef}
             className="overflow-hidden rounded-xl border bg-card shadow-sm"
+            style={{ minHeight: minTableHeight }}
           >
             <div className="overflow-x-auto">
               <Table>
@@ -239,9 +246,17 @@ export function DataTable<TData, TValue>({
                     <TableRow>
                       <TableCell
                         colSpan={columns.length}
-                        className="h-24 text-center"
+                        className="h-full"
                       >
-                        No results.
+                        <div className="flex flex-col items-center justify-center gap-2 py-16 text-muted-foreground">
+                          <SearchXIcon className="size-10 opacity-30" />
+                          <p className="text-sm font-medium">
+                            No matching results
+                          </p>
+                          <p className="text-xs">
+                            Try adjusting your search or filter criteria
+                          </p>
+                        </div>
                       </TableCell>
                     </TableRow>
                   )}

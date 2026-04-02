@@ -8,6 +8,9 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 import { DataPage } from "@/pages/data"
 import { LiveMapPage } from "@/pages/live-map"
+import { RouteDetailPage } from "@/pages/route-detail"
+import { RouteEditPage } from "@/pages/route-edit"
+import { RouteNewPage } from "@/pages/route-new"
 import { RoutesPage } from "@/pages/routes"
 import { SettingsPage } from "@/pages/settings"
 import { SimulationsPage } from "@/pages/simulations"
@@ -46,6 +49,9 @@ export function App() {
         <Route element={<RootLayout />}>
           <Route index element={<DashboardContent />} />
           <Route path="routes" element={<RoutesPage />} />
+          <Route path="routes/new" element={<RouteNewPage />} />
+          <Route path="routes/:routeId" element={<RouteDetailPage />} />
+          <Route path="routes/:routeId/edit" element={<RouteEditPage />} />
           <Route path="stops" element={<StopsPage />} />
           <Route path="timetables" element={<TimetablesPage />} />
           <Route path="simulations" element={<SimulationsPage />} />
