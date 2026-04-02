@@ -244,6 +244,12 @@ migrate-down: ## Rollback last migration
 	cd backend && go run -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest \
 		-path migrations -database "$${DATABASE_URL}" down 1
 
+bootstrap-admin: ## Create first super admin user (safe to re-run)
+	cd backend && go run ./cmd/bootstrap-admin \
+		-email "$${ADMIN_EMAIL:-admin@mansariya.lk}" \
+		-password "$${ADMIN_PASSWORD:-changeme123}" \
+		-name "$${ADMIN_NAME:-Super Admin}"
+
 seed: ## Seed from pre-built SQL dump (fast, no external APIs)
 	@echo "  Seeding from data/seed.sql..."
 	docker exec -i masariya-postgres psql -U masariya -d masariya < data/seed.sql
