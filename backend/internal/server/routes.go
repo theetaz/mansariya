@@ -79,20 +79,24 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Get("/buses/nearby", deps.Buses.Nearby)
 	})
 
-	// Auth (public)
+	// Auth
 	r.Route("/api/v1/auth", func(r chi.Router) {
+		// Public endpoints (no auth required)
 		r.Post("/login", deps.Auth.Login)
 		r.Post("/logout", deps.Auth.Logout)
 		r.Post("/refresh", deps.Auth.Refresh)
 		r.Post("/invite/accept", deps.Auth.AcceptInvite)
 		r.Post("/password-reset/request", deps.Auth.RequestPasswordReset)
 		r.Post("/password-reset/confirm", deps.Auth.ConfirmPasswordReset)
-	})
 
-	// Authenticated user routes
-	r.Route("/api/v1/auth/me", func(r chi.Router) {
-		r.Use(deps.Auth.JWTMiddleware)
-		r.Get("/", deps.Auth.Me)
+		// Authenticated endpoints (JWT required)
+		r.Group(func(r chi.Router) {
+			r.Use(deps.Auth.JWTMiddleware)
+			r.Get("/me", deps.Auth.Me)
+			r.Get("/sessions", deps.Auth.ListSessions)
+			r.Post("/sessions/revoke", deps.Auth.RevokeSession)
+			r.Post("/sessions/revoke-others", deps.Auth.RevokeOtherSessions)
+		})
 	})
 
 	// WebSocket

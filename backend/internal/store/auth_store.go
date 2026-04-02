@@ -450,6 +450,57 @@ func (s *AuthStore) DeleteUserSessions(ctx context.Context, userID string) error
 	return nil
 }
 
+func (s *AuthStore) ListUserSessions(ctx context.Context, userID string) ([]model.Session, error) {
+	rows, err := s.pool.Query(ctx,
+		`SELECT id, user_id, token_hash, ip_address, user_agent, expires_at, created_at, last_used_at
+		 FROM sessions
+		 WHERE user_id = $1 AND expires_at > NOW()
+		 ORDER BY last_used_at DESC`, userID,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("list user sessions: %w", err)
+	}
+	defer rows.Close()
+
+	var sessions []model.Session
+	for rows.Next() {
+		var s model.Session
+		if err := rows.Scan(&s.ID, &s.UserID, &s.TokenHash, &s.IPAddress, &s.UserAgent,
+			&s.ExpiresAt, &s.CreatedAt, &s.LastUsedAt); err != nil {
+			return nil, fmt.Errorf("scan session: %w", err)
+		}
+		sessions = append(sessions, s)
+	}
+	return sessions, rows.Err()
+}
+
+func (s *AuthStore) DeleteOtherSessions(ctx context.Context, userID, keepSessionID string) (int64, error) {
+	tag, err := s.pool.Exec(ctx,
+		`DELETE FROM sessions WHERE user_id = $1 AND id != $2`,
+		userID, keepSessionID,
+	)
+	if err != nil {
+		return 0, fmt.Errorf("delete other sessions: %w", err)
+	}
+	return tag.RowsAffected(), nil
+}
+
+func (s *AuthStore) GetSessionByID(ctx context.Context, sessionID string) (*model.Session, error) {
+	var sess model.Session
+	err := s.pool.QueryRow(ctx,
+		`SELECT id, user_id, token_hash, ip_address, user_agent, expires_at, created_at, last_used_at
+		 FROM sessions WHERE id = $1`, sessionID,
+	).Scan(&sess.ID, &sess.UserID, &sess.TokenHash, &sess.IPAddress, &sess.UserAgent,
+		&sess.ExpiresAt, &sess.CreatedAt, &sess.LastUsedAt)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("get session by id: %w", err)
+	}
+	return &sess, nil
+}
+
 func (s *AuthStore) CleanExpiredSessions(ctx context.Context) (int64, error) {
 	tag, err := s.pool.Exec(ctx, `DELETE FROM sessions WHERE expires_at < NOW()`)
 	if err != nil {

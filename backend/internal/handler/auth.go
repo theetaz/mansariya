@@ -248,6 +248,107 @@ func (h *AuthHandler) ConfirmPasswordReset(w http.ResponseWriter, r *http.Reques
 	writeJSON(w, http.StatusOK, map[string]string{"status": "password_reset"})
 }
 
+// ── Session management ───────────────────────────────────────────────────
+
+func (h *AuthHandler) ListSessions(w http.ResponseWriter, r *http.Request) {
+	userID := UserIDFromContext(r.Context())
+	if userID == "" {
+		writeError(w, http.StatusUnauthorized, "unauthorized", "Authentication required.", "")
+		return
+	}
+
+	sessions, err := h.auth.ListSessions(r.Context(), userID)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "list_sessions_failed", "Could not load sessions.", "")
+		return
+	}
+
+	// Strip token hashes from response
+	type sessionView struct {
+		ID         string `json:"id"`
+		IPAddress  string `json:"ip_address"`
+		UserAgent  string `json:"user_agent"`
+		CreatedAt  string `json:"created_at"`
+		LastUsedAt string `json:"last_used_at"`
+		ExpiresAt  string `json:"expires_at"`
+	}
+	views := make([]sessionView, len(sessions))
+	for i, s := range sessions {
+		views[i] = sessionView{
+			ID:         s.ID,
+			IPAddress:  s.IPAddress,
+			UserAgent:  s.UserAgent,
+			CreatedAt:  s.CreatedAt.Format("2006-01-02T15:04:05Z"),
+			LastUsedAt: s.LastUsedAt.Format("2006-01-02T15:04:05Z"),
+			ExpiresAt:  s.ExpiresAt.Format("2006-01-02T15:04:05Z"),
+		}
+	}
+
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"sessions": views,
+		"count":    len(views),
+	})
+}
+
+func (h *AuthHandler) RevokeSession(w http.ResponseWriter, r *http.Request) {
+	userID := UserIDFromContext(r.Context())
+	if userID == "" {
+		writeError(w, http.StatusUnauthorized, "unauthorized", "Authentication required.", "")
+		return
+	}
+
+	var req struct {
+		SessionID string `json:"session_id"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.SessionID == "" {
+		writeError(w, http.StatusBadRequest, "validation_failed", "session_id is required.", "session_id")
+		return
+	}
+
+	err := h.auth.RevokeSession(r.Context(), userID, req.SessionID)
+	if err != nil {
+		if errors.Is(err, service.ErrInvalidToken) {
+			writeError(w, http.StatusNotFound, "session_not_found", "Session not found.", "")
+			return
+		}
+		writeError(w, http.StatusInternalServerError, "revoke_failed", "Could not revoke session.", "")
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]string{"status": "revoked"})
+}
+
+func (h *AuthHandler) RevokeOtherSessions(w http.ResponseWriter, r *http.Request) {
+	userID := UserIDFromContext(r.Context())
+	if userID == "" {
+		writeError(w, http.StatusUnauthorized, "unauthorized", "Authentication required.", "")
+		return
+	}
+
+	var req struct {
+		CurrentRefreshToken string `json:"current_refresh_token"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.CurrentRefreshToken == "" {
+		writeError(w, http.StatusBadRequest, "validation_failed", "current_refresh_token is required.", "current_refresh_token")
+		return
+	}
+
+	count, err := h.auth.RevokeOtherSessions(r.Context(), userID, req.CurrentRefreshToken)
+	if err != nil {
+		if errors.Is(err, service.ErrInvalidToken) {
+			writeError(w, http.StatusBadRequest, "invalid_token", "Invalid refresh token.", "")
+			return
+		}
+		writeError(w, http.StatusInternalServerError, "revoke_failed", "Could not revoke sessions.", "")
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"status":  "revoked",
+		"revoked": count,
+	})
+}
+
 // ── JWT Auth Middleware ───────────────────────────────────────────────────
 
 type contextKey string

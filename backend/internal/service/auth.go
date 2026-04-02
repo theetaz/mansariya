@@ -44,7 +44,10 @@ type AuthStoreInterface interface {
 
 	CreateSession(ctx context.Context, sess *model.Session) error
 	GetSessionByTokenHash(ctx context.Context, tokenHash string) (*model.Session, error)
+	GetSessionByID(ctx context.Context, sessionID string) (*model.Session, error)
+	ListUserSessions(ctx context.Context, userID string) ([]model.Session, error)
 	DeleteSession(ctx context.Context, sessionID string) error
+	DeleteOtherSessions(ctx context.Context, userID, keepSessionID string) (int64, error)
 	DeleteUserSessions(ctx context.Context, userID string) error
 }
 
@@ -235,6 +238,46 @@ func (s *AuthService) ValidateAccessToken(tokenStr string) (*AuthClaims, error) 
 		return nil, ErrInvalidToken
 	}
 	return claims, nil
+}
+
+// ── Session management ───────────────────────────────────────────────────
+
+// ListSessions returns all active sessions for a user.
+func (s *AuthService) ListSessions(ctx context.Context, userID string) ([]model.Session, error) {
+	sessions, err := s.store.ListUserSessions(ctx, userID)
+	if err != nil {
+		return nil, fmt.Errorf("list sessions: %w", err)
+	}
+	return sessions, nil
+}
+
+// RevokeSession deletes a specific session. Only the session owner can revoke.
+func (s *AuthService) RevokeSession(ctx context.Context, userID, sessionID string) error {
+	sess, err := s.store.GetSessionByID(ctx, sessionID)
+	if err != nil {
+		return fmt.Errorf("get session: %w", err)
+	}
+	if sess == nil || sess.UserID != userID {
+		return ErrInvalidToken
+	}
+	return s.store.DeleteSession(ctx, sess.ID)
+}
+
+// RevokeOtherSessions deletes all sessions except the one identified by currentRefreshToken.
+func (s *AuthService) RevokeOtherSessions(ctx context.Context, userID, currentRefreshToken string) (int64, error) {
+	sess, err := s.store.GetSessionByTokenHash(ctx, hashToken(currentRefreshToken))
+	if err != nil {
+		return 0, fmt.Errorf("get current session: %w", err)
+	}
+	if sess == nil || sess.UserID != userID {
+		return 0, ErrInvalidToken
+	}
+
+	count, err := s.store.DeleteOtherSessions(ctx, userID, sess.ID)
+	if err != nil {
+		return 0, fmt.Errorf("delete other sessions: %w", err)
+	}
+	return count, nil
 }
 
 // Logout deletes the session for the given refresh token.
