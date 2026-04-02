@@ -215,10 +215,9 @@ export function DataTable<TData, TValue>({
     )
   }
 
-  // Minimum table height: only enforce when client-side (to prevent layout jump during filter)
-  // Server-side tables should fit their content naturally
+  // Minimum table height: header (~41px) + pageSize rows (~49px each)
   const displayPageSize = pagination.pageSize
-  const minTableHeight = isServerSide ? 0 : 41 + displayPageSize * 49
+  const minTableHeight = 41 + displayPageSize * 49
 
   return (
     <div className="flex w-full flex-col gap-0">
