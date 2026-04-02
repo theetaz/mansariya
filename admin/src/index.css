@@ -128,3 +128,14 @@
     @apply font-sans;
     }
 }
+
+/* Strip MapLibre's default popup chrome for tooltip-style popups */
+.mapcn-tooltip .maplibregl-popup-content {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+.mapcn-tooltip .maplibregl-popup-tip {
+  display: none;
+}
