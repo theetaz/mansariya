@@ -2,7 +2,7 @@ const API_BASE_URL = (
   import.meta.env.VITE_API_URL || ""
 ).replace(/\/$/, "")
 
-const ADMIN_API_KEY = import.meta.env.VITE_API_KEY || "mansariya-dev-key"
+export const ADMIN_API_KEY = import.meta.env.VITE_API_KEY || "mansariya-dev-key"
 
 // ── Types ────────────────────────────────────────────────────────────────
 

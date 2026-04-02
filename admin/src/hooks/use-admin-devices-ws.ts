@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { ADMIN_API_KEY } from '@/lib/api';
 
 type DeviceClassification = 'noise' | 'potential' | 'cluster' | 'confirmed';
 type DeviceQualityStatus = 'ok' | 'low_accuracy' | 'out_of_service_region';
@@ -79,8 +80,7 @@ export function useAdminDevicesWS(enabled = true): UseAdminDevicesWSReturn {
     if (!enabled) return;
 
     const wsBaseUrl = resolveDevicesWebSocketBaseUrl();
-    const apiKey = import.meta.env.VITE_API_KEY ?? '';
-    const url = `${wsBaseUrl}/ws/admin/devices?api_key=${encodeURIComponent(apiKey)}`;
+    const url = `${wsBaseUrl}/ws/admin/devices?api_key=${encodeURIComponent(ADMIN_API_KEY)}`;
 
     const ws = new WebSocket(url);
     wsRef.current = ws;
