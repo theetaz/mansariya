@@ -5,14 +5,17 @@ import { Button } from "@/components/ui/button"
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
+  /** For server-side mode: total row count from server */
+  rowCount?: number
 }
 
 export function DataTablePagination<TData>({
   table,
+  rowCount,
 }: DataTablePaginationProps<TData>) {
   const { pageIndex, pageSize } = table.getState().pagination
-  const totalRows = table.getFilteredRowModel().rows.length
-  const startRow = pageIndex * pageSize + 1
+  const totalRows = rowCount ?? table.getFilteredRowModel().rows.length
+  const startRow = totalRows > 0 ? pageIndex * pageSize + 1 : 0
   const endRow = Math.min((pageIndex + 1) * pageSize, totalRows)
   const pageCount = table.getPageCount()
 

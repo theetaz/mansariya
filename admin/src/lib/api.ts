@@ -243,8 +243,39 @@ export function fetchHealth() {
 
 // ── Routes ───────────────────────────────────────────────────────────────
 
-export function fetchAdminRoutes() {
-  return apiGet<AdminRoutesResponse>("/api/v1/admin/routes", true)
+export type AdminRoutesParams = {
+  q?: string
+  operator?: string
+  service_type?: string
+  is_active?: string
+  sort_by?: string
+  sort_dir?: string
+  page?: number
+  per_page?: number
+}
+
+export type AdminRoutesServerResponse = {
+  routes: AdminRouteWithStats[]
+  count: number
+  page: number
+  per_page: number
+  total_pages: number
+}
+
+export function fetchAdminRoutes(params?: AdminRoutesParams) {
+  const q = new URLSearchParams()
+  if (params?.q) q.set("q", params.q)
+  if (params?.operator) q.set("operator", params.operator)
+  if (params?.service_type) q.set("service_type", params.service_type)
+  if (params?.is_active) q.set("is_active", params.is_active)
+  if (params?.sort_by) q.set("sort_by", params.sort_by)
+  if (params?.sort_dir) q.set("sort_dir", params.sort_dir)
+  if (params?.page) q.set("page", String(params.page))
+  if (params?.per_page) q.set("per_page", String(params.per_page))
+  const qs = q.toString()
+  return apiGet<AdminRoutesServerResponse>(
+    `/api/v1/admin/routes${qs ? `?${qs}` : ""}`, true
+  )
 }
 
 export function deleteRoute(id: string) {

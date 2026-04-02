@@ -180,6 +180,9 @@ type AdminRouteFilter struct {
 	Query       string `json:"q"`
 	Operator    string `json:"operator"`
 	ServiceType string `json:"service_type"`
+	IsActive    string `json:"is_active"` // "true", "false", or "" (all)
+	SortBy      string `json:"sort_by"`   // "id", "name_en", "operator"
+	SortDir     string `json:"sort_dir"`  // "asc" or "desc"
 	Page        int    `json:"page"`
 	PerPage     int    `json:"per_page"`
 }
@@ -455,6 +458,9 @@ func (h *AdminHandler) ListRoutes(w http.ResponseWriter, r *http.Request) {
 		Query:       r.URL.Query().Get("q"),
 		Operator:    r.URL.Query().Get("operator"),
 		ServiceType: r.URL.Query().Get("service_type"),
+		IsActive:    r.URL.Query().Get("is_active"),
+		SortBy:      r.URL.Query().Get("sort_by"),
+		SortDir:     r.URL.Query().Get("sort_dir"),
 		Page:        page,
 		PerPage:     perPage,
 	}

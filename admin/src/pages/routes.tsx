@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Link } from "react-router-dom"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import type { ColumnDef } from "@tanstack/react-table"
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query"
+import type { ColumnDef, SortingState, PaginationState, ColumnFiltersState } from "@tanstack/react-table"
 import {
   BusFrontIcon,
   CheckIcon,
@@ -20,6 +20,7 @@ import {
   deleteRoute,
   setRouteActive,
   type AdminRouteWithStats,
+  type AdminRoutesParams,
 } from "@/lib/api"
 import {
   DataTable,
@@ -276,12 +277,40 @@ export function RoutesPage() {
   const queryClient = useQueryClient()
   const [confirm, setConfirm] = useState<ConfirmState>(CLOSED)
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["admin-routes"],
-    queryFn: fetchAdminRoutes,
+  // Server-side table state
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState("")
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  // Build server query params from table state
+  const queryParams = useMemo<AdminRoutesParams>(() => {
+    const params: AdminRoutesParams = {
+      page: pagination.pageIndex + 1,
+      per_page: pagination.pageSize,
+    }
+    if (globalFilter) params.q = globalFilter
+    if (sorting.length > 0) {
+      params.sort_by = sorting[0].id
+      params.sort_dir = sorting[0].desc ? "desc" : "asc"
+    }
+    // Extract column filters
+    for (const f of columnFilters) {
+      if (f.id === "operator" && f.value) params.operator = f.value as string
+      if (f.id === "service_type" && f.value) params.service_type = f.value as string
+      if (f.id === "is_active" && f.value) params.is_active = f.value as string
+    }
+    return params
+  }, [pagination, sorting, globalFilter, columnFilters])
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["admin-routes", queryParams],
+    queryFn: () => fetchAdminRoutes(queryParams),
+    placeholderData: keepPreviousData,
   })
 
   const routes = data?.routes ?? []
+  const totalCount = data?.count ?? 0
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteRoute(id),
@@ -337,11 +366,6 @@ export function RoutesPage() {
     })
   }
 
-  const totalRoutes = routes.length
-  const activeRoutes = routes.filter((r) => r.is_active).length
-  const withPolyline = routes.filter((r) => r.has_polyline).length
-  const withStops = routes.filter((r) => r.stop_count > 0).length
-
   const columns = makeColumns(handleToggleActive, handleDelete)
 
   return (
@@ -351,11 +375,11 @@ export function RoutesPage() {
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <Badge variant="outline">Route management</Badge>
-            <Badge variant="secondary">{activeRoutes} active</Badge>
+            <Badge variant="secondary">{totalCount} total</Badge>
           </div>
           <h1 className="text-2xl font-semibold tracking-tight">Routes</h1>
           <p className="text-sm text-muted-foreground">
-            {totalRoutes} routes in the system
+            Server-side filtered, sorted, and paginated
           </p>
         </div>
         <Link to="/routes/new">
@@ -366,41 +390,24 @@ export function RoutesPage() {
         </Link>
       </div>
 
-      {/* Metric cards */}
-      <div className="grid grid-cols-2 gap-3 px-4 lg:px-6 xl:grid-cols-4">
-        <MetricCard
-          icon={RouteIcon}
-          label="Total Routes"
-          value={totalRoutes}
-          isLoading={isLoading}
-        />
-        <MetricCard
-          icon={ActivityIcon}
-          label="Active Routes"
-          value={activeRoutes}
-          isLoading={isLoading}
-        />
-        <MetricCard
-          icon={SplineIcon}
-          label="With Polyline"
-          value={withPolyline}
-          isLoading={isLoading}
-        />
-        <MetricCard
-          icon={MapPinIcon}
-          label="With Stops"
-          value={withStops}
-          isLoading={isLoading}
-        />
-      </div>
-
-      {/* Data table */}
+      {/* Data table with server-side mode */}
       <DataTable
         columns={columns}
         data={routes}
         isLoading={isLoading}
         searchPlaceholder="Search routes by name, operator..."
-        pageSize={10}
+        serverSide={{
+          rowCount: totalCount,
+          pagination,
+          onPaginationChange: setPagination,
+          sorting,
+          onSortingChange: setSorting,
+          globalFilter,
+          onGlobalFilterChange: setGlobalFilter,
+          columnFilters,
+          onColumnFiltersChange: setColumnFilters,
+          isFetching,
+        }}
       />
 
       {/* Confirmation dialog */}

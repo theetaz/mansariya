@@ -5,6 +5,7 @@ import {
   type SortingState,
   type VisibilityState,
   type FilterFn,
+  type PaginationState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -18,6 +19,7 @@ import {
   Columns3Icon,
   SearchXIcon,
   XCircleIcon,
+  Loader2Icon,
 } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -58,12 +60,37 @@ const booleanFilter: FilterFn<unknown> = (row, columnId, filterValue) => {
   return cellValue === expected
 }
 
+// ── Server-side mode props ───────────────────────────────────────────────
+
+interface ServerSideProps {
+  /** Total row count from server (required for page count) */
+  rowCount: number
+  /** Controlled pagination state */
+  pagination: PaginationState
+  onPaginationChange: (pagination: PaginationState) => void
+  /** Controlled sorting state */
+  sorting: SortingState
+  onSortingChange: (sorting: SortingState) => void
+  /** Controlled global filter */
+  globalFilter: string
+  onGlobalFilterChange: (value: string) => void
+  /** Controlled column filters */
+  columnFilters: ColumnFiltersState
+  onColumnFiltersChange: (filters: ColumnFiltersState) => void
+  /** Show a subtle loading indicator (not full skeleton) */
+  isFetching?: boolean
+}
+
+// ── Props ────────────────────────────────────────────────────────────────
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   searchPlaceholder?: string
   isLoading?: boolean
   pageSize?: number
+  /** Pass this to enable server-side mode. All filtering/sorting/pagination managed externally. */
+  serverSide?: ServerSideProps
 }
 
 export function DataTable<TData, TValue>({
@@ -72,16 +99,25 @@ export function DataTable<TData, TValue>({
   searchPlaceholder,
   isLoading = false,
   pageSize = 10,
+  serverSide,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  // Local state for client-side mode
+  const [localSorting, setLocalSorting] = useState<SortingState>([])
+  const [localColumnFilters, setLocalColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [globalFilter, setGlobalFilter] = useState("")
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize })
+  const [localGlobalFilter, setLocalGlobalFilter] = useState("")
+  const [localPagination, setLocalPagination] = useState({ pageIndex: 0, pageSize })
   const [showFilters, setShowFilters] = useState(false)
   const [tableHeight, setTableHeight] = useState(600)
   const tableRef = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
+
+  // Decide which state to use (server-side vs client-side)
+  const isServerSide = !!serverSide
+  const sorting = isServerSide ? serverSide.sorting : localSorting
+  const columnFilters = isServerSide ? serverSide.columnFilters : localColumnFilters
+  const globalFilter = isServerSide ? serverSide.globalFilter : localGlobalFilter
+  const pagination = isServerSide ? serverSide.pagination : localPagination
 
   const enhancedColumns = columns.map((col) => {
     if (col.meta?.filterConfig?.type === "boolean" && !("filterFn" in col)) {
@@ -93,22 +129,65 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns: enhancedColumns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    globalFilterFn: "includesString",
+    ...(isServerSide
+      ? {
+          // Server-side: manual everything
+          pageCount: Math.ceil(serverSide.rowCount / pagination.pageSize),
+          manualPagination: true,
+          manualSorting: true,
+          manualFiltering: true,
+          getCoreRowModel: getCoreRowModel(),
+        }
+      : {
+          // Client-side: all computed locally
+          getCoreRowModel: getCoreRowModel(),
+          getPaginationRowModel: getPaginationRowModel(),
+          getSortedRowModel: getSortedRowModel(),
+          getFilteredRowModel: getFilteredRowModel(),
+          globalFilterFn: "includesString",
+        }),
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       globalFilter,
       pagination,
+    },
+    onSortingChange: (updater) => {
+      const next = typeof updater === "function" ? updater(sorting) : updater
+      if (isServerSide) {
+        serverSide.onSortingChange(next)
+        serverSide.onPaginationChange({ ...pagination, pageIndex: 0 })
+      } else {
+        setLocalSorting(next)
+      }
+    },
+    onColumnFiltersChange: (updater) => {
+      const next = typeof updater === "function" ? updater(columnFilters) : updater
+      if (isServerSide) {
+        serverSide.onColumnFiltersChange(next)
+        serverSide.onPaginationChange({ ...pagination, pageIndex: 0 })
+      } else {
+        setLocalColumnFilters(next)
+      }
+    },
+    onColumnVisibilityChange: setColumnVisibility,
+    onGlobalFilterChange: (updater) => {
+      const next = typeof updater === "function" ? updater(globalFilter) : updater
+      if (isServerSide) {
+        serverSide.onGlobalFilterChange(next)
+        serverSide.onPaginationChange({ ...pagination, pageIndex: 0 })
+      } else {
+        setLocalGlobalFilter(next)
+      }
+    },
+    onPaginationChange: (updater) => {
+      const next = typeof updater === "function" ? updater(pagination) : updater
+      if (isServerSide) {
+        serverSide.onPaginationChange(next)
+      } else {
+        setLocalPagination(next)
+      }
     },
   })
 
@@ -137,7 +216,8 @@ export function DataTable<TData, TValue>({
   }
 
   // Minimum table height: header (~41px) + pageSize rows (~49px each)
-  const minTableHeight = 41 + pageSize * 49
+  const displayPageSize = pagination.pageSize
+  const minTableHeight = 41 + displayPageSize * 49
 
   return (
     <div className="flex w-full flex-col gap-0">
@@ -148,7 +228,14 @@ export function DataTable<TData, TValue>({
           <Input
             placeholder={searchPlaceholder ?? "Search..."}
             value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
+            onChange={(e) => {
+              if (isServerSide) {
+                serverSide.onGlobalFilterChange(e.target.value)
+                serverSide.onPaginationChange({ ...pagination, pageIndex: 0 })
+              } else {
+                setLocalGlobalFilter(e.target.value)
+              }
+            }}
             className="h-9 rounded-xl bg-card pl-10 shadow-sm"
           />
         </div>
@@ -172,7 +259,13 @@ export function DataTable<TData, TValue>({
               className="h-9 rounded-full text-muted-foreground"
               onClick={() => {
                 table.resetColumnFilters()
-                setGlobalFilter("")
+                if (isServerSide) {
+                  serverSide.onGlobalFilterChange("")
+                  serverSide.onColumnFiltersChange([])
+                  serverSide.onPaginationChange({ ...pagination, pageIndex: 0 })
+                } else {
+                  setLocalGlobalFilter("")
+                }
               }}
             >
               <XCircleIcon className="mr-1 size-3.5" />
@@ -205,6 +298,9 @@ export function DataTable<TData, TValue>({
                 ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          {isServerSide && serverSide.isFetching && (
+            <Loader2Icon className="size-4 animate-spin text-muted-foreground" />
+          )}
         </div>
       </div>
 
@@ -280,7 +376,7 @@ export function DataTable<TData, TValue>({
             </div>
           </div>
 
-          <DataTablePagination table={table} />
+          <DataTablePagination table={table} rowCount={isServerSide ? serverSide.rowCount : undefined} />
         </div>
       </div>
 

@@ -415,6 +415,11 @@ func (s *AdminStore) ListRoutesFiltered(ctx context.Context, filter handler.Admi
 		args = append(args, filter.ServiceType)
 		argIdx++
 	}
+	if filter.IsActive == "true" {
+		where = append(where, "r.is_active = TRUE")
+	} else if filter.IsActive == "false" {
+		where = append(where, "r.is_active = FALSE")
+	}
 
 	whereClause := strings.Join(where, " AND ")
 
@@ -427,6 +432,20 @@ func (s *AdminStore) ListRoutesFiltered(ctx context.Context, filter handler.Admi
 
 	totalPages := (totalCount + filter.PerPage - 1) / filter.PerPage
 	offset := (filter.Page - 1) * filter.PerPage
+
+	// Sort
+	sortColumns := map[string]string{
+		"id": "r.id", "name_en": "r.name_en", "operator": "r.operator",
+		"service_type": "r.service_type", "is_active": "r.is_active",
+	}
+	sortCol := "r.id"
+	if col, ok := sortColumns[filter.SortBy]; ok {
+		sortCol = col
+	}
+	sortDir := "ASC"
+	if filter.SortDir == "desc" {
+		sortDir = "DESC"
+	}
 
 	// Query with pagination
 	querySQL := fmt.Sprintf(`
@@ -442,8 +461,8 @@ func (s *AdminStore) ListRoutesFiltered(ctx context.Context, filter handler.Admi
 		LEFT JOIN stops os ON r.origin_stop_id = os.id
 		LEFT JOIN stops ds ON r.destination_stop_id = ds.id
 		WHERE %s
-		ORDER BY r.id
-		LIMIT $%d OFFSET $%d`, whereClause, argIdx, argIdx+1)
+		ORDER BY %s %s
+		LIMIT $%d OFFSET $%d`, whereClause, sortCol, sortDir, argIdx, argIdx+1)
 	args = append(args, filter.PerPage, offset)
 
 	rows, err := s.pool.Query(ctx, querySQL, args...)
