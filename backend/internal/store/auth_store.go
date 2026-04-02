@@ -111,6 +111,96 @@ func (s *AuthStore) ListUsers(ctx context.Context) ([]model.User, error) {
 	return users, rows.Err()
 }
 
+// ListUsersFiltered satisfies the service.AuthStoreInterface.
+func (s *AuthStore) ListUsersFiltered(ctx context.Context, search, status, sortBy, sortDir string, limit, offset int) ([]model.User, int, error) {
+	return s.listUsersFilteredInternal(ctx, UserFilter{
+		Search: search, Status: status, SortBy: sortBy, SortDir: sortDir, Limit: limit, Offset: offset,
+	})
+}
+
+type UserFilter struct {
+	Search  string
+	Status  string
+	SortBy  string
+	SortDir string
+	Limit   int
+	Offset  int
+}
+
+func (s *AuthStore) listUsersFilteredInternal(ctx context.Context, f UserFilter) ([]model.User, int, error) {
+	if f.Limit <= 0 {
+		f.Limit = 15
+	}
+	if f.Limit > 100 {
+		f.Limit = 100
+	}
+
+	where := "WHERE 1=1"
+	args := []interface{}{}
+	n := 0
+
+	if f.Search != "" {
+		n++
+		where += fmt.Sprintf(" AND (email ILIKE $%d OR display_name ILIKE $%d)", n, n)
+		args = append(args, "%"+f.Search+"%")
+	}
+	if f.Status != "" {
+		n++
+		where += fmt.Sprintf(" AND status = $%d", n)
+		args = append(args, f.Status)
+	}
+
+	var total int
+	if err := s.pool.QueryRow(ctx, "SELECT COUNT(*) FROM users "+where, args...).Scan(&total); err != nil {
+		return nil, 0, fmt.Errorf("count users: %w", err)
+	}
+
+	sortCols := map[string]string{
+		"email": "email", "display_name": "display_name",
+		"status": "status", "created_at": "created_at", "last_login_at": "last_login_at",
+	}
+	sortCol := "created_at"
+	if col, ok := sortCols[f.SortBy]; ok {
+		sortCol = col
+	}
+	sortDir := "DESC"
+	if f.SortDir == "asc" {
+		sortDir = "ASC"
+	}
+
+	n++
+	args = append(args, f.Limit)
+	limitP := fmt.Sprintf("$%d", n)
+	n++
+	args = append(args, f.Offset)
+	offsetP := fmt.Sprintf("$%d", n)
+
+	query := fmt.Sprintf(
+		`SELECT id, email, display_name, status, last_login_at, created_at, updated_at
+		 FROM users %s ORDER BY %s %s LIMIT %s OFFSET %s`,
+		where, sortCol, sortDir, limitP, offsetP,
+	)
+
+	rows, err := s.pool.Query(ctx, query, args...)
+	if err != nil {
+		return nil, 0, fmt.Errorf("list users filtered: %w", err)
+	}
+	defer rows.Close()
+
+	var users []model.User
+	for rows.Next() {
+		var u model.User
+		if err := rows.Scan(&u.ID, &u.Email, &u.DisplayName, &u.Status, &u.LastLoginAt, &u.CreatedAt, &u.UpdatedAt); err != nil {
+			return nil, 0, fmt.Errorf("scan user: %w", err)
+		}
+		users = append(users, u)
+	}
+	if users == nil {
+		users = []model.User{}
+	}
+	return users, total, rows.Err()
+}
+
 // ── Roles ────────────────────────────────────────────────────────────────
 
 func (s *AuthStore) GetRoleBySlug(ctx context.Context, slug string) (*model.Role, error) {

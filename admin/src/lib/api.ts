@@ -369,8 +369,27 @@ export type AdminSession = {
   expires_at: string
 }
 
-export function fetchAdminUsers() {
-  return apiGet<{ users: AdminUser[]; count: number }>("/api/v1/admin/users", true)
+export type AdminUsersParams = {
+  search?: string
+  status?: string
+  sort_by?: string
+  sort_dir?: string
+  limit?: number
+  offset?: number
+}
+
+export function fetchAdminUsers(params?: AdminUsersParams) {
+  const q = new URLSearchParams()
+  if (params?.search) q.set("search", params.search)
+  if (params?.status) q.set("status", params.status)
+  if (params?.sort_by) q.set("sort_by", params.sort_by)
+  if (params?.sort_dir) q.set("sort_dir", params.sort_dir)
+  if (params?.limit) q.set("limit", String(params.limit))
+  if (params?.offset) q.set("offset", String(params.offset))
+  const qs = q.toString()
+  return apiGet<{ users: AdminUser[]; total: number; limit: number; offset: number }>(
+    `/api/v1/admin/users${qs ? `?${qs}` : ""}`, true
+  )
 }
 
 export function fetchAdminRoles() {

@@ -35,6 +35,7 @@ type AuthStoreInterface interface {
 	UpdateUser(ctx context.Context, u *model.User) error
 
 	ListUsers(ctx context.Context) ([]model.User, error)
+	ListUsersFiltered(ctx context.Context, search, status, sortBy, sortDir string, limit, offset int) ([]model.User, int, error)
 
 	GetUserRoles(ctx context.Context, userID string) ([]model.Role, error)
 	ListRoles(ctx context.Context) ([]model.Role, error)

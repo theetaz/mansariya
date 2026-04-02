@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/masariya/backend/internal/model"
@@ -30,9 +31,20 @@ func (h *UserAdminHandler) logAudit(r *http.Request, action, targetType, targetI
 // ── List users ───────────────────────────────────────────────────────────
 
 func (h *UserAdminHandler) ListUsers(w http.ResponseWriter, r *http.Request) {
-	users, err := h.store.ListUsers(r.Context())
+	q := r.URL.Query()
+	limit, _ := strconv.Atoi(q.Get("limit"))
+	offset, _ := strconv.Atoi(q.Get("offset"))
+	if limit <= 0 {
+		limit = 15
+	}
+
+	users, total, err := h.store.ListUsersFiltered(r.Context(),
+		q.Get("search"), q.Get("status"),
+		q.Get("sort_by"), q.Get("sort_dir"),
+		limit, offset,
+	)
 	if err != nil {
-		writeError(w, http.StatusInternalServerError, "list_users_failed", "Could not load users.", "")
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -63,7 +75,12 @@ func (h *UserAdminHandler) ListUsers(w http.ResponseWriter, r *http.Request) {
 			Roles:       roles,
 		}
 	}
-	writeJSON(w, http.StatusOK, map[string]interface{}{"users": views, "count": len(views)})
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"users": views,
+		"total": total,
+		"limit": limit,
+		"offset": offset,
+	})
 }
 
 // ── Invite user ──────────────────────────────────────────────────────────
