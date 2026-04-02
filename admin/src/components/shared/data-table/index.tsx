@@ -215,9 +215,9 @@ export function DataTable<TData, TValue>({
     )
   }
 
-  // Minimum table height: header (~41px) + pageSize rows (~49px each)
+  // Minimum table height: header (~41px) + pageSize rows (~41px each)
   const displayPageSize = pagination.pageSize
-  const minTableHeight = 41 + displayPageSize * 49
+  const minTableHeight = 41 + displayPageSize * 41
 
   return (
     <div className="flex w-full flex-col gap-0">
