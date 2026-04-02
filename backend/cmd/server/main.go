@@ -124,6 +124,9 @@ func run() error {
 	// Initialize auth service
 	authService := service.NewAuthService(authStore, cfg.JWTSecret, cfg.AccessTokenExpiry, cfg.RefreshTokenExpiry)
 
+	// Initialize RBAC middleware
+	rbacMiddleware := handler.NewRBACMiddleware(authService, authStore, cfg.AdminAPIKey)
+
 	// Wire up HTTP handlers
 	deps := &server.Deps{
 		GPS:        handler.NewGPSHandler(ingester, tripStore),
@@ -139,6 +142,7 @@ func run() error {
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
 		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey),
 		Auth: handler.NewAuthHandler(authService),
+		RBAC: rbacMiddleware,
 		System: handler.NewSystemHandler(
 			func(ctx context.Context) error { return pool.Ping(ctx) },
 			func(ctx context.Context) error { return rdb.Ping(ctx).Err() },

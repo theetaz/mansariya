@@ -29,6 +29,7 @@ type Deps struct {
 	AdminWS    *handler.AdminWSHandler
 	System     *handler.SystemHandler
 	Auth       *handler.AuthHandler
+	RBAC       *handler.RBACMiddleware
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -98,45 +99,47 @@ func NewRouter(deps *Deps) *chi.Mux {
 	r.Get("/ws/track/{routeID}", deps.WS.HandleTrack)
 	r.Get("/ws/admin/devices", deps.AdminWS.HandleDevices)
 
-	// Admin API (API key protected — will migrate to JWT in THE-110)
+	// Admin API (JWT + API key auth with per-route permission enforcement)
 	r.Route("/api/v1/admin", func(r chi.Router) {
-		r.Use(deps.Admin.AuthMiddleware)
+		r.Use(deps.RBAC.Authenticate)
 
-		// Dashboard
-		r.Get("/routes", deps.Admin.ListRoutes)
-		r.Get("/routes/{routeID}", deps.Admin.GetRouteDetail)
-		r.Get("/stats", deps.Admin.GetStats)
-		r.Get("/system/health", deps.System.GetHealth)
+		// Dashboard & system
+		r.With(handler.RequirePermission("routes.view")).Get("/routes", deps.Admin.ListRoutes)
+		r.With(handler.RequirePermission("routes.view")).Get("/routes/{routeID}", deps.Admin.GetRouteDetail)
+		r.With(handler.RequirePermission("routes.view")).Get("/stats", deps.Admin.GetStats)
+		r.With(handler.RequirePermission("system.health")).Get("/system/health", deps.System.GetHealth)
 
-		// Routes
-		r.Post("/routes", deps.Admin.CreateRoute)
-		r.Put("/routes/{routeID}", deps.Admin.UpdateRoute)
-		r.Put("/routes/{routeID}/status", deps.Admin.SetRouteActive)
-		r.Delete("/routes/{routeID}", deps.Admin.DeleteRoute)
-		r.Post("/routes/{routeID}/validate", deps.Admin.ValidateRoute)
-		r.Put("/routes/{routeID}/stops", deps.Admin.SetRouteStops)
-		r.Get("/routes/{routeID}/patterns", deps.Admin.GetPatterns)
-		r.Get("/routes/{routeID}/patterns/{patternID}/stops", deps.Admin.GetPatternStops)
-		r.Put("/routes/{routeID}/timetable", deps.Admin.SetTimetable)
-		r.Get("/routes/{routeID}/timetable", deps.Admin.GetTimetable)
-		r.Put("/routes/{routeID}/polyline", deps.Admin.UpdatePolyline)
+		// Route CRUD
+		r.With(handler.RequirePermission("routes.create")).Post("/routes", deps.Admin.CreateRoute)
+		r.With(handler.RequirePermission("routes.edit")).Put("/routes/{routeID}", deps.Admin.UpdateRoute)
+		r.With(handler.RequirePermission("routes.activate")).Put("/routes/{routeID}/status", deps.Admin.SetRouteActive)
+		r.With(handler.RequirePermission("routes.delete")).Delete("/routes/{routeID}", deps.Admin.DeleteRoute)
+		r.With(handler.RequirePermission("routes.edit")).Post("/routes/{routeID}/validate", deps.Admin.ValidateRoute)
+
+		// Route sub-resources
+		r.With(handler.RequirePermission("routes.edit")).Put("/routes/{routeID}/stops", deps.Admin.SetRouteStops)
+		r.With(handler.RequirePermission("routes.view")).Get("/routes/{routeID}/patterns", deps.Admin.GetPatterns)
+		r.With(handler.RequirePermission("routes.view")).Get("/routes/{routeID}/patterns/{patternID}/stops", deps.Admin.GetPatternStops)
+		r.With(handler.RequirePermission("timetables.edit")).Put("/routes/{routeID}/timetable", deps.Admin.SetTimetable)
+		r.With(handler.RequirePermission("timetables.view")).Get("/routes/{routeID}/timetable", deps.Admin.GetTimetable)
+		r.With(handler.RequirePermission("map.edit_polyline")).Put("/routes/{routeID}/polyline", deps.Admin.UpdatePolyline)
 
 		// Stops
-		r.Post("/stops", deps.Admin.CreateStop)
-		r.Put("/stops/{stopID}", deps.Admin.UpdateStop)
-		r.Delete("/stops/{stopID}", deps.Admin.DeleteStop)
+		r.With(handler.RequirePermission("stops.create")).Post("/stops", deps.Admin.CreateStop)
+		r.With(handler.RequirePermission("stops.edit")).Put("/stops/{stopID}", deps.Admin.UpdateStop)
+		r.With(handler.RequirePermission("stops.delete")).Delete("/stops/{stopID}", deps.Admin.DeleteStop)
 
 		// Simulations
-		r.Get("/simulations", deps.Simulation.List)
-		r.Post("/simulations", deps.Simulation.Create)
-		r.Get("/simulations/active", deps.Simulation.ActiveStats)
-		r.Get("/simulations/{simID}", deps.Simulation.Get)
-		r.Put("/simulations/{simID}", deps.Simulation.Update)
-		r.Delete("/simulations/{simID}", deps.Simulation.Delete)
-		r.Post("/simulations/{simID}/start", deps.Simulation.StartJob)
-		r.Post("/simulations/{simID}/pause", deps.Simulation.PauseJob)
-		r.Post("/simulations/{simID}/resume", deps.Simulation.ResumeJob)
-		r.Post("/simulations/{simID}/stop", deps.Simulation.StopJob)
+		r.With(handler.RequirePermission("simulations.view")).Get("/simulations", deps.Simulation.List)
+		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations", deps.Simulation.Create)
+		r.With(handler.RequirePermission("simulations.view")).Get("/simulations/active", deps.Simulation.ActiveStats)
+		r.With(handler.RequirePermission("simulations.view")).Get("/simulations/{simID}", deps.Simulation.Get)
+		r.With(handler.RequirePermission("simulations.manage")).Put("/simulations/{simID}", deps.Simulation.Update)
+		r.With(handler.RequirePermission("simulations.manage")).Delete("/simulations/{simID}", deps.Simulation.Delete)
+		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations/{simID}/start", deps.Simulation.StartJob)
+		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations/{simID}/pause", deps.Simulation.PauseJob)
+		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations/{simID}/resume", deps.Simulation.ResumeJob)
+		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations/{simID}/stop", deps.Simulation.StopJob)
 	})
 
 	return r
