@@ -199,12 +199,46 @@ func (h *UserAdminHandler) RemoveRole(w http.ResponseWriter, r *http.Request) {
 // ── List roles ───────────────────────────────────────────────────────────
 
 func (h *UserAdminHandler) ListRoles(w http.ResponseWriter, r *http.Request) {
-	roles, err := h.store.ListRoles(r.Context())
+	q := r.URL.Query()
+	limit, _ := strconv.Atoi(q.Get("limit"))
+	offset, _ := strconv.Atoi(q.Get("offset"))
+	if limit <= 0 {
+		limit = 15
+	}
+
+	roles, total, err := h.store.ListRolesFiltered(r.Context(),
+		q.Get("search"), q.Get("sort_by"), q.Get("sort_dir"),
+		limit, offset,
+	)
 	if err != nil {
-		writeError(w, http.StatusInternalServerError, "list_roles_failed", "Could not load roles.", "")
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
-	writeJSON(w, http.StatusOK, map[string]interface{}{"roles": roles})
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"roles":  roles,
+		"total":  total,
+		"limit":  limit,
+		"offset": offset,
+	})
+}
+
+func (h *UserAdminHandler) CheckSlug(w http.ResponseWriter, r *http.Request) {
+	slug := r.URL.Query().Get("slug")
+	if slug == "" {
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "slug"))
+		return
+	}
+
+	available, suggestion, err := h.store.CheckSlugAvailable(r.Context(), slug)
+	if err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"available":  available,
+		"slug":       slug,
+		"suggestion": suggestion,
+	})
 }
 
 // ── Role CRUD ────────────────────────────────────────────────────────────

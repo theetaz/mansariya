@@ -235,6 +235,97 @@ func (s *AuthStore) ListRoles(ctx context.Context) ([]model.Role, error) {
 	return roles, rows.Err()
 }
 
+// ── Role listing (server-side) ────────────────────────────────────────────
+
+func (s *AuthStore) ListRolesFiltered(ctx context.Context, search, sortBy, sortDir string, limit, offset int) ([]model.Role, int, error) {
+	if limit <= 0 {
+		limit = 15
+	}
+	if limit > 100 {
+		limit = 100
+	}
+
+	where := "WHERE 1=1"
+	args := []interface{}{}
+	n := 0
+
+	if search != "" {
+		n++
+		where += fmt.Sprintf(" AND (name ILIKE $%d OR slug ILIKE $%d OR COALESCE(description,'') ILIKE $%d)", n, n, n)
+		args = append(args, "%"+search+"%")
+	}
+
+	var total int
+	if err := s.pool.QueryRow(ctx, "SELECT COUNT(*) FROM roles "+where, args...).Scan(&total); err != nil {
+		return nil, 0, fmt.Errorf("count roles: %w", err)
+	}
+
+	sortCols := map[string]string{"name": "name", "slug": "slug", "created_at": "created_at", "is_system": "is_system"}
+	sc := "slug"
+	if col, ok := sortCols[sortBy]; ok {
+		sc = col
+	}
+	sd := "ASC"
+	if sortDir == "desc" {
+		sd = "DESC"
+	}
+
+	n++
+	args = append(args, limit)
+	lp := fmt.Sprintf("$%d", n)
+	n++
+	args = append(args, offset)
+	op := fmt.Sprintf("$%d", n)
+
+	query := fmt.Sprintf(
+		`SELECT id, slug, name, COALESCE(description,''), is_system, created_at, updated_at
+		 FROM roles %s ORDER BY %s %s LIMIT %s OFFSET %s`,
+		where, sc, sd, lp, op,
+	)
+
+	rows, err := s.pool.Query(ctx, query, args...)
+	if err != nil {
+		return nil, 0, fmt.Errorf("list roles filtered: %w", err)
+	}
+	defer rows.Close()
+
+	var roles []model.Role
+	for rows.Next() {
+		var r model.Role
+		if err := rows.Scan(&r.ID, &r.Slug, &r.Name, &r.Description, &r.IsSystem, &r.CreatedAt, &r.UpdatedAt); err != nil {
+			return nil, 0, fmt.Errorf("scan role: %w", err)
+		}
+		roles = append(roles, r)
+	}
+	if roles == nil {
+		roles = []model.Role{}
+	}
+	return roles, total, rows.Err()
+}
+
+func (s *AuthStore) CheckSlugAvailable(ctx context.Context, slug string) (bool, string, error) {
+	var count int
+	err := s.pool.QueryRow(ctx, `SELECT COUNT(*) FROM roles WHERE slug = $1`, slug).Scan(&count)
+	if err != nil {
+		return false, slug, fmt.Errorf("check slug: %w", err)
+	}
+	if count == 0 {
+		return true, slug, nil
+	}
+	// Find next available slug with suffix
+	for i := 1; i < 100; i++ {
+		candidate := fmt.Sprintf("%s-%d", slug, i)
+		err := s.pool.QueryRow(ctx, `SELECT COUNT(*) FROM roles WHERE slug = $1`, candidate).Scan(&count)
+		if err != nil {
+			return false, slug, fmt.Errorf("check slug candidate: %w", err)
+		}
+		if count == 0 {
+			return false, candidate, nil
+		}
+	}
+	return false, slug, nil
+}
+
 // ── Role CRUD ────────────────────────────────────────────────────────────
 
 func (s *AuthStore) CreateRole(ctx context.Context, slug, name, description string) (*model.Role, error) {

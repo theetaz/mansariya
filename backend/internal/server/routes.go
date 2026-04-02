@@ -163,6 +163,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 		// Roles
 		r.With(handler.RequirePermission("users.view")).Get("/roles", deps.UserAdmin.ListRoles)
 		r.With(handler.RequirePermission("users.manage")).Post("/roles", deps.UserAdmin.CreateRole)
+		r.With(handler.RequirePermission("users.view")).Get("/roles/check-slug", deps.UserAdmin.CheckSlug)
 		r.With(handler.RequirePermission("users.manage")).Put("/roles/{roleID}", deps.UserAdmin.UpdateRoleInfo)
 		r.With(handler.RequirePermission("users.manage")).Delete("/roles/{roleID}", deps.UserAdmin.DeleteRoleHandler)
 		r.With(handler.RequirePermission("users.view")).Get("/roles/{roleID}/permissions", deps.UserAdmin.GetRolePermissions)

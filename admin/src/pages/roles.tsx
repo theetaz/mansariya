@@ -1,5 +1,6 @@
-import { useState, useMemo, useEffect } from "react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useState, useMemo, useEffect, useRef, useCallback } from "react"
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query"
+import type { ColumnDef, SortingState, PaginationState, ColumnFiltersState } from "@tanstack/react-table"
 import {
   Loader2Icon,
   PlusIcon,
@@ -8,6 +9,9 @@ import {
   ShieldIcon,
   ShieldCheckIcon,
   KeyRoundIcon,
+  EllipsisVerticalIcon,
+  CheckIcon,
+  XIcon,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -19,18 +23,17 @@ import {
   deleteRole,
   fetchRolePermissions,
   setRolePermissions,
+  checkRoleSlug,
   type AdminRole,
   type AdminPermission,
+  type AdminRolesParams,
 } from "@/lib/api"
+import {
+  DataTable,
+  DataTableColumnHeader,
+} from "@/components/shared/data-table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Dialog,
@@ -40,35 +43,29 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Textarea } from "@/components/ui/textarea"
 
-// ── Permission families ordering ───────────────────────────────────────
+// ── Permission families ──────────────────────────────────────────────────
 
-const FAMILY_ORDER = [
-  "routes",
-  "stops",
-  "timetables",
-  "map",
-  "simulations",
-  "data",
-  "users",
-  "system",
-]
+const FAMILY_ORDER = ["routes", "stops", "timetables", "map", "simulations", "data", "users", "system"]
+function familyLabel(f: string) { return f.charAt(0).toUpperCase() + f.slice(1) }
 
-function familyLabel(family: string): string {
-  return family.charAt(0).toUpperCase() + family.slice(1)
+// ── Slug generation ──────────────────────────────────────────────────────
+
+function nameToSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")
 }
 
-// ── Create / Edit Role Dialog ──────────────────────────────────────────
+// ── Create / Edit Role Dialog ────────────────────────────────────────────
 
 function RoleFormDialog({
   open,
@@ -80,121 +77,154 @@ function RoleFormDialog({
   editingRole: AdminRole | null
 }) {
   const queryClient = useQueryClient()
-  const [slug, setSlug] = useState("")
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-
   const isEdit = editingRole !== null
 
-  // Sync form fields when editingRole changes
+  const [name, setName] = useState("")
+  const [slug, setSlug] = useState("")
+  const [slugManual, setSlugManual] = useState(false)
+  const [slugStatus, setSlugStatus] = useState<"idle" | "checking" | "available" | "taken">("idle")
+  const [slugSuggestion, setSlugSuggestion] = useState("")
+  const [description, setDescription] = useState("")
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+
   useEffect(() => {
     if (editingRole) {
-      setSlug(editingRole.slug)
       setName(editingRole.name)
+      setSlug(editingRole.slug)
       setDescription(editingRole.description)
+      setSlugManual(true)
+      setSlugStatus("idle")
     } else {
-      setSlug("")
-      setName("")
-      setDescription("")
+      setName(""); setSlug(""); setDescription("")
+      setSlugManual(false); setSlugStatus("idle"); setSlugSuggestion("")
     }
-  }, [editingRole])
+  }, [editingRole, open])
 
-  const createMutation = useMutation({
+  const checkSlug = useCallback((s: string) => {
+    if (!s || isEdit) return
+    setSlugStatus("checking")
+    checkRoleSlug(s).then((res) => {
+      if (res.available) {
+        setSlugStatus("available")
+      } else {
+        setSlugStatus("taken")
+        setSlugSuggestion(res.suggestion)
+      }
+    }).catch(() => setSlugStatus("idle"))
+  }, [isEdit])
+
+  function handleNameChange(value: string) {
+    setName(value)
+    if (!slugManual && !isEdit) {
+      const generated = nameToSlug(value)
+      setSlug(generated)
+      clearTimeout(debounceRef.current)
+      if (generated) {
+        debounceRef.current = setTimeout(() => checkSlug(generated), 400)
+      } else {
+        setSlugStatus("idle")
+      }
+    }
+  }
+
+  function handleSlugChange(value: string) {
+    const clean = value.toLowerCase().replace(/[^a-z0-9-_]/g, "")
+    setSlug(clean)
+    setSlugManual(true)
+    clearTimeout(debounceRef.current)
+    if (clean) {
+      debounceRef.current = setTimeout(() => checkSlug(clean), 400)
+    } else {
+      setSlugStatus("idle")
+    }
+  }
+
+  function useSuggestion() {
+    setSlug(slugSuggestion)
+    setSlugManual(true)
+    setSlugStatus("available")
+    setSlugSuggestion("")
+  }
+
+  const createMut = useMutation({
     mutationFn: () => createRole(slug, name, description),
     onSuccess: () => {
-      toast.success("Role created successfully")
+      toast.success("Role created")
       queryClient.invalidateQueries({ queryKey: ["admin-roles"] })
       onOpenChange(false)
-      resetForm()
     },
-    onError: (err: Error) => toast.error(err.message || "Failed to create role"),
+    onError: (err: Error) => toast.error(err.message),
   })
 
-  const updateMutation = useMutation({
+  const updateMut = useMutation({
     mutationFn: () => updateRole(editingRole!.id, name, description),
     onSuccess: () => {
-      toast.success("Role updated successfully")
+      toast.success("Role updated")
       queryClient.invalidateQueries({ queryKey: ["admin-roles"] })
       onOpenChange(false)
-      resetForm()
     },
-    onError: (err: Error) => toast.error(err.message || "Failed to update role"),
+    onError: (err: Error) => toast.error(err.message),
   })
 
-  function resetForm() {
-    setSlug("")
-    setName("")
-    setDescription("")
-  }
-
-  function handleOpenChange(next: boolean) {
-    if (!next) resetForm()
-    onOpenChange(next)
-  }
-
-  const isPending = createMutation.isPending || updateMutation.isPending
-  const canSubmit = isEdit ? name.trim().length > 0 : slug.trim().length > 0 && name.trim().length > 0
+  const isPending = createMut.isPending || updateMut.isPending
+  const canSubmit = name.trim().length > 0 && (isEdit || (slug.trim().length > 0 && slugStatus !== "taken"))
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEdit ? "Edit Role" : "Create Role"}</DialogTitle>
           <DialogDescription>
-            {isEdit
-              ? "Update the role name and description."
-              : "Create a new custom role with a unique slug."}
+            {isEdit ? "Update the role details." : "Create a new custom role."}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-2">
+          <div className="grid gap-2">
+            <Label>Name</Label>
+            <Input value={name} onChange={(e) => handleNameChange(e.target.value)} placeholder="e.g. Route Editor" disabled={isPending} autoFocus />
+          </div>
           {!isEdit && (
             <div className="grid gap-2">
-              <Label htmlFor="role-slug">Slug</Label>
-              <Input
-                id="role-slug"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""))}
-                placeholder="e.g. route-editor"
-                disabled={isPending}
-              />
-              <p className="text-xs text-muted-foreground">
-                Lowercase letters, numbers, hyphens, and underscores only.
-              </p>
+              <Label>Slug</Label>
+              <div className="relative">
+                <Input
+                  value={slug}
+                  onChange={(e) => handleSlugChange(e.target.value)}
+                  placeholder="auto-generated-from-name"
+                  disabled={isPending}
+                  className="pr-8"
+                />
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                  {slugStatus === "checking" && <Loader2Icon className="size-4 animate-spin text-muted-foreground" />}
+                  {slugStatus === "available" && <CheckIcon className="size-4 text-emerald-500" />}
+                  {slugStatus === "taken" && <XIcon className="size-4 text-red-500" />}
+                </div>
+              </div>
+              {slugStatus === "taken" && slugSuggestion && (
+                <p className="text-xs text-muted-foreground">
+                  Slug taken. Try{" "}
+                  <button type="button" className="font-medium text-primary underline" onClick={useSuggestion}>
+                    {slugSuggestion}
+                  </button>
+                </p>
+              )}
+              <p className="text-xs text-muted-foreground">Lowercase, hyphens, underscores only.</p>
             </div>
           )}
           <div className="grid gap-2">
-            <Label htmlFor="role-name">Name</Label>
-            <Input
-              id="role-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Route Editor"
-              disabled={isPending}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="role-desc">Description</Label>
-            <Input
-              id="role-desc"
+            <Label>Description</Label>
+            <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe what this role can do"
+              placeholder="What can this role do?"
               disabled={isPending}
+              rows={3}
             />
           </div>
         </div>
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => handleOpenChange(false)}
-            disabled={isPending}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => (isEdit ? updateMutation.mutate() : createMutation.mutate())}
-            disabled={!canSubmit || isPending}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isPending}>Cancel</Button>
+          <Button onClick={() => isEdit ? updateMut.mutate() : createMut.mutate()} disabled={!canSubmit || isPending}>
             {isPending && <Loader2Icon className="mr-2 size-4 animate-spin" />}
             {isEdit ? "Save Changes" : "Create Role"}
           </Button>
@@ -204,46 +234,26 @@ function RoleFormDialog({
   )
 }
 
-// ── Delete Confirmation Dialog ──────────────────────────────────────────
+// ── Delete Dialog ────────────────────────────────────────────────────────
 
-function DeleteRoleDialog({
-  open,
-  onOpenChange,
-  role,
-}: {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  role: AdminRole | null
-}) {
+function DeleteRoleDialog({ open, onOpenChange, role }: { open: boolean; onOpenChange: (v: boolean) => void; role: AdminRole | null }) {
   const queryClient = useQueryClient()
-
-  const mutation = useMutation({
+  const mut = useMutation({
     mutationFn: () => deleteRole(role!.id),
-    onSuccess: () => {
-      toast.success(`Deleted role "${role!.name}"`)
-      queryClient.invalidateQueries({ queryKey: ["admin-roles"] })
-      onOpenChange(false)
-    },
-    onError: (err: Error) => toast.error(err.message || "Failed to delete role"),
+    onSuccess: () => { toast.success(`Deleted "${role!.name}"`); queryClient.invalidateQueries({ queryKey: ["admin-roles"] }); onOpenChange(false) },
+    onError: (err: Error) => toast.error(err.message),
   })
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete Role</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to delete the role &ldquo;{role?.name}&rdquo;? This
-            action cannot be undone. Users with this role will lose its permissions.
-          </DialogDescription>
+          <DialogDescription>Delete &ldquo;{role?.name}&rdquo;? Users with this role will lose its permissions.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={mutation.isPending}>
-            Cancel
-          </Button>
-          <Button variant="destructive" onClick={() => mutation.mutate()} disabled={mutation.isPending}>
-            {mutation.isPending && <Loader2Icon className="mr-2 size-4 animate-spin" />}
-            Delete Role
+          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="destructive" onClick={() => mut.mutate()} disabled={mut.isPending}>
+            {mut.isPending && <Loader2Icon className="mr-2 size-4 animate-spin" />}Delete
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -251,18 +261,10 @@ function DeleteRoleDialog({
   )
 }
 
-// ── Manage Permissions Dialog ───────────────────────────────────────────
+// ── Permissions Dialog ───────────────────────────────────────────────────
 
-function PermissionsDialog({
-  open,
-  onOpenChange,
-  role,
-  allPermissions,
-}: {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  role: AdminRole | null
-  allPermissions: AdminPermission[]
+function PermissionsDialog({ open, onOpenChange, role, allPermissions }: {
+  open: boolean; onOpenChange: (v: boolean) => void; role: AdminRole | null; allPermissions: AdminPermission[]
 }) {
   const queryClient = useQueryClient()
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
@@ -274,136 +276,61 @@ function PermissionsDialog({
     enabled: open && role !== null,
   })
 
-  // Initialize selected IDs from fetched role permissions
   useEffect(() => {
     if (rolePermsQuery.data && !initialized) {
-      const ids = new Set((rolePermsQuery.data.permissions ?? []).map((p: AdminPermission) => p.id))
-      setSelectedIds(ids)
+      setSelectedIds(new Set((rolePermsQuery.data.permissions ?? []).map((p: AdminPermission) => p.id)))
       setInitialized(true)
     }
   }, [rolePermsQuery.data, initialized])
 
-  // Reset initialized state when dialog closes
-  function handleOpenChange(next: boolean) {
-    if (!next) {
-      setInitialized(false)
-      setSelectedIds(new Set())
-    }
-    onOpenChange(next)
-  }
+  function handleClose(v: boolean) { if (!v) { setInitialized(false); setSelectedIds(new Set()) }; onOpenChange(v) }
 
-  const saveMutation = useMutation({
+  const saveMut = useMutation({
     mutationFn: () => setRolePermissions(role!.id, Array.from(selectedIds)),
-    onSuccess: () => {
-      toast.success(`Permissions updated for "${role!.name}"`)
-      queryClient.invalidateQueries({ queryKey: ["role-permissions", role!.id] })
-      handleOpenChange(false)
-    },
-    onError: (err: Error) => toast.error(err.message || "Failed to update permissions"),
+    onSuccess: () => { toast.success("Permissions updated"); queryClient.invalidateQueries({ queryKey: ["role-permissions", role!.id] }); handleClose(false) },
+    onError: (err: Error) => toast.error(err.message),
   })
 
-  function togglePermission(permId: string) {
-    setSelectedIds((prev) => {
-      const next = new Set(prev)
-      if (next.has(permId)) {
-        next.delete(permId)
-      } else {
-        next.add(permId)
-      }
-      return next
-    })
-  }
-
-  function toggleFamily(family: string, perms: AdminPermission[]) {
-    const familyIds = perms.map((p) => p.id)
-    const allSelected = familyIds.every((id) => selectedIds.has(id))
-    setSelectedIds((prev) => {
-      const next = new Set(prev)
-      for (const id of familyIds) {
-        if (allSelected) {
-          next.delete(id)
-        } else {
-          next.add(id)
-        }
-      }
-      return next
-    })
-  }
-
-  // Group permissions by family
   const grouped = useMemo(() => {
     const map = new Map<string, AdminPermission[]>()
-    for (const perm of allPermissions) {
-      const existing = map.get(perm.family) ?? []
-      existing.push(perm)
-      map.set(perm.family, existing)
-    }
-    // Sort by FAMILY_ORDER, put unknown families at the end
-    const sorted = Array.from(map.entries()).sort(([a], [b]) => {
-      const ai = FAMILY_ORDER.indexOf(a)
-      const bi = FAMILY_ORDER.indexOf(b)
+    for (const p of allPermissions) { map.set(p.family, [...(map.get(p.family) ?? []), p]) }
+    return Array.from(map.entries()).sort(([a], [b]) => {
+      const ai = FAMILY_ORDER.indexOf(a); const bi = FAMILY_ORDER.indexOf(b)
       return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
     })
-    return sorted
   }, [allPermissions])
 
-  const isLoading = rolePermsQuery.isLoading
-
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <KeyRoundIcon className="size-4" />
-            Permissions for &ldquo;{role?.name}&rdquo;
-          </DialogTitle>
-          <DialogDescription>
-            Toggle permissions for this role. Changes are saved when you click Save.
-          </DialogDescription>
+          <DialogTitle className="flex items-center gap-2"><KeyRoundIcon className="size-4" />Permissions for &ldquo;{role?.name}&rdquo;</DialogTitle>
+          <DialogDescription>Toggle permissions. Save when done.</DialogDescription>
         </DialogHeader>
-
-        {isLoading ? (
-          <div className="flex justify-center py-8">
-            <Loader2Icon className="size-6 animate-spin text-muted-foreground" />
-          </div>
+        {rolePermsQuery.isLoading ? (
+          <div className="flex justify-center py-8"><Loader2Icon className="size-6 animate-spin text-muted-foreground" /></div>
         ) : (
           <div className="grid gap-6 py-2">
             {grouped.map(([family, perms]) => {
-              const familyIds = perms.map((p) => p.id)
-              const allChecked = familyIds.every((id) => selectedIds.has(id))
-              const someChecked = familyIds.some((id) => selectedIds.has(id)) && !allChecked
-
+              const ids = perms.map((p) => p.id)
+              const allChecked = ids.every((id) => selectedIds.has(id))
+              const someChecked = ids.some((id) => selectedIds.has(id)) && !allChecked
               return (
                 <div key={family} className="grid gap-3">
                   <div className="flex items-center gap-2">
-                    <Checkbox
-                      id={`family-${family}`}
-                      checked={allChecked ? true : someChecked ? "indeterminate" : false}
-                      onCheckedChange={() => toggleFamily(family, perms)}
-                    />
-                    <Label
-                      htmlFor={`family-${family}`}
-                      className="text-sm font-semibold cursor-pointer"
-                    >
-                      {familyLabel(family)}
-                    </Label>
-                    <Badge variant="secondary" className="text-xs">
-                      {familyIds.filter((id) => selectedIds.has(id)).length}/{familyIds.length}
-                    </Badge>
+                    <Checkbox id={`f-${family}`} checked={allChecked ? true : someChecked ? "indeterminate" : false}
+                      onCheckedChange={() => setSelectedIds((prev) => { const n = new Set(prev); ids.forEach((id) => allChecked ? n.delete(id) : n.add(id)); return n })} />
+                    <Label htmlFor={`f-${family}`} className="text-sm font-semibold cursor-pointer">{familyLabel(family)}</Label>
+                    <Badge variant="secondary" className="text-xs">{ids.filter((id) => selectedIds.has(id)).length}/{ids.length}</Badge>
                   </div>
                   <div className="ml-6 grid gap-2 sm:grid-cols-2">
-                    {perms.map((perm) => (
-                      <div key={perm.id} className="flex items-start gap-2">
-                        <Checkbox
-                          id={`perm-${perm.id}`}
-                          checked={selectedIds.has(perm.id)}
-                          onCheckedChange={() => togglePermission(perm.id)}
-                        />
+                    {perms.map((p) => (
+                      <div key={p.id} className="flex items-start gap-2">
+                        <Checkbox id={`p-${p.id}`} checked={selectedIds.has(p.id)}
+                          onCheckedChange={() => setSelectedIds((prev) => { const n = new Set(prev); n.has(p.id) ? n.delete(p.id) : n.add(p.id); return n })} />
                         <div className="grid gap-0.5">
-                          <Label htmlFor={`perm-${perm.id}`} className="text-sm cursor-pointer leading-none">
-                            {perm.name}
-                          </Label>
-                          <p className="text-xs text-muted-foreground">{perm.description}</p>
+                          <Label htmlFor={`p-${p.id}`} className="text-sm cursor-pointer leading-none">{p.name}</Label>
+                          <p className="text-xs text-muted-foreground">{p.description}</p>
                         </div>
                       </div>
                     ))}
@@ -413,14 +340,10 @@ function PermissionsDialog({
             })}
           </div>
         )}
-
         <DialogFooter>
-          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={saveMutation.isPending}>
-            Cancel
-          </Button>
-          <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending || isLoading}>
-            {saveMutation.isPending && <Loader2Icon className="mr-2 size-4 animate-spin" />}
-            Save Permissions
+          <Button variant="outline" onClick={() => handleClose(false)}>Cancel</Button>
+          <Button onClick={() => saveMut.mutate()} disabled={saveMut.isPending || rolePermsQuery.isLoading}>
+            {saveMut.isPending && <Loader2Icon className="mr-2 size-4 animate-spin" />}Save Permissions
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -428,182 +351,152 @@ function PermissionsDialog({
   )
 }
 
-// ── Main Page ───────────────────────────────────────────────────────────
+// ── Row actions dropdown ─────────────────────────────────────────────────
+
+function RoleActions({ role, onPermissions, onEdit, onDelete }: {
+  role: AdminRole
+  onPermissions: () => void
+  onEdit: () => void
+  onDelete: () => void
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className="size-8 p-0">
+          <EllipsisVerticalIcon className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuItem onClick={onPermissions}>
+          <KeyRoundIcon className="mr-2 size-4" />Manage Permissions
+        </DropdownMenuItem>
+        {!role.is_system && (
+          <>
+            <DropdownMenuItem onClick={onEdit}>
+              <PencilIcon className="mr-2 size-4" />Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-destructive" onClick={onDelete}>
+              <Trash2Icon className="mr-2 size-4" />Delete
+            </DropdownMenuItem>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+// ── Page ─────────────────────────────────────────────────────────────────
 
 export function RolesPage() {
   const [formOpen, setFormOpen] = useState(false)
   const [editingRole, setEditingRole] = useState<AdminRole | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<AdminRole | null>(null)
-  const [permissionsTarget, setPermissionsTarget] = useState<AdminRole | null>(null)
+  const [permsTarget, setPermsTarget] = useState<AdminRole | null>(null)
 
-  const rolesQuery = useQuery({
-    queryKey: ["admin-roles"],
-    queryFn: fetchAdminRoles,
+  // Server-side table state
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 15 })
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState("")
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  const queryParams = useMemo<AdminRolesParams>(() => {
+    const p: AdminRolesParams = { limit: pagination.pageSize, offset: pagination.pageIndex * pagination.pageSize }
+    if (globalFilter) p.search = globalFilter
+    if (sorting.length > 0) { p.sort_by = sorting[0].id; p.sort_dir = sorting[0].desc ? "desc" : "asc" }
+    return p
+  }, [pagination, sorting, globalFilter])
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["admin-roles", queryParams],
+    queryFn: () => fetchAdminRoles(queryParams),
+    placeholderData: keepPreviousData,
   })
 
-  const permissionsQuery = useQuery({
-    queryKey: ["admin-permissions"],
-    queryFn: fetchAdminPermissions,
-  })
+  const permsQuery = useQuery({ queryKey: ["admin-permissions"], queryFn: fetchAdminPermissions })
+  const roles = data?.roles ?? []
+  const total = data?.total ?? 0
+  const allPermissions = permsQuery.data?.permissions ?? []
 
-  const roles = rolesQuery.data?.roles ?? []
-  const allPermissions = permissionsQuery.data?.permissions ?? []
+  function handleCreate() { setEditingRole(null); setFormOpen(true) }
+  function handleEdit(r: AdminRole) { setEditingRole(r); setFormOpen(true) }
 
-  function handleEdit(role: AdminRole) {
-    setEditingRole(role)
-    setFormOpen(true)
-  }
-
-  function handleCreate() {
-    setEditingRole(null)
-    setFormOpen(true)
-  }
-
-  function handleFormClose(open: boolean) {
-    setFormOpen(open)
-    if (!open) setEditingRole(null)
-  }
+  const columns = useMemo<ColumnDef<AdminRole>[]>(() => [
+    {
+      accessorKey: "name",
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Role" />,
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          {row.original.is_system ? <ShieldCheckIcon className="size-4 text-muted-foreground" /> : <ShieldIcon className="size-4 text-muted-foreground" />}
+          <span className="font-medium">{row.original.name}</span>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "slug",
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Slug" />,
+      cell: ({ row }) => <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">{row.original.slug}</code>,
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => <span className="text-sm text-muted-foreground">{row.original.description || "--"}</span>,
+      enableSorting: false,
+    },
+    {
+      accessorKey: "is_system",
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Type" />,
+      cell: ({ row }) => row.original.is_system
+        ? <Badge variant="secondary" className="gap-1"><ShieldCheckIcon className="size-3" />System</Badge>
+        : <Badge variant="outline">Custom</Badge>,
+    },
+    {
+      id: "actions",
+      enableSorting: false,
+      cell: ({ row }) => (
+        <RoleActions
+          role={row.original}
+          onPermissions={() => setPermsTarget(row.original)}
+          onEdit={() => handleEdit(row.original)}
+          onDelete={() => setDeleteTarget(row.original)}
+        />
+      ),
+    },
+  ], [])
 
   return (
-    <div className="flex flex-1 flex-col gap-6 px-4 py-4 md:px-6 md:py-6">
-      {/* Page header */}
-      <div className="flex items-center justify-between">
+    <div className="flex flex-1 flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="flex items-center justify-between px-4 md:px-6">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Roles & Permissions</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage operator roles and their access levels.
-          </p>
+          <p className="text-sm text-muted-foreground">{total} role{total !== 1 ? "s" : ""} configured.</p>
         </div>
-        <Button size="sm" className="gap-1.5" onClick={handleCreate}>
-          <PlusIcon className="size-4" />
-          Create Role
-        </Button>
+        <Button size="sm" className="gap-1.5" onClick={handleCreate}><PlusIcon className="size-4" />Create Role</Button>
       </div>
 
-      {/* Roles table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Roles</CardTitle>
-          <CardDescription>
-            {roles.length} role{roles.length !== 1 ? "s" : ""} configured.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {rolesQuery.isLoading ? (
-            <div className="flex justify-center py-8">
-              <Loader2Icon className="size-6 animate-spin text-muted-foreground" />
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Slug</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead className="w-[200px] text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {roles.map((role) => (
-                  <TableRow key={role.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {role.is_system ? (
-                          <ShieldCheckIcon className="size-4 text-muted-foreground" />
-                        ) : (
-                          <ShieldIcon className="size-4 text-muted-foreground" />
-                        )}
-                        <span className="font-medium">{role.name}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-                        {role.slug}
-                      </code>
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {role.description || "--"}
-                    </TableCell>
-                    <TableCell>
-                      {role.is_system ? (
-                        <Badge variant="secondary" className="gap-1">
-                          <ShieldCheckIcon className="size-3" />
-                          System
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline">Custom</Badge>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="gap-1"
-                          onClick={() => setPermissionsTarget(role)}
-                        >
-                          <KeyRoundIcon className="size-3" />
-                          Permissions
-                        </Button>
-                        {!role.is_system && (
-                          <>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="gap-1"
-                              onClick={() => handleEdit(role)}
-                            >
-                              <PencilIcon className="size-3" />
-                              Edit
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="gap-1 text-destructive hover:text-destructive"
-                              onClick={() => setDeleteTarget(role)}
-                            >
-                              <Trash2Icon className="size-3" />
-                              Delete
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {roles.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                      No roles found. Create one to get started.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Dialogs */}
-      <RoleFormDialog
-        open={formOpen}
-        onOpenChange={handleFormClose}
-        editingRole={editingRole}
+      <DataTable
+        columns={columns}
+        data={roles}
+        isLoading={isLoading}
+        searchPlaceholder="Search roles..."
+        pageSize={15}
+        serverSide={{
+          rowCount: total,
+          pagination,
+          onPaginationChange: setPagination,
+          sorting,
+          onSortingChange: setSorting,
+          globalFilter,
+          onGlobalFilterChange: setGlobalFilter,
+          columnFilters,
+          onColumnFiltersChange: setColumnFilters,
+          isFetching,
+        }}
       />
 
-      <DeleteRoleDialog
-        open={deleteTarget !== null}
-        onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}
-        role={deleteTarget}
-      />
-
-      <PermissionsDialog
-        open={permissionsTarget !== null}
-        onOpenChange={(open) => { if (!open) setPermissionsTarget(null) }}
-        role={permissionsTarget}
-        allPermissions={allPermissions}
-      />
+      <RoleFormDialog open={formOpen} onOpenChange={(v) => { setFormOpen(v); if (!v) setEditingRole(null) }} editingRole={editingRole} />
+      <DeleteRoleDialog open={deleteTarget !== null} onOpenChange={(v) => { if (!v) setDeleteTarget(null) }} role={deleteTarget} />
+      <PermissionsDialog open={permsTarget !== null} onOpenChange={(v) => { if (!v) setPermsTarget(null) }} role={permsTarget} allPermissions={allPermissions} />
     </div>
   )
 }

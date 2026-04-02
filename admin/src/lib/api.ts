@@ -447,8 +447,30 @@ export function fetchAdminUsers(params?: AdminUsersParams) {
   )
 }
 
-export function fetchAdminRoles() {
-  return apiGet<{ roles: AdminRole[] }>("/api/v1/admin/roles", true)
+export type AdminRolesParams = {
+  search?: string
+  sort_by?: string
+  sort_dir?: string
+  limit?: number
+  offset?: number
+}
+
+export function fetchAdminRoles(params?: AdminRolesParams) {
+  if (!params) return apiGet<{ roles: AdminRole[]; total: number }>("/api/v1/admin/roles?limit=100", true)
+  const q = new URLSearchParams()
+  if (params.search) q.set("search", params.search)
+  if (params.sort_by) q.set("sort_by", params.sort_by)
+  if (params.sort_dir) q.set("sort_dir", params.sort_dir)
+  if (params.limit) q.set("limit", String(params.limit))
+  if (params.offset) q.set("offset", String(params.offset))
+  const qs = q.toString()
+  return apiGet<{ roles: AdminRole[]; total: number }>(`/api/v1/admin/roles${qs ? `?${qs}` : ""}`, true)
+}
+
+export function checkRoleSlug(slug: string) {
+  return apiGet<{ available: boolean; slug: string; suggestion: string }>(
+    `/api/v1/admin/roles/check-slug?slug=${encodeURIComponent(slug)}`, true
+  )
 }
 
 export function inviteUser(email: string, displayName: string, roleIds: string[]) {
