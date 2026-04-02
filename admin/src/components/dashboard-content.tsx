@@ -1,83 +1,43 @@
-import * as React from "react"
-
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { DashboardPanels } from "@/components/dashboard-panels"
 import { SectionCards } from "@/components/section-cards"
 import {
-  fetchActiveBuses,
-  fetchDashboardStats,
-  fetchSimulationActiveStats,
-  fetchSystemHealth,
-  type DashboardSnapshot,
-  type SystemHealthResponse,
-} from "@/lib/api"
-
-type DashboardState = {
-  snapshot: DashboardSnapshot | null
-  health: SystemHealthResponse | null
-}
+  useActiveBuses,
+  useDashboardStats,
+  useSimulationStats,
+  useSystemHealth,
+} from "@/hooks/use-dashboard-queries"
+import type { DashboardSnapshot } from "@/lib/api"
 
 export function DashboardContent() {
-  const [state, setState] = React.useState<DashboardState>({
-    snapshot: null,
-    health: null,
-  })
+  const stats = useDashboardStats()
+  const buses = useActiveBuses()
+  const simulations = useSimulationStats()
+  const health = useSystemHealth()
 
-  React.useEffect(() => {
-    let cancelled = false
+  const isLoading = stats.isLoading || buses.isLoading || simulations.isLoading
 
-    async function loadDashboard() {
-      const [statsResult, busesResult, simulationsResult, healthResult] =
-        await Promise.allSettled([
-          fetchDashboardStats(),
-          fetchActiveBuses(),
-          fetchSimulationActiveStats(),
-          fetchSystemHealth(),
-        ])
-
-      if (cancelled) {
-        return
-      }
-
-      React.startTransition(() => {
-        setState((current) => ({
-          snapshot:
-            statsResult.status === "fulfilled" &&
-            busesResult.status === "fulfilled" &&
-            simulationsResult.status === "fulfilled"
-              ? {
-                  stats: statsResult.value,
-                  activeBusesCount: busesResult.value.count,
-                  simulations: simulationsResult.value,
-                }
-              : current.snapshot,
-          health:
-            healthResult.status === "fulfilled"
-              ? healthResult.value
-              : current.health,
-        }))
-      })
-    }
-
-    void loadDashboard()
-
-    const intervalId = window.setInterval(() => {
-      void loadDashboard()
-    }, 30000)
-
-    return () => {
-      cancelled = true
-      window.clearInterval(intervalId)
-    }
-  }, [])
+  const snapshot: DashboardSnapshot | null =
+    stats.data && buses.data && simulations.data
+      ? {
+          stats: stats.data,
+          activeBusesCount: buses.data.count,
+          simulations: simulations.data,
+        }
+      : null
 
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <SectionCards snapshot={state.snapshot} />
+      <SectionCards snapshot={snapshot} isLoading={isLoading} />
       <div className="px-4 lg:px-6">
         <ChartAreaInteractive />
       </div>
-      <DashboardPanels snapshot={state.snapshot} health={state.health} />
+      <DashboardPanels
+        snapshot={snapshot}
+        health={health.data ?? null}
+        isLoading={isLoading}
+        isHealthLoading={health.isLoading}
+      />
     </div>
   )
 }

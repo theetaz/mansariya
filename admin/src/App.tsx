@@ -5,7 +5,13 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardContent } from "@/components/dashboard-content"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import { allNavItems } from "@/lib/navigation"
+
+import { DataPage } from "@/pages/data"
+import { RoutesPage } from "@/pages/routes"
+import { SettingsPage } from "@/pages/settings"
+import { SimulationsPage } from "@/pages/simulations"
+import { StopsPage } from "@/pages/stops"
+import { TimetablesPage } from "@/pages/timetables"
 
 const layoutStyle = {
   "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -28,10 +34,6 @@ function RootLayout() {
   )
 }
 
-function DashboardPage() {
-  return <DashboardContent />
-}
-
 function EmptyPage() {
   return <div className="flex-1" />
 }
@@ -41,16 +43,15 @@ export function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<RootLayout />}>
-          <Route index element={<DashboardPage />} />
-          {allNavItems
-            .filter((item) => item.url !== "/")
-            .map((item) => (
-              <Route
-                key={item.url}
-                path={item.url.slice(1)}
-                element={<EmptyPage />}
-              />
-            ))}
+          <Route index element={<DashboardContent />} />
+          <Route path="routes" element={<RoutesPage />} />
+          <Route path="stops" element={<StopsPage />} />
+          <Route path="timetables" element={<TimetablesPage />} />
+          <Route path="simulations" element={<SimulationsPage />} />
+          <Route path="data" element={<DataPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="live-map" element={<EmptyPage />} />
+          <Route path="route-builder" element={<EmptyPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

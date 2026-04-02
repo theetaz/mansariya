@@ -40,8 +40,8 @@ func Load() (*Config, error) {
 		RedisAddr:     getEnv("REDIS_ADDR", "localhost:6379"),
 		RedisPassword: getEnv("REDIS_PASSWORD", ""),
 		RedisDB:       getEnvInt("REDIS_DB", 0),
-		ValhallaURL:   getEnv("VALHALLA_URL", "http://localhost:9992"),
-		NominatimURL:  getEnv("NOMINATIM_URL", "http://localhost:9990"),
+		ValhallaURL:   getEnv("VALHALLA_URL", "http://127.0.0.1:9992"),
+		NominatimURL:  getEnv("NOMINATIM_URL", "http://127.0.0.1:9990"),
 		OSRMURL:       getEnv("OSRM_URL", "https://router.project-osrm.org"),
 		AdminAPIKey:   getEnv("ADMIN_API_KEY", ""),
 	}

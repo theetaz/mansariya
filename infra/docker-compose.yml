@@ -41,7 +41,7 @@ services:
     volumes:
       - valhalla_tiles:/custom_files
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:9992/status"]
+      test: ["CMD", "curl", "-s", "-o", "/dev/null", "http://localhost:9992/status"]
       interval: 10s
       timeout: 5s
       retries: 10

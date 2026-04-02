@@ -7,8 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import type { DashboardSnapshot } from "@/lib/api"
-import { ActivityIcon, BusFrontIcon, MapPinnedIcon, RouteIcon } from "lucide-react"
+import {
+  ActivityIcon,
+  BusFrontIcon,
+  MapPinnedIcon,
+  RouteIcon,
+} from "lucide-react"
 
 function formatMetric(value: number | undefined) {
   if (typeof value !== "number") {
@@ -28,8 +34,10 @@ function formatCoverage(value: number, total: number) {
 
 export function SectionCards({
   snapshot,
+  isLoading,
 }: {
   snapshot: DashboardSnapshot | null
+  isLoading: boolean
 }) {
   const stats = snapshot?.stats
   const simulations = snapshot?.simulations
@@ -40,7 +48,11 @@ export function SectionCards({
         <CardHeader>
           <CardDescription>Total Routes</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {formatMetric(stats?.total_routes)}
+            {isLoading ? (
+              <Skeleton className="h-8 w-24" />
+            ) : (
+              formatMetric(stats?.total_routes)
+            )}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -55,7 +67,8 @@ export function SectionCards({
             <MapPinnedIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            {formatMetric(stats?.routes_with_stops)} routes already include mapped stops
+            {formatMetric(stats?.routes_with_stops)} routes already include
+            mapped stops
           </div>
         </CardFooter>
       </Card>
@@ -63,7 +76,11 @@ export function SectionCards({
         <CardHeader>
           <CardDescription>Total Stops</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {formatMetric(stats?.total_stops)}
+            {isLoading ? (
+              <Skeleton className="h-8 w-24" />
+            ) : (
+              formatMetric(stats?.total_stops)
+            )}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -78,7 +95,8 @@ export function SectionCards({
             <ActivityIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            {formatMetric(stats?.routes_with_polyline)} routes already have polylines
+            {formatMetric(stats?.routes_with_polyline)} routes already have
+            polylines
           </div>
         </CardFooter>
       </Card>
@@ -86,7 +104,11 @@ export function SectionCards({
         <CardHeader>
           <CardDescription>Live Buses</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {formatMetric(snapshot?.activeBusesCount)}
+            {isLoading ? (
+              <Skeleton className="h-8 w-24" />
+            ) : (
+              formatMetric(snapshot?.activeBusesCount)
+            )}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -101,7 +123,8 @@ export function SectionCards({
             <ActivityIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            {formatMetric(simulations?.total_devices)} devices are attached to active simulations
+            {formatMetric(simulations?.total_devices)} devices are attached to
+            active simulations
           </div>
         </CardFooter>
       </Card>
@@ -109,9 +132,13 @@ export function SectionCards({
         <CardHeader>
           <CardDescription>Route Coverage</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {stats
-              ? formatCoverage(stats.routes_with_polyline, stats.total_routes)
-              : "--"}
+            {isLoading ? (
+              <Skeleton className="h-8 w-24" />
+            ) : stats ? (
+              formatCoverage(stats.routes_with_polyline, stats.total_routes)
+            ) : (
+              "--"
+            )}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -126,7 +153,8 @@ export function SectionCards({
             <RouteIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            {formatMetric(stats?.routes_with_timetable)} routes already expose timetable data
+            {formatMetric(stats?.routes_with_timetable)} routes already expose
+            timetable data
           </div>
         </CardFooter>
       </Card>

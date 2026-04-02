@@ -124,11 +124,14 @@ func (h *SystemHandler) checkValhalla(ctx context.Context) serviceHealth {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
+	// Valhalla doesn't expose a dedicated /status endpoint in all versions.
+	// Any HTTP response (including 404) proves the service is reachable and
+	// serving requests. Only a connection failure (handled above) means down.
+	if resp.StatusCode >= 500 {
 		return serviceHealth{
 			Name:    "valhalla",
 			Status:  "down",
-			Message: fmt.Sprintf("status %d", resp.StatusCode),
+			Message: fmt.Sprintf("server error: status %d", resp.StatusCode),
 		}
 	}
 
