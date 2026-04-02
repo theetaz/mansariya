@@ -132,7 +132,7 @@ function RouteMapTab({
   const center = getPolylineMidpoint(polyline)
 
   return (
-    <div className="relative overflow-hidden rounded-xl border" style={{ height: 500 }}>
+    <div className="relative max-w-full overflow-hidden rounded-xl border" style={{ height: 500 }}>
       <Map center={center} zoom={12} className="h-full w-full">
         {polyline.length >= 2 && (
           <MapRoute
@@ -399,7 +399,7 @@ export function RouteDetailPage() {
   const { route, stops, timetable } = data
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto py-4 md:gap-6 md:py-6">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto py-4 md:gap-6 md:py-6">
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-3 px-4 lg:px-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
