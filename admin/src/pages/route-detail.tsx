@@ -125,17 +125,20 @@ function InfoRow({
 function RouteMapTab({
   detail,
   onEditPolyline,
+  mapView,
 }: {
   detail: AdminRouteDetail
   onEditPolyline: () => void
+  mapView: { center: [number, number]; zoom: number } | null
 }) {
   const polyline = detail.polyline ?? []
   const stops = detail.stops ?? []
-  const center = getPolylineMidpoint(polyline)
+  const center = mapView?.center ?? getPolylineMidpoint(polyline)
+  const zoom = mapView?.zoom ?? 12
 
   return (
     <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl border" style={{ minHeight: 500 }}>
-      <Map center={center} zoom={12} className="h-full w-full">
+      <Map center={center} zoom={zoom} className="h-full w-full">
         {polyline.length >= 2 && (
           <MapRoute
             coordinates={polyline}
@@ -196,17 +199,16 @@ function RouteMapTab({
 function PolylineEditorTab({
   detail,
   routeId,
+  mapView,
   onDone,
 }: {
   detail: AdminRouteDetail
   routeId: string
-  onDone: () => void
+  mapView: { center: [number, number]; zoom: number } | null
+  onDone: (view?: { center: [number, number]; zoom: number }) => void
 }) {
   const queryClient = useQueryClient()
-  const mapViewRef = useRef<{
-    center: [number, number]
-    zoom: number
-  } | null>(null)
+  const savedViewRef = useRef<{ center: [number, number]; zoom: number } | null>(null)
 
   const polylineMutation = useMutation({
     mutationFn: async (coords: [number, number][]) => {
@@ -226,7 +228,7 @@ function PolylineEditorTab({
         queryKey: ["admin-route-detail", routeId],
       })
       toast.success("Polyline saved")
-      onDone()
+      onDone(savedViewRef.current ?? undefined)
     },
     onError: () => toast.error("Failed to save polyline"),
   })
@@ -239,7 +241,8 @@ function PolylineEditorTab({
     stop_order: s.stop_order,
   }))
 
-  const center = getPolylineMidpoint(polyline)
+  const center = mapView?.center ?? getPolylineMidpoint(polyline)
+  const zoom = mapView?.zoom ?? 13
 
   return (
     <div className="min-h-0 flex-1 overflow-hidden rounded-xl border" style={{ minHeight: 500 }}>
@@ -247,12 +250,12 @@ function PolylineEditorTab({
         polyline={polyline}
         stops={stops}
         mapCenter={center}
-        mapZoom={13}
+        mapZoom={zoom}
         onSave={(coords, view) => {
-          if (view) mapViewRef.current = view
+          if (view) savedViewRef.current = view
           polylineMutation.mutate(coords)
         }}
-        onCancel={onDone}
+        onCancel={(view) => onDone(view)}
         isSaving={polylineMutation.isPending}
       />
     </div>
@@ -387,6 +390,10 @@ function RouteTimetableTab({ timetable }: { timetable: unknown[] }) {
 export function RouteDetailPage() {
   const { routeId } = useParams<{ routeId: string }>()
   const [isEditingPolyline, setIsEditingPolyline] = useState(false)
+  const [persistedMapView, setPersistedMapView] = useState<{
+    center: [number, number]
+    zoom: number
+  } | null>(null)
 
   const { data, isLoading } = useQuery<AdminRouteDetail>({
     queryKey: ["admin-route-detail", routeId],
@@ -492,11 +499,16 @@ export function RouteDetailPage() {
               <PolylineEditorTab
                 detail={data}
                 routeId={routeId!}
-                onDone={() => setIsEditingPolyline(false)}
+                mapView={persistedMapView}
+                onDone={(view) => {
+                  if (view) setPersistedMapView(view)
+                  setIsEditingPolyline(false)
+                }}
               />
             ) : (
               <RouteMapTab
                 detail={data}
+                mapView={persistedMapView}
                 onEditPolyline={() => setIsEditingPolyline(true)}
               />
             )}

@@ -36,7 +36,7 @@ interface PolylineEditorProps {
   mapCenter: [number, number]
   mapZoom: number
   onSave: (coordinates: [number, number][], mapView?: { center: [number, number]; zoom: number }) => void
-  onCancel: () => void
+  onCancel: (mapView?: { center: [number, number]; zoom: number }) => void
   isSaving?: boolean
 }
 
@@ -283,7 +283,11 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
           <SaveIcon className="size-3.5 mr-1" />
           {isSaving ? 'Saving...' : 'Save'}
         </Button>
-        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={onCancel}>
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => {
+          const m = mapInstanceRef.current
+          const view = m ? { center: [m.getCenter().lng, m.getCenter().lat] as [number, number], zoom: m.getZoom() } : undefined
+          onCancel(view)
+        }}>
           <XIcon className="size-3.5 mr-1" />
           Cancel
         </Button>
