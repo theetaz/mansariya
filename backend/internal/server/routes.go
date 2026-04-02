@@ -43,6 +43,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 	r.Use(Logger)
 	r.Use(CORS)
 	r.Use(middleware.Recoverer)
+	r.Use(LocaleMiddleware)
 	r.Use(middleware.Heartbeat("/ping"))
 
 	// Health / root
