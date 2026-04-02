@@ -22,6 +22,7 @@ import { SimulationsPage } from "@/pages/simulations"
 import { StopsPage } from "@/pages/stops"
 import { TimetablesPage } from "@/pages/timetables"
 import { UsersPage } from "@/pages/users"
+import { UserDetailPage } from "@/pages/user-detail"
 import { RolesPage } from "@/pages/roles"
 import { AuditLogsPage } from "@/pages/audit-logs"
 
@@ -100,6 +101,7 @@ export function App() {
           <Route path="simulations" element={<SimulationsPage />} />
           <Route path="data" element={<DataPage />} />
           <Route path="users" element={<UsersPage />} />
+          <Route path="users/:userId" element={<UserDetailPage />} />
           <Route path="roles" element={<RolesPage />} />
           <Route path="audit-logs" element={<AuditLogsPage />} />
           <Route path="settings" element={<SettingsPage />} />

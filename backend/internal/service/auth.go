@@ -55,6 +55,9 @@ type AuthStoreInterface interface {
 	RecordFailedLogin(ctx context.Context, userID string) error
 	ResetFailedLogins(ctx context.Context, userID string) error
 
+	DeleteUserByID(ctx context.Context, userID string) error
+	ListUserSessionsFiltered(ctx context.Context, userID, search, sortBy, sortDir string, limit, offset int) ([]model.Session, int, error)
+
 	CreateSession(ctx context.Context, sess *model.Session) error
 	GetSessionByTokenHash(ctx context.Context, tokenHash string) (*model.Session, error)
 	GetSessionByID(ctx context.Context, sessionID string) (*model.Session, error)

@@ -348,14 +348,91 @@ func (h *UserAdminHandler) ListPermissions(w http.ResponseWriter, r *http.Reques
 	writeJSON(w, http.StatusOK, map[string]interface{}{"permissions": perms})
 }
 
-// ── User sessions ────────────────────────────────────────────────────────
+// ── User detail ──────────────────────────────────────────────────────────
+
+func (h *UserAdminHandler) GetUserDetail(w http.ResponseWriter, r *http.Request) {
+	userID := chi.URLParam(r, "userID")
+
+	user, err := h.store.GetUserByID(r.Context(), userID)
+	if err != nil {
+		WriteAPIErr(w, r, ErrNotFound("not_found.user"))
+		return
+	}
+
+	roles, _ := h.store.GetUserRoles(r.Context(), userID)
+	perms, _ := h.store.GetUserPermissions(r.Context(), userID)
+
+	type detail struct {
+		ID          string      `json:"id"`
+		Email       string      `json:"email"`
+		DisplayName string      `json:"display_name"`
+		Status      string      `json:"status"`
+		LastLoginAt interface{} `json:"last_login_at"`
+		CreatedAt   string      `json:"created_at"`
+		UpdatedAt   string      `json:"updated_at"`
+		Roles       interface{} `json:"roles"`
+		Permissions []string    `json:"permissions"`
+	}
+
+	var lastLogin interface{}
+	if user.LastLoginAt != nil {
+		lastLogin = user.LastLoginAt.Format("2006-01-02T15:04:05Z")
+	}
+
+	writeJSON(w, http.StatusOK, detail{
+		ID:          user.ID,
+		Email:       user.Email,
+		DisplayName: user.DisplayName,
+		Status:      user.Status,
+		LastLoginAt: lastLogin,
+		CreatedAt:   user.CreatedAt.Format("2006-01-02T15:04:05Z"),
+		UpdatedAt:   user.UpdatedAt.Format("2006-01-02T15:04:05Z"),
+		Roles:       roles,
+		Permissions: perms,
+	})
+}
+
+// ── Delete user ──────────────────────────────────────────────────────────
+
+func (h *UserAdminHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	userID := chi.URLParam(r, "userID")
+
+	// Prevent deleting super admins
+	roles, _ := h.store.GetUserRoles(r.Context(), userID)
+	for _, role := range roles {
+		if role.Slug == "super_admin" {
+			WriteAPIErr(w, r, ErrValidation("cannot_delete", "auth.forbidden", ""))
+			return
+		}
+	}
+
+	_ = h.store.DeleteUserSessions(r.Context(), userID)
+	if err := h.store.DeleteUserByID(r.Context(), userID); err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+
+	h.logAudit(r, "user.deleted", "user", userID, nil)
+	writeJSON(w, http.StatusOK, map[string]string{"status": "deleted"})
+}
+
+// ── User sessions (server-side) ──────────────────────────────────────────
 
 func (h *UserAdminHandler) ListUserSessions(w http.ResponseWriter, r *http.Request) {
 	userID := chi.URLParam(r, "userID")
+	q := r.URL.Query()
+	limit, _ := strconv.Atoi(q.Get("limit"))
+	offset, _ := strconv.Atoi(q.Get("offset"))
+	if limit <= 0 {
+		limit = 15
+	}
 
-	sessions, err := h.store.ListUserSessions(r.Context(), userID)
+	sessions, total, err := h.store.ListUserSessionsFiltered(r.Context(), userID,
+		q.Get("search"), q.Get("sort_by"), q.Get("sort_dir"),
+		limit, offset,
+	)
 	if err != nil {
-		writeError(w, http.StatusInternalServerError, "list_sessions_failed", "Could not load sessions.", "")
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -378,7 +455,12 @@ func (h *UserAdminHandler) ListUserSessions(w http.ResponseWriter, r *http.Reque
 			ExpiresAt:  s.ExpiresAt.Format("2006-01-02T15:04:05Z"),
 		}
 	}
-	writeJSON(w, http.StatusOK, map[string]interface{}{"sessions": views, "count": len(views)})
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"sessions": views,
+		"total":    total,
+		"limit":    limit,
+		"offset":   offset,
+	})
 }
 
 func (h *UserAdminHandler) RevokeUserSession(w http.ResponseWriter, r *http.Request) {

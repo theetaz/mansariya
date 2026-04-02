@@ -768,6 +768,75 @@ func (s *AuthStore) GetSessionByID(ctx context.Context, sessionID string) (*mode
 	return &sess, nil
 }
 
+func (s *AuthStore) ListUserSessionsFiltered(ctx context.Context, userID, search, sortBy, sortDir string, limit, offset int) ([]model.Session, int, error) {
+	if limit <= 0 {
+		limit = 15
+	}
+
+	where := fmt.Sprintf("WHERE user_id = $1 AND expires_at > NOW()")
+	args := []interface{}{userID}
+	n := 1
+
+	if search != "" {
+		n++
+		where += fmt.Sprintf(" AND (ip_address ILIKE $%d OR user_agent ILIKE $%d)", n, n)
+		args = append(args, "%"+search+"%")
+	}
+
+	var total int
+	if err := s.pool.QueryRow(ctx, "SELECT COUNT(*) FROM sessions "+where, args...).Scan(&total); err != nil {
+		return nil, 0, fmt.Errorf("count sessions: %w", err)
+	}
+
+	sortCols := map[string]string{"created_at": "created_at", "last_used_at": "last_used_at", "expires_at": "expires_at", "ip_address": "ip_address"}
+	sc := "last_used_at"
+	if col, ok := sortCols[sortBy]; ok {
+		sc = col
+	}
+	sd := "DESC"
+	if sortDir == "asc" {
+		sd = "ASC"
+	}
+
+	n++
+	args = append(args, limit)
+	n++
+	args = append(args, offset)
+
+	query := fmt.Sprintf(
+		`SELECT id, user_id, token_hash, ip_address, user_agent, expires_at, created_at, last_used_at
+		 FROM sessions %s ORDER BY %s %s LIMIT $%d OFFSET $%d`,
+		where, sc, sd, n-1, n,
+	)
+
+	rows, err := s.pool.Query(ctx, query, args...)
+	if err != nil {
+		return nil, 0, fmt.Errorf("list sessions filtered: %w", err)
+	}
+	defer rows.Close()
+
+	var sessions []model.Session
+	for rows.Next() {
+		var s model.Session
+		if err := rows.Scan(&s.ID, &s.UserID, &s.TokenHash, &s.IPAddress, &s.UserAgent, &s.ExpiresAt, &s.CreatedAt, &s.LastUsedAt); err != nil {
+			return nil, 0, fmt.Errorf("scan session: %w", err)
+		}
+		sessions = append(sessions, s)
+	}
+	if sessions == nil {
+		sessions = []model.Session{}
+	}
+	return sessions, total, rows.Err()
+}
+
+func (s *AuthStore) DeleteUserByID(ctx context.Context, userID string) error {
+	_, err := s.pool.Exec(ctx, `DELETE FROM users WHERE id = $1`, userID)
+	if err != nil {
+		return fmt.Errorf("delete user: %w", err)
+	}
+	return nil
+}
+
 func (s *AuthStore) CleanExpiredSessions(ctx context.Context) (int64, error) {
 	tag, err := s.pool.Exec(ctx, `DELETE FROM sessions WHERE expires_at < NOW()`)
 	if err != nil {

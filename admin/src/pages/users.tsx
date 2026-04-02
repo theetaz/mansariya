@@ -3,27 +3,26 @@ import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tansta
 import type { ColumnDef, SortingState, PaginationState, ColumnFiltersState } from "@tanstack/react-table"
 import {
   CheckCircle2Icon,
+  EllipsisVerticalIcon,
+  EyeIcon,
   Loader2Icon,
   MailPlusIcon,
-  MonitorIcon,
+  PencilIcon,
   ShieldIcon,
   ShieldOffIcon,
   Trash2Icon,
   UserPlusIcon,
   XCircleIcon,
 } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
 import {
   fetchAdminUsers,
   fetchAdminRoles,
-  fetchUserSessions,
   inviteUser,
   updateUserStatus,
-  assignUserRole,
-  removeUserRole,
-  revokeUserSession,
-  revokeAllUserSessions,
+  deleteUser,
   type AdminUser,
   type AdminRole,
   type AdminUsersParams,
@@ -43,6 +42,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -125,98 +131,62 @@ function InviteDialog({ roles }: { roles: AdminRole[] }) {
   )
 }
 
-// ── Sessions dialog ──────────────────────────────────────────────────────
+// ── Row actions dropdown ─────────────────────────────────────────────────
 
-function SessionsDialog({ userId, displayName }: { userId: string; displayName: string }) {
-  const [open, setOpen] = useState(false)
+function UserRowActions({ user }: { user: AdminUser }) {
   const queryClient = useQueryClient()
-  const sessionsQuery = useQuery({ queryKey: ["user-sessions", userId], queryFn: () => fetchUserSessions(userId), enabled: open })
-  const revoke = useMutation({ mutationFn: (sid: string) => revokeUserSession(userId, sid), onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["user-sessions", userId] }); toast.success("Session revoked") } })
-  const revokeAll = useMutation({ mutationFn: () => revokeAllUserSessions(userId), onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["user-sessions", userId] }); toast.success("All sessions revoked") } })
-  const sessions = sessionsQuery.data?.sessions ?? []
+  const navigate = useNavigate()
+  const isSuperAdmin = user.roles?.some((r) => r.slug === "super_admin") ?? false
 
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild><Button variant="ghost" size="sm" className="gap-1"><MonitorIcon className="size-3" />Sessions</Button></DialogTrigger>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle>Active Sessions — {displayName}</DialogTitle>
-          <DialogDescription>{sessions.length} active session{sessions.length !== 1 ? "s" : ""}.</DialogDescription>
-        </DialogHeader>
-        {sessionsQuery.isLoading ? (
-          <div className="flex justify-center py-4"><Loader2Icon className="size-5 animate-spin text-muted-foreground" /></div>
-        ) : sessions.length === 0 ? (
-          <p className="py-4 text-center text-sm text-muted-foreground">No active sessions.</p>
-        ) : (
-          <div className="max-h-60 space-y-2 overflow-y-auto">
-            {sessions.map((s) => (
-              <div key={s.id} className="flex items-center justify-between rounded-md border px-3 py-2 text-sm">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium">{s.user_agent || "Unknown device"}</p>
-                  <p className="text-xs text-muted-foreground">{s.ip_address} — {new Date(s.last_used_at).toLocaleString()}</p>
-                </div>
-                <Button variant="ghost" size="sm" className="ml-2 text-destructive" onClick={() => revoke.mutate(s.id)}><Trash2Icon className="size-3" /></Button>
-              </div>
-            ))}
-          </div>
-        )}
-        {sessions.length > 0 && <DialogFooter><Button variant="destructive" size="sm" onClick={() => revokeAll.mutate()}>Revoke All</Button></DialogFooter>}
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-// ── Role pills (inline) ─────────────────────────────────────────────────
-
-function RolePills({ user, allRoles }: { user: AdminUser; allRoles: AdminRole[] }) {
-  const queryClient = useQueryClient()
-  const addRole = useMutation({ mutationFn: (rid: string) => assignUserRole(user.id, rid), onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["admin-users"] }); toast.success("Role assigned") } })
-  const delRole = useMutation({ mutationFn: (rid: string) => removeUserRole(user.id, rid), onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["admin-users"] }); toast.success("Role removed") } })
-  const userSlugs = new Set(user.roles.map((r) => r.slug))
-  const available = allRoles.filter((r) => !userSlugs.has(r.slug))
-
-  return (
-    <div className="flex flex-wrap gap-1">
-      {user.roles.map((r) => (
-        <Badge key={r.id} variant="outline" className="gap-1 text-xs">
-          <ShieldIcon className="size-3" />{r.name}
-          <button onClick={() => delRole.mutate(r.id)} className="ml-0.5 rounded hover:text-destructive"><XCircleIcon className="size-3" /></button>
-        </Badge>
-      ))}
-      {available.length > 0 && (
-        <Select onValueChange={(v) => addRole.mutate(v)}>
-          <SelectTrigger className="h-6 w-auto gap-1 border-dashed px-2 text-xs"><SelectValue placeholder="+ Role" /></SelectTrigger>
-          <SelectContent>{available.map((r) => <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>)}</SelectContent>
-        </Select>
-      )}
-    </div>
-  )
-}
-
-// ── Action buttons ───────────────────────────────────────────────────────
-
-function UserActions({ user }: { user: AdminUser }) {
-  const queryClient = useQueryClient()
   const toggle = useMutation({
     mutationFn: () => updateUserStatus(user.id, user.status === "active" ? "disabled" : "active"),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["admin-users"] }); toast.success(`User ${user.status === "active" ? "disabled" : "enabled"}`) },
   })
 
+  const deleteMut = useMutation({
+    mutationFn: () => deleteUser(user.id),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["admin-users"] }); toast.success("User deleted") },
+    onError: (err: Error) => toast.error(err.message),
+  })
+
   return (
-    <div className="flex items-center gap-1">
-      <SessionsDialog userId={user.id} displayName={user.display_name} />
-      {user.status !== "invited" && (
-        <Button variant={user.status === "active" ? "outline" : "default"} size="sm" className="gap-1" onClick={() => toggle.mutate()} disabled={toggle.isPending}>
-          {user.status === "active" ? <><ShieldOffIcon className="size-3" />Disable</> : <><ShieldIcon className="size-3" />Enable</>}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className="size-8 p-0">
+          <EllipsisVerticalIcon className="size-4" />
         </Button>
-      )}
-    </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuItem onClick={() => navigate(`/users/${user.id}`)}>
+          <EyeIcon className="mr-2 size-4" />View Details
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate(`/users/${user.id}`)}>
+          <ShieldIcon className="mr-2 size-4" />Manage Roles
+        </DropdownMenuItem>
+        {user.status !== "invited" && (
+          <DropdownMenuItem onClick={() => toggle.mutate()}>
+            {user.status === "active"
+              ? <><ShieldOffIcon className="mr-2 size-4" />Deactivate</>
+              : <><ShieldIcon className="mr-2 size-4" />Activate</>
+            }
+          </DropdownMenuItem>
+        )}
+        {!isSuperAdmin && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-destructive" onClick={() => deleteMut.mutate()}>
+              <Trash2Icon className="mr-2 size-4" />Delete
+            </DropdownMenuItem>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
 // ── Columns ──────────────────────────────────────────────────────────────
 
-function makeColumns(allRoles: AdminRole[]): ColumnDef<AdminUser>[] {
+function makeColumns(): ColumnDef<AdminUser>[] {
   return [
     {
       accessorKey: "display_name",
@@ -247,7 +217,15 @@ function makeColumns(allRoles: AdminRole[]): ColumnDef<AdminUser>[] {
     {
       id: "roles",
       header: "Roles",
-      cell: ({ row }) => <RolePills user={row.original} allRoles={allRoles} />,
+      cell: ({ row }) => (
+        <div className="flex flex-wrap gap-1">
+          {row.original.roles?.map((r) => (
+            <Badge key={r.id} variant="outline" className="gap-1 text-xs">
+              <ShieldIcon className="size-3" />{r.name}
+            </Badge>
+          ))}
+        </div>
+      ),
       enableSorting: false,
     },
     {
@@ -270,9 +248,8 @@ function makeColumns(allRoles: AdminRole[]): ColumnDef<AdminUser>[] {
     },
     {
       id: "actions",
-      header: "Actions",
-      cell: ({ row }) => <UserActions user={row.original} />,
       enableSorting: false,
+      cell: ({ row }) => <UserRowActions user={row.original} />,
     },
   ]
 }
@@ -312,7 +289,7 @@ export function UsersPage() {
   const users = data?.users ?? []
   const total = data?.total ?? 0
 
-  const columns = useMemo(() => makeColumns(roles), [roles])
+  const columns = useMemo(() => makeColumns(), [])
 
   return (
     <div className="flex flex-1 flex-col gap-4 py-4 md:gap-6 md:py-6">

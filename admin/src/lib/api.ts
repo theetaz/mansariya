@@ -518,6 +518,47 @@ export function revokeAllUserSessions(userId: string) {
   )
 }
 
+export type AdminUserDetail = {
+  id: string
+  email: string
+  display_name: string
+  status: string
+  last_login_at: string | null
+  created_at: string
+  updated_at: string
+  roles: { id: string; slug: string; name: string }[]
+  permissions: string[]
+}
+
+export function fetchUserDetail(userId: string) {
+  return apiGet<AdminUserDetail>(`/api/v1/admin/users/${userId}`, true)
+}
+
+export function deleteUser(userId: string) {
+  return apiMutate<{ status: string }>("DELETE", `/api/v1/admin/users/${userId}`)
+}
+
+export type AdminSessionsParams = {
+  search?: string
+  sort_by?: string
+  sort_dir?: string
+  limit?: number
+  offset?: number
+}
+
+export function fetchUserSessionsFiltered(userId: string, params?: AdminSessionsParams) {
+  const q = new URLSearchParams()
+  if (params?.search) q.set("search", params.search)
+  if (params?.sort_by) q.set("sort_by", params.sort_by)
+  if (params?.sort_dir) q.set("sort_dir", params.sort_dir)
+  if (params?.limit) q.set("limit", String(params.limit))
+  if (params?.offset) q.set("offset", String(params.offset))
+  const qs = q.toString()
+  return apiGet<{ sessions: AdminSession[]; total: number }>(
+    `/api/v1/admin/users/${userId}/sessions${qs ? `?${qs}` : ""}`, true
+  )
+}
+
 // ── Role management ─────────────────────────────────────────────────────
 
 export type AdminPermission = {
