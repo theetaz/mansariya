@@ -14,6 +14,7 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 
+import { useAuth } from "@/lib/auth"
 import {
   fetchUserDetail,
   fetchAdminRoles,
@@ -179,9 +180,21 @@ export function UserDetailPage() {
     onError: (err: Error) => toast.error(err.message),
   })
 
+  const { user: currentUser, logout } = useAuth()
+  const isViewingSelf = currentUser?.id === userId
+
   const revokeAll = useMutation({
     mutationFn: () => revokeAllUserSessions(userId!),
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["user-sessions"] }); toast.success("All sessions revoked") },
+    onSuccess: async () => {
+      if (isViewingSelf) {
+        toast.success("All sessions revoked — signing out")
+        await logout()
+        navigate("/login", { replace: true })
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["user-sessions"] })
+        toast.success("All sessions revoked")
+      }
+    },
   })
 
   const [deleteOpen, setDeleteOpen] = useState(false)

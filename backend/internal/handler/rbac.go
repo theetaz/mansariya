@@ -52,6 +52,24 @@ func (m *RBACMiddleware) Authenticate(next http.Handler) http.Handler {
 					return
 				}
 
+				// Verify user still exists and is active
+				user, err := m.store.GetUserByID(r.Context(), claims.UserID)
+				if err != nil {
+					writeError(w, http.StatusUnauthorized, "user_not_found", "User no longer exists.", "")
+					return
+				}
+				if user.Status != "active" {
+					writeError(w, http.StatusUnauthorized, "account_disabled", "Account has been disabled.", "")
+					return
+				}
+
+				// Verify user has at least one active session
+				sessions, err := m.store.ListUserSessions(r.Context(), claims.UserID)
+				if err == nil && len(sessions) == 0 {
+					writeError(w, http.StatusUnauthorized, "session_revoked", "All sessions have been revoked. Please sign in again.", "")
+					return
+				}
+
 				// Load permissions
 				perms, err := m.store.GetUserPermissions(r.Context(), claims.UserID)
 				if err != nil {

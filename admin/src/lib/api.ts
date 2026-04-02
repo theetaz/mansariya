@@ -174,6 +174,15 @@ function authHeaders(admin: boolean): HeadersInit {
 
 // Parse backend error envelope: { error: { code, message, field? } }
 async function parseAPIError(response: Response): Promise<Error> {
+  // Auto-logout on 401 (session revoked, token expired, user disabled)
+  if (response.status === 401) {
+    localStorage.removeItem("mansariya_auth")
+    if (window.location.pathname !== "/login") {
+      window.location.href = "/login"
+    }
+    return new Error("Session expired. Please sign in again.")
+  }
+
   try {
     const body = await response.json()
     if (body?.error?.message) {
