@@ -142,7 +142,7 @@ const columns: ColumnDef<AuditEntry>[] = [
 // ── Page ─────────────────────────────────────────────────────────────────
 
 export function AuditLogsPage() {
-  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 20 })
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 15 })
   const [sorting, setSorting] = useState<SortingState>([{ id: "created_at", desc: true }])
   const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -191,7 +191,7 @@ export function AuditLogsPage() {
         data={entries}
         isLoading={isLoading}
         searchPlaceholder="Search actor, action, IP, target..."
-        pageSize={20}
+        pageSize={15}
         serverSide={{
           rowCount: total,
           pagination,
