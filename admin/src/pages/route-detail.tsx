@@ -41,6 +41,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
@@ -241,7 +242,7 @@ function PolylineEditorTab({
   const center = getPolylineMidpoint(polyline)
 
   return (
-    <div className="overflow-hidden rounded-xl border" style={{ height: 600 }}>
+    <div className="min-h-0 flex-1 overflow-hidden rounded-xl border" style={{ minHeight: 500 }}>
       <PolylineEditor
         polyline={polyline}
         stops={stops}
@@ -271,9 +272,9 @@ function RouteStopsTab({ stops }: { stops: AdminEnrichedStop[] }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border">
+    <ScrollArea className="rounded-xl border" style={{ maxHeight: "calc(100svh - 10rem)" }}>
       <Table>
-        <TableHeader>
+        <TableHeader className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm">
           <TableRow>
             <TableHead className="w-16 text-center">#</TableHead>
             <TableHead>Name (EN)</TableHead>
@@ -320,7 +321,7 @@ function RouteStopsTab({ stops }: { stops: AdminEnrichedStop[] }) {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </ScrollArea>
   )
 }
 
@@ -416,24 +417,24 @@ export function RouteDetailPage() {
           </h2>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5 *:h-6 *:px-2.5 *:text-xs">
           {route.is_active ? (
-            <Badge variant="default" className="text-xs">Active</Badge>
+            <Badge variant="default">Active</Badge>
           ) : (
-            <Badge variant="secondary" className="text-xs">Inactive</Badge>
+            <Badge variant="secondary">Inactive</Badge>
           )}
           {route.operator && (
-            <Badge variant="outline" className="text-xs">{route.operator}</Badge>
+            <Badge variant="outline">{route.operator}</Badge>
           )}
           {route.service_type && (
-            <Badge variant="outline" className="text-xs">{route.service_type}</Badge>
+            <Badge variant="outline">{route.service_type}</Badge>
           )}
           {route.fare_lkr ? (
-            <Badge variant="outline" className="text-xs tabular-nums">
+            <Badge variant="outline" className="tabular-nums">
               Rs. {route.fare_lkr.toLocaleString()}
             </Badge>
           ) : null}
-          <Badge variant="outline" className="text-xs tabular-nums">
+          <Badge variant="outline" className="tabular-nums">
             {stops.length} stops
           </Badge>
         </div>
@@ -488,13 +489,11 @@ export function RouteDetailPage() {
 
           <TabsContent value="map" className="mt-3 flex min-h-0 flex-1 flex-col pb-4">
             {isEditingPolyline ? (
-              <div className="min-h-0 flex-1 overflow-hidden rounded-xl border" style={{ minHeight: 500 }}>
-                <PolylineEditorTab
-                  detail={data}
-                  routeId={routeId!}
-                  onDone={() => setIsEditingPolyline(false)}
-                />
-              </div>
+              <PolylineEditorTab
+                detail={data}
+                routeId={routeId!}
+                onDone={() => setIsEditingPolyline(false)}
+              />
             ) : (
               <RouteMapTab
                 detail={data}

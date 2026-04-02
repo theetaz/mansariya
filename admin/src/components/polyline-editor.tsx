@@ -218,73 +218,73 @@ export function PolylineEditor({ polyline, stops, mapCenter, mapZoom, onSave, on
 
   return (
     <div className="h-full flex flex-col">
-      {/* Toolbar */}
-      <div className="flex items-center gap-2 p-2 border-b bg-muted/30 flex-wrap">
-        <Button size="sm" variant="outline" onClick={handleRebuildFromStops}
+      {/* Toolbar — all elements normalized to h-7 */}
+      <div className="flex items-center gap-1.5 border-b bg-muted/30 px-2 py-1.5 flex-wrap *:h-7 *:text-xs">
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={handleRebuildFromStops}
           disabled={isRebuilding || !!previewPolyline}>
-          {isRebuilding ? <LoaderIcon className="size-4 mr-1 animate-spin" /> : <RefreshCwIcon className="size-4 mr-1" />}
+          {isRebuilding ? <LoaderIcon className="size-3.5 mr-1 animate-spin" /> : <RefreshCwIcon className="size-3.5 mr-1" />}
           Rebuild from Stops
         </Button>
 
         {previewPolyline && (
           <>
-            <Badge variant="secondary" className="text-xs">Preview: {previewPolyline.length} pts</Badge>
-            <Button size="sm" onClick={handleApplyPreview}>Apply</Button>
-            <Button size="sm" variant="outline" onClick={() => setPreviewPolyline(null)}>Discard</Button>
+            <Badge variant="secondary" className="h-7 px-2.5 text-xs">Preview: {previewPolyline.length} pts</Badge>
+            <Button size="sm" className="h-7 text-xs" onClick={handleApplyPreview}>Apply</Button>
+            <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setPreviewPolyline(null)}>Discard</Button>
           </>
         )}
 
         {!previewPolyline && (
           <>
-            <Button size="sm" variant={showPoints ? 'default' : 'outline'}
+            <Button size="sm" variant={showPoints ? 'default' : 'outline'} className="h-7 text-xs"
               onClick={() => setShowPoints(!showPoints)}>
-              {showPoints ? <EyeIcon className="size-4 mr-1" /> : <EyeOffIcon className="size-4 mr-1" />}
+              {showPoints ? <EyeIcon className="size-3.5 mr-1" /> : <EyeOffIcon className="size-3.5 mr-1" />}
               Points
             </Button>
 
-            <Button size="sm" variant={mode === 'add' ? 'default' : 'outline'}
+            <Button size="sm" variant={mode === 'add' ? 'default' : 'outline'} className="h-7 text-xs"
               onClick={() => setMode(mode === 'add' ? 'idle' : 'add')}>
-              <PlusIcon className="size-4 mr-1" />
+              <PlusIcon className="size-3.5 mr-1" />
               {mode === 'add' ? 'Cancel Add' : 'Add Point'}
             </Button>
 
             {selectedPoints.size > 0 && (
               <>
-                <Button size="sm" variant="destructive" onClick={handleRemoveSelected}>
-                  <Trash2Icon className="size-4 mr-1" />
-                  Remove {selectedPoints.size} points
+                <Button size="sm" variant="destructive" className="h-7 text-xs" onClick={handleRemoveSelected}>
+                  <Trash2Icon className="size-3.5 mr-1" />
+                  Remove {selectedPoints.size}
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => setSelectedPoints(new Set())}>
-                  Deselect All
+                <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setSelectedPoints(new Set())}>
+                  Deselect
                 </Button>
               </>
             )}
           </>
         )}
 
-        <Button size="sm" variant="outline" onClick={handleUndo} disabled={history.length === 0}>
-          <Undo2Icon className="size-4 mr-1" />
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={handleUndo} disabled={history.length === 0}>
+          <Undo2Icon className="size-3.5 mr-1" />
           Undo
         </Button>
 
-        <div className="flex-1" />
+        <div className="!h-auto flex-1" />
 
-        {mode === 'add' && <Badge variant="default" className="text-xs">Click map to add point (Esc to cancel)</Badge>}
+        {mode === 'add' && <Badge variant="default" className="h-7 px-2.5 text-xs">Click map to add (Esc cancel)</Badge>}
         {showPoints && selectedPoints.size === 0 && mode !== 'add' && (
-          <Badge variant="outline" className="text-xs">Click to select · Shift+drag box · ⌘Z undo · Del remove · ⌘S save</Badge>
+          <Badge variant="outline" className="hidden h-7 px-2.5 text-[10px] lg:flex">Click to select · Shift+drag box · ⌘Z undo · Del remove · ⌘S save</Badge>
         )}
         {selectedPoints.size > 0 && (
-          <Badge variant="outline" className="text-xs">Drag to move · Del remove · Esc deselect</Badge>
+          <Badge variant="outline" className="h-7 px-2.5 text-[10px]">Drag to move · Del remove · Esc deselect</Badge>
         )}
 
-        <Badge variant="outline" className="text-xs">{workingPolyline.length} pts</Badge>
+        <Badge variant="outline" className="h-7 px-2.5 text-xs tabular-nums">{workingPolyline.length} pts</Badge>
 
-        <Button size="sm" onClick={handleSave} disabled={!hasChanges || isSaving || !!previewPolyline}>
-          <SaveIcon className="size-4 mr-1" />
+        <Button size="sm" className="h-7 text-xs" onClick={handleSave} disabled={!hasChanges || isSaving || !!previewPolyline}>
+          <SaveIcon className="size-3.5 mr-1" />
           {isSaving ? 'Saving...' : 'Save'}
         </Button>
-        <Button size="sm" variant="outline" onClick={onCancel}>
-          <XIcon className="size-4 mr-1" />
+        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={onCancel}>
+          <XIcon className="size-3.5 mr-1" />
           Cancel
         </Button>
 
