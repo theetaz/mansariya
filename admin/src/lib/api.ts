@@ -115,6 +115,45 @@ export type HealthResponse = {
   service: string
 }
 
+export type Vehicle = {
+  virtual_id: string
+  route_id: string
+  lat: number
+  lng: number
+  speed_kmh: number
+  bearing: number
+  contributor_count: number
+  confidence: "low" | "good" | "verified"
+  last_update: string
+}
+
+export type ActiveBusesDetailResponse = {
+  buses: Vehicle[]
+  count: number
+}
+
+export type AdminEnrichedStop = {
+  stop_id: string
+  stop_order: number
+  name_en: string
+  name_si: string
+  name_ta: string
+  lat: number
+  lng: number
+  distance_from_start_km: number
+  typical_duration_min: number
+  fare_from_start_lkr: number
+  is_terminal: boolean
+}
+
+export type AdminRouteDetail = {
+  route: AdminRouteWithStats
+  stops: AdminEnrichedStop[]
+  patterns: unknown[]
+  timetable: unknown[]
+  polyline: [number, number][]
+}
+
 // ── Fetch helpers ────────────────────────────────────────────────────────
 
 async function apiGet<T>(path: string, admin = false): Promise<T> {
@@ -233,4 +272,14 @@ export function stopSimulation(id: string) {
 
 export function deleteSimulation(id: string) {
   return apiMutate<unknown>("DELETE", `/api/v1/admin/simulations/${id}`)
+}
+
+// ── Live Map ─────────────────────────────────────────────────────────────
+
+export function fetchActiveBusesDetail() {
+  return apiGet<ActiveBusesDetailResponse>("/api/v1/buses/active")
+}
+
+export function fetchAdminRouteDetail(id: string) {
+  return apiGet<AdminRouteDetail>(`/api/v1/admin/routes/${id}`, true)
 }

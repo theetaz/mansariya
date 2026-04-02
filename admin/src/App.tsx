@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 import { DataPage } from "@/pages/data"
+import { LiveMapPage } from "@/pages/live-map"
 import { RoutesPage } from "@/pages/routes"
 import { SettingsPage } from "@/pages/settings"
 import { SimulationsPage } from "@/pages/simulations"
@@ -50,7 +51,7 @@ export function App() {
           <Route path="simulations" element={<SimulationsPage />} />
           <Route path="data" element={<DataPage />} />
           <Route path="settings" element={<SettingsPage />} />
-          <Route path="live-map" element={<EmptyPage />} />
+          <Route path="live-map" element={<LiveMapPage />} />
           <Route path="route-builder" element={<EmptyPage />} />
         </Route>
       </Routes>
