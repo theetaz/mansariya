@@ -368,7 +368,7 @@ function RoleActions({ role, onPermissions, onEdit, onDelete }: {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44">
         <DropdownMenuItem onClick={onPermissions}>
-          <KeyRoundIcon className="mr-2 size-4" />Manage Permissions
+          <KeyRoundIcon className="mr-2 size-4" />Permissions
         </DropdownMenuItem>
         {!role.is_system && (
           <>
