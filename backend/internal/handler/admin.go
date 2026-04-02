@@ -41,6 +41,20 @@ type AdminStore interface {
 
 	GetRoutePatterns(ctx context.Context, routeID string) ([]AdminRoutePattern, error)
 	GetPatternStops(ctx context.Context, patternID string) ([]AdminEnrichedStop, error)
+	ListStopsFiltered(ctx context.Context, search, source, sortBy, sortDir string, limit, offset int) (interface{}, error)
+}
+
+type AdminStopView struct {
+	ID               string    `json:"id"`
+	NameEN           string    `json:"name_en"`
+	NameSI           string    `json:"name_si"`
+	NameTA           string    `json:"name_ta"`
+	Lat              float64   `json:"lat"`
+	Lng              float64   `json:"lng"`
+	Source           string    `json:"source"`
+	Confidence       float64   `json:"confidence"`
+	ObservationCount int       `json:"observation_count"`
+	CreatedAt        time.Time `json:"created_at"`
 }
 
 // --- Input types ---
@@ -480,6 +494,26 @@ func (h *AdminHandler) GetStats(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, stats)
+}
+
+func (h *AdminHandler) ListStops(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query()
+	limit, _ := strconv.Atoi(q.Get("limit"))
+	offset, _ := strconv.Atoi(q.Get("offset"))
+	if limit <= 0 {
+		limit = 15
+	}
+
+	result, err := h.store.ListStopsFiltered(r.Context(),
+		q.Get("search"), q.Get("source"),
+		q.Get("sort_by"), q.Get("sort_dir"),
+		limit, offset,
+	)
+	if err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+	writeJSON(w, http.StatusOK, result)
 }
 
 func (h *AdminHandler) UpdatePolyline(w http.ResponseWriter, r *http.Request) {

@@ -394,6 +394,90 @@ func (s *AdminStore) DeleteStop(ctx context.Context, id string) error {
 	return tx.Commit(ctx)
 }
 
+type StopListResult struct {
+	Stops []handler.AdminStopView `json:"stops"`
+	Total int                     `json:"total"`
+}
+
+func (s *AdminStore) ListStopsFiltered(ctx context.Context, search, source, sortBy, sortDir string, limit, offset int) (interface{}, error) {
+	return s.listStopsFilteredInternal(ctx, search, source, sortBy, sortDir, limit, offset)
+}
+
+func (s *AdminStore) listStopsFilteredInternal(ctx context.Context, search, source, sortBy, sortDir string, limit, offset int) (*StopListResult, error) {
+	if limit <= 0 {
+		limit = 15
+	}
+	if limit > 100 {
+		limit = 100
+	}
+
+	where := "WHERE 1=1"
+	args := []interface{}{}
+	n := 0
+
+	if search != "" {
+		n++
+		where += fmt.Sprintf(" AND (name_en ILIKE $%d OR COALESCE(name_si,'') ILIKE $%d OR id ILIKE $%d)", n, n, n)
+		args = append(args, "%"+search+"%")
+	}
+	if source != "" {
+		n++
+		where += fmt.Sprintf(" AND source = $%d", n)
+		args = append(args, source)
+	}
+
+	var total int
+	if err := s.pool.QueryRow(ctx, "SELECT COUNT(*) FROM stops "+where, args...).Scan(&total); err != nil {
+		return nil, fmt.Errorf("count stops: %w", err)
+	}
+
+	sortCols := map[string]string{
+		"name_en": "name_en", "source": "source", "confidence": "confidence",
+		"observation_count": "observation_count", "created_at": "created_at",
+	}
+	sc := "created_at"
+	if col, ok := sortCols[sortBy]; ok {
+		sc = col
+	}
+	sd := "DESC"
+	if sortDir == "asc" {
+		sd = "ASC"
+	}
+
+	n++
+	args = append(args, limit)
+	n++
+	args = append(args, offset)
+
+	query := fmt.Sprintf(
+		`SELECT id, name_en, COALESCE(name_si,''), COALESCE(name_ta,''),
+		        ST_Y(location) AS lat, ST_X(location) AS lng,
+		        source, confidence, observation_count, created_at
+		 FROM stops %s ORDER BY %s %s LIMIT $%d OFFSET $%d`,
+		where, sc, sd, n-1, n,
+	)
+
+	rows, err := s.pool.Query(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("list stops: %w", err)
+	}
+	defer rows.Close()
+
+	var stops []handler.AdminStopView
+	for rows.Next() {
+		var sv handler.AdminStopView
+		if err := rows.Scan(&sv.ID, &sv.NameEN, &sv.NameSI, &sv.NameTA,
+			&sv.Lat, &sv.Lng, &sv.Source, &sv.Confidence, &sv.ObservationCount, &sv.CreatedAt); err != nil {
+			return nil, fmt.Errorf("scan stop: %w", err)
+		}
+		stops = append(stops, sv)
+	}
+	if stops == nil {
+		stops = []handler.AdminStopView{}
+	}
+	return &StopListResult{Stops: stops, Total: total}, nil
+}
+
 func (s *AdminStore) ListRoutesFiltered(ctx context.Context, filter handler.AdminRouteFilter) (*handler.AdminRouteListResponse, error) {
 	// Build dynamic WHERE clause
 	where := []string{"1=1"}

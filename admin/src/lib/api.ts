@@ -294,6 +294,42 @@ export function fetchNearbyStops() {
   return apiGet<Stop[]>("/api/v1/stops/nearby?lat=7.0&lng=80.0&radius_km=500")
 }
 
+export type AdminStopsParams = {
+  search?: string
+  source?: string
+  sort_by?: string
+  sort_dir?: string
+  limit?: number
+  offset?: number
+}
+
+export type AdminStopView = {
+  id: string
+  name_en: string
+  name_si: string
+  name_ta: string
+  lat: number
+  lng: number
+  source: string
+  confidence: number
+  observation_count: number
+  created_at: string
+}
+
+export function fetchAdminStops(params?: AdminStopsParams) {
+  const q = new URLSearchParams()
+  if (params?.search) q.set("search", params.search)
+  if (params?.source) q.set("source", params.source)
+  if (params?.sort_by) q.set("sort_by", params.sort_by)
+  if (params?.sort_dir) q.set("sort_dir", params.sort_dir)
+  if (params?.limit) q.set("limit", String(params.limit))
+  if (params?.offset) q.set("offset", String(params.offset))
+  const qs = q.toString()
+  return apiGet<{ stops: AdminStopView[]; total: number }>(
+    `/api/v1/admin/stops${qs ? `?${qs}` : ""}`, true
+  )
+}
+
 // ── Timetables ───────────────────────────────────────────────────────────
 
 export function setTimetable(routeId: string, entries: TimetableInput[]) {

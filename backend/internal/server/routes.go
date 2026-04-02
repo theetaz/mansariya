@@ -132,6 +132,7 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.With(handler.RequirePermission("map.edit_polyline")).Put("/routes/{routeID}/polyline", deps.Admin.UpdatePolyline)
 
 		// Stops
+		r.With(handler.RequirePermission("stops.view")).Get("/stops", deps.Admin.ListStops)
 		r.With(handler.RequirePermission("stops.create")).Post("/stops", deps.Admin.CreateStop)
 		r.With(handler.RequirePermission("stops.edit")).Put("/stops/{stopID}", deps.Admin.UpdateStop)
 		r.With(handler.RequirePermission("stops.delete")).Delete("/stops/{stopID}", deps.Admin.DeleteStop)
