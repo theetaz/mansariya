@@ -38,6 +38,12 @@ type AuthStoreInterface interface {
 
 	GetUserRoles(ctx context.Context, userID string) ([]model.Role, error)
 	ListRoles(ctx context.Context) ([]model.Role, error)
+	CreateRole(ctx context.Context, slug, name, description string) (*model.Role, error)
+	UpdateRole(ctx context.Context, id, name, description string) error
+	DeleteRole(ctx context.Context, id string) error
+	GetRolePermissions(ctx context.Context, roleID string) ([]model.Permission, error)
+	SetRolePermissions(ctx context.Context, roleID string, permissionIDs []string) error
+	ListPermissions(ctx context.Context) ([]model.Permission, error)
 	AssignRole(ctx context.Context, userID, roleID string, assignedBy *string) error
 	RemoveRole(ctx context.Context, userID, roleID string) error
 	GetUserPermissions(ctx context.Context, userID string) ([]string, error)

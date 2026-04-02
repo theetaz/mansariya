@@ -189,6 +189,107 @@ func (h *UserAdminHandler) ListRoles(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]interface{}{"roles": roles})
 }
 
+// ── Role CRUD ────────────────────────────────────────────────────────────
+
+func (h *UserAdminHandler) CreateRole(w http.ResponseWriter, r *http.Request) {
+	var req struct {
+		Slug        string `json:"slug"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
+		return
+	}
+	if req.Slug == "" || req.Name == "" {
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "slug,name"))
+		return
+	}
+
+	role, err := h.store.CreateRole(r.Context(), req.Slug, req.Name, req.Description)
+	if err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+
+	h.logAudit(r, "role.created", "role", role.ID, map[string]string{"slug": req.Slug})
+	writeJSON(w, http.StatusCreated, role)
+}
+
+func (h *UserAdminHandler) UpdateRoleInfo(w http.ResponseWriter, r *http.Request) {
+	roleID := chi.URLParam(r, "roleID")
+	var req struct {
+		Name        string `json:"name"`
+		Description string `json:"description"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
+		return
+	}
+
+	if err := h.store.UpdateRole(r.Context(), roleID, req.Name, req.Description); err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+
+	h.logAudit(r, "role.updated", "role", roleID, nil)
+	writeJSON(w, http.StatusOK, map[string]string{"status": "updated"})
+}
+
+func (h *UserAdminHandler) DeleteRoleHandler(w http.ResponseWriter, r *http.Request) {
+	roleID := chi.URLParam(r, "roleID")
+
+	if err := h.store.DeleteRole(r.Context(), roleID); err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+
+	h.logAudit(r, "role.deleted", "role", roleID, nil)
+	writeJSON(w, http.StatusOK, map[string]string{"status": "deleted"})
+}
+
+// ── Role permissions ─────────────────────────────────────────────────────
+
+func (h *UserAdminHandler) GetRolePermissions(w http.ResponseWriter, r *http.Request) {
+	roleID := chi.URLParam(r, "roleID")
+
+	perms, err := h.store.GetRolePermissions(r.Context(), roleID)
+	if err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]interface{}{"permissions": perms})
+}
+
+func (h *UserAdminHandler) SetRolePermissions(w http.ResponseWriter, r *http.Request) {
+	roleID := chi.URLParam(r, "roleID")
+
+	var req struct {
+		PermissionIDs []string `json:"permission_ids"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
+		return
+	}
+
+	if err := h.store.SetRolePermissions(r.Context(), roleID, req.PermissionIDs); err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+
+	h.logAudit(r, "role.permissions_updated", "role", roleID, nil)
+	writeJSON(w, http.StatusOK, map[string]string{"status": "updated"})
+}
+
+func (h *UserAdminHandler) ListPermissions(w http.ResponseWriter, r *http.Request) {
+	perms, err := h.store.ListPermissions(r.Context())
+	if err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]interface{}{"permissions": perms})
+}
+
 // ── User sessions ────────────────────────────────────────────────────────
 
 func (h *UserAdminHandler) ListUserSessions(w http.ResponseWriter, r *http.Request) {

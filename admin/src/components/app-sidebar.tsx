@@ -33,6 +33,8 @@ const navPermissions: Record<string, string> = {
   "Simulations": "simulations.view",
   "Import/Export": "data.export",
   "Users": "users.view",
+  "Roles": "users.manage",
+  "Audit Logs": "users.manage",
 }
 
 function filterByPermission(items: NavItem[], hasPermission: (p: string) => boolean): NavItem[] {

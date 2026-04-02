@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom
 import { Loader2Icon } from "lucide-react"
 
 import { useAuth } from "@/lib/auth"
+import { Toaster } from "@/components/ui/sonner"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardContent } from "@/components/dashboard-content"
 import { SiteHeader } from "@/components/site-header"
@@ -21,6 +22,8 @@ import { SimulationsPage } from "@/pages/simulations"
 import { StopsPage } from "@/pages/stops"
 import { TimetablesPage } from "@/pages/timetables"
 import { UsersPage } from "@/pages/users"
+import { RolesPage } from "@/pages/roles"
+import { AuditLogsPage } from "@/pages/audit-logs"
 
 const layoutStyle = {
   "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -78,6 +81,7 @@ function PublicRoute() {
 export function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" richColors closeButton />
       <Routes>
         {/* Public routes */}
         <Route element={<PublicRoute />}>
@@ -96,6 +100,8 @@ export function App() {
           <Route path="simulations" element={<SimulationsPage />} />
           <Route path="data" element={<DataPage />} />
           <Route path="users" element={<UsersPage />} />
+          <Route path="roles" element={<RolesPage />} />
+          <Route path="audit-logs" element={<AuditLogsPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="live-map" element={<LiveMapPage />} />
           <Route path="route-builder" element={<RouteBuilderPage />} />

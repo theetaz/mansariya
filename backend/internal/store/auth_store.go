@@ -145,6 +145,92 @@ func (s *AuthStore) ListRoles(ctx context.Context) ([]model.Role, error) {
 	return roles, rows.Err()
 }
 
+// ── Role CRUD ────────────────────────────────────────────────────────────
+
+func (s *AuthStore) CreateRole(ctx context.Context, slug, name, description string) (*model.Role, error) {
+	var r model.Role
+	err := s.pool.QueryRow(ctx,
+		`INSERT INTO roles (slug, name, description, is_system)
+		 VALUES ($1, $2, $3, FALSE)
+		 RETURNING id, slug, name, description, is_system, created_at, updated_at`,
+		slug, name, description,
+	).Scan(&r.ID, &r.Slug, &r.Name, &r.Description, &r.IsSystem, &r.CreatedAt, &r.UpdatedAt)
+	if err != nil {
+		return nil, fmt.Errorf("create role: %w", err)
+	}
+	return &r, nil
+}
+
+func (s *AuthStore) UpdateRole(ctx context.Context, id, name, description string) error {
+	_, err := s.pool.Exec(ctx,
+		`UPDATE roles SET name = $2, description = $3, updated_at = NOW() WHERE id = $1 AND is_system = FALSE`,
+		id, name, description,
+	)
+	if err != nil {
+		return fmt.Errorf("update role: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) DeleteRole(ctx context.Context, id string) error {
+	_, err := s.pool.Exec(ctx, `DELETE FROM roles WHERE id = $1 AND is_system = FALSE`, id)
+	if err != nil {
+		return fmt.Errorf("delete role: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) GetRolePermissions(ctx context.Context, roleID string) ([]model.Permission, error) {
+	rows, err := s.pool.Query(ctx,
+		`SELECT p.id, p.slug, p.name, p.family, COALESCE(p.description, ''), p.created_at
+		 FROM permissions p
+		 JOIN role_permissions rp ON rp.permission_id = p.id
+		 WHERE rp.role_id = $1
+		 ORDER BY p.family, p.slug`, roleID,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("get role permissions: %w", err)
+	}
+	defer rows.Close()
+
+	var perms []model.Permission
+	for rows.Next() {
+		var p model.Permission
+		if err := rows.Scan(&p.ID, &p.Slug, &p.Name, &p.Family, &p.Description, &p.CreatedAt); err != nil {
+			return nil, fmt.Errorf("scan permission: %w", err)
+		}
+		perms = append(perms, p)
+	}
+	return perms, rows.Err()
+}
+
+func (s *AuthStore) SetRolePermissions(ctx context.Context, roleID string, permissionIDs []string) error {
+	tx, err := s.pool.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("begin tx: %w", err)
+	}
+	defer tx.Rollback(ctx)
+
+	// Remove all existing
+	_, err = tx.Exec(ctx, `DELETE FROM role_permissions WHERE role_id = $1`, roleID)
+	if err != nil {
+		return fmt.Errorf("clear role permissions: %w", err)
+	}
+
+	// Insert new set
+	for _, pid := range permissionIDs {
+		_, err = tx.Exec(ctx,
+			`INSERT INTO role_permissions (role_id, permission_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+			roleID, pid,
+		)
+		if err != nil {
+			return fmt.Errorf("assign permission %s: %w", pid, err)
+		}
+	}
+
+	return tx.Commit(ctx)
+}
+
 // ── User-Role assignments ────────────────────────────────────────────────
 
 func (s *AuthStore) AssignRole(ctx context.Context, userID, roleID string, assignedBy *string) error {

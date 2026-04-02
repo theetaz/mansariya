@@ -4,8 +4,10 @@ import {
   CheckCircle2Icon,
   Loader2Icon,
   MailPlusIcon,
+  MonitorIcon,
   ShieldIcon,
   ShieldOffIcon,
+  Trash2Icon,
   UserPlusIcon,
   XCircleIcon,
 } from "lucide-react"
@@ -13,6 +15,9 @@ import { toast } from "sonner"
 
 import {
   fetchAdminUsers,
+  fetchUserSessions,
+  revokeUserSession,
+  revokeAllUserSessions,
   fetchAdminRoles,
   inviteUser,
   updateUserStatus,
@@ -139,6 +144,97 @@ function InviteDialog({ roles }: { roles: AdminRole[] }) {
   )
 }
 
+function SessionsDialog({ userId, displayName }: { userId: string; displayName: string }) {
+  const [open, setOpen] = useState(false)
+  const queryClient = useQueryClient()
+
+  const sessionsQuery = useQuery({
+    queryKey: ["user-sessions", userId],
+    queryFn: () => fetchUserSessions(userId),
+    enabled: open,
+  })
+
+  const revoke = useMutation({
+    mutationFn: (sessionId: string) => revokeUserSession(userId, sessionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-sessions", userId] })
+      toast.success("Session revoked")
+    },
+    onError: (err) => toast.error(err.message),
+  })
+
+  const revokeAll = useMutation({
+    mutationFn: () => revokeAllUserSessions(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-sessions", userId] })
+      toast.success("All sessions revoked")
+    },
+    onError: (err) => toast.error(err.message),
+  })
+
+  const sessions = sessionsQuery.data?.sessions ?? []
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="sm" className="gap-1">
+          <MonitorIcon className="size-3" />
+          Sessions
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Active Sessions — {displayName}</DialogTitle>
+          <DialogDescription>
+            {sessions.length} active session{sessions.length !== 1 ? "s" : ""}.
+          </DialogDescription>
+        </DialogHeader>
+        {sessionsQuery.isLoading ? (
+          <div className="flex justify-center py-4">
+            <Loader2Icon className="size-5 animate-spin text-muted-foreground" />
+          </div>
+        ) : sessions.length === 0 ? (
+          <p className="py-4 text-center text-sm text-muted-foreground">No active sessions.</p>
+        ) : (
+          <div className="max-h-60 space-y-2 overflow-y-auto">
+            {sessions.map((s) => (
+              <div key={s.id} className="flex items-center justify-between rounded-md border px-3 py-2 text-sm">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium">{s.user_agent || "Unknown device"}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {s.ip_address} — last used {new Date(s.last_used_at).toLocaleString()}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="ml-2 text-destructive hover:text-destructive"
+                  onClick={() => revoke.mutate(s.id)}
+                  disabled={revoke.isPending}
+                >
+                  <Trash2Icon className="size-3" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+        {sessions.length > 0 && (
+          <DialogFooter>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => revokeAll.mutate()}
+              disabled={revokeAll.isPending}
+            >
+              Revoke All Sessions
+            </Button>
+          </DialogFooter>
+        )}
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 function UserRow({ user, roles }: { user: AdminUser; roles: AdminRole[] }) {
   const queryClient = useQueryClient()
 
@@ -213,20 +309,23 @@ function UserRow({ user, roles }: { user: AdminUser; roles: AdminRole[] }) {
           : "Never"}
       </TableCell>
       <TableCell>
-        {user.status !== "invited" && (
-          <Button
-            variant={user.status === "active" ? "outline" : "default"}
-            size="sm"
-            className="gap-1"
-            onClick={() => toggleStatus.mutate()}
-            disabled={toggleStatus.isPending}
-          >
-            {user.status === "active"
-              ? <><ShieldOffIcon className="size-3" />Disable</>
-              : <><ShieldIcon className="size-3" />Enable</>
-            }
-          </Button>
-        )}
+        <div className="flex items-center gap-1">
+          <SessionsDialog userId={user.id} displayName={user.display_name} />
+          {user.status !== "invited" && (
+            <Button
+              variant={user.status === "active" ? "outline" : "default"}
+              size="sm"
+              className="gap-1"
+              onClick={() => toggleStatus.mutate()}
+              disabled={toggleStatus.isPending}
+            >
+              {user.status === "active"
+                ? <><ShieldOffIcon className="size-3" />Disable</>
+                : <><ShieldIcon className="size-3" />Enable</>
+              }
+            </Button>
+          )}
+        </div>
       </TableCell>
     </TableRow>
   )

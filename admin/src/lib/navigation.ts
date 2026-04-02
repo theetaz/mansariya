@@ -11,6 +11,8 @@ import {
   Settings2Icon,
   PlayCircleIcon,
   UsersIcon,
+  ShieldCheckIcon,
+  ScrollTextIcon,
 } from "lucide-react"
 
 export type NavItem = {
@@ -49,6 +51,8 @@ export const toolsNavItems: NavItem[] = [
 
 export const adminNavItems: NavItem[] = [
   { title: "Users", icon: UsersIcon, url: "/users" },
+  { title: "Roles", icon: ShieldCheckIcon, url: "/roles" },
+  { title: "Audit Logs", icon: ScrollTextIcon, url: "/audit-logs" },
 ]
 
 export const secondaryNavItems: NavItem[] = [

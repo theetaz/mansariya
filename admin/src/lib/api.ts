@@ -172,13 +172,25 @@ function authHeaders(admin: boolean): HeadersInit {
   return headers
 }
 
+// Parse backend error envelope: { error: { code, message, field? } }
+async function parseAPIError(response: Response): Promise<Error> {
+  try {
+    const body = await response.json()
+    if (body?.error?.message) {
+      return new Error(body.error.message)
+    }
+  } catch {
+    // fallback
+  }
+  return new Error(`Request failed (${response.status})`)
+}
+
 async function apiGet<T>(path: string, admin = false): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     headers: authHeaders(admin),
   })
   if (!response.ok) {
-    const body = await response.text().catch(() => "")
-    throw new Error(`API ${response.status}: ${body || response.statusText}`)
+    throw await parseAPIError(response)
   }
   return (await response.json()) as T
 }
@@ -199,8 +211,7 @@ async function apiMutate<T>(
     body: body != null ? JSON.stringify(body) : undefined,
   })
   if (!response.ok) {
-    const text = await response.text().catch(() => "")
-    throw new Error(`API ${response.status}: ${text || response.statusText}`)
+    throw await parseAPIError(response)
   }
   return (await response.json()) as T
 }
@@ -377,5 +388,65 @@ export function revokeUserSession(userId: string, sessionId: string) {
 export function revokeAllUserSessions(userId: string) {
   return apiMutate<{ status: string }>(
     "DELETE", `/api/v1/admin/users/${userId}/sessions`
+  )
+}
+
+// ── Role management ─────────────────────────────────────────────────────
+
+export type AdminPermission = {
+  id: string
+  slug: string
+  name: string
+  family: string
+  description: string
+}
+
+export function fetchAdminPermissions() {
+  return apiGet<{ permissions: AdminPermission[] }>("/api/v1/admin/permissions", true)
+}
+
+export function createRole(slug: string, name: string, description: string) {
+  return apiMutate<AdminRole>("POST", "/api/v1/admin/roles", { slug, name, description })
+}
+
+export function updateRole(roleId: string, name: string, description: string) {
+  return apiMutate<{ status: string }>("PUT", `/api/v1/admin/roles/${roleId}`, { name, description })
+}
+
+export function deleteRole(roleId: string) {
+  return apiMutate<{ status: string }>("DELETE", `/api/v1/admin/roles/${roleId}`)
+}
+
+export function fetchRolePermissions(roleId: string) {
+  return apiGet<{ permissions: AdminPermission[] }>(`/api/v1/admin/roles/${roleId}/permissions`, true)
+}
+
+export function setRolePermissions(roleId: string, permissionIds: string[]) {
+  return apiMutate<{ status: string }>("PUT", `/api/v1/admin/roles/${roleId}/permissions`, { permission_ids: permissionIds })
+}
+
+// ── Audit logs ──────────────────────────────────────────────────────────
+
+export type AuditEntry = {
+  id: number
+  actor_id: string
+  actor_email: string
+  action: string
+  target_type: string
+  target_id: string
+  metadata: Record<string, string>
+  ip_address: string
+  user_agent: string
+  created_at: string
+}
+
+export function fetchAuditLogs(params?: { action?: string; limit?: number; offset?: number }) {
+  const q = new URLSearchParams()
+  if (params?.action) q.set("action", params.action)
+  if (params?.limit) q.set("limit", String(params.limit))
+  if (params?.offset) q.set("offset", String(params.offset))
+  const qs = q.toString()
+  return apiGet<{ entries: AuditEntry[]; total: number }>(
+    `/api/v1/admin/audit-logs${qs ? `?${qs}` : ""}`, true
   )
 }
