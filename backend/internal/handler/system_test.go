@@ -67,5 +67,30 @@ func TestSystemHandlerGetHealth_DegradedServices(t *testing.T) {
 	require.Equal(t, "postgres unavailable", resp.Services[1].Message)
 	require.Equal(t, "ok", resp.Services[2].Status)
 	require.Equal(t, "down", resp.Services[3].Status)
-	require.Equal(t, "status 503", resp.Services[3].Message)
+	require.Equal(t, "server error: status 503", resp.Services[3].Message)
+}
+
+func TestSystemHandlerGetHealth_ValhallaNotRunning(t *testing.T) {
+	// Point Valhalla URL at a port nothing listens on → connection refused
+	handler := NewSystemHandler(
+		func(ctx context.Context) error { return nil },
+		func(ctx context.Context) error { return nil },
+		"http://127.0.0.1:1", // port 1 — guaranteed connection refused
+	)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/admin/system/health", nil)
+	rec := httptest.NewRecorder()
+
+	handler.GetHealth(rec, req)
+
+	require.Equal(t, http.StatusOK, rec.Code)
+
+	var resp systemHealthResponse
+	require.NoError(t, json.NewDecoder(rec.Body).Decode(&resp))
+
+	// Overall status should be "ok" — Valhalla not running is not a degradation
+	require.Equal(t, "ok", resp.Status)
+	// Valhalla should report "not_running"
+	require.Equal(t, "not_running", resp.Services[3].Status)
+	require.Equal(t, "service not started", resp.Services[3].Message)
 }

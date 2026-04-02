@@ -2,9 +2,12 @@ package handler
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"net"
 	"net/http"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -52,9 +55,10 @@ func (h *SystemHandler) GetHealth(w http.ResponseWriter, r *http.Request) {
 		h.checkValhalla(r.Context()),
 	)
 
+	// Only critical services (not "not_running" optional ones) affect overall status
 	overall := "ok"
 	for _, service := range services {
-		if service.Status != "ok" {
+		if service.Status == "down" {
 			overall = "degraded"
 			break
 		}
@@ -116,6 +120,14 @@ func (h *SystemHandler) checkValhalla(ctx context.Context) serviceHealth {
 
 	resp, err := h.httpClient.Do(req)
 	if err != nil {
+		// Connection refused = service simply not started (optional)
+		if isConnectionRefused(err) {
+			return serviceHealth{
+				Name:    "valhalla",
+				Status:  "not_running",
+				Message: "service not started",
+			}
+		}
 		return serviceHealth{
 			Name:    "valhalla",
 			Status:  "down",
@@ -139,4 +151,14 @@ func (h *SystemHandler) checkValhalla(ctx context.Context) serviceHealth {
 		Name:   "valhalla",
 		Status: "ok",
 	}
+}
+
+func isConnectionRefused(err error) bool {
+	var opErr *net.OpError
+	if errors.As(err, &opErr) {
+		if errors.Is(opErr.Err, syscall.ECONNREFUSED) {
+			return true
+		}
+	}
+	return false
 }

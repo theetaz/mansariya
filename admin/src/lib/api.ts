@@ -27,7 +27,7 @@ export type SimulationActiveResponse = {
 
 export type ServiceHealth = {
   name: string
-  status: "ok" | "down" | "unknown" | string
+  status: "ok" | "down" | "not_running" | "unknown" | string
   message?: string
 }
 

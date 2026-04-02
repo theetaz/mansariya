@@ -36,6 +36,17 @@ function statusConfig(status: string) {
     } as const
   }
 
+  if (status === "not_running") {
+    return {
+      label: "Not Running",
+      dotClass: "bg-zinc-400",
+      pulseClass: "bg-zinc-300",
+      borderClass: "border-l-zinc-400/70",
+      icon: CircleHelpIcon,
+      iconClass: "text-zinc-400",
+    } as const
+  }
+
   if (status === "down") {
     return {
       label: "Down",
@@ -96,9 +107,11 @@ function HealthRow({ service }: { service: ServiceHealth }) {
             "text-xs font-medium",
             service.status === "ok"
               ? "text-emerald-500"
-              : service.status === "down"
-                ? "text-red-500"
-                : "text-amber-500"
+              : service.status === "not_running"
+                ? "text-zinc-400"
+                : service.status === "down"
+                  ? "text-red-500"
+                  : "text-amber-500"
           )}
         >
           {config.label}
@@ -109,8 +122,10 @@ function HealthRow({ service }: { service: ServiceHealth }) {
 }
 
 function OverallHealthBadge({ services }: { services: ServiceHealth[] }) {
-  const total = services.length
-  const healthy = services.filter((s) => s.status === "ok").length
+  // Only count active services (exclude "not_running" optional services)
+  const activeServices = services.filter((s) => s.status !== "not_running")
+  const total = activeServices.length
+  const healthy = activeServices.filter((s) => s.status === "ok").length
   const allHealthy = total > 0 && healthy === total
 
   return (
@@ -320,9 +335,11 @@ export function DashboardPanels({
             <HealthSkeleton />
           ) : services.length > 0 ? (
             <>
-              {services.map((service) => (
-                <HealthRow key={service.name} service={service} />
-              ))}
+              {services
+                .filter((s) => s.status !== "not_running")
+                .map((service) => (
+                  <HealthRow key={service.name} service={service} />
+                ))}
               {health?.checked_at && (
                 <p className="mt-1 text-right text-[11px] text-muted-foreground">
                   Last checked{" "}
