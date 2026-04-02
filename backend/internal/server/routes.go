@@ -28,6 +28,7 @@ type Deps struct {
 	Simulation *handler.SimulationHandler
 	AdminWS    *handler.AdminWSHandler
 	System     *handler.SystemHandler
+	Auth       *handler.AuthHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -77,11 +78,27 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.Get("/buses/nearby", deps.Buses.Nearby)
 	})
 
+	// Auth (public)
+	r.Route("/api/v1/auth", func(r chi.Router) {
+		r.Post("/login", deps.Auth.Login)
+		r.Post("/logout", deps.Auth.Logout)
+		r.Post("/refresh", deps.Auth.Refresh)
+		r.Post("/invite/accept", deps.Auth.AcceptInvite)
+		r.Post("/password-reset/request", deps.Auth.RequestPasswordReset)
+		r.Post("/password-reset/confirm", deps.Auth.ConfirmPasswordReset)
+	})
+
+	// Authenticated user routes
+	r.Route("/api/v1/auth/me", func(r chi.Router) {
+		r.Use(deps.Auth.JWTMiddleware)
+		r.Get("/", deps.Auth.Me)
+	})
+
 	// WebSocket
 	r.Get("/ws/track/{routeID}", deps.WS.HandleTrack)
 	r.Get("/ws/admin/devices", deps.AdminWS.HandleDevices)
 
-	// Admin API (API key protected)
+	// Admin API (API key protected — will migrate to JWT in THE-110)
 	r.Route("/api/v1/admin", func(r chi.Router) {
 		r.Use(deps.Admin.AuthMiddleware)
 

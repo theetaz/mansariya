@@ -326,3 +326,141 @@ func (s *AuthStore) GetUserByInviteToken(ctx context.Context, token string) (*mo
 	}
 	return &u, nil
 }
+
+// GetUserByResetToken retrieves a user by their password reset token.
+func (s *AuthStore) GetUserByResetToken(ctx context.Context, token string) (*model.User, error) {
+	var u model.User
+	err := s.pool.QueryRow(ctx,
+		`SELECT id, email, password_hash, display_name, status,
+		        invite_token, invite_expires_at,
+		        password_reset_token, password_reset_expires_at,
+		        last_login_at, created_at, updated_at
+		 FROM users
+		 WHERE password_reset_token = $1 AND password_reset_expires_at > NOW()`, token,
+	).Scan(
+		&u.ID, &u.Email, &u.PasswordHash, &u.DisplayName, &u.Status,
+		&u.InviteToken, &u.InviteExpiresAt,
+		&u.PasswordResetToken, &u.PasswordResetExpiresAt,
+		&u.LastLoginAt, &u.CreatedAt, &u.UpdatedAt,
+	)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("get user by reset token: %w", err)
+	}
+	return &u, nil
+}
+
+// ── Login tracking ──────────────────────────────────────────────────────
+
+func (s *AuthStore) RecordFailedLogin(ctx context.Context, userID string) error {
+	_, err := s.pool.Exec(ctx,
+		`UPDATE users SET
+			failed_login_attempts = failed_login_attempts + 1,
+			locked_until = CASE
+				WHEN failed_login_attempts + 1 >= 5 THEN NOW() + INTERVAL '15 minutes'
+				ELSE locked_until
+			END,
+			updated_at = NOW()
+		 WHERE id = $1`, userID,
+	)
+	if err != nil {
+		return fmt.Errorf("record failed login: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) ResetFailedLogins(ctx context.Context, userID string) error {
+	_, err := s.pool.Exec(ctx,
+		`UPDATE users SET failed_login_attempts = 0, locked_until = NULL, last_login_at = NOW(), updated_at = NOW()
+		 WHERE id = $1`, userID,
+	)
+	if err != nil {
+		return fmt.Errorf("reset failed logins: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) IsUserLocked(ctx context.Context, userID string) (bool, error) {
+	var locked bool
+	err := s.pool.QueryRow(ctx,
+		`SELECT locked_until IS NOT NULL AND locked_until > NOW() FROM users WHERE id = $1`, userID,
+	).Scan(&locked)
+	if err != nil {
+		return false, fmt.Errorf("check user locked: %w", err)
+	}
+	return locked, nil
+}
+
+// ── Sessions ────────────────────────────────────────────────────────────
+
+func (s *AuthStore) CreateSession(ctx context.Context, sess *model.Session) error {
+	err := s.pool.QueryRow(ctx,
+		`INSERT INTO sessions (user_id, token_hash, ip_address, user_agent, expires_at)
+		 VALUES ($1, $2, $3, $4, $5)
+		 RETURNING id, created_at, last_used_at`,
+		sess.UserID, sess.TokenHash, sess.IPAddress, sess.UserAgent, sess.ExpiresAt,
+	).Scan(&sess.ID, &sess.CreatedAt, &sess.LastUsedAt)
+	if err != nil {
+		return fmt.Errorf("create session: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) GetSessionByTokenHash(ctx context.Context, tokenHash string) (*model.Session, error) {
+	var sess model.Session
+	err := s.pool.QueryRow(ctx,
+		`SELECT id, user_id, token_hash, ip_address, user_agent, expires_at, created_at, last_used_at
+		 FROM sessions WHERE token_hash = $1 AND expires_at > NOW()`, tokenHash,
+	).Scan(&sess.ID, &sess.UserID, &sess.TokenHash, &sess.IPAddress, &sess.UserAgent,
+		&sess.ExpiresAt, &sess.CreatedAt, &sess.LastUsedAt)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("get session: %w", err)
+	}
+	return &sess, nil
+}
+
+func (s *AuthStore) TouchSession(ctx context.Context, sessionID string) error {
+	_, err := s.pool.Exec(ctx,
+		`UPDATE sessions SET last_used_at = NOW() WHERE id = $1`, sessionID,
+	)
+	if err != nil {
+		return fmt.Errorf("touch session: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) DeleteSession(ctx context.Context, sessionID string) error {
+	_, err := s.pool.Exec(ctx, `DELETE FROM sessions WHERE id = $1`, sessionID)
+	if err != nil {
+		return fmt.Errorf("delete session: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) DeleteUserSessions(ctx context.Context, userID string) error {
+	_, err := s.pool.Exec(ctx, `DELETE FROM sessions WHERE user_id = $1`, userID)
+	if err != nil {
+		return fmt.Errorf("delete user sessions: %w", err)
+	}
+	return nil
+}
+
+func (s *AuthStore) CleanExpiredSessions(ctx context.Context) (int64, error) {
+	tag, err := s.pool.Exec(ctx, `DELETE FROM sessions WHERE expires_at < NOW()`)
+	if err != nil {
+		return 0, fmt.Errorf("clean expired sessions: %w", err)
+	}
+	return tag.RowsAffected(), nil
+}
+
+// CleanupTestData removes all auth data. Used in tests only.
+func (s *AuthStore) CleanupTestData(ctx context.Context) {
+	s.pool.Exec(ctx, `DELETE FROM sessions`)
+	s.pool.Exec(ctx, `DELETE FROM user_roles`)
+	s.pool.Exec(ctx, `DELETE FROM users`)
+}
