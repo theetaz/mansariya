@@ -1,16 +1,19 @@
+import { useState, useRef } from "react"
 import { useParams, Link } from "react-router-dom"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import {
-  ArrowLeftIcon,
   MapIcon,
   ListIcon,
   ClockIcon,
   PencilIcon,
   BusFrontIcon,
+  SplineIcon,
 } from "lucide-react"
+import { toast } from "sonner"
 
 import {
   fetchAdminRouteDetail,
+  ADMIN_API_KEY,
   type AdminRouteDetail,
   type AdminEnrichedStop,
 } from "@/lib/api"
@@ -47,6 +50,7 @@ import {
   MarkerTooltip,
   MapControls,
 } from "@/components/ui/map"
+import { PolylineEditor } from "@/components/polyline-editor"
 
 // ── Helpers ─────────────────────────────────────────────────────────────
 
@@ -71,22 +75,16 @@ function formatDuration(minutes: number): string {
 function RouteDetailSkeleton() {
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      {/* Header */}
       <div className="flex flex-col gap-3 px-4 lg:px-6">
-        <Skeleton className="h-4 w-24" />
         <div className="flex items-center gap-3">
           <Skeleton className="h-6 w-20" />
           <Skeleton className="h-8 w-64" />
           <Skeleton className="h-6 w-16" />
         </div>
       </div>
-
-      {/* Info card */}
       <div className="px-4 lg:px-6">
         <Skeleton className="h-48 w-full rounded-xl" />
       </div>
-
-      {/* Tabs */}
       <div className="px-4 lg:px-6">
         <Skeleton className="h-10 w-72" />
         <Skeleton className="mt-4 h-96 w-full rounded-xl" />
@@ -97,16 +95,13 @@ function RouteDetailSkeleton() {
 
 // ── Stop marker color ───────────────────────────────────────────────────
 
-function getStopMarkerColor(
-  index: number,
-  total: number
-): string {
+function getStopMarkerColor(index: number, total: number): string {
   if (index === 0) return "#1D9E75"
   if (index === total - 1) return "#E24B4A"
   return "hsl(var(--primary))"
 }
 
-// ── Info row helper ─────────────────────────────────────────────────────
+// ── Info row ────────────────────────────────────────────────────────────
 
 function InfoRow({
   label,
@@ -123,24 +118,22 @@ function InfoRow({
   )
 }
 
-// ── Map tab content ─────────────────────────────────────────────────────
+// ── Map tab ─────────────────────────────────────────────────────────────
 
 function RouteMapTab({
   detail,
+  onEditPolyline,
 }: {
   detail: AdminRouteDetail
+  onEditPolyline: () => void
 }) {
   const polyline = detail.polyline ?? []
   const stops = detail.stops ?? []
   const center = getPolylineMidpoint(polyline)
 
   return (
-    <div className="h-[500px] w-full overflow-hidden rounded-xl border">
-      <Map
-        center={center}
-        zoom={12}
-        className="h-full w-full"
-      >
+    <div className="relative overflow-hidden rounded-xl border" style={{ height: 500 }}>
+      <Map center={center} zoom={12} className="h-full w-full">
         {polyline.length >= 2 && (
           <MapRoute
             coordinates={polyline}
@@ -177,47 +170,116 @@ function RouteMapTab({
           </MapMarker>
         ))}
 
-        <MapControls
-          position="bottom-right"
-          showZoom
-          showFullscreen
-        />
+        <MapControls position="bottom-right" showZoom showFullscreen />
       </Map>
+
+      {/* Edit polyline button */}
+      <div className="absolute left-3 top-3 z-10">
+        <Button
+          size="sm"
+          variant="secondary"
+          className="shadow-lg backdrop-blur-sm"
+          onClick={onEditPolyline}
+        >
+          <SplineIcon className="mr-1.5 size-3.5" />
+          Edit Polyline
+        </Button>
+      </div>
     </div>
   )
 }
 
-// ── Stops tab content ───────────────────────────────────────────────────
+// ── Polyline editor wrapper ─────────────────────────────────────────────
 
-function RouteStopsTab({
-  stops,
+function RoutePolylineEditorTab({
+  detail,
+  routeId,
+  onDone,
 }: {
-  stops: AdminEnrichedStop[]
+  detail: AdminRouteDetail
+  routeId: string
+  onDone: () => void
 }) {
+  const queryClient = useQueryClient()
+  const mapViewRef = useRef<{
+    center: [number, number]
+    zoom: number
+  } | null>(null)
+
+  const polylineMutation = useMutation({
+    mutationFn: async (coords: [number, number][]) => {
+      const res = await fetch(`/api/v1/admin/routes/${routeId}/polyline`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": ADMIN_API_KEY,
+        },
+        body: JSON.stringify({ coordinates: coords, confidence: 0.5 }),
+      })
+      if (!res.ok) throw new Error(`Failed: ${res.status}`)
+      return res.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["admin-route-detail", routeId],
+      })
+      toast.success("Polyline saved")
+      onDone()
+    },
+    onError: () => toast.error("Failed to save polyline"),
+  })
+
+  const polyline = detail.polyline ?? []
+  const stops = (detail.stops ?? []).map((s) => ({
+    lat: s.lat,
+    lng: s.lng,
+    name: s.name_en,
+    stop_order: s.stop_order,
+  }))
+
+  const center = getPolylineMidpoint(polyline)
+
+  return (
+    <div className="overflow-hidden rounded-xl border" style={{ height: 600 }}>
+      <PolylineEditor
+        polyline={polyline}
+        stops={stops}
+        mapCenter={center}
+        mapZoom={13}
+        onSave={(coords, view) => {
+          if (view) mapViewRef.current = view
+          polylineMutation.mutate(coords)
+        }}
+        onCancel={onDone}
+        isSaving={polylineMutation.isPending}
+      />
+    </div>
+  )
+}
+
+// ── Stops tab ───────────────────────────────────────────────────────────
+
+function RouteStopsTab({ stops }: { stops: AdminEnrichedStop[] }) {
   if (stops.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border bg-card py-16 text-muted-foreground">
-        <ListIcon className="mb-2 size-8" />
+        <ListIcon className="mb-2 size-8 opacity-30" />
         <p className="text-sm">No stops assigned to this route</p>
       </div>
     )
   }
 
   return (
-    <div className="overflow-auto rounded-xl border">
+    <div className="overflow-x-auto rounded-xl border">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead className="w-16 text-center">#</TableHead>
             <TableHead>Name (EN)</TableHead>
-            <TableHead className="hidden md:table-cell">
-              Name (SI)
-            </TableHead>
-            <TableHead className="hidden lg:table-cell">
-              Lat / Lng
-            </TableHead>
+            <TableHead className="hidden md:table-cell">Name (SI)</TableHead>
+            <TableHead className="hidden lg:table-cell">Lat / Lng</TableHead>
             <TableHead className="text-right">Distance</TableHead>
-            <TableHead className="text-right hidden sm:table-cell">
+            <TableHead className="hidden sm:table-cell text-right">
               Duration
             </TableHead>
             <TableHead className="w-24 text-center">Terminal</TableHead>
@@ -241,7 +303,7 @@ function RouteStopsTab({
               <TableCell className="text-right tabular-nums">
                 {stop.distance_from_start_km.toFixed(1)} km
               </TableCell>
-              <TableCell className="text-right tabular-nums hidden sm:table-cell">
+              <TableCell className="hidden sm:table-cell text-right tabular-nums">
                 {formatDuration(stop.typical_duration_min)}
               </TableCell>
               <TableCell className="text-center">
@@ -261,17 +323,13 @@ function RouteStopsTab({
   )
 }
 
-// ── Timetable tab content ───────────────────────────────────────────────
+// ── Timetable tab ───────────────────────────────────────────────────────
 
-function RouteTimetableTab({
-  timetable,
-}: {
-  timetable: unknown[]
-}) {
+function RouteTimetableTab({ timetable }: { timetable: unknown[] }) {
   if (!timetable || timetable.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border bg-card py-16 text-muted-foreground">
-        <ClockIcon className="mb-2 size-8" />
+        <ClockIcon className="mb-2 size-8 opacity-30" />
         <p className="text-sm">No timetable entries</p>
       </div>
     )
@@ -285,7 +343,7 @@ function RouteTimetableTab({
   }>
 
   return (
-    <div className="overflow-auto rounded-xl border">
+    <div className="overflow-x-auto rounded-xl border">
       <Table>
         <TableHeader>
           <TableRow>
@@ -304,11 +362,7 @@ function RouteTimetableTab({
               <TableCell>
                 <div className="flex flex-wrap gap-1">
                   {entry.days?.map((day) => (
-                    <Badge
-                      key={day}
-                      variant="secondary"
-                      className="text-xs"
-                    >
+                    <Badge key={day} variant="secondary" className="text-xs">
                       {day}
                     </Badge>
                   ))}
@@ -330,6 +384,7 @@ function RouteTimetableTab({
 
 export function RouteDetailPage() {
   const { routeId } = useParams<{ routeId: string }>()
+  const [isEditingPolyline, setIsEditingPolyline] = useState(false)
 
   const { data, isLoading } = useQuery<AdminRouteDetail>({
     queryKey: ["admin-route-detail", routeId],
@@ -341,20 +396,12 @@ export function RouteDetailPage() {
     return <RouteDetailSkeleton />
   }
 
-  const { route, stops, timetable, polyline } = data
+  const { route, stops, timetable } = data
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto py-4 md:gap-6 md:py-6">
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-3 px-4 lg:px-6">
-        <Link
-          to="/routes"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors w-fit"
-        >
-          <ArrowLeftIcon className="size-3.5" />
-          Back to Routes
-        </Link>
-
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2 flex-wrap">
@@ -370,9 +417,9 @@ export function RouteDetailPage() {
                 <Badge variant="secondary">Inactive</Badge>
               )}
             </div>
-            <h1 className="text-2xl font-semibold tracking-tight">
+            <h2 className="text-2xl font-semibold tracking-tight">
               {route.name_en || "Unnamed Route"}
-            </h1>
+            </h2>
           </div>
 
           <Link to={`/routes/${routeId}/edit`}>
@@ -395,10 +442,7 @@ export function RouteDetailPage() {
           <CardContent>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <InfoRow label="Operator" value={route.operator} />
-              <InfoRow
-                label="Service Type"
-                value={route.service_type}
-              />
+              <InfoRow label="Service Type" value={route.service_type} />
               <InfoRow
                 label="Fare"
                 value={
@@ -423,15 +467,10 @@ export function RouteDetailPage() {
                   )
                 }
               />
-              <InfoRow
-                label="Operating Hours"
-                value={route.operating_hours}
-              />
+              <InfoRow label="Operating Hours" value={route.operating_hours} />
               <InfoRow
                 label="Stop Count"
-                value={
-                  <span className="tabular-nums">{route.stop_count}</span>
-                }
+                value={<span className="tabular-nums">{route.stop_count}</span>}
               />
               <InfoRow
                 label="Has Polyline"
@@ -440,9 +479,7 @@ export function RouteDetailPage() {
               <InfoRow
                 label="Pattern Count"
                 value={
-                  <span className="tabular-nums">
-                    {route.pattern_count}
-                  </span>
+                  <span className="tabular-nums">{route.pattern_count}</span>
                 }
               />
             </div>
@@ -493,7 +530,18 @@ export function RouteDetailPage() {
           </TabsList>
 
           <TabsContent value="map" className="mt-4">
-            <RouteMapTab detail={data} />
+            {isEditingPolyline ? (
+              <RoutePolylineEditorTab
+                detail={data}
+                routeId={routeId!}
+                onDone={() => setIsEditingPolyline(false)}
+              />
+            ) : (
+              <RouteMapTab
+                detail={data}
+                onEditPolyline={() => setIsEditingPolyline(true)}
+              />
+            )}
           </TabsContent>
 
           <TabsContent value="stops" className="mt-4">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeftIcon, SaveIcon } from "lucide-react"
+import { SaveIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import { fetchAdminRouteDetail, ADMIN_API_KEY } from "@/lib/api"
@@ -195,13 +195,6 @@ export function RouteEditPage() {
     <div className="flex flex-1 flex-col gap-6 px-4 py-4 md:px-6 md:py-6">
       {/* Header */}
       <div className="flex flex-col gap-1">
-        <Link
-          to="/routes"
-          className="flex w-fit items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ArrowLeftIcon className="size-3.5" />
-          Back to Routes
-        </Link>
         <h1 className="text-2xl font-semibold tracking-tight">
           Edit Route {routeId}
         </h1>
