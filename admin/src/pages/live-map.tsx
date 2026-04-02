@@ -310,28 +310,29 @@ export function LiveMapPage() {
           </Map>
 
           <div className="absolute left-3 top-3 z-10 md:left-4 md:top-4">
-            <Card className="border-border/70 bg-card/95 shadow-lg backdrop-blur sm:max-w-sm">
-              <CardContent className="flex flex-wrap items-center gap-3 p-3">
-                <div className="flex items-center gap-2">
-                  <RadioIcon className="size-4 text-primary" />
-                  <span className="font-semibold tabular-nums">
-                    {counts.total}
-                  </span>
-                  <span className="text-sm text-muted-foreground">devices</span>
-                </div>
-                <Separator orientation="vertical" className="h-4" />
-                <div className="flex items-center gap-2">
-                  <BusIcon className="size-4 text-primary" />
-                  <span className="font-semibold tabular-nums">{busCount}</span>
-                  <span className="text-sm text-muted-foreground">buses</span>
-                </div>
-                {!wsConnected && (
-                  <Badge variant="destructive" className="text-xs">
-                    WS disconnected
-                  </Badge>
+            <div className="flex items-center gap-1.5 rounded-full border border-border/60 bg-card/90 px-3 py-1.5 shadow-lg backdrop-blur-md">
+              <span className="relative flex size-2">
+                {wsConnected && (
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-50" />
                 )}
-              </CardContent>
-            </Card>
+                <span
+                  className={`relative inline-flex size-2 rounded-full ${wsConnected ? "bg-emerald-500" : "bg-red-500"}`}
+                />
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {wsConnected ? "Live" : "Offline"}
+              </span>
+              <Separator orientation="vertical" className="mx-0.5 h-3" />
+              <RadioIcon className="size-3 text-muted-foreground" />
+              <span className="text-xs font-medium tabular-nums">
+                {counts.total}
+              </span>
+              <Separator orientation="vertical" className="mx-0.5 h-3" />
+              <BusIcon className="size-3 text-muted-foreground" />
+              <span className="text-xs font-medium tabular-nums">
+                {busCount}
+              </span>
+            </div>
           </div>
 
           {isMobile ? (
