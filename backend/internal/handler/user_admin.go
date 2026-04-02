@@ -11,10 +11,19 @@ import (
 type UserAdminHandler struct {
 	auth  *service.AuthService
 	store service.AuthStoreInterface
+	audit AuditLogger
 }
 
-func NewUserAdminHandler(auth *service.AuthService, store service.AuthStoreInterface) *UserAdminHandler {
-	return &UserAdminHandler{auth: auth, store: store}
+func NewUserAdminHandler(auth *service.AuthService, st service.AuthStoreInterface, audit AuditLogger) *UserAdminHandler {
+	return &UserAdminHandler{auth: auth, store: st, audit: audit}
+}
+
+func (h *UserAdminHandler) logAudit(r *http.Request, action, targetType, targetID string, meta map[string]string) {
+	if h.audit == nil {
+		return
+	}
+	metaJSON, _ := json.Marshal(meta)
+	_ = h.audit.LogAudit(r.Context(), UserIDFromContext(r.Context()), "", action, targetType, targetID, r.RemoteAddr, r.UserAgent(), metaJSON)
 }
 
 // ── List users ───────────────────────────────────────────────────────────
@@ -82,6 +91,7 @@ func (h *UserAdminHandler) InviteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.logAudit(r, "user.invited", "user", user.ID, map[string]string{"email": req.Email})
 	writeJSON(w, http.StatusCreated, map[string]interface{}{
 		"user":         user,
 		"invite_token": token,
@@ -124,6 +134,7 @@ func (h *UserAdminHandler) UpdateUserStatus(w http.ResponseWriter, r *http.Reque
 		_ = h.store.DeleteUserSessions(r.Context(), userID)
 	}
 
+	h.logAudit(r, "user.status_changed", "user", userID, map[string]string{"status": req.Status})
 	writeJSON(w, http.StatusOK, map[string]string{"status": req.Status})
 }
 
@@ -148,6 +159,7 @@ func (h *UserAdminHandler) AssignRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.logAudit(r, "role.assigned", "user", userID, map[string]string{"role_id": req.RoleID})
 	writeJSON(w, http.StatusOK, map[string]string{"status": "assigned"})
 }
 
@@ -162,6 +174,7 @@ func (h *UserAdminHandler) RemoveRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.logAudit(r, "role.removed", "user", userID, map[string]string{"role_id": roleID})
 	writeJSON(w, http.StatusOK, map[string]string{"status": "removed"})
 }
 

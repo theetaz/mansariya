@@ -31,6 +31,7 @@ type Deps struct {
 	Auth       *handler.AuthHandler
 	RBAC       *handler.RBACMiddleware
 	UserAdmin  *handler.UserAdminHandler
+	Audit      *handler.AuditHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -159,6 +160,9 @@ func NewRouter(deps *Deps) *chi.Mux {
 
 		// Roles
 		r.With(handler.RequirePermission("users.view")).Get("/roles", deps.UserAdmin.ListRoles)
+
+		// Audit logs
+		r.With(handler.RequirePermission("users.manage")).Get("/audit-logs", deps.Audit.List)
 	})
 
 	return r

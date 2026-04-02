@@ -68,6 +68,7 @@ func run() error {
 	simStore := store.NewSimulationStore(pool)
 	tripStore := store.NewTripStore(pool)
 	authStore := store.NewAuthStore(pool)
+	auditStore := store.NewAuditStore(pool)
 
 	// Load route spatial index
 	routeIndex := spatial.NewRouteIndex()
@@ -141,9 +142,10 @@ func run() error {
 		Buses:      handler.NewBusesHandler(rdb),
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
 		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey),
-		Auth:      handler.NewAuthHandler(authService),
+		Auth:      handler.NewAuthHandler(authService, auditStore),
 		RBAC:      rbacMiddleware,
-		UserAdmin: handler.NewUserAdminHandler(authService, authStore),
+		UserAdmin: handler.NewUserAdminHandler(authService, authStore, auditStore),
+		Audit:     handler.NewAuditHandler(auditStore),
 		System: handler.NewSystemHandler(
 			func(ctx context.Context) error { return pool.Ping(ctx) },
 			func(ctx context.Context) error { return rdb.Ping(ctx).Err() },

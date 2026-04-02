@@ -11,11 +11,20 @@ import (
 )
 
 type AuthHandler struct {
-	auth *service.AuthService
+	auth  *service.AuthService
+	audit AuditLogger
 }
 
-func NewAuthHandler(auth *service.AuthService) *AuthHandler {
-	return &AuthHandler{auth: auth}
+func NewAuthHandler(auth *service.AuthService, audit AuditLogger) *AuthHandler {
+	return &AuthHandler{auth: auth, audit: audit}
+}
+
+func (h *AuthHandler) logAudit(r *http.Request, action, targetType, targetID string, meta map[string]string) {
+	if h.audit == nil {
+		return
+	}
+	metaJSON, _ := json.Marshal(meta)
+	_ = h.audit.LogAudit(r.Context(), UserIDFromContext(r.Context()), "", action, targetType, targetID, r.RemoteAddr, r.UserAgent(), metaJSON)
 }
 
 // ── Login ────────────────────────────────────────────────────────────────
@@ -49,6 +58,7 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	user, tokens, err := h.auth.Login(r.Context(), req.Email, req.Password, ip, ua)
 	if err != nil {
+		h.logAudit(r, "auth.login_failed", "user", "", map[string]string{"email": req.Email, "reason": err.Error()})
 		switch {
 		case errors.Is(err, service.ErrInvalidCredentials):
 			writeError(w, http.StatusUnauthorized, "invalid_credentials", "Invalid email or password.", "")
@@ -63,6 +73,8 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
+	h.logAudit(r, "auth.login", "user", user.ID, map[string]string{"email": user.Email})
 
 	writeJSON(w, http.StatusOK, loginResponse{
 		User:         user,
@@ -86,6 +98,7 @@ func (h *AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = h.auth.Logout(r.Context(), req.RefreshToken)
+	h.logAudit(r, "auth.logout", "", "", nil)
 	writeJSON(w, http.StatusOK, map[string]string{"status": "logged_out"})
 }
 
@@ -187,6 +200,7 @@ func (h *AuthHandler) AcceptInvite(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.logAudit(r, "auth.invite_accepted", "user", user.ID, map[string]string{"email": user.Email})
 	writeJSON(w, http.StatusOK, map[string]interface{}{
 		"status": "activated",
 		"user":   user,
@@ -245,6 +259,7 @@ func (h *AuthHandler) ConfirmPasswordReset(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	h.logAudit(r, "auth.password_reset", "", "", nil)
 	writeJSON(w, http.StatusOK, map[string]string{"status": "password_reset"})
 }
 
@@ -315,6 +330,7 @@ func (h *AuthHandler) RevokeSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h.logAudit(r, "auth.session_revoked", "session", req.SessionID, nil)
 	writeJSON(w, http.StatusOK, map[string]string{"status": "revoked"})
 }
 
