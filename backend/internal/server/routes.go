@@ -30,6 +30,7 @@ type Deps struct {
 	System     *handler.SystemHandler
 	Auth       *handler.AuthHandler
 	RBAC       *handler.RBACMiddleware
+	UserAdmin  *handler.UserAdminHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -144,6 +145,20 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations/{simID}/pause", deps.Simulation.PauseJob)
 		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations/{simID}/resume", deps.Simulation.ResumeJob)
 		r.With(handler.RequirePermission("simulations.manage")).Post("/simulations/{simID}/stop", deps.Simulation.StopJob)
+
+		// User management (requires users.view / users.manage)
+		r.With(handler.RequirePermission("users.view")).Get("/users", deps.UserAdmin.ListUsers)
+		r.With(handler.RequirePermission("users.manage")).Post("/users/invite", deps.UserAdmin.InviteUser)
+		r.With(handler.RequirePermission("users.manage")).Put("/users/{userID}/status", deps.UserAdmin.UpdateUserStatus)
+		r.With(handler.RequirePermission("users.manage")).Post("/users/{userID}/roles", deps.UserAdmin.AssignRole)
+		r.With(handler.RequirePermission("users.manage")).Delete("/users/{userID}/roles/{roleID}", deps.UserAdmin.RemoveRole)
+		r.With(handler.RequirePermission("users.manage")).Post("/users/{userID}/reset-password", deps.UserAdmin.AdminResetPassword)
+		r.With(handler.RequirePermission("users.view")).Get("/users/{userID}/sessions", deps.UserAdmin.ListUserSessions)
+		r.With(handler.RequirePermission("users.manage")).Delete("/users/{userID}/sessions/{sessionID}", deps.UserAdmin.RevokeUserSession)
+		r.With(handler.RequirePermission("users.manage")).Delete("/users/{userID}/sessions", deps.UserAdmin.RevokeAllUserSessions)
+
+		// Roles
+		r.With(handler.RequirePermission("users.view")).Get("/roles", deps.UserAdmin.ListRoles)
 	})
 
 	return r

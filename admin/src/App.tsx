@@ -20,6 +20,7 @@ import { SettingsPage } from "@/pages/settings"
 import { SimulationsPage } from "@/pages/simulations"
 import { StopsPage } from "@/pages/stops"
 import { TimetablesPage } from "@/pages/timetables"
+import { UsersPage } from "@/pages/users"
 
 const layoutStyle = {
   "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -94,6 +95,7 @@ export function App() {
           <Route path="timetables" element={<TimetablesPage />} />
           <Route path="simulations" element={<SimulationsPage />} />
           <Route path="data" element={<DataPage />} />
+          <Route path="users" element={<UsersPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="live-map" element={<LiveMapPage />} />
           <Route path="route-builder" element={<RouteBuilderPage />} />

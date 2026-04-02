@@ -34,8 +34,12 @@ type AuthStoreInterface interface {
 	CreateUser(ctx context.Context, u *model.User) error
 	UpdateUser(ctx context.Context, u *model.User) error
 
+	ListUsers(ctx context.Context) ([]model.User, error)
+
 	GetUserRoles(ctx context.Context, userID string) ([]model.Role, error)
+	ListRoles(ctx context.Context) ([]model.Role, error)
 	AssignRole(ctx context.Context, userID, roleID string, assignedBy *string) error
+	RemoveRole(ctx context.Context, userID, roleID string) error
 	GetUserPermissions(ctx context.Context, userID string) ([]string, error)
 
 	IsUserLocked(ctx context.Context, userID string) (bool, error)

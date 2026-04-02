@@ -17,6 +17,7 @@ import {
   primaryNavItems,
   managementNavItems,
   toolsNavItems,
+  adminNavItems,
   secondaryNavItems,
 } from "@/lib/navigation"
 import { useAuth } from "@/lib/auth"
@@ -31,6 +32,7 @@ const navPermissions: Record<string, string> = {
   "Route Builder": "map.edit_polyline",
   "Simulations": "simulations.view",
   "Import/Export": "data.export",
+  "Users": "users.view",
 }
 
 function filterByPermission(items: NavItem[], hasPermission: (p: string) => boolean): NavItem[] {
@@ -47,6 +49,7 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
     { items: filterByPermission(primaryNavItems, hasPermission) },
     { label: "Management", items: filterByPermission(managementNavItems, hasPermission) },
     { label: "Tools", items: filterByPermission(toolsNavItems, hasPermission) },
+    { label: "Admin", items: filterByPermission(adminNavItems, hasPermission) },
   ].filter((s) => s.items.length > 0)
 
   return (

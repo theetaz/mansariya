@@ -10,6 +10,7 @@ import {
   RouteIcon,
   Settings2Icon,
   PlayCircleIcon,
+  UsersIcon,
 } from "lucide-react"
 
 export type NavItem = {
@@ -46,6 +47,10 @@ export const toolsNavItems: NavItem[] = [
   { title: "Import/Export", icon: DownloadIcon, url: "/data" },
 ]
 
+export const adminNavItems: NavItem[] = [
+  { title: "Users", icon: UsersIcon, url: "/users" },
+]
+
 export const secondaryNavItems: NavItem[] = [
   { title: "Settings", icon: Settings2Icon, url: "/settings" },
 ]
@@ -54,6 +59,7 @@ export const allNavItems = [
   ...primaryNavItems,
   ...managementNavItems,
   ...toolsNavItems,
+  ...adminNavItems,
   ...secondaryNavItems,
 ]
 

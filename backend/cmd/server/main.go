@@ -141,8 +141,9 @@ func run() error {
 		Buses:      handler.NewBusesHandler(rdb),
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
 		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey),
-		Auth: handler.NewAuthHandler(authService),
-		RBAC: rbacMiddleware,
+		Auth:      handler.NewAuthHandler(authService),
+		RBAC:      rbacMiddleware,
+		UserAdmin: handler.NewUserAdminHandler(authService, authStore),
 		System: handler.NewSystemHandler(
 			func(ctx context.Context) error { return pool.Ping(ctx) },
 			func(ctx context.Context) error { return rdb.Ping(ctx).Err() },

@@ -297,3 +297,85 @@ export function fetchActiveBusesDetail() {
 export function fetchAdminRouteDetail(id: string) {
   return apiGet<AdminRouteDetail>(`/api/v1/admin/routes/${id}`, true)
 }
+
+// ── User management ─────────────────────────────────────────────────────
+
+export type AdminUser = {
+  id: string
+  email: string
+  display_name: string
+  status: "invited" | "active" | "disabled"
+  last_login_at: string | null
+  created_at: string
+  roles: { id: string; slug: string; name: string }[]
+}
+
+export type AdminRole = {
+  id: string
+  slug: string
+  name: string
+  description: string
+  is_system: boolean
+}
+
+export type AdminSession = {
+  id: string
+  ip_address: string
+  user_agent: string
+  created_at: string
+  last_used_at: string
+  expires_at: string
+}
+
+export function fetchAdminUsers() {
+  return apiGet<{ users: AdminUser[]; count: number }>("/api/v1/admin/users", true)
+}
+
+export function fetchAdminRoles() {
+  return apiGet<{ roles: AdminRole[] }>("/api/v1/admin/roles", true)
+}
+
+export function inviteUser(email: string, displayName: string, roleIds: string[]) {
+  return apiMutate<{ user: AdminUser; invite_token: string }>(
+    "POST", "/api/v1/admin/users/invite",
+    { email, display_name: displayName, role_ids: roleIds }
+  )
+}
+
+export function updateUserStatus(userId: string, status: "active" | "disabled") {
+  return apiMutate<{ status: string }>(
+    "PUT", `/api/v1/admin/users/${userId}/status`,
+    { status }
+  )
+}
+
+export function assignUserRole(userId: string, roleId: string) {
+  return apiMutate<{ status: string }>(
+    "POST", `/api/v1/admin/users/${userId}/roles`,
+    { role_id: roleId }
+  )
+}
+
+export function removeUserRole(userId: string, roleId: string) {
+  return apiMutate<{ status: string }>(
+    "DELETE", `/api/v1/admin/users/${userId}/roles/${roleId}`
+  )
+}
+
+export function fetchUserSessions(userId: string) {
+  return apiGet<{ sessions: AdminSession[]; count: number }>(
+    `/api/v1/admin/users/${userId}/sessions`, true
+  )
+}
+
+export function revokeUserSession(userId: string, sessionId: string) {
+  return apiMutate<{ status: string }>(
+    "DELETE", `/api/v1/admin/users/${userId}/sessions/${sessionId}`
+  )
+}
+
+export function revokeAllUserSessions(userId: string) {
+  return apiMutate<{ status: string }>(
+    "DELETE", `/api/v1/admin/users/${userId}/sessions`
+  )
+}
