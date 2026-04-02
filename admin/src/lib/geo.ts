@@ -1,3 +1,39 @@
+// ── Nominatim Geocoding ──────────────────────────────────────────────────
+
+export interface NominatimResult {
+  place_id: number
+  display_name: string
+  lat: string
+  lon: string
+  type: string
+  importance: number
+  address?: {
+    road?: string
+    city?: string
+    state?: string
+    country?: string
+  }
+}
+
+export async function geocodeSearch(
+  query: string,
+  limit = 5
+): Promise<NominatimResult[]> {
+  if (!query || query.length < 2) return []
+  const params = new URLSearchParams({
+    q: `${query}, Sri Lanka`,
+    format: "json",
+    countrycodes: "lk",
+    limit: String(limit),
+    addressdetails: "1",
+  })
+  const res = await fetch(`/nominatim/search?${params}`)
+  if (!res.ok) return []
+  return res.json()
+}
+
+// ── OSRM Routing ────────────────────────────────────────────────────────
+
 export interface OSRMRoute {
   distance: number
   duration: number

@@ -12,7 +12,7 @@ import {
 import { useQuery } from "@tanstack/react-query"
 
 import { useTheme } from "@/components/theme-provider"
-import { fetchHealth, type HealthResponse } from "@/lib/api"
+import { fetchSystemHealth, type SystemHealthResponse } from "@/lib/api"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -47,14 +47,14 @@ function deriveWsUrl(url: string): string {
 export function SettingsPage() {
   const { theme, setTheme } = useTheme()
 
-  const healthQuery = useQuery<HealthResponse>({
-    queryKey: ["health"],
-    queryFn: fetchHealth,
+  const healthQuery = useQuery<SystemHealthResponse>({
+    queryKey: ["system-health"],
+    queryFn: fetchSystemHealth,
     refetchInterval: 30_000,
     retry: 1,
   })
 
-  const backendOnline = healthQuery.data?.status === "ok"
+  const backendOnline = healthQuery.data?.status === "ok" || healthQuery.data?.status === "degraded"
 
   return (
     <div className="flex flex-1 flex-col gap-6 px-4 py-4 md:px-6 md:py-6">

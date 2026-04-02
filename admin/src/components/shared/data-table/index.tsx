@@ -17,6 +17,7 @@ import {
   SlidersHorizontalIcon,
   Columns3Icon,
   SearchXIcon,
+  XCircleIcon,
 } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -162,6 +163,20 @@ export function DataTable<TData, TValue>({
               <SlidersHorizontalIcon className="mr-1 size-3.5" />
               Filters
               {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
+            </Button>
+          )}
+          {(activeFilterCount > 0 || globalFilter) && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-9 rounded-full text-muted-foreground"
+              onClick={() => {
+                table.resetColumnFilters()
+                setGlobalFilter("")
+              }}
+            >
+              <XCircleIcon className="mr-1 size-3.5" />
+              Clear
             </Button>
           )}
           <DropdownMenu>
