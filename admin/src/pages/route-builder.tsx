@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import {
   RouteIcon,
   ArrowRightIcon,
@@ -10,6 +10,8 @@ import {
   XIcon,
   CopyIcon,
   CheckIcon,
+  Trash2Icon,
+  ChevronDownIcon,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -21,10 +23,12 @@ import {
   CardAction,
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { LocationAutocomplete } from "@/components/shared/location-autocomplete"
 import {
   Map,
+  useMap,
   MapMarker,
   MarkerContent,
   MarkerTooltip,
@@ -49,6 +53,59 @@ function formatDuration(seconds: number): string {
   return rem > 0 ? `${hrs}h ${rem}m` : `${hrs}h`
 }
 
+// ── Auto-focus map helper ──────────────────────────────────────────────
+
+function FlyTo({ lat, lng, zoom }: { lat: number; lng: number; zoom?: number }) {
+  const { map } = useMap()
+  const lastRef = useRef("")
+
+  useEffect(() => {
+    if (!map) return
+    const key = `${lat.toFixed(6)}-${lng.toFixed(6)}`
+    if (key === lastRef.current) return
+    lastRef.current = key
+    map.flyTo({ center: [lng, lat], zoom: zoom ?? 14, duration: 1200 })
+  }, [map, lat, lng, zoom])
+
+  return null
+}
+
+function FitBounds({
+  coordinates,
+}: {
+  coordinates: [number, number][]
+}) {
+  const { map } = useMap()
+  const lastRef = useRef(0)
+
+  useEffect(() => {
+    if (!map || coordinates.length < 2) return
+    const len = coordinates.length
+    if (len === lastRef.current) return
+    lastRef.current = len
+
+    let minLng = Infinity,
+      maxLng = -Infinity,
+      minLat = Infinity,
+      maxLat = -Infinity
+    for (const [lng, lat] of coordinates) {
+      if (lng < minLng) minLng = lng
+      if (lng > maxLng) maxLng = lng
+      if (lat < minLat) minLat = lat
+      if (lat > maxLat) maxLat = lat
+    }
+    map.fitBounds(
+      [
+        [minLng, minLat],
+        [maxLng, maxLat],
+      ],
+      { padding: 60, duration: 1200 }
+    )
+  }, [map, coordinates])
+
+  return null
+}
+
 // ── Page ────────────────────────────────────────────────────────────────
 
 export function RouteBuilderPage() {
@@ -59,8 +116,14 @@ export function RouteBuilderPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [pointsCollapsed, setPointsCollapsed] = useState(false)
 
-  // Swap origin and destination
+  // Track which location was last selected for auto-focus
+  const [focusTarget, setFocusTarget] = useState<{
+    lat: number
+    lng: number
+  } | null>(null)
+
   const handleSwap = useCallback(() => {
     const prevOrigin = origin
     const prevDest = destination
@@ -70,23 +133,32 @@ export function RouteBuilderPage() {
     setError(null)
   }, [origin, destination])
 
-  // Add a waypoint slot
   const addWaypoint = () => {
     setWaypoints((prev) => [...prev, null])
   }
 
-  // Remove a waypoint slot
   const removeWaypoint = (index: number) => {
     setWaypoints((prev) => prev.filter((_, i) => i !== index))
     setRoute(null)
   }
 
-  // Update a specific waypoint
   const updateWaypoint = (index: number, result: NominatimResult) => {
     setWaypoints((prev) => prev.map((wp, i) => (i === index ? result : wp)))
+    setFocusTarget({
+      lat: parseFloat(result.lat),
+      lng: parseFloat(result.lon),
+    })
   }
 
-  // Calculate route
+  const clearAll = () => {
+    setOrigin(null)
+    setDestination(null)
+    setWaypoints([])
+    setRoute(null)
+    setError(null)
+    setFocusTarget(null)
+  }
+
   const handleGetRoute = useCallback(async () => {
     if (!origin || !destination) {
       setError("Please select both start point and destination.")
@@ -95,6 +167,7 @@ export function RouteBuilderPage() {
 
     setError(null)
     setLoading(true)
+    setFocusTarget(null) // Clear single-point focus; route will fit bounds
 
     const startCoords: [number, number] = [
       parseFloat(origin.lon),
@@ -107,9 +180,7 @@ export function RouteBuilderPage() {
 
     const wpCoords = waypoints
       .filter((wp): wp is NominatimResult => wp !== null)
-      .map(
-        (wp): [number, number] => [parseFloat(wp.lon), parseFloat(wp.lat)]
-      )
+      .map((wp): [number, number] => [parseFloat(wp.lon), parseFloat(wp.lat)])
 
     const response = await getRoute(
       startCoords,
@@ -127,188 +198,214 @@ export function RouteBuilderPage() {
     setRoute(response.routes[0])
   }, [origin, destination, waypoints])
 
-  // Copy polyline JSON to clipboard
   const handleCopyPolyline = useCallback(async () => {
     if (!route) return
-    const json = JSON.stringify(route.geometry.coordinates)
-    await navigator.clipboard.writeText(json)
+    await navigator.clipboard.writeText(
+      JSON.stringify(route.geometry.coordinates)
+    )
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }, [route])
 
+  const hasAnySelection = origin || destination || waypoints.length > 0
+
   return (
-    <div className="@container/main flex h-full flex-col">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3 border-b px-6 py-4">
-        <div className="flex items-center gap-2">
-          <RouteIcon className="size-5 text-primary" />
-          <h1 className="text-lg font-semibold">Route Builder</h1>
-        </div>
-        <Badge variant="outline" className="ml-2">
-          OSRM
+      <div className="flex items-center gap-3 border-b px-4 py-2.5 lg:px-6">
+        <RouteIcon className="size-4 text-primary" />
+        <h1 className="text-sm font-semibold">Route Builder</h1>
+        <Badge variant="outline" className="text-[10px]">
+          Nominatim + OSRM
         </Badge>
       </div>
 
       {/* Main content */}
-      <div className="grid flex-1 grid-cols-1 overflow-hidden @3xl/main:grid-cols-[400px_1fr]">
-        {/* Left panel — controls */}
-        <div className="flex flex-col gap-4 overflow-y-auto border-r p-4">
-          {/* Route Points */}
-          <Card size="sm">
-            <CardHeader className="border-b">
-              <CardTitle className="flex items-center gap-2">
-                <MapPinIcon className="size-4" />
+      <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden @3xl/main:grid-cols-[380px_1fr]">
+        {/* Left panel */}
+        <div className="flex min-h-0 flex-col border-r">
+          {/* Route Points — collapsible */}
+          <div className="shrink-0 border-b">
+            <button
+              type="button"
+              className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm font-medium hover:bg-muted/40 transition-colors"
+              onClick={() => setPointsCollapsed(!pointsCollapsed)}
+            >
+              <span className="flex items-center gap-2">
+                <MapPinIcon className="size-3.5" />
                 Route Points
-              </CardTitle>
-              <CardAction>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={addWaypoint}
-                  className="h-7 gap-1 text-xs"
-                >
-                  <PlusIcon className="size-3" />
-                  Waypoint
-                </Button>
-              </CardAction>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Start Point */}
-              <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-muted-foreground">
-                  Start Point
-                </Label>
-                <LocationAutocomplete
-                  placeholder="Search start location..."
-                  value={origin}
-                  onSelect={(result) => {
-                    setOrigin(result)
-                    setRoute(null)
-                  }}
-                  onClear={() => {
-                    setOrigin(null)
-                    setRoute(null)
-                  }}
-                />
-              </div>
+                {origin && destination && (
+                  <Badge variant="secondary" className="text-[10px] h-5 px-1.5">
+                    {2 + waypoints.filter(Boolean).length} pts
+                  </Badge>
+                )}
+              </span>
+              <ChevronDownIcon
+                className={`size-4 text-muted-foreground transition-transform ${pointsCollapsed ? "-rotate-90" : ""}`}
+              />
+            </button>
 
-              {/* Swap button */}
-              <div className="flex justify-center">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="size-8 rounded-full"
-                  onClick={handleSwap}
-                >
-                  <ArrowUpDownIcon className="size-4" />
-                </Button>
-              </div>
-
-              {/* Waypoints */}
-              {waypoints.map((wp, index) => (
-                <div key={index} className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <Label className="text-xs font-medium text-muted-foreground">
-                      Waypoint {index + 1}
-                    </Label>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="size-6"
-                      onClick={() => removeWaypoint(index)}
-                    >
-                      <XIcon className="size-3" />
-                    </Button>
-                  </div>
+            {!pointsCollapsed && (
+              <div className="space-y-3 px-4 pb-4">
+                {/* Start Point */}
+                <div className="space-y-1">
+                  <Label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                    Start Point
+                  </Label>
                   <LocationAutocomplete
-                    placeholder={`Search waypoint ${index + 1}...`}
-                    value={wp}
+                    placeholder="Search start location..."
+                    value={origin}
                     onSelect={(result) => {
-                      updateWaypoint(index, result)
+                      setOrigin(result)
                       setRoute(null)
+                      setFocusTarget({
+                        lat: parseFloat(result.lat),
+                        lng: parseFloat(result.lon),
+                      })
                     }}
                     onClear={() => {
-                      setWaypoints((prev) =>
-                        prev.map((w, i) => (i === index ? null : w))
-                      )
+                      setOrigin(null)
                       setRoute(null)
                     }}
                   />
                 </div>
-              ))}
 
-              {/* Destination */}
-              <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-muted-foreground">
-                  Destination
-                </Label>
-                <LocationAutocomplete
-                  placeholder="Search destination..."
-                  value={destination}
-                  onSelect={(result) => {
-                    setDestination(result)
-                    setRoute(null)
-                  }}
-                  onClear={() => {
-                    setDestination(null)
-                    setRoute(null)
-                  }}
-                />
-              </div>
+                {/* Swap */}
+                <div className="flex items-center gap-2">
+                  <Separator className="flex-1" />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-7 shrink-0"
+                    onClick={handleSwap}
+                    disabled={!origin && !destination}
+                  >
+                    <ArrowUpDownIcon className="size-3.5" />
+                  </Button>
+                  <Separator className="flex-1" />
+                </div>
 
-              {/* Error */}
-              {error && (
-                <p className="text-sm text-destructive">{error}</p>
-              )}
+                {/* Waypoints */}
+                {waypoints.map((wp, index) => (
+                  <div key={index} className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                        Waypoint {index + 1}
+                      </Label>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-5"
+                        onClick={() => removeWaypoint(index)}
+                      >
+                        <XIcon className="size-3" />
+                      </Button>
+                    </div>
+                    <LocationAutocomplete
+                      placeholder={`Search waypoint ${index + 1}...`}
+                      value={wp}
+                      onSelect={(result) => {
+                        updateWaypoint(index, result)
+                        setRoute(null)
+                      }}
+                      onClear={() => {
+                        setWaypoints((prev) =>
+                          prev.map((w, i) => (i === index ? null : w))
+                        )
+                        setRoute(null)
+                      }}
+                    />
+                  </div>
+                ))}
 
-              {/* Get Route button */}
-              <Button
-                className="w-full gap-2"
-                onClick={handleGetRoute}
-                disabled={loading || !origin || !destination}
-              >
-                {loading ? (
-                  "Calculating..."
-                ) : (
-                  <>
-                    <RouteIcon className="size-4" />
-                    Get Route
-                  </>
+                {/* Destination */}
+                <div className="space-y-1">
+                  <Label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                    Destination
+                  </Label>
+                  <LocationAutocomplete
+                    placeholder="Search destination..."
+                    value={destination}
+                    onSelect={(result) => {
+                      setDestination(result)
+                      setRoute(null)
+                      setFocusTarget({
+                        lat: parseFloat(result.lat),
+                        lng: parseFloat(result.lon),
+                      })
+                    }}
+                    onClear={() => {
+                      setDestination(null)
+                      setRoute(null)
+                    }}
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-xs text-destructive">{error}</p>
                 )}
-              </Button>
-            </CardContent>
-          </Card>
 
-          {/* Route Details */}
+                {/* Action buttons */}
+                <div className="flex gap-2">
+                  <Button
+                    className="flex-1 gap-1.5"
+                    size="sm"
+                    onClick={handleGetRoute}
+                    disabled={loading || !origin || !destination}
+                  >
+                    <RouteIcon className="size-3.5" />
+                    {loading ? "Calculating..." : "Get Route"}
+                  </Button>
+                  {hasAnySelection && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={clearAll}
+                      className="gap-1.5"
+                    >
+                      <Trash2Icon className="size-3.5" />
+                      Clear
+                    </Button>
+                  )}
+                </div>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full gap-1.5 text-xs text-muted-foreground"
+                  onClick={addWaypoint}
+                >
+                  <PlusIcon className="size-3" />
+                  Add Waypoint
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {/* Route Details — scrollable */}
           {route && (
-            <Card size="sm">
-              <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-2">
-                  <MapIcon className="size-4" />
-                  Route Details
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <ScrollArea className="min-h-0 flex-1">
+              <div className="space-y-4 p-4">
                 {/* Distance & Duration */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
-                    <MapPinIcon className="size-4 text-muted-foreground" />
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+                    <MapPinIcon className="size-3.5 text-muted-foreground" />
                     <div>
                       <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
                         Distance
                       </div>
-                      <div className="text-sm font-semibold">
+                      <div className="text-sm font-semibold tabular-nums">
                         {formatDistance(route.distance)}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 rounded-md bg-muted/50 px-3 py-2">
-                    <ClockIcon className="size-4 text-muted-foreground" />
+                  <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+                    <ClockIcon className="size-3.5 text-muted-foreground" />
                     <div>
                       <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
                         Duration
                       </div>
-                      <div className="text-sm font-semibold">
+                      <div className="text-sm font-semibold tabular-nums">
                         {formatDuration(route.duration)}
                       </div>
                     </div>
@@ -317,7 +414,7 @@ export function RouteBuilderPage() {
 
                 {/* Coordinates */}
                 {origin && destination && (
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 rounded-lg border p-3">
                     <div className="flex items-center gap-2 text-xs">
                       <span className="inline-block size-2 rounded-full bg-green-500" />
                       <span className="text-muted-foreground">Origin:</span>
@@ -328,9 +425,7 @@ export function RouteBuilderPage() {
                     </div>
                     <div className="flex items-center gap-2 text-xs">
                       <span className="inline-block size-2 rounded-full bg-red-500" />
-                      <span className="text-muted-foreground">
-                        Destination:
-                      </span>
+                      <span className="text-muted-foreground">Dest:</span>
                       <span className="font-mono text-[11px]">
                         {parseFloat(destination.lat).toFixed(5)},{" "}
                         {parseFloat(destination.lon).toFixed(5)}
@@ -341,43 +436,45 @@ export function RouteBuilderPage() {
 
                 <Separator />
 
-                {/* Turn-by-turn legs */}
+                {/* Legs */}
                 <div className="space-y-3">
-                  <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                    Legs
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                    Turn-by-turn
                   </div>
                   {route.legs.map((leg, legIdx) => (
-                    <div key={legIdx} className="space-y-1.5">
+                    <div key={legIdx} className="space-y-1">
                       <div className="flex items-center justify-between text-xs font-medium">
                         <span>
                           Leg {legIdx + 1}
                           {leg.summary && (
-                            <span className="ml-1 text-muted-foreground font-normal">
+                            <span className="ml-1 font-normal text-muted-foreground">
                               ({leg.summary})
                             </span>
                           )}
                         </span>
-                        <span className="text-muted-foreground">
+                        <span className="text-muted-foreground tabular-nums">
                           {formatDistance(leg.distance)}
                         </span>
                       </div>
-                      <div className="space-y-0.5 pl-3 border-l-2 border-muted">
-                        {leg.steps.map((step, stepIdx) => (
-                          <div
-                            key={stepIdx}
-                            className="flex items-center justify-between py-0.5 text-xs"
-                          >
-                            <div className="flex items-center gap-1.5 text-muted-foreground">
-                              <ArrowRightIcon className="size-3 shrink-0" />
-                              <span className="truncate max-w-[180px]">
-                                {step.name || step.maneuver.type}
+                      <div className="space-y-0.5 border-l-2 border-muted pl-3">
+                        {leg.steps
+                          .filter((s) => s.distance > 20)
+                          .map((step, stepIdx) => (
+                            <div
+                              key={stepIdx}
+                              className="flex items-center justify-between py-0.5 text-xs"
+                            >
+                              <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <ArrowRightIcon className="size-2.5 shrink-0" />
+                                <span className="max-w-[180px] truncate">
+                                  {step.name || step.maneuver.type}
+                                </span>
+                              </div>
+                              <span className="ml-2 shrink-0 font-mono text-[10px] text-muted-foreground/70">
+                                {formatDistance(step.distance)}
                               </span>
                             </div>
-                            <span className="text-[10px] font-mono text-muted-foreground/70 shrink-0 ml-2">
-                              {formatDistance(step.distance)}
-                            </span>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     </div>
                   ))}
@@ -388,8 +485,8 @@ export function RouteBuilderPage() {
                 {/* Polyline data */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                      Polyline Data
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                      Polyline · {route.geometry.coordinates.length} pts
                     </div>
                     <Button
                       variant="ghost"
@@ -399,37 +496,39 @@ export function RouteBuilderPage() {
                     >
                       {copied ? (
                         <>
-                          <CheckIcon className="size-3" />
-                          Copied
+                          <CheckIcon className="size-3" /> Copied
                         </>
                       ) : (
                         <>
-                          <CopyIcon className="size-3" />
-                          Copy JSON
+                          <CopyIcon className="size-3" /> Copy JSON
                         </>
                       )}
                     </Button>
                   </div>
-                  <div className="max-h-24 overflow-y-auto rounded-md bg-muted/50 p-2 text-[10px] font-mono text-muted-foreground leading-relaxed break-all">
-                    {route.geometry.coordinates.length} coordinates
-                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </ScrollArea>
           )}
         </div>
 
         {/* Right panel — map */}
-        <div className="relative h-full min-h-[400px]">
-          <Map
-            center={[79.8612, 7.0]}
-            zoom={8}
-          >
+        <div className="relative min-h-0 flex-1">
+          <Map center={[79.8612, 7.0]} zoom={8}>
+            {/* Auto-focus on single location select */}
+            {focusTarget && !route && (
+              <FlyTo lat={focusTarget.lat} lng={focusTarget.lng} />
+            )}
+
+            {/* Auto-fit to route bounds */}
+            {route && route.geometry.coordinates.length > 1 && (
+              <FitBounds coordinates={route.geometry.coordinates} />
+            )}
+
             {/* Route polyline */}
             {route && route.geometry.coordinates.length > 1 && (
               <MapRoute
                 coordinates={route.geometry.coordinates}
-                color="#e53e3e"
+                color="#1D9E75"
                 width={4}
                 opacity={0.85}
               />
@@ -474,21 +573,18 @@ export function RouteBuilderPage() {
                   latitude={parseFloat(wp.lat)}
                 >
                   <MarkerContent>
-                    <div className="size-3.5 rounded-full border-2 border-white bg-indigo-500 shadow-lg" />
+                    <div className="flex size-5 items-center justify-center rounded-full border-2 border-white bg-indigo-500 text-[9px] font-bold text-white shadow-lg">
+                      {index + 1}
+                    </div>
                   </MarkerContent>
                   <MarkerTooltip>
-                    Waypoint {index + 1}:{" "}
-                    {wp.display_name.split(",")[0].trim()}
+                    WP{index + 1}: {wp.display_name.split(",")[0].trim()}
                   </MarkerTooltip>
                 </MapMarker>
               ) : null
             )}
 
-            <MapControls
-              position="bottom-right"
-              showZoom
-              showLocate
-            />
+            <MapControls position="bottom-right" showZoom showLocate />
           </Map>
         </div>
       </div>
