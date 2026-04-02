@@ -1,12 +1,15 @@
 import type { CSSProperties } from "react"
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom"
+import { Loader2Icon } from "lucide-react"
 
+import { useAuth } from "@/lib/auth"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardContent } from "@/components/dashboard-content"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 import { DataPage } from "@/pages/data"
+import { LoginPage } from "@/pages/login"
 import { RouteBuilderPage } from "@/pages/route-builder"
 import { LiveMapPage } from "@/pages/live-map"
 import { RouteDetailPage } from "@/pages/route-detail"
@@ -23,7 +26,21 @@ const layoutStyle = {
   "--header-height": "calc(var(--spacing) * 12)",
 } as CSSProperties
 
-function RootLayout() {
+function ProtectedLayout() {
+  const { isAuthenticated, isLoading } = useAuth()
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2Icon className="size-8 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
+
   return (
     <SidebarProvider style={layoutStyle}>
       <AppSidebar variant="inset" />
@@ -39,15 +56,35 @@ function RootLayout() {
   )
 }
 
-function EmptyPage() {
-  return <div className="flex-1" />
+function PublicRoute() {
+  const { isAuthenticated, isLoading } = useAuth()
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2Icon className="size-8 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />
+  }
+
+  return <Outlet />
 }
 
 export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<RootLayout />}>
+        {/* Public routes */}
+        <Route element={<PublicRoute />}>
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+
+        {/* Protected routes */}
+        <Route element={<ProtectedLayout />}>
           <Route index element={<DashboardContent />} />
           <Route path="routes" element={<RoutesPage />} />
           <Route path="routes/new" element={<RouteNewPage />} />
@@ -61,6 +98,9 @@ export function App() {
           <Route path="live-map" element={<LiveMapPage />} />
           <Route path="route-builder" element={<RouteBuilderPage />} />
         </Route>
+
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )

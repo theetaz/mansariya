@@ -1,3 +1,5 @@
+import { getAccessToken } from "@/lib/auth"
+
 const API_BASE_URL = (
   import.meta.env.VITE_API_URL || ""
 ).replace(/\/$/, "")
@@ -156,11 +158,24 @@ export type AdminRouteDetail = {
 
 // ── Fetch helpers ────────────────────────────────────────────────────────
 
-async function apiGet<T>(path: string, admin = false): Promise<T> {
+function authHeaders(admin: boolean): HeadersInit {
   const headers: HeadersInit = { Accept: "application/json" }
-  if (admin) headers["X-API-Key"] = ADMIN_API_KEY
+  if (!admin) return headers
 
-  const response = await fetch(`${API_BASE_URL}${path}`, { headers })
+  // Prefer JWT token, fall back to API key
+  const token = getAccessToken()
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`
+  } else {
+    headers["X-API-Key"] = ADMIN_API_KEY
+  }
+  return headers
+}
+
+async function apiGet<T>(path: string, admin = false): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    headers: authHeaders(admin),
+  })
   if (!response.ok) {
     const body = await response.text().catch(() => "")
     throw new Error(`API ${response.status}: ${body || response.statusText}`)
@@ -174,9 +189,8 @@ async function apiMutate<T>(
   body?: unknown
 ): Promise<T> {
   const headers: HeadersInit = {
-    Accept: "application/json",
+    ...authHeaders(true),
     "Content-Type": "application/json",
-    "X-API-Key": ADMIN_API_KEY,
   }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {

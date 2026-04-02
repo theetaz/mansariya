@@ -19,15 +19,36 @@ import {
   toolsNavItems,
   secondaryNavItems,
 } from "@/lib/navigation"
-import { CommandIcon } from "lucide-react"
+import { useAuth } from "@/lib/auth"
+import { BusFrontIcon } from "lucide-react"
+import type { NavItem } from "@/lib/navigation"
 
-const user = {
-  name: "Mansariya",
-  email: "admin@mansariya.lk",
-  avatar: "/avatars/shadcn.jpg",
+// Map nav items to required permissions — items without a mapping are always shown
+const navPermissions: Record<string, string> = {
+  "Routes": "routes.view",
+  "Stops": "stops.view",
+  "Timetables": "timetables.view",
+  "Route Builder": "map.edit_polyline",
+  "Simulations": "simulations.view",
+  "Import/Export": "data.export",
+}
+
+function filterByPermission(items: NavItem[], hasPermission: (p: string) => boolean): NavItem[] {
+  return items.filter((item) => {
+    const required = navPermissions[item.title]
+    return !required || hasPermission(required)
+  })
 }
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
+  const { hasPermission } = useAuth()
+
+  const sections = [
+    { items: filterByPermission(primaryNavItems, hasPermission) },
+    { label: "Management", items: filterByPermission(managementNavItems, hasPermission) },
+    { label: "Tools", items: filterByPermission(toolsNavItems, hasPermission) },
+  ].filter((s) => s.items.length > 0)
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -37,8 +58,8 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
-                <CommandIcon className="size-5!" />
+              <a href="/">
+                <BusFrontIcon className="size-5!" />
                 <span className="text-base font-semibold">Mansariya Admin</span>
               </a>
             </SidebarMenuButton>
@@ -46,18 +67,12 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain
-          sections={[
-            { items: primaryNavItems },
-            { label: "Management", items: managementNavItems },
-            { label: "Tools", items: toolsNavItems },
-          ]}
-        />
+        <NavMain sections={sections} />
         <SidebarSeparator className="mt-auto" />
         <NavSecondary items={secondaryNavItems} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )
