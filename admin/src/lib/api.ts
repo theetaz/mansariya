@@ -306,8 +306,27 @@ export function setTimetable(routeId: string, entries: TimetableInput[]) {
 
 // ── Simulations ──────────────────────────────────────────────────────────
 
-export function fetchSimulations() {
-  return apiGet<SimulationsResponse>("/api/v1/admin/simulations", true)
+export type SimulationsParams = {
+  search?: string
+  status?: string
+  sort_by?: string
+  sort_dir?: string
+  limit?: number
+  offset?: number
+}
+
+export function fetchSimulations(params?: SimulationsParams) {
+  const q = new URLSearchParams()
+  if (params?.search) q.set("search", params.search)
+  if (params?.status) q.set("status", params.status)
+  if (params?.sort_by) q.set("sort_by", params.sort_by)
+  if (params?.sort_dir) q.set("sort_dir", params.sort_dir)
+  if (params?.limit) q.set("limit", String(params.limit))
+  if (params?.offset) q.set("offset", String(params.offset))
+  const qs = q.toString()
+  return apiGet<{ simulations: SimulationJob[]; total: number; limit: number; offset: number }>(
+    `/api/v1/admin/simulations${qs ? `?${qs}` : ""}`, true
+  )
 }
 
 export function startSimulation(id: string) {

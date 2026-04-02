@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Link } from "react-router-dom"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import type { ColumnDef } from "@tanstack/react-table"
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query"
+import type { ColumnDef, SortingState, PaginationState, ColumnFiltersState } from "@tanstack/react-table"
 import {
   PlayIcon,
   PauseIcon,
@@ -23,6 +23,7 @@ import {
   deleteSimulation,
   type SimulationJob,
   type SimulationStatus,
+  type SimulationsParams,
 } from "@/lib/api"
 import { DataTable, DataTableColumnHeader } from "@/components/shared/data-table"
 import { Badge } from "@/components/ui/badge"
@@ -338,42 +339,67 @@ function ActionsCell({ simulation }: { simulation: SimulationJob }) {
 export function SimulationsPage() {
   const columns = useColumns()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["simulations"],
-    queryFn: fetchSimulations,
+  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 15 })
+  const [sorting, setSorting] = useState<SortingState>([{ id: "updated_at", desc: true }])
+  const [globalFilter, setGlobalFilter] = useState("")
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  const queryParams = useMemo<SimulationsParams>(() => {
+    const p: SimulationsParams = {
+      limit: pagination.pageSize,
+      offset: pagination.pageIndex * pagination.pageSize,
+    }
+    if (globalFilter) p.search = globalFilter
+    if (sorting.length > 0) {
+      p.sort_by = sorting[0].id
+      p.sort_dir = sorting[0].desc ? "desc" : "asc"
+    }
+    for (const f of columnFilters) {
+      if (f.id === "status" && f.value) p.status = f.value as string
+    }
+    return p
+  }, [pagination, sorting, globalFilter, columnFilters])
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["simulations", queryParams],
+    queryFn: () => fetchSimulations(queryParams),
+    placeholderData: keepPreviousData,
     refetchInterval: 5000,
   })
 
   const simulations = data?.simulations ?? []
+  const total = data?.total ?? 0
 
   return (
     <div className="flex flex-1 flex-col gap-4 py-4 md:gap-6 md:py-6">
-      {/* Header */}
       <div className="flex flex-col gap-1 px-4 sm:flex-row sm:items-center sm:justify-between lg:px-6">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Simulations
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {isLoading
-              ? "Loading simulations..."
-              : `${simulations.length} simulation${simulations.length !== 1 ? "s" : ""}`}
-          </p>
+          <h1 className="text-2xl font-semibold tracking-tight">Simulations</h1>
+          <p className="text-sm text-muted-foreground">{total} simulation{total !== 1 ? "s" : ""}.</p>
         </div>
         <Button asChild className="w-fit">
-          <Link to="/simulations/new">
-            <PlusIcon />
-            New Simulation
-          </Link>
+          <Link to="/simulations/new"><PlusIcon />New Simulation</Link>
         </Button>
       </div>
 
-      {/* Table */}
       <DataTable
         columns={columns}
         data={simulations}
         isLoading={isLoading}
         searchPlaceholder="Search simulations..."
+        pageSize={15}
+        serverSide={{
+          rowCount: total,
+          pagination,
+          onPaginationChange: setPagination,
+          sorting,
+          onSortingChange: setSorting,
+          globalFilter,
+          onGlobalFilterChange: setGlobalFilter,
+          columnFilters,
+          onColumnFiltersChange: setColumnFilters,
+          isFetching,
+        }}
       />
     </div>
   )

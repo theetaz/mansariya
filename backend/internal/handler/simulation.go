@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log/slog"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/masariya/backend/internal/model"
@@ -14,6 +15,7 @@ type SimulationStoreInterface interface {
 	Create(ctx context.Context, input model.SimulationJobInput) (*model.SimulationJob, error)
 	Get(ctx context.Context, id string) (*model.SimulationJobDetail, error)
 	List(ctx context.Context) ([]model.SimulationJob, error)
+	ListFiltered(ctx context.Context, search, status, sortBy, sortDir string, limit, offset int) ([]model.SimulationJob, int, error)
 	Update(ctx context.Context, id string, input model.SimulationJobInput) error
 	Delete(ctx context.Context, id string) error
 	GetActiveStats(ctx context.Context) (*model.SimulationActiveResponse, error)
@@ -36,16 +38,29 @@ func NewSimulationHandler(store SimulationStoreInterface, manager SimulationMana
 }
 
 func (h *SimulationHandler) List(w http.ResponseWriter, r *http.Request) {
-	jobs, err := h.store.List(r.Context())
+	q := r.URL.Query()
+	limit, _ := strconv.Atoi(q.Get("limit"))
+	offset, _ := strconv.Atoi(q.Get("offset"))
+	if limit <= 0 {
+		limit = 15
+	}
+
+	jobs, total, err := h.store.ListFiltered(r.Context(),
+		q.Get("search"), q.Get("status"),
+		q.Get("sort_by"), q.Get("sort_dir"),
+		limit, offset,
+	)
 	if err != nil {
 		slog.Error("list simulations", "error", err)
 		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
-	if jobs == nil {
-		jobs = []model.SimulationJob{}
-	}
-	writeJSON(w, http.StatusOK, map[string]interface{}{"simulations": jobs, "count": len(jobs)})
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"simulations": jobs,
+		"total":       total,
+		"limit":       limit,
+		"offset":      offset,
+	})
 }
 
 func (h *SimulationHandler) Create(w http.ResponseWriter, r *http.Request) {
