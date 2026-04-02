@@ -13,7 +13,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { primaryNavItems, secondaryNavItems } from "@/lib/navigation"
+import {
+  primaryNavItems,
+  managementNavItems,
+  toolsNavItems,
+  secondaryNavItems,
+} from "@/lib/navigation"
 import { CommandIcon } from "lucide-react"
 
 const user = {
@@ -41,7 +46,13 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={primaryNavItems} />
+        <NavMain
+          sections={[
+            { items: primaryNavItems },
+            { label: "Management", items: managementNavItems },
+            { label: "Tools", items: toolsNavItems },
+          ]}
+        />
         <SidebarSeparator className="mt-auto" />
         <NavSecondary items={secondaryNavItems} className="mt-auto" />
       </SidebarContent>

@@ -2,45 +2,28 @@ import { NavLink, useLocation } from "react-router-dom"
 
 import type { NavItem } from "@/lib/navigation"
 import { isNavItemActive } from "@/lib/navigation"
-import { Button } from "@/components/ui/button"
 import {
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { CirclePlusIcon, MailIcon } from "lucide-react"
 
-export function NavMain({
+function NavSection({
+  label,
   items,
+  pathname,
 }: {
+  label?: string
   items: NavItem[]
+  pathname: string
 }) {
-  const { pathname } = useLocation()
-
   return (
     <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
-            >
-              <CirclePlusIcon />
-              <span>Quick Create</span>
-            </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <MailIcon />
-              <span className="sr-only">Inbox</span>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
+      <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => {
             const Icon = item.icon
@@ -63,5 +46,26 @@ export function NavMain({
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
+  )
+}
+
+export function NavMain({
+  sections,
+}: {
+  sections: { label?: string; items: NavItem[] }[]
+}) {
+  const { pathname } = useLocation()
+
+  return (
+    <>
+      {sections.map((section, i) => (
+        <NavSection
+          key={section.label ?? i}
+          label={section.label}
+          items={section.items}
+          pathname={pathname}
+        />
+      ))}
+    </>
   )
 }
