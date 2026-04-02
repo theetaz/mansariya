@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/masariya/backend/internal/model"
 	"github.com/masariya/backend/internal/service"
 )
 
@@ -258,6 +259,9 @@ func (h *UserAdminHandler) GetRolePermissions(w http.ResponseWriter, r *http.Req
 		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
+	if perms == nil {
+		perms = []model.Permission{}
+	}
 	writeJSON(w, http.StatusOK, map[string]interface{}{"permissions": perms})
 }
 
@@ -286,6 +290,9 @@ func (h *UserAdminHandler) ListPermissions(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		WriteAPIErr(w, r, ErrInternal(err))
 		return
+	}
+	if perms == nil {
+		perms = []model.Permission{}
 	}
 	writeJSON(w, http.StatusOK, map[string]interface{}{"permissions": perms})
 }

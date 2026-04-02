@@ -152,5 +152,8 @@ func (s *AuditStore) List(ctx context.Context, f AuditFilter) ([]AuditEntry, int
 		}
 		entries = append(entries, e)
 	}
+	if entries == nil {
+		entries = []AuditEntry{}
+	}
 	return entries, total, rows.Err()
 }

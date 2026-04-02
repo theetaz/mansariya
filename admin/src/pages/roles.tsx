@@ -275,11 +275,13 @@ function PermissionsDialog({
   })
 
   // Initialize selected IDs from fetched role permissions
-  if (rolePermsQuery.data && !initialized) {
-    const ids = new Set(rolePermsQuery.data.permissions.map((p) => p.id))
-    setSelectedIds(ids)
-    setInitialized(true)
-  }
+  useEffect(() => {
+    if (rolePermsQuery.data && !initialized) {
+      const ids = new Set((rolePermsQuery.data.permissions ?? []).map((p: AdminPermission) => p.id))
+      setSelectedIds(ids)
+      setInitialized(true)
+    }
+  }, [rolePermsQuery.data, initialized])
 
   // Reset initialized state when dialog closes
   function handleOpenChange(next: boolean) {

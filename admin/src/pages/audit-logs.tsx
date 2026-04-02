@@ -116,8 +116,10 @@ function AuditRow({ entry }: { entry: AuditEntry }) {
       </TableCell>
       <TableCell>
         <div>
-          <p className="text-sm font-medium">{entry.actor_email}</p>
-          <p className="text-xs text-muted-foreground">{entry.actor_id.slice(0, 8)}...</p>
+          <p className="text-sm font-medium">{entry.actor_email || "System"}</p>
+          {entry.actor_id && (
+            <p className="text-xs text-muted-foreground">{entry.actor_id.slice(0, 8)}...</p>
+          )}
         </div>
       </TableCell>
       <TableCell>{actionBadge(entry.action)}</TableCell>
