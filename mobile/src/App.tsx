@@ -8,6 +8,7 @@ import RootNavigator from './navigation/RootNavigator';
 import SplashScreen from './screens/SplashScreen';
 import OnboardingScreen from './screens/onboarding/OnboardingScreen';
 import {useSettingsStore} from './stores/useSettingsStore';
+import {useTheme} from './hooks/useTheme';
 import {useTrackingStore} from './stores/useTrackingStore';
 import {syncRoutesIfNeeded} from './services/routeSync';
 import {recoverTracking, forceFlush, setOnPingCountUpdate} from './services/locationTracker';
@@ -88,15 +89,34 @@ export default function App() {
     setPhase('main');
   }, [completeOnboarding]);
 
+  const {colors: themeColors} = useTheme();
+
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
+    <GestureHandlerRootView style={{flex: 1, backgroundColor: themeColors.background}}>
       <SafeAreaProvider>
         {phase === 'splash' && <SplashScreen onReady={handleSplashReady} />}
         {phase === 'onboarding' && (
           <OnboardingScreen onComplete={handleOnboardingComplete} />
         )}
         {phase === 'main' && (
-          <NavigationContainer>
+          <NavigationContainer
+            theme={{
+              dark: themeColors.background === '#0F0F0F',
+              colors: {
+                primary: '#1D9E75',
+                background: themeColors.background,
+                card: themeColors.background,
+                text: themeColors.text,
+                border: themeColors.border,
+                notification: '#1D9E75',
+              },
+              fonts: {
+                regular: {fontFamily: 'System', fontWeight: '400' as const},
+                medium: {fontFamily: 'System', fontWeight: '500' as const},
+                bold: {fontFamily: 'System', fontWeight: '700' as const},
+                heavy: {fontFamily: 'System', fontWeight: '800' as const},
+              },
+            }}>
             <RootNavigator />
           </NavigationContainer>
         )}

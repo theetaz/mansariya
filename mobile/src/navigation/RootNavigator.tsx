@@ -2,7 +2,6 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useTranslation} from 'react-i18next';
-import {Text, StyleSheet} from 'react-native';
 
 import MapScreen from '../screens/MapScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -10,6 +9,7 @@ import SavedScreen from '../screens/SavedScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
 import JourneySearchScreen from '../screens/JourneySearchScreen';
+import GlassTabBar from '../components/GlassTabBar';
 import {colors} from '../constants/theme';
 import {useTheme} from '../hooks/useTheme';
 
@@ -18,33 +18,19 @@ import type {RootStackParamList, TabParamList} from './types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
-const TAB_ICONS: Record<string, {active: string; inactive: string}> = {
-  Map: {active: '🗺️', inactive: '🗺️'},
-  Search: {active: '🔍', inactive: '🔍'},
-  Saved: {active: '⭐', inactive: '⭐'},
-  Settings: {active: '⚙️', inactive: '⚙️'},
-};
-
 function MainTabs() {
   const {t} = useTranslation();
+
   const {colors: tc} = useTheme();
 
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused}) => (
-          <Text style={[styles.tabIcon, {opacity: focused ? 1 : 0.7}]}>
-            {focused
-              ? TAB_ICONS[route.name]?.active
-              : TAB_ICONS[route.name]?.inactive}
-          </Text>
-        ),
-        tabBarActiveTintColor: colors.green,
-        tabBarInactiveTintColor: tc.textSecondary,
-        tabBarStyle: [styles.tabBar, {backgroundColor: tc.tabBar, borderTopColor: tc.tabBarBorder}],
-        tabBarLabelStyle: styles.tabLabel,
+      tabBar={(props) => <GlassTabBar {...props} />}
+      screenOptions={{
         headerShown: false,
-      })}>
+        // Scenes fill full screen — tab bar overlays as absolute positioned glass
+        sceneStyle: {backgroundColor: tc.background, paddingBottom: 0},
+      }}>
       <Tab.Screen
         name="Map"
         component={MapScreen}
@@ -100,19 +86,3 @@ export default function RootNavigator() {
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: colors.background,
-    borderTopColor: colors.neutral200,
-    height: 56,
-    paddingBottom: 4,
-  },
-  tabLabel: {
-    fontSize: 11,
-    fontWeight: '500',
-  },
-  tabIcon: {
-    fontSize: 20,
-  },
-});
