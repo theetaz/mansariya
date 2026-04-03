@@ -163,21 +163,36 @@ function UserRowActions({ user }: { user: AdminUser }) {
           <ShieldIcon className="mr-2 size-4" />Manage Roles
         </DropdownMenuItem>
         {user.status !== "invited" && (
-          <DropdownMenuItem onClick={() => toggle.mutate()}>
+          <DropdownMenuItem
+            disabled={isSuperAdmin}
+            onClick={() => {
+              if (isSuperAdmin) {
+                toast.error("Super Admin accounts cannot be deactivated.")
+              } else {
+                toggle.mutate()
+              }
+            }}
+          >
             {user.status === "active"
               ? <><ShieldOffIcon className="mr-2 size-4" />Deactivate</>
               : <><ShieldIcon className="mr-2 size-4" />Activate</>
             }
           </DropdownMenuItem>
         )}
-        {!isSuperAdmin && (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive" onClick={() => deleteMut.mutate()}>
-              <Trash2Icon className="mr-2 size-4" />Delete
-            </DropdownMenuItem>
-          </>
-        )}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="text-destructive"
+          disabled={isSuperAdmin}
+          onClick={() => {
+            if (isSuperAdmin) {
+              toast.error("Super Admin accounts cannot be deleted.")
+            } else {
+              deleteMut.mutate()
+            }
+          }}
+        >
+          <Trash2Icon className="mr-2 size-4" />Delete
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
