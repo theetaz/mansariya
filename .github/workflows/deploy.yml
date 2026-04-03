@@ -39,11 +39,21 @@ jobs:
             docker compose -f docker-compose.prod.yml --env-file .env.prod run --rm migrate
 
             # Bootstrap admin user (safe to re-run — skips if users exist)
-            docker compose -f docker-compose.prod.yml --env-file .env.prod run --rm backend \
-              /bootstrap-admin \
-              -email "${ADMIN_EMAIL:-admin@mansariya.lk}" \
-              -password "${ADMIN_PASSWORD}" \
-              -name "${ADMIN_NAME:-Super Admin}"
+            # Only runs if ADMIN_PASSWORD is set in .env.prod
+            if grep -q "^ADMIN_PASSWORD=" .env.prod 2>/dev/null; then
+              source .env.prod
+              if [ -n "$ADMIN_PASSWORD" ]; then
+                docker compose -f docker-compose.prod.yml --env-file .env.prod run --rm backend \
+                  /bootstrap-admin \
+                  -email "${ADMIN_EMAIL:-admin@mansariya.lk}" \
+                  -password "$ADMIN_PASSWORD" \
+                  -name "${ADMIN_NAME:-Super Admin}"
+              else
+                echo "⚠️  ADMIN_PASSWORD is empty — skipping bootstrap. Run manually: make bootstrap-admin"
+              fi
+            else
+              echo "⚠️  ADMIN_PASSWORD not set — skipping bootstrap. Run manually: make bootstrap-admin"
+            fi
 
             # Start application services and wait for health
             docker compose -f docker-compose.prod.yml --env-file .env.prod up -d backend nginx
