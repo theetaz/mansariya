@@ -10,13 +10,22 @@ import (
 	"github.com/masariya/backend/internal/model"
 )
 
-type GPSHandler struct {
-	ingester  GPSIngester
-	tripStore TripSessionStore
+// ContributorRegistrar handles auto-registration of contributors.
+type ContributorRegistrar interface {
+	UpsertContributor(ctx context.Context, contributorID string) error
+	LinkDeviceHash(ctx context.Context, deviceHash, contributorID string) error
+	TrackActivity(ctx context.Context, contributorID string, pingCount int) error
+	TrackRouteContribution(ctx context.Context, contributorID, routeID string, pingCount int) error
 }
 
-func NewGPSHandler(ingester GPSIngester, tripStore TripSessionStore) *GPSHandler {
-	return &GPSHandler{ingester: ingester, tripStore: tripStore}
+type GPSHandler struct {
+	ingester     GPSIngester
+	tripStore    TripSessionStore
+	contributors ContributorRegistrar
+}
+
+func NewGPSHandler(ingester GPSIngester, tripStore TripSessionStore, contributors ContributorRegistrar) *GPSHandler {
+	return &GPSHandler{ingester: ingester, tripStore: tripStore, contributors: contributors}
 }
 
 // HandleBatch receives GPS batches from mobile clients and pushes to Redis Stream.
@@ -89,6 +98,28 @@ func (h *GPSHandler) HandleBatch(w http.ResponseWriter, r *http.Request) {
 
 			if err := h.tripStore.UpsertSession(ctx, tripBatch); err != nil {
 				slog.Debug("trip session upsert", "error", err)
+			}
+		}()
+	}
+
+	// Auto-register contributor and track telemetry (non-blocking)
+	if h.contributors != nil && batch.ContributorID != "" {
+		cBatch := batch
+		go func() {
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+
+			if err := h.contributors.UpsertContributor(ctx, cBatch.ContributorID); err != nil {
+				slog.Debug("contributor upsert", "error", err)
+			}
+			if err := h.contributors.LinkDeviceHash(ctx, cBatch.DeviceHash, cBatch.ContributorID); err != nil {
+				slog.Debug("device hash link", "error", err)
+			}
+			if err := h.contributors.TrackActivity(ctx, cBatch.ContributorID, len(cBatch.Pings)); err != nil {
+				slog.Debug("track activity", "error", err)
+			}
+			if err := h.contributors.TrackRouteContribution(ctx, cBatch.ContributorID, cBatch.RouteID, len(cBatch.Pings)); err != nil {
+				slog.Debug("track route contribution", "error", err)
 			}
 		}()
 	}

@@ -10,6 +10,7 @@ const (
 type GPSBatch struct {
 	DeviceHash       string    `json:"device_hash"`
 	SessionID        string    `json:"session_id"`
+	ContributorID    string    `json:"contributor_id,omitempty"`
 	Pings            []GPSPing `json:"pings"`
 	RouteID          string    `json:"route_id,omitempty"`
 	BusNumber        string    `json:"bus_number,omitempty"`
@@ -43,6 +44,7 @@ type MatchedPoint struct {
 type MatchedTrace struct {
 	DeviceHash       string         `json:"device_hash"`
 	SessionID        string         `json:"session_id"`
+	ContributorID    string         `json:"contributor_id,omitempty"`
 	Points           []MatchedPoint `json:"points"`
 	AvgSpeed         float64        `json:"avg_speed"` // km/h
 	AvgBearing       float64        `json:"avg_bearing"`

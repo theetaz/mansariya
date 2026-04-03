@@ -30,8 +30,9 @@ type Deps struct {
 	System     *handler.SystemHandler
 	Auth       *handler.AuthHandler
 	RBAC       *handler.RBACMiddleware
-	UserAdmin  *handler.UserAdminHandler
-	Audit      *handler.AuditHandler
+	UserAdmin   *handler.UserAdminHandler
+	Audit       *handler.AuditHandler
+	Contributor *handler.ContributorHandler
 }
 
 func NewRouter(deps *Deps) *chi.Mux {
@@ -99,6 +100,23 @@ func NewRouter(deps *Deps) *chi.Mux {
 			r.Get("/sessions", deps.Auth.ListSessions)
 			r.Post("/sessions/revoke", deps.Auth.RevokeSession)
 			r.Post("/sessions/revoke-others", deps.Auth.RevokeOtherSessions)
+		})
+	})
+
+	// Contributor API (separate identity domain)
+	r.Route("/api/v1/contributor", func(r chi.Router) {
+		// Public
+		r.Get("/leaderboard", deps.Contributor.HandleLeaderboard)
+		r.Post("/auth/login", deps.Contributor.HandleLogin)
+		r.Post("/auth/refresh", deps.Contributor.HandleRefresh)
+		r.Post("/auth/logout", deps.Contributor.HandleLogout)
+
+		// Authenticated (contributor JWT)
+		r.Group(func(r chi.Router) {
+			r.Use(deps.Contributor.JWTMiddleware)
+			r.Get("/me", deps.Contributor.HandleGetProfile)
+			r.Get("/stats", deps.Contributor.HandleGetStats)
+			r.Post("/claim", deps.Contributor.HandleClaim)
 		})
 	})
 
@@ -171,6 +189,9 @@ func NewRouter(deps *Deps) *chi.Mux {
 		r.With(handler.RequirePermission("users.view")).Get("/roles/{roleID}/permissions", deps.UserAdmin.GetRolePermissions)
 		r.With(handler.RequirePermission("users.manage")).Put("/roles/{roleID}/permissions", deps.UserAdmin.SetRolePermissions)
 		r.With(handler.RequirePermission("users.view")).Get("/permissions", deps.UserAdmin.ListPermissions)
+
+		// Contributors (admin view)
+		r.With(handler.RequirePermission("contributors.view")).Get("/contributors", deps.Contributor.HandleAdminList)
 
 		// Audit logs
 		r.With(handler.RequirePermission("users.manage")).Get("/audit-logs", deps.Audit.List)

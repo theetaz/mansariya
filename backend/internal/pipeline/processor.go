@@ -135,10 +135,11 @@ func (p *Processor) processMessage(ctx context.Context, msg redis.XMessage) {
 
 	// Build device state
 	ds := &DeviceState{
-		SessionID:    trace.SessionID,
-		DeviceHash:   trace.DeviceHash,
-		AdminID:      adminContributorID(trace.SessionID),
-		RouteID:      routeID,
+		SessionID:     trace.SessionID,
+		DeviceHash:    trace.DeviceHash,
+		ContributorID: trace.ContributorID,
+		AdminID:       adminContributorID(trace.SessionID),
+		RouteID:       routeID,
 		Lat:          lastPoint.Lat,
 		Lng:          lastPoint.Lng,
 		SpeedKMH:     trace.AvgSpeed,
