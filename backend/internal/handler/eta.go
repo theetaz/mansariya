@@ -30,13 +30,13 @@ func (h *ETAHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	lng, _ := strconv.ParseFloat(r.URL.Query().Get("lng"), 64)
 
 	if routeID == "" || (lat == 0 && lng == 0) {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "route_id and lat/lng are required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "route_id,lat,lng"))
 		return
 	}
 
 	result, err := h.calculator.Calculate(r.Context(), routeID, lat, lng)
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "ETA calculation failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 

@@ -24,7 +24,7 @@ func NewGPSHandler(ingester GPSIngester, tripStore TripSessionStore) *GPSHandler
 func (h *GPSHandler) HandleBatch(w http.ResponseWriter, r *http.Request) {
 	var batch model.GPSBatch
 	if err := json.NewDecoder(r.Body).Decode(&batch); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 
@@ -33,51 +33,50 @@ func (h *GPSHandler) HandleBatch(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if batch.DeviceHash == "" || batch.SessionID == "" {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "device_hash and session_id are required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "device_hash,session_id"))
 		return
 	}
 
 	if batch.EventType != model.GPSEventPing && batch.EventType != model.GPSEventStarted && batch.EventType != model.GPSEventStopped {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid event_type"})
+		WriteAPIErr(w, r, ErrValidation("invalid_event_type", "validation.invalid_format", "event_type"))
 		return
 	}
 
 	if batch.EventType != model.GPSEventStopped && len(batch.Pings) == 0 {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "pings are required unless event_type is stopped"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "pings"))
 		return
 	}
 
 	if batch.BatchSeq < 0 || batch.IdentityVersion < 0 || batch.SessionStartedAt < 0 {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid lifecycle metadata"})
+		WriteAPIErr(w, r, ErrValidation("invalid_metadata", "validation.invalid_format", ""))
 		return
 	}
 
 	for _, ping := range batch.Pings {
 		if ping.Lat < -90 || ping.Lat > 90 || ping.Lng < -180 || ping.Lng > 180 {
-			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid coordinates"})
+			WriteAPIErr(w, r, ErrValidation("invalid_coordinates", "validation.invalid_format", "lat,lng"))
 			return
 		}
 		if ping.Accuracy < 0 || ping.Accuracy > 1000 {
-			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid accuracy"})
+			WriteAPIErr(w, r, ErrValidation("invalid_accuracy", "validation.invalid_format", "accuracy"))
 			return
 		}
 		if ping.Speed < 0 || ping.Speed > 100 {
-			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid speed"})
+			WriteAPIErr(w, r, ErrValidation("invalid_speed", "validation.invalid_format", "speed"))
 			return
 		}
 		if ping.Bearing < 0 || ping.Bearing > 360 {
-			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid bearing"})
+			WriteAPIErr(w, r, ErrValidation("invalid_bearing", "validation.invalid_format", "bearing"))
 			return
 		}
 		if ping.Timestamp <= 0 {
-			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid timestamp"})
+			WriteAPIErr(w, r, ErrValidation("invalid_timestamp", "validation.invalid_format", "timestamp"))
 			return
 		}
 	}
 
 	if err := h.ingester.Ingest(r.Context(), batch); err != nil {
-		slog.Error("gps ingest failed", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "failed to process"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 

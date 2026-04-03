@@ -26,7 +26,7 @@ func NewSyncHandler(syncer RouteSyncer) *SyncHandler {
 func (h *SyncHandler) HandleSync(w http.ResponseWriter, r *http.Request) {
 	routes, err := h.syncer.GetAllForSync(r.Context())
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "sync failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 

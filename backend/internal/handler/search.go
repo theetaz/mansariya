@@ -17,7 +17,7 @@ func NewSearchHandler(routeStore RouteQuerier) *SearchHandler {
 func (h *SearchHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("q")
 	if query == "" {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "q parameter required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "q"))
 		return
 	}
 
@@ -28,7 +28,7 @@ func (h *SearchHandler) Handle(w http.ResponseWriter, r *http.Request) {
 
 	routes, err := h.routeStore.Search(r.Context(), query, limit)
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "search failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 

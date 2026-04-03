@@ -3,9 +3,6 @@
 /**
  * Map component adapted from mapcn (https://github.com/AnmolSaini16/mapcn)
  * MIT License - Modified for Mansariya project
- * - Replaced lucide-react with @remixicon/react
- * - Changed default tiles from CARTO to OpenStreetMap
- * - Added Mansariya-specific defaults
  */
 
 import MapLibreGL, { type PopupOptions, type MarkerOptions } from "maplibre-gl";
@@ -25,13 +22,13 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import {
-  RiCloseLine,
-  RiSubtractLine,
-  RiAddLine,
-  RiFocusLine,
-  RiFullscreenLine,
-  RiLoader4Line,
-} from "@remixicon/react";
+  XIcon,
+  MinusIcon,
+  PlusIcon,
+  LocateIcon,
+  MaximizeIcon,
+  LoaderIcon,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -118,7 +115,7 @@ type MapProps = {
 function DefaultLoader() {
   return (
     <div className="bg-background/50 absolute inset-0 z-10 flex items-center justify-center backdrop-blur-xs">
-      <RiLoader4Line className="size-5 animate-spin text-muted-foreground" />
+      <LoaderIcon className="size-5 animate-spin text-muted-foreground" />
     </div>
   );
 }
@@ -263,7 +260,7 @@ function MarkerPopup({ children, className, closeButton = false, ...opts }: { ch
   useEffect(() => { if (!map) return; popup.setDOMContent(container); marker.setPopup(popup); return () => { marker.setPopup(null); }; /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [map]);
   return createPortal(
     <div className={cn("bg-popover text-popover-foreground animate-in fade-in-0 zoom-in-95 relative rounded-md border p-3 shadow-md", className)}>
-      {closeButton && <button type="button" onClick={() => popup.remove()} className="absolute top-1 right-1 z-10 rounded-sm opacity-70 hover:opacity-100" aria-label="Close"><RiCloseLine className="h-4 w-4" /></button>}
+      {closeButton && <button type="button" onClick={() => popup.remove()} className="absolute top-1 right-1 z-10 rounded-sm opacity-70 hover:opacity-100" aria-label="Close"><XIcon className="h-4 w-4" /></button>}
       {children}
     </div>, container,
   );
@@ -333,10 +330,10 @@ function MapControls({ position = "bottom-right", showZoom = true, showCompass =
 
   return (
     <div className={cn("absolute z-10 flex flex-col gap-1.5", posClasses[position], className)}>
-      {showZoom && <ControlGroup><ControlButton onClick={zoomIn} label="Zoom in"><RiAddLine className="size-4" /></ControlButton><ControlButton onClick={zoomOut} label="Zoom out"><RiSubtractLine className="size-4" /></ControlButton></ControlGroup>}
+      {showZoom && <ControlGroup><ControlButton onClick={zoomIn} label="Zoom in"><PlusIcon className="size-4" /></ControlButton><ControlButton onClick={zoomOut} label="Zoom out"><MinusIcon className="size-4" /></ControlButton></ControlGroup>}
       {showCompass && <ControlGroup><ControlButton onClick={resetBearing} label="Reset north">N</ControlButton></ControlGroup>}
-      {showLocate && <ControlGroup><ControlButton onClick={locate} label="My location" disabled={locating}>{locating ? <RiLoader4Line className="size-4 animate-spin" /> : <RiFocusLine className="size-4" />}</ControlButton></ControlGroup>}
-      {showFullscreen && <ControlGroup><ControlButton onClick={fullscreen} label="Fullscreen"><RiFullscreenLine className="size-4" /></ControlButton></ControlGroup>}
+      {showLocate && <ControlGroup><ControlButton onClick={locate} label="My location" disabled={locating}>{locating ? <LoaderIcon className="size-4 animate-spin" /> : <LocateIcon className="size-4" />}</ControlButton></ControlGroup>}
+      {showFullscreen && <ControlGroup><ControlButton onClick={fullscreen} label="Fullscreen"><MaximizeIcon className="size-4" /></ControlButton></ControlGroup>}
     </div>
   );
 }
@@ -361,7 +358,7 @@ function MapPopup({ longitude, latitude, onClose, children, className, closeButt
   if (popup.isOpen() && (popup.getLngLat().lng !== longitude || popup.getLngLat().lat !== latitude)) popup.setLngLat([longitude, latitude]);
   return createPortal(
     <div className={cn("bg-popover text-popover-foreground animate-in fade-in-0 zoom-in-95 relative rounded-md border p-3 shadow-md", className)}>
-      {closeButton && <button type="button" onClick={() => popup.remove()} className="absolute top-1 right-1 z-10 rounded-sm opacity-70 hover:opacity-100" aria-label="Close"><RiCloseLine className="h-4 w-4" /></button>}
+      {closeButton && <button type="button" onClick={() => popup.remove()} className="absolute top-1 right-1 z-10 rounded-sm opacity-70 hover:opacity-100" aria-label="Close"><XIcon className="h-4 w-4" /></button>}
       {children}
     </div>, container,
   );

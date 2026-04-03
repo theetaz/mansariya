@@ -1,57 +1,58 @@
-import * as React from 'react';
-import { Link, useRouterState } from '@tanstack/react-router';
-import {
-  RiDashboardLine,
-  RiRouteLine,
-  RiMapPinLine,
-  RiTimeLine,
-  RiLiveLine,
-  RiDownloadLine,
-  RiSettingsLine,
-  RiBusLine,
-  RiCompassDiscoverLine,
-  RiPlayCircleLine,
-} from '@remixicon/react';
-import { NavMain } from '@/components/nav-main';
-import { NavSecondary } from '@/components/nav-secondary';
-import { NavUser } from '@/components/nav-user';
+import type { ComponentProps } from "react"
+
+import { NavMain } from "@/components/nav-main"
+import { NavSecondary } from "@/components/nav-secondary"
+import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarSeparator,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
+} from "@/components/ui/sidebar"
+import {
+  primaryNavItems,
+  managementNavItems,
+  toolsNavItems,
+  adminNavItems,
+  secondaryNavItems,
+} from "@/lib/navigation"
+import { useAuth } from "@/lib/auth"
+import { BusFrontIcon } from "lucide-react"
+import type { NavItem } from "@/lib/navigation"
 
-const mainNavItems = [
-  { title: 'Dashboard', icon: <RiDashboardLine />, url: '/' },
-  { title: 'Routes', icon: <RiRouteLine />, url: '/routes' },
-  { title: 'Stops', icon: <RiMapPinLine />, url: '/stops' },
-  { title: 'Timetables', icon: <RiTimeLine />, url: '/timetables' },
-  { title: 'Route Builder', icon: <RiCompassDiscoverLine />, url: '/route-builder' },
-  { title: 'Simulations', icon: <RiPlayCircleLine />, url: '/simulations' },
-  { title: 'Live Map', icon: <RiLiveLine />, url: '/live-map' },
-  { title: 'Import/Export', icon: <RiDownloadLine />, url: '/data' },
-];
+// Map nav items to required permissions — items without a mapping are always shown
+const navPermissions: Record<string, string> = {
+  "Routes": "routes.view",
+  "Stops": "stops.view",
+  "Timetables": "timetables.view",
+  "Route Builder": "map.edit_polyline",
+  "Simulations": "simulations.view",
+  "Import/Export": "data.export",
+  "Users": "users.view",
+  "Roles": "users.manage",
+  "Audit Logs": "users.manage",
+}
 
-const secondaryNavItems = [
-  { title: 'Settings', icon: <RiSettingsLine />, url: '/settings' },
-];
+function filterByPermission(items: NavItem[], hasPermission: (p: string) => boolean): NavItem[] {
+  return items.filter((item) => {
+    const required = navPermissions[item.title]
+    return !required || hasPermission(required)
+  })
+}
 
-export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
-  const routerState = useRouterState();
-  const currentPath = routerState.location.pathname;
+export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
+  const { hasPermission } = useAuth()
 
-  const withActive = <T extends { url: string }>(items: T[]) =>
-    items.map((item) => ({
-      ...item,
-      isActive:
-        item.url === '/'
-          ? currentPath === '/'
-          : currentPath.startsWith(item.url),
-    }));
+  const sections = [
+    { items: filterByPermission(primaryNavItems, hasPermission) },
+    { label: "Management", items: filterByPermission(managementNavItems, hasPermission) },
+    { label: "Tools", items: filterByPermission(toolsNavItems, hasPermission) },
+    { label: "Admin", items: filterByPermission(adminNavItems, hasPermission) },
+  ].filter((s) => s.items.length > 0)
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -59,34 +60,25 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              size="lg"
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
               asChild
+              className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <Link to="/">
-                <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <RiBusLine className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Mansariya</span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    Admin Dashboard
-                  </span>
-                </div>
-              </Link>
+              <a href="/">
+                <BusFrontIcon className="size-5!" />
+                <span className="text-base font-semibold">Mansariya Admin</span>
+              </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
       <SidebarContent>
-        <NavMain items={withActive(mainNavItems)} />
-        <NavSecondary items={withActive(secondaryNavItems)} className="mt-auto" />
+        <NavMain sections={sections} />
+        <SidebarSeparator className="mt-auto" />
+        <NavSecondary items={secondaryNavItems} className="mt-auto" />
       </SidebarContent>
-
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 }

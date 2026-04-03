@@ -1,5 +1,46 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import type { DeviceInfo, DeviceCounts, DevicesUpdate } from '@/lib/types';
+import { ADMIN_API_KEY } from '@/lib/api';
+import { getAccessToken } from '@/lib/auth';
+
+type DeviceClassification = 'noise' | 'potential' | 'cluster' | 'confirmed';
+type DeviceQualityStatus = 'ok' | 'low_accuracy' | 'out_of_service_region';
+type DeviceFreshnessStatus = 'active' | 'suspect' | 'disconnected';
+
+interface DeviceInfo {
+  contributor_id: string;
+  classification: DeviceClassification;
+  classification_reason: string;
+  quality_status: DeviceQualityStatus;
+  freshness_status: DeviceFreshnessStatus;
+  lat: number;
+  lng: number;
+  speed_kmh: number;
+  bearing: number;
+  accuracy: number;
+  route_id: string;
+  bus_number: string;
+  crowd_level: number;
+  has_metadata: boolean;
+  last_seen: string;
+}
+
+interface DeviceCounts {
+  total: number;
+  noise: number;
+  potential: number;
+  cluster: number;
+  confirmed: number;
+  active: number;
+  suspect: number;
+  disconnected: number;
+}
+
+interface DevicesUpdate {
+  type: 'devices_update';
+  snapshot_version: number;
+  devices: DeviceInfo[];
+  counts: DeviceCounts;
+}
 
 interface UseAdminDevicesWSReturn {
   devices: DeviceInfo[];
@@ -18,6 +59,15 @@ const emptyCounts: DeviceCounts = {
   disconnected: 0,
 };
 
+export type {
+  DeviceClassification,
+  DeviceQualityStatus,
+  DeviceFreshnessStatus,
+  DeviceInfo,
+  DeviceCounts,
+  DevicesUpdate,
+};
+
 export function useAdminDevicesWS(enabled = true): UseAdminDevicesWSReturn {
   const [devices, setDevices] = useState<DeviceInfo[]>([]);
   const [counts, setCounts] = useState<DeviceCounts>(emptyCounts);
@@ -31,8 +81,11 @@ export function useAdminDevicesWS(enabled = true): UseAdminDevicesWSReturn {
     if (!enabled) return;
 
     const wsBaseUrl = resolveDevicesWebSocketBaseUrl();
-    const apiKey = import.meta.env.VITE_API_KEY ?? '';
-    const url = `${wsBaseUrl}/ws/admin/devices?api_key=${encodeURIComponent(apiKey)}`;
+    const jwt = getAccessToken();
+    const authParam = jwt
+      ? `token=${encodeURIComponent(jwt)}`
+      : `api_key=${encodeURIComponent(ADMIN_API_KEY)}`;
+    const url = `${wsBaseUrl}/ws/admin/devices?${authParam}`;
 
     const ws = new WebSocket(url);
     wsRef.current = ws;

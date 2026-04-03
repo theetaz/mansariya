@@ -1,12 +1,17 @@
-import type { Column } from '@tanstack/react-table';
-import { RiArrowUpLine, RiArrowDownLine, RiArrowUpDownLine } from '@remixicon/react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import type { Column } from "@tanstack/react-table"
+import {
+  ArrowDownIcon,
+  ArrowUpDownIcon,
+  ArrowUpIcon,
+} from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 interface DataTableColumnHeaderProps<TData, TValue> {
-  column: Column<TData, TValue>;
-  title: string;
-  className?: string;
+  column: Column<TData, TValue>
+  title: string
+  className?: string
 }
 
 export function DataTableColumnHeader<TData, TValue>({
@@ -14,29 +19,29 @@ export function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
-  const isRightAligned = className?.includes('text-right');
+  const isRightAligned = className?.includes("text-right")
 
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>;
+    return <div className={cn(className)}>{title}</div>
   }
 
   return (
-    <div className={cn(isRightAligned && 'flex justify-end')}>
+    <div className={cn(isRightAligned && "flex justify-end")}>
       <Button
         variant="ghost"
         size="sm"
-        className={cn('h-8', isRightAligned ? '-mr-3' : '-ml-3', className)}
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        className={cn("h-8", isRightAligned ? "-mr-3" : "-ml-3", className)}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         <span>{title}</span>
-        {column.getIsSorted() === 'desc' ? (
-          <RiArrowDownLine className="ml-1 size-3.5" />
-        ) : column.getIsSorted() === 'asc' ? (
-          <RiArrowUpLine className="ml-1 size-3.5" />
+        {column.getIsSorted() === "desc" ? (
+          <ArrowDownIcon className="ml-1 size-3.5" />
+        ) : column.getIsSorted() === "asc" ? (
+          <ArrowUpIcon className="ml-1 size-3.5" />
         ) : (
-          <RiArrowUpDownLine className="ml-1 size-3.5" />
+          <ArrowUpDownIcon className="ml-1 size-3.5" />
         )}
       </Button>
     </div>
-  );
+  )
 }

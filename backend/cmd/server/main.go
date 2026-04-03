@@ -67,6 +67,8 @@ func run() error {
 	adminStore := store.NewAdminStore(pool)
 	simStore := store.NewSimulationStore(pool)
 	tripStore := store.NewTripStore(pool)
+	authStore := store.NewAuthStore(pool)
+	auditStore := store.NewAuditStore(pool)
 
 	// Load route spatial index
 	routeIndex := spatial.NewRouteIndex()
@@ -120,6 +122,12 @@ func run() error {
 	apiBaseURL := "http://localhost:" + cfg.Port
 	simManager := simulation.NewManager(ctx, simStore, routeProvider, processor, apiBaseURL)
 
+	// Initialize auth service
+	authService := service.NewAuthService(authStore, cfg.JWTSecret, cfg.AccessTokenExpiry, cfg.RefreshTokenExpiry)
+
+	// Initialize RBAC middleware
+	rbacMiddleware := handler.NewRBACMiddleware(authService, authStore, cfg.AdminAPIKey)
+
 	// Wire up HTTP handlers
 	deps := &server.Deps{
 		GPS:        handler.NewGPSHandler(ingester, tripStore),
@@ -133,7 +141,16 @@ func run() error {
 		Admin:      handler.NewAdminHandler(adminStore, cfg.AdminAPIKey),
 		Buses:      handler.NewBusesHandler(rdb),
 		Simulation: handler.NewSimulationHandler(simStore, simManager),
-		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey),
+		AdminWS:    handler.NewAdminWSHandler(wsHub, broadcaster, cfg.AdminAPIKey, authService),
+		Auth:      handler.NewAuthHandler(authService, auditStore),
+		RBAC:      rbacMiddleware,
+		UserAdmin: handler.NewUserAdminHandler(authService, authStore, auditStore),
+		Audit:     handler.NewAuditHandler(auditStore),
+		System: handler.NewSystemHandler(
+			func(ctx context.Context) error { return pool.Ping(ctx) },
+			func(ctx context.Context) error { return rdb.Ping(ctx).Err() },
+			cfg.ValhallaURL,
+		),
 	}
 
 	router := server.NewRouter(deps)
