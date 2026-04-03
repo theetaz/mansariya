@@ -44,7 +44,7 @@ export function useSystemHealth() {
 export function useAdminRoutes() {
   return useQuery({
     queryKey: ["admin-routes"],
-    queryFn: fetchAdminRoutes,
+    queryFn: () => fetchAdminRoutes(),
     staleTime: 60_000,
   })
 }

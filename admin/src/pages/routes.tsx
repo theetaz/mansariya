@@ -8,10 +8,6 @@ import {
   XIcon,
   PlusIcon,
   EllipsisVerticalIcon,
-  RouteIcon,
-  ActivityIcon,
-  MapPinIcon,
-  SplineIcon,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -242,34 +238,6 @@ function makeColumns(
       },
     },
   ]
-}
-
-// ── Metric card ─────────────────────────────────────────────────────────
-
-function MetricCard({
-  icon: Icon,
-  label,
-  value,
-  isLoading,
-}: {
-  icon: React.ComponentType<{ className?: string }>
-  label: string
-  value: number
-  isLoading: boolean
-}) {
-  return (
-    <div className="flex items-center gap-3 rounded-xl border bg-card px-4 py-3 shadow-sm">
-      <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
-        <Icon className="size-4 text-primary" />
-      </div>
-      <div>
-        <p className="text-2xl font-semibold tabular-nums leading-tight">
-          {isLoading ? "—" : value}
-        </p>
-        <p className="text-xs text-muted-foreground">{label}</p>
-      </div>
-    </div>
-  )
 }
 
 // ── Page ─────────────────────────────────────────────────────────────────

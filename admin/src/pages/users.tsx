@@ -7,14 +7,13 @@ import {
   EyeIcon,
   Loader2Icon,
   MailPlusIcon,
-  PencilIcon,
   ShieldIcon,
   ShieldOffIcon,
   Trash2Icon,
   UserPlusIcon,
   XCircleIcon,
 } from "lucide-react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
 import {
@@ -285,7 +284,7 @@ export function UsersPage() {
     placeholderData: keepPreviousData,
   })
 
-  const rolesQuery = useQuery({ queryKey: ["admin-roles"], queryFn: fetchAdminRoles })
+  const rolesQuery = useQuery({ queryKey: ["admin-roles"], queryFn: () => fetchAdminRoles() })
   const roles = rolesQuery.data?.roles ?? []
   const users = data?.users ?? []
   const total = data?.total ?? 0

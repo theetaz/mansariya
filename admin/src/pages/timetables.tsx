@@ -93,7 +93,7 @@ export function TimetablesPage() {
   // Fetch routes for the dropdown
   const { data: routesData, isLoading: routesLoading } = useQuery({
     queryKey: ["admin-routes"],
-    queryFn: fetchAdminRoutes,
+    queryFn: () => fetchAdminRoutes(),
     staleTime: 60_000,
   })
 

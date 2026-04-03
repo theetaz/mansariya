@@ -25,8 +25,6 @@ import {
   deleteUser,
   revokeUserSession,
   revokeAllUserSessions,
-  type AdminUserDetail,
-  type AdminRole,
   type AdminSession,
   type AdminSessionsParams,
 } from "@/lib/api"
