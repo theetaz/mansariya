@@ -47,7 +47,7 @@ export function DataPage() {
 
   const { data: routesData, isLoading } = useQuery({
     queryKey: ["admin-routes"],
-    queryFn: fetchAdminRoutes,
+    queryFn: () => fetchAdminRoutes(),
     staleTime: 60_000,
   })
 

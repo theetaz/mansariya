@@ -100,7 +100,7 @@ const columns: ColumnDef<AdminStopView>[] = [
     header: "Actions",
     enableHiding: false,
     enableSorting: false,
-    cell: ({ row }) => (
+    cell: ({ row: _row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm" className="size-8 p-0">

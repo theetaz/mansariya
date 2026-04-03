@@ -124,7 +124,7 @@ export function LiveMapPage() {
 
   const { data: routesData } = useQuery({
     queryKey: ["admin-routes"],
-    queryFn: fetchAdminRoutes,
+    queryFn: () => fetchAdminRoutes(),
   })
 
   const { devices, counts, isConnected: wsConnected } = useAdminDevicesWS()
