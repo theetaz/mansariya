@@ -126,6 +126,15 @@ func run() error {
 	// Initialize auth service
 	authService := service.NewAuthService(authStore, cfg.JWTSecret, cfg.AccessTokenExpiry, cfg.RefreshTokenExpiry)
 
+	// Initialize contributor auth and telemetry
+	contributorAuth := service.NewContributorAuthService(contributorStore, cfg.JWTSecret, cfg.AccessTokenExpiry, cfg.RefreshTokenExpiry)
+	telemetryAgg := service.NewTelemetryAggregator(pool, 5*time.Minute)
+	go func() {
+		if err := telemetryAgg.Run(ctx); err != nil && ctx.Err() == nil {
+			slog.Error("telemetry aggregator died", "error", err)
+		}
+	}()
+
 	// Initialize RBAC middleware
 	rbacMiddleware := handler.NewRBACMiddleware(authService, authStore, cfg.AdminAPIKey)
 
@@ -146,7 +155,8 @@ func run() error {
 		Auth:      handler.NewAuthHandler(authService, auditStore),
 		RBAC:      rbacMiddleware,
 		UserAdmin: handler.NewUserAdminHandler(authService, authStore, auditStore),
-		Audit:     handler.NewAuditHandler(auditStore),
+		Audit:       handler.NewAuditHandler(auditStore),
+		Contributor: handler.NewContributorHandler(contributorAuth, contributorStore),
 		System: handler.NewSystemHandler(
 			func(ctx context.Context) error { return pool.Ping(ctx) },
 			func(ctx context.Context) error { return rdb.Ping(ctx).Err() },
