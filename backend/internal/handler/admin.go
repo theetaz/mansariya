@@ -41,6 +41,20 @@ type AdminStore interface {
 
 	GetRoutePatterns(ctx context.Context, routeID string) ([]AdminRoutePattern, error)
 	GetPatternStops(ctx context.Context, patternID string) ([]AdminEnrichedStop, error)
+	ListStopsFiltered(ctx context.Context, search, source, sortBy, sortDir string, limit, offset int) (interface{}, error)
+}
+
+type AdminStopView struct {
+	ID               string    `json:"id"`
+	NameEN           string    `json:"name_en"`
+	NameSI           string    `json:"name_si"`
+	NameTA           string    `json:"name_ta"`
+	Lat              float64   `json:"lat"`
+	Lng              float64   `json:"lng"`
+	Source           string    `json:"source"`
+	Confidence       float64   `json:"confidence"`
+	ObservationCount int       `json:"observation_count"`
+	CreatedAt        time.Time `json:"created_at"`
 }
 
 // --- Input types ---
@@ -180,6 +194,9 @@ type AdminRouteFilter struct {
 	Query       string `json:"q"`
 	Operator    string `json:"operator"`
 	ServiceType string `json:"service_type"`
+	IsActive    string `json:"is_active"` // "true", "false", or "" (all)
+	SortBy      string `json:"sort_by"`   // "id", "name_en", "operator"
+	SortDir     string `json:"sort_dir"`  // "asc" or "desc"
 	Page        int    `json:"page"`
 	PerPage     int    `json:"per_page"`
 }
@@ -220,25 +237,23 @@ func (h *AdminHandler) AuthMiddleware(next http.Handler) http.Handler {
 func (h *AdminHandler) CreateRoute(w http.ResponseWriter, r *http.Request) {
 	var input AdminRouteInput
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeError(w, http.StatusBadRequest, "invalid_body", "Request body is invalid.", "")
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 	if input.ID == "" || input.NameEN == "" {
-		writeError(w, http.StatusBadRequest, "validation_failed", "Route ID and English name are required.", "")
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", ""))
 		return
 	}
 
 	id, err := h.store.CreateRoute(r.Context(), input)
 	if err != nil {
-		slog.Error("admin create route", "error", err)
-
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
-			writeError(w, http.StatusConflict, "route_id_exists", "A route with this Route ID already exists. Use a different ID or edit the existing route.", "id")
+			WriteAPIErr(w, r, ErrConflict("route_id_exists", "conflict.route_id", "id"))
 			return
 		}
 
-		writeError(w, http.StatusInternalServerError, "route_create_failed", "Could not save the route right now. Please try again.", "")
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -249,12 +264,12 @@ func (h *AdminHandler) UpdateRoute(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "routeID")
 	var input AdminRouteInput
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 
 	if err := h.store.UpdateRoute(r.Context(), id, input); err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "update failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -264,7 +279,7 @@ func (h *AdminHandler) UpdateRoute(w http.ResponseWriter, r *http.Request) {
 func (h *AdminHandler) DeleteRoute(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "routeID")
 	if err := h.store.DeleteRoute(r.Context(), id); err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "delete failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]string{"id": id, "status": "deleted"})
@@ -276,16 +291,16 @@ func (h *AdminHandler) SetRouteActive(w http.ResponseWriter, r *http.Request) {
 		IsActive *bool `json:"is_active"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 	if input.IsActive == nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "is_active is required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", "is_active"))
 		return
 	}
 
 	if err := h.store.SetRouteActive(r.Context(), routeID, *input.IsActive); err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "update status failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -312,7 +327,7 @@ func (h *AdminHandler) ValidateRoute(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.store.ValidateRoute(r.Context(), id, body.ValidatedBy); err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "validate failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]string{"id": id, "status": "validated"})
@@ -323,17 +338,17 @@ func (h *AdminHandler) ValidateRoute(w http.ResponseWriter, r *http.Request) {
 func (h *AdminHandler) CreateStop(w http.ResponseWriter, r *http.Request) {
 	var input AdminStopInput
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 	if input.NameEN == "" || input.Lat == 0 {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "name_en and lat/lng required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.required", ""))
 		return
 	}
 
 	id, err := h.store.CreateStop(r.Context(), input)
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "create failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusCreated, map[string]string{"id": id, "status": "created"})
@@ -343,12 +358,12 @@ func (h *AdminHandler) UpdateStop(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "stopID")
 	var input AdminStopInput
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 
 	if err := h.store.UpdateStop(r.Context(), id, input); err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "update failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]string{"id": id, "status": "updated"})
@@ -362,12 +377,12 @@ func (h *AdminHandler) SetRouteStops(w http.ResponseWriter, r *http.Request) {
 		Stops []AdminRouteStopInput `json:"stops"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 
 	if err := h.store.SetRouteStops(r.Context(), routeID, input.Stops); err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "set stops failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]interface{}{
@@ -385,7 +400,7 @@ func (h *AdminHandler) SetTimetable(w http.ResponseWriter, r *http.Request) {
 		Entries []AdminTimetableInput `json:"entries"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 
@@ -413,11 +428,10 @@ func (h *AdminHandler) GetRouteDetail(w http.ResponseWriter, r *http.Request) {
 	detail, err := h.store.GetRouteDetail(r.Context(), routeID)
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
-			writeJSON(w, http.StatusNotFound, map[string]string{"error": "route not found"})
+			WriteAPIErr(w, r, ErrNotFound("not_found.route"))
 			return
 		}
-		slog.Error("get route detail", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, detail)
@@ -427,8 +441,7 @@ func (h *AdminHandler) GetTimetable(w http.ResponseWriter, r *http.Request) {
 	routeID := chi.URLParam(r, "routeID")
 	entries, err := h.store.GetTimetableEntries(r.Context(), routeID)
 	if err != nil {
-		slog.Error("get timetable", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, entries)
@@ -437,8 +450,7 @@ func (h *AdminHandler) GetTimetable(w http.ResponseWriter, r *http.Request) {
 func (h *AdminHandler) DeleteStop(w http.ResponseWriter, r *http.Request) {
 	stopID := chi.URLParam(r, "stopID")
 	if err := h.store.DeleteStop(r.Context(), stopID); err != nil {
-		slog.Error("delete stop", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]string{"status": "deleted"})
@@ -460,14 +472,16 @@ func (h *AdminHandler) ListRoutes(w http.ResponseWriter, r *http.Request) {
 		Query:       r.URL.Query().Get("q"),
 		Operator:    r.URL.Query().Get("operator"),
 		ServiceType: r.URL.Query().Get("service_type"),
+		IsActive:    r.URL.Query().Get("is_active"),
+		SortBy:      r.URL.Query().Get("sort_by"),
+		SortDir:     r.URL.Query().Get("sort_dir"),
 		Page:        page,
 		PerPage:     perPage,
 	}
 
 	result, err := h.store.ListRoutesFiltered(r.Context(), filter)
 	if err != nil {
-		slog.Error("list routes filtered", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, result)
@@ -476,11 +490,30 @@ func (h *AdminHandler) ListRoutes(w http.ResponseWriter, r *http.Request) {
 func (h *AdminHandler) GetStats(w http.ResponseWriter, r *http.Request) {
 	stats, err := h.store.GetDashboardStats(r.Context())
 	if err != nil {
-		slog.Error("admin get stats", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "get stats failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, stats)
+}
+
+func (h *AdminHandler) ListStops(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query()
+	limit, _ := strconv.Atoi(q.Get("limit"))
+	offset, _ := strconv.Atoi(q.Get("offset"))
+	if limit <= 0 {
+		limit = 15
+	}
+
+	result, err := h.store.ListStopsFiltered(r.Context(),
+		q.Get("search"), q.Get("source"),
+		q.Get("sort_by"), q.Get("sort_dir"),
+		limit, offset,
+	)
+	if err != nil {
+		WriteAPIErr(w, r, ErrInternal(err))
+		return
+	}
+	writeJSON(w, http.StatusOK, result)
 }
 
 func (h *AdminHandler) UpdatePolyline(w http.ResponseWriter, r *http.Request) {
@@ -491,11 +524,11 @@ func (h *AdminHandler) UpdatePolyline(w http.ResponseWriter, r *http.Request) {
 		Confidence  float64     `json:"confidence"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+		WriteAPIErr(w, r, ErrValidation("invalid_body", "validation.invalid_body", ""))
 		return
 	}
 	if len(input.Coordinates) < 2 {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "at least 2 coordinates required"})
+		WriteAPIErr(w, r, ErrValidation("validation_failed", "validation.invalid_format", "coordinates"))
 		return
 	}
 
@@ -505,8 +538,7 @@ func (h *AdminHandler) UpdatePolyline(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.store.UpdateRoutePolyline(r.Context(), routeID, input.Coordinates, confidence); err != nil {
-		slog.Error("admin update polyline", "error", err, "route_id", routeID)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "update polyline failed"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 
@@ -523,8 +555,7 @@ func (h *AdminHandler) GetPatterns(w http.ResponseWriter, r *http.Request) {
 	routeID := chi.URLParam(r, "routeID")
 	patterns, err := h.store.GetRoutePatterns(r.Context(), routeID)
 	if err != nil {
-		slog.Error("get patterns", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, patterns)
@@ -534,8 +565,7 @@ func (h *AdminHandler) GetPatternStops(w http.ResponseWriter, r *http.Request) {
 	patternID := chi.URLParam(r, "patternID")
 	stops, err := h.store.GetPatternStops(r.Context(), patternID)
 	if err != nil {
-		slog.Error("get pattern stops", "error", err)
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal error"})
+		WriteAPIErr(w, r, ErrInternal(err))
 		return
 	}
 	writeJSON(w, http.StatusOK, stops)

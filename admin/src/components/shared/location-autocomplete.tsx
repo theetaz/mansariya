@@ -1,164 +1,170 @@
-import { useState, useRef, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { RiMapPinLine, RiLoader4Line } from '@remixicon/react';
-import { Input } from '@/components/ui/input';
-import { geocodeSearch, type NominatimResult } from '@/lib/geo';
+import { useState, useRef, useEffect, useCallback } from "react"
+import { createPortal } from "react-dom"
+import { MapPinIcon, LoaderIcon } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { geocodeSearch, type NominatimResult } from "@/lib/geo"
 
 interface LocationAutocompleteProps {
-  placeholder?: string;
-  value?: NominatimResult | null;
-  onSelect: (result: NominatimResult) => void;
-  onClear?: () => void;
+  placeholder?: string
+  value?: NominatimResult | null
+  onSelect: (result: NominatimResult) => void
+  onClear?: () => void
 }
 
 export function LocationAutocomplete({
-  placeholder = 'Search location...',
+  placeholder = "Search location...",
   value,
   onSelect,
   onClear,
 }: LocationAutocompleteProps) {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<NominatimResult[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedDisplay, setSelectedDisplay] = useState('');
-  const [dropdownStyle, setDropdownStyle] = useState<{ top: number; left: number; width: number } | null>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState("")
+  const [results, setResults] = useState<NominatimResult[]>([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 })
 
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Sync display value from controlled prop
   useEffect(() => {
     if (value) {
-      setSelectedDisplay(value.display_name);
-      setQuery('');
-    } else {
-      setSelectedDisplay('');
+      const name = value.display_name.split(",")[0].trim()
+      setQuery(name)
     }
-  }, [value]);
+  }, [value])
 
+  const updateDropdownPosition = useCallback(() => {
+    if (!inputRef.current) return
+    const rect = inputRef.current.getBoundingClientRect()
+    setDropdownPos({
+      top: rect.bottom + 4,
+      left: rect.left,
+      width: rect.width,
+    })
+  }, [])
+
+  // Reposition dropdown on scroll / resize
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(target) &&
-        (!dropdownRef.current || !dropdownRef.current.contains(target))
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setDropdownStyle(null);
-      return;
-    }
-
-    const updatePosition = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      setDropdownStyle({
-        top: rect.bottom + 4,
-        left: rect.left,
-        width: rect.width,
-      });
-    };
-
-    updatePosition();
-    window.addEventListener('resize', updatePosition);
-    window.addEventListener('scroll', updatePosition, true);
-
+    if (!isOpen) return
+    updateDropdownPosition()
+    window.addEventListener("scroll", updateDropdownPosition, true)
+    window.addEventListener("resize", updateDropdownPosition)
     return () => {
-      window.removeEventListener('resize', updatePosition);
-      window.removeEventListener('scroll', updatePosition, true);
-    };
-  }, [isOpen, results.length]);
+      window.removeEventListener("scroll", updateDropdownPosition, true)
+      window.removeEventListener("resize", updateDropdownPosition)
+    }
+  }, [isOpen, updateDropdownPosition])
 
-  const handleInputChange = (val: string) => {
-    setQuery(val);
-    setSelectedDisplay('');
-    if (onClear) onClear();
+  // Click outside to close
+  useEffect(() => {
+    if (!isOpen) return
+    function handleClickOutside(e: MouseEvent) {
+      const target = e.target as Node
+      if (
+        inputRef.current?.contains(target) ||
+        dropdownRef.current?.contains(target)
+      ) {
+        return
+      }
+      setIsOpen(false)
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [isOpen])
 
-    clearTimeout(debounceRef.current);
-    if (val.length < 2) {
-      setResults([]);
-      setIsOpen(false);
-      return;
+  // Debounced search
+  const handleChange = (text: string) => {
+    setQuery(text)
+    onClear?.()
+
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+
+    if (text.length < 2) {
+      setResults([])
+      setIsOpen(false)
+      return
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
     debounceRef.current = setTimeout(async () => {
-      const data = await geocodeSearch(val);
-      setResults(data);
-      setIsOpen(data.length > 0);
-      setIsLoading(false);
-    }, 300);
-  };
+      const data = await geocodeSearch(text)
+      setResults(data)
+      setIsOpen(data.length > 0)
+      setIsLoading(false)
+    }, 300)
+  }
 
   const handleSelect = (result: NominatimResult) => {
-    setSelectedDisplay(result.display_name);
-    setQuery('');
-    setIsOpen(false);
-    setResults([]);
-    onSelect(result);
-  };
+    const name = result.display_name.split(",")[0].trim()
+    setQuery(name)
+    setIsOpen(false)
+    onSelect(result)
+  }
 
   return (
-    <div ref={containerRef} className="relative">
+    <div className="relative">
       <div className="relative">
-        <RiMapPinLine className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+        <MapPinIcon className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
+          ref={inputRef}
           placeholder={placeholder}
-          value={selectedDisplay || query}
-          onChange={(e) => handleInputChange(e.target.value)}
+          value={query}
+          onChange={(e) => handleChange(e.target.value)}
           onFocus={() => {
-            if (results.length > 0) setIsOpen(true);
+            if (results.length > 0) {
+              updateDropdownPosition()
+              setIsOpen(true)
+            }
           }}
-          className="pl-9 pr-8"
+          className="pl-8 pr-8"
         />
         {isLoading && (
-          <RiLoader4Line className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground animate-spin" />
+          <LoaderIcon className="absolute right-2.5 top-1/2 size-4 -translate-y-1/2 animate-spin text-muted-foreground" />
         )}
       </div>
 
-      {isOpen && results.length > 0 && dropdownStyle && createPortal(
-        <div
-          ref={dropdownRef}
-          className="z-[1000] rounded-lg border bg-popover shadow-lg max-h-64 overflow-auto"
-          style={{
-            position: 'fixed',
-            top: dropdownStyle.top,
-            left: dropdownStyle.left,
-            width: dropdownStyle.width,
-          }}
-        >
-          {results.map((r) => (
-            <button
-              key={r.place_id}
-              type="button"
-              className="w-full px-3 py-2 text-left text-sm hover:bg-accent transition-colors flex items-start gap-2"
-              onClick={() => handleSelect(r)}
-            >
-              <RiMapPinLine className="size-4 mt-0.5 shrink-0 text-muted-foreground" />
-              <div className="min-w-0">
-                <div className="font-medium truncate">
-                  {r.display_name.split(',')[0]}
-                </div>
-                <div className="text-xs text-muted-foreground truncate">
-                  {r.display_name}
-                </div>
-                <div className="text-xs text-muted-foreground mt-0.5 font-mono">
-                  {parseFloat(r.lat).toFixed(5)}, {parseFloat(r.lon).toFixed(5)}
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>,
-        document.body,
-      )}
+      {isOpen &&
+        results.length > 0 &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            className="z-[9999] overflow-hidden rounded-md border border-border bg-popover shadow-lg"
+            style={{
+              position: "fixed",
+              top: dropdownPos.top,
+              left: dropdownPos.left,
+              width: dropdownPos.width,
+            }}
+          >
+            <ul className="max-h-60 overflow-y-auto py-1">
+              {results.map((result) => {
+                const name = result.display_name.split(",")[0].trim()
+                return (
+                  <li
+                    key={result.place_id}
+                    className="cursor-pointer px-3 py-2 hover:bg-accent transition-colors"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => handleSelect(result)}
+                  >
+                    <div className="font-medium text-sm text-foreground">
+                      {name}
+                    </div>
+                    <div className="text-xs text-muted-foreground truncate mt-0.5">
+                      {result.display_name}
+                    </div>
+                    <div className="text-[10px] font-mono text-muted-foreground/70 mt-0.5">
+                      {parseFloat(result.lat).toFixed(5)},{" "}
+                      {parseFloat(result.lon).toFixed(5)}
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>,
+          document.body
+        )}
     </div>
-  );
+  )
 }

@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useMap } from '@/components/ui/map';
 import maplibregl from 'maplibre-gl';
-import type { DeviceClassification } from '@/lib/types';
+
+type DeviceClassification = 'noise' | 'potential' | 'cluster' | 'confirmed';
 
 const CLASSIFICATION_COLORS: Record<DeviceClassification, string> = {
   noise: '#6B7280',

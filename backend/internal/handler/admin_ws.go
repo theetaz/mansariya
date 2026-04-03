@@ -16,21 +16,42 @@ type AdminWSHandler struct {
 	hub       *ws.Hub
 	snapshots DeviceSnapshotProvider
 	apiKey    string
+	auth      WSTokenValidator
 }
 
-func NewAdminWSHandler(hub *ws.Hub, snapshots DeviceSnapshotProvider, apiKey string) *AdminWSHandler {
-	return &AdminWSHandler{hub: hub, snapshots: snapshots, apiKey: apiKey}
+// WSTokenValidator validates JWT tokens for WebSocket connections.
+type WSTokenValidator interface {
+	ValidateWSToken(token string) error
+}
+
+func NewAdminWSHandler(hub *ws.Hub, snapshots DeviceSnapshotProvider, apiKey string, auth WSTokenValidator) *AdminWSHandler {
+	return &AdminWSHandler{hub: hub, snapshots: snapshots, apiKey: apiKey, auth: auth}
 }
 
 // HandleDevices upgrades to WebSocket and streams all device positions to admin.
-// Auth via X-API-Key query param (WebSocket can't send custom headers from browser).
+// Auth via JWT token query param or X-API-Key (WS can't send custom headers from browser).
 func (h *AdminWSHandler) HandleDevices(w http.ResponseWriter, r *http.Request) {
-	// Check API key from query param (WS connections can't use headers from JS)
-	key := r.URL.Query().Get("api_key")
-	if key == "" {
-		key = r.Header.Get("X-API-Key")
+	authorized := false
+
+	// Try JWT token first (query param)
+	if token := r.URL.Query().Get("token"); token != "" && h.auth != nil {
+		if err := h.auth.ValidateWSToken(token); err == nil {
+			authorized = true
+		}
 	}
-	if key == "" || key != h.apiKey {
+
+	// Fall back to API key
+	if !authorized {
+		key := r.URL.Query().Get("api_key")
+		if key == "" {
+			key = r.Header.Get("X-API-Key")
+		}
+		if key != "" && key == h.apiKey {
+			authorized = true
+		}
+	}
+
+	if !authorized {
 		http.Error(w, "unauthorized", http.StatusUnauthorized)
 		return
 	}
