@@ -97,6 +97,7 @@ const columns: ColumnDef<AdminStopView>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     enableSorting: false,
     cell: ({ row }) => (

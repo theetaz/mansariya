@@ -99,6 +99,7 @@ const sessionColumns: ColumnDef<AdminSession>[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableSorting: false,
     cell: ({ row }) => <RevokeButton sessionId={row.original.id} />,
   },

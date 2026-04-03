@@ -452,6 +452,7 @@ export function RolesPage() {
     },
     {
       id: "actions",
+      header: "Actions",
       enableSorting: false,
       cell: ({ row }) => (
         <RoleActions

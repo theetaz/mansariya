@@ -205,6 +205,7 @@ function makeColumns(
     },
     {
       id: "actions",
+      header: "Actions",
       enableHiding: false,
       enableSorting: false,
       cell: ({ row }) => {

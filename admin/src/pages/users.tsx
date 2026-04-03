@@ -248,6 +248,7 @@ function makeColumns(): ColumnDef<AdminUser>[] {
     },
     {
       id: "actions",
+      header: "Actions",
       enableSorting: false,
       cell: ({ row }) => <UserRowActions user={row.original} />,
     },

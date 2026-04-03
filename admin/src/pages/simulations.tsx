@@ -146,7 +146,7 @@ function useColumns(): ColumnDef<SimulationJob>[] {
     },
     {
       id: "actions",
-      header: () => <span className="sr-only">Actions</span>,
+      header: "Actions",
       cell: ({ row }) => <ActionsCell simulation={row.original} />,
       enableSorting: false,
       enableHiding: false,
