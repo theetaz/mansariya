@@ -120,8 +120,8 @@ func (h *SystemHandler) checkValhalla(ctx context.Context) serviceHealth {
 
 	resp, err := h.httpClient.Do(req)
 	if err != nil {
-		// Connection refused = service simply not started (optional)
-		if isConnectionRefused(err) {
+		// Service unreachable (connection refused, DNS failure, etc.)
+		if isServiceUnavailable(err) {
 			return serviceHealth{
 				Name:    "valhalla",
 				Status:  "not_running",
@@ -153,12 +153,20 @@ func (h *SystemHandler) checkValhalla(ctx context.Context) serviceHealth {
 	}
 }
 
-func isConnectionRefused(err error) bool {
+func isServiceUnavailable(err error) bool {
+	// Connection refused (service not running)
 	var opErr *net.OpError
 	if errors.As(err, &opErr) {
 		if errors.Is(opErr.Err, syscall.ECONNREFUSED) {
 			return true
 		}
 	}
+
+	// DNS lookup failure (Docker container not running / no such host)
+	var dnsErr *net.DNSError
+	if errors.As(err, &dnsErr) {
+		return true
+	}
+
 	return false
 }
