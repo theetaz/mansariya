@@ -13,7 +13,7 @@ import {syncRoutesIfNeeded} from './services/routeSync';
 import {recoverTracking, forceFlush, setOnPingCountUpdate} from './services/locationTracker';
 import './i18n';
 
-type AppPhase = 'splash' | 'onboarding' | 'main';
+type AppPhase = 'hydrating' | 'splash' | 'onboarding' | 'main';
 
 export default function App() {
   const hasCompletedOnboarding = useSettingsStore(
@@ -21,9 +21,22 @@ export default function App() {
   );
   const completeOnboarding = useSettingsStore((s) => s.completeOnboarding);
 
-  const [phase, setPhase] = useState<AppPhase>(
-    hasCompletedOnboarding ? 'splash' : 'onboarding',
-  );
+  const [phase, setPhase] = useState<AppPhase>('hydrating');
+
+  // Wait for store hydration, then decide initial phase
+  useEffect(() => {
+    const unsub = useSettingsStore.persist.onFinishHydration(() => {
+      const onboarded = useSettingsStore.getState().hasCompletedOnboarding;
+      setPhase(onboarded ? 'splash' : 'onboarding');
+    });
+
+    // If already hydrated (e.g. sync storage), check immediately
+    if (useSettingsStore.persist.hasHydrated()) {
+      setPhase(hasCompletedOnboarding ? 'splash' : 'onboarding');
+    }
+
+    return unsub;
+  }, [hasCompletedOnboarding]);
 
   // Sync route data on app launch (non-blocking)
   useEffect(() => {
@@ -91,6 +104,8 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaProvider>
+        {/* Show splash while hydrating store from AsyncStorage */}
+        {phase === 'hydrating' && <SplashScreen onReady={() => {}} />}
         {phase === 'splash' && <SplashScreen onReady={handleSplashReady} />}
         {phase === 'onboarding' && (
           <OnboardingScreen onComplete={handleOnboardingComplete} />
