@@ -54,7 +54,7 @@ async function sendBatch(eventType: GPSEventType, pings: GPSPing[]) {
     return;
   }
 
-  await sendGPSBatch(session.deviceHash, session.sessionId, pings, tripMeta, {
+  await sendGPSBatch(session.deviceHash, session.sessionId, session.contributorId, pings, tripMeta, {
     event_type: eventType,
     identity_version: session.identityVersion,
     session_started_at: session.sessionStartedAt,
