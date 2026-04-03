@@ -30,7 +30,7 @@ func (m *mockIngester) Ingest(_ context.Context, batch model.GPSBatch) error {
 
 func TestGPSHandler_ValidBatch(t *testing.T) {
 	ing := &mockIngester{}
-	h := NewGPSHandler(ing, nil)
+	h := NewGPSHandler(ing, nil, nil)
 
 	batch := model.GPSBatch{
 		DeviceHash: "abc123",
@@ -61,7 +61,7 @@ func TestGPSHandler_ValidBatch(t *testing.T) {
 }
 
 func TestGPSHandler_EmptyBody(t *testing.T) {
-	h := NewGPSHandler(&mockIngester{}, nil)
+	h := NewGPSHandler(&mockIngester{}, nil, nil)
 
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/gps/batch", bytes.NewReader([]byte("")))
 	w := httptest.NewRecorder()
@@ -72,7 +72,7 @@ func TestGPSHandler_EmptyBody(t *testing.T) {
 }
 
 func TestGPSHandler_InvalidJSON(t *testing.T) {
-	h := NewGPSHandler(&mockIngester{}, nil)
+	h := NewGPSHandler(&mockIngester{}, nil, nil)
 
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/gps/batch", bytes.NewReader([]byte("{invalid")))
 	w := httptest.NewRecorder()
@@ -83,7 +83,7 @@ func TestGPSHandler_InvalidJSON(t *testing.T) {
 }
 
 func TestGPSHandler_MissingDeviceHash(t *testing.T) {
-	h := NewGPSHandler(&mockIngester{}, nil)
+	h := NewGPSHandler(&mockIngester{}, nil, nil)
 
 	batch := model.GPSBatch{
 		SessionID: "sess_1",
@@ -100,7 +100,7 @@ func TestGPSHandler_MissingDeviceHash(t *testing.T) {
 }
 
 func TestGPSHandler_MissingSessionID(t *testing.T) {
-	h := NewGPSHandler(&mockIngester{}, nil)
+	h := NewGPSHandler(&mockIngester{}, nil, nil)
 
 	batch := model.GPSBatch{
 		DeviceHash: "abc123",
@@ -117,7 +117,7 @@ func TestGPSHandler_MissingSessionID(t *testing.T) {
 }
 
 func TestGPSHandler_EmptyPings(t *testing.T) {
-	h := NewGPSHandler(&mockIngester{}, nil)
+	h := NewGPSHandler(&mockIngester{}, nil, nil)
 
 	batch := model.GPSBatch{
 		DeviceHash: "abc123",
@@ -136,7 +136,7 @@ func TestGPSHandler_EmptyPings(t *testing.T) {
 
 func TestGPSHandler_StoppedEventAllowsEmptyPings(t *testing.T) {
 	ing := &mockIngester{}
-	h := NewGPSHandler(ing, nil)
+	h := NewGPSHandler(ing, nil, nil)
 
 	batch := model.GPSBatch{
 		DeviceHash: "abc123",
@@ -157,7 +157,7 @@ func TestGPSHandler_StoppedEventAllowsEmptyPings(t *testing.T) {
 }
 
 func TestGPSHandler_InvalidCoordinates(t *testing.T) {
-	h := NewGPSHandler(&mockIngester{}, nil)
+	h := NewGPSHandler(&mockIngester{}, nil, nil)
 
 	batch := model.GPSBatch{
 		DeviceHash: "abc123",
@@ -176,7 +176,7 @@ func TestGPSHandler_InvalidCoordinates(t *testing.T) {
 
 func TestGPSHandler_IngesterError(t *testing.T) {
 	ing := &mockIngester{err: fmt.Errorf("redis connection failed")}
-	h := NewGPSHandler(ing, nil)
+	h := NewGPSHandler(ing, nil, nil)
 
 	batch := model.GPSBatch{
 		DeviceHash: "abc123",
