@@ -51,6 +51,7 @@ services:
       REDIS_DB: "0"
       VALHALLA_URL: "http://valhalla:9992"
       ADMIN_API_KEY: "${ADMIN_API_KEY}"
+      JWT_SECRET: "${JWT_SECRET}"
     ports:
       - "127.0.0.1:9900:9900"
     healthcheck:
