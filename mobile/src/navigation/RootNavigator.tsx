@@ -5,10 +5,14 @@ import {useTranslation} from 'react-i18next';
 
 import MapScreen from '../screens/MapScreen';
 import SearchScreen from '../screens/SearchScreen';
-import SavedScreen from '../screens/SavedScreen';
+import ContributeScreen from '../screens/ContributeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
 import JourneySearchScreen from '../screens/JourneySearchScreen';
+import ContributorProfileScreen from '../screens/ContributorProfileScreen';
+import ContributorClaimScreen from '../screens/ContributorClaimScreen';
+import ContributorLoginScreen from '../screens/ContributorLoginScreen';
+import LeaderboardScreen from '../screens/LeaderboardScreen';
 import GlassTabBar from '../components/GlassTabBar';
 import {colors} from '../constants/theme';
 import {useTheme} from '../hooks/useTheme';
@@ -42,9 +46,9 @@ function MainTabs() {
         options={{tabBarLabel: t('tabs.search')}}
       />
       <Tab.Screen
-        name="Saved"
-        component={SavedScreen}
-        options={{tabBarLabel: t('tabs.saved')}}
+        name="Contribute"
+        component={ContributeScreen}
+        options={{tabBarLabel: t('tabs.contribute')}}
       />
       <Tab.Screen
         name="Settings"
@@ -56,6 +60,7 @@ function MainTabs() {
 }
 
 export default function RootNavigator() {
+  const {t} = useTranslation();
   const {colors: tc} = useTheme();
 
   return (
@@ -82,6 +87,26 @@ export default function RootNavigator() {
         name="JourneySearch"
         component={JourneySearchScreen}
         options={{title: 'Plan Journey'}}
+      />
+      <Stack.Screen
+        name="ContributorProfile"
+        component={ContributorProfileScreen}
+        options={{title: t('contributor.profile_title')}}
+      />
+      <Stack.Screen
+        name="ContributorClaim"
+        component={ContributorClaimScreen}
+        options={{title: t('contributor.claim_title')}}
+      />
+      <Stack.Screen
+        name="ContributorLogin"
+        component={ContributorLoginScreen}
+        options={{title: t('contributor.login_title')}}
+      />
+      <Stack.Screen
+        name="Leaderboard"
+        component={LeaderboardScreen}
+        options={{title: t('contributor.leaderboard_title')}}
       />
     </Stack.Navigator>
   );

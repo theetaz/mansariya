@@ -12,6 +12,8 @@ import {useTheme} from './hooks/useTheme';
 import {useTrackingStore} from './stores/useTrackingStore';
 import {syncRoutesIfNeeded} from './services/routeSync';
 import {recoverTracking, forceFlush, setOnPingCountUpdate} from './services/locationTracker';
+import api from './services/api';
+import {setupAuthInterceptor, restoreSession} from './services/contributorAuth';
 import './i18n';
 
 type AppPhase = 'splash' | 'onboarding' | 'main';
@@ -29,6 +31,12 @@ export default function App() {
   // Sync route data on app launch (non-blocking)
   useEffect(() => {
     syncRoutesIfNeeded().catch(() => {});
+  }, []);
+
+  // Initialize contributor auth interceptor and restore session
+  useEffect(() => {
+    setupAuthInterceptor(api);
+    restoreSession().catch(() => {});
   }, []);
 
   // Recover background tracking on app launch if it was active

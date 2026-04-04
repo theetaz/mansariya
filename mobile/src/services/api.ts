@@ -91,11 +91,13 @@ export async function sendGPSBatch(
     session_started_at?: number;
     batch_seq?: number;
   },
+  contributorId?: string,
 ) {
   return api.post(ENDPOINTS.GPS_BATCH, {
     device_hash: deviceHash,
     session_id: sessionId,
     pings,
+    ...(contributorId && { contributor_id: contributorId }),
     ...(meta?.route_id && { route_id: meta.route_id }),
     ...(meta?.bus_number && { bus_number: meta.bus_number }),
     ...(meta?.crowd_level && { crowd_level: meta.crowd_level }),

@@ -3,7 +3,7 @@
   "tabs": {
     "map": "Map",
     "search": "Search",
-    "saved": "Saved",
+    "contribute": "Contribute",
     "settings": "Settings"
   },
   "map": {
@@ -70,6 +70,39 @@
     "location_body": "Allow location access to show nearby buses and track your ride.",
     "allow_location": "Allow location",
     "not_now": "Not now"
+  },
+  "contributor": {
+    "profile_title": "My Contributions",
+    "claim_title": "Claim Profile",
+    "login_title": "Log In",
+    "leaderboard_title": "Leaderboard",
+    "anonymous": "Anonymous Contributor",
+    "claim_cta": "Claim your profile",
+    "claim_description": "Set a name and password to track your contributions across devices",
+    "login_cta": "Log in",
+    "logout": "Log out",
+    "display_name": "Display name",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "claim_button": "Claim",
+    "login_button": "Log in",
+    "total_trips": "Trips",
+    "total_pings": "Pings",
+    "total_distance": "Distance",
+    "quality_score": "Quality",
+    "active_days": "Active days",
+    "routes_contributed": "Routes",
+    "sort_trips": "Trips",
+    "sort_distance": "Distance",
+    "sort_score": "Score",
+    "track_contributions": "Track your contributions",
+    "track_contributions_desc": "Claim a profile or log in to see your stats on the leaderboard",
+    "error_login_failed": "Wrong name or password",
+    "error_claim_failed": "Could not claim profile",
+    "error_name_taken": "Name already taken",
+    "error_password_mismatch": "Passwords don't match",
+    "error_name_too_short": "Name must be at least 3 characters",
+    "error_password_too_short": "Password must be at least 8 characters"
   },
   "common": {
     "loading": "Loading...",

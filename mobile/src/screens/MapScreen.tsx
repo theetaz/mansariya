@@ -24,6 +24,7 @@ import TripStartModal from '../components/TripStartModal';
 import {useRouteOnMap} from '../hooks/useRouteOnMap';
 import {useLiveBuses} from '../hooks/useLiveBuses';
 import {useActiveRoutes} from '../hooks/useActiveRoutes';
+import {useUserLocation} from '../hooks/useUserLocation';
 import {useTheme} from '../hooks/useTheme';
 
 export default function MapScreen() {
@@ -36,8 +37,11 @@ export default function MapScreen() {
   const detectedRouteName = useTrackingStore((s) => s.detectedRouteName);
   const pingCount = useTrackingStore((s) => s.pingCount);
 
-  // Fetch active routes and subscribe to their WebSocket channels
-  const activeRouteIds = useActiveRoutes();
+  // Get user's current location for map centering and nearby queries
+  const userLocation = useUserLocation();
+
+  // Fetch active routes near user and subscribe to their WebSocket channels
+  const activeRouteIds = useActiveRoutes(userLocation.lat, userLocation.lng);
   useLiveBuses(activeRouteIds);
 
   const [showTripModal, setShowTripModal] = useState(false);
@@ -131,7 +135,10 @@ export default function MapScreen() {
     <View style={styles.container}>
       {/* MapLibre map with live bus markers */}
       <View style={styles.mapArea}>
-        <MapView>
+        <MapView
+          centerCoordinate={
+            userLocation.loading ? undefined : [userLocation.lng, userLocation.lat]
+          }>
           {/* Selected route polyline + stops */}
           {selectedRouteId && polylineCoords.length >= 2 && (
             <RoutePolyline

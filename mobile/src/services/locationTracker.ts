@@ -9,6 +9,7 @@ import {
   persistTrackingSession,
   type TrackingSession,
 } from './trackingIdentity';
+import {useContributorStore} from '../stores/useContributorStore';
 
 const BACKGROUND_LOCATION_TASK = 'mansariya-background-location';
 const MIN_BATCH_SIZE = 1;
@@ -54,12 +55,14 @@ async function sendBatch(eventType: GPSEventType, pings: GPSPing[]) {
     return;
   }
 
+  const contributorId = useContributorStore.getState().contributorId ?? undefined;
+
   await sendGPSBatch(session.deviceHash, session.sessionId, pings, tripMeta, {
     event_type: eventType,
     identity_version: session.identityVersion,
     session_started_at: session.sessionStartedAt,
     batch_seq: session.nextBatchSeq,
-  });
+  }, contributorId);
 
   session.nextBatchSeq += 1;
   currentSession = session;
