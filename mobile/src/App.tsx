@@ -110,7 +110,7 @@ export default function App() {
     setPhase('main');
   }, [completeOnboarding]);
 
-  const {colors: themeColors} = useTheme();
+  const {colors: themeColors, isDark} = useTheme();
 
   return (
     <GestureHandlerRootView style={{flex: 1, backgroundColor: themeColors.background}}>
@@ -124,7 +124,7 @@ export default function App() {
         {phase === 'main' && (
           <NavigationContainer
             theme={{
-              dark: themeColors.background === '#0F0F0F',
+              dark: isDark,
               colors: {
                 primary: '#1D9E75',
                 background: themeColors.background,
