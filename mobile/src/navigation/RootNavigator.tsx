@@ -1,7 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeBottomTabNavigator} from '@bottom-tabs/react-navigation';
 import {useTranslation} from 'react-i18next';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import MapScreen from '../screens/MapScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -13,47 +14,61 @@ import ContributorProfileScreen from '../screens/ContributorProfileScreen';
 import ContributorClaimScreen from '../screens/ContributorClaimScreen';
 import ContributorLoginScreen from '../screens/ContributorLoginScreen';
 import LeaderboardScreen from '../screens/LeaderboardScreen';
-import GlassTabBar from '../components/GlassTabBar';
-import {colors} from '../constants/theme';
+import {palette} from '../constants/theme';
 import {useTheme} from '../hooks/useTheme';
 
 import type {RootStackParamList, TabParamList} from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const Tab = createBottomTabNavigator<TabParamList>();
+const Tab = createNativeBottomTabNavigator<TabParamList>();
 
+/**
+ * Main tabs — uses `@bottom-tabs/react-navigation` so the iOS bar is a
+ * real UITabBarController and the Android bar is a Material 3
+ * BottomNavigationBar. This gets us the iOS 26 Liquid Glass tab bar
+ * for free on iOS, with no custom BlurView/Pressable workarounds.
+ *
+ * Icons use SF Symbols on iOS (string sf names) and Android falls back
+ * to vector icons from @expo/vector-icons.
+ */
 function MainTabs() {
   const {t} = useTranslation();
 
-  const {colors: tc} = useTheme();
-
   return (
     <Tab.Navigator
-      tabBar={(props) => <GlassTabBar {...props} />}
-      screenOptions={{
-        headerShown: false,
-        // Scenes fill full screen — tab bar overlays as absolute positioned glass
-        sceneStyle: {backgroundColor: tc.background, paddingBottom: 0},
-      }}>
+      tabBarActiveTintColor={palette.emerald}
+      tabBarInactiveTintColor="#8A9089">
       <Tab.Screen
         name="Map"
         component={MapScreen}
-        options={{tabBarLabel: t('tabs.map')}}
+        options={{
+          tabBarLabel: t('tabs.map'),
+          tabBarIcon: () => ({sfSymbol: 'map.fill'}),
+        }}
       />
       <Tab.Screen
         name="Search"
         component={SearchScreen}
-        options={{tabBarLabel: t('tabs.search')}}
+        options={{
+          tabBarLabel: t('tabs.search'),
+          tabBarIcon: () => ({sfSymbol: 'magnifyingglass'}),
+        }}
       />
       <Tab.Screen
         name="Contribute"
         component={ContributeScreen}
-        options={{tabBarLabel: t('tabs.contribute')}}
+        options={{
+          tabBarLabel: t('tabs.contribute'),
+          tabBarIcon: () => ({sfSymbol: 'trophy.fill'}),
+        }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{tabBarLabel: t('tabs.settings')}}
+        options={{
+          tabBarLabel: t('tabs.settings'),
+          tabBarIcon: () => ({sfSymbol: 'gearshape.fill'}),
+        }}
       />
     </Tab.Navigator>
   );
@@ -66,7 +81,7 @@ export default function RootNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTintColor: colors.green,
+        headerTintColor: palette.green,
         headerBackTitle: '',
         headerBackButtonDisplayMode: 'minimal',
         headerTitleStyle: {fontSize: 17, fontWeight: '600', color: tc.text},
