@@ -1,64 +1,120 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {colors, typography} from '../../constants/theme';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
+import {palette, radii, spacing, typography} from '../../constants/theme';
+import {useTheme} from '../../hooks/useTheme';
+
+type Step = {
+  icon: keyof typeof Ionicons.glyphMap;
+  titleKey: string;
+  titleFallback: string;
+  bodyKey: string;
+  bodyFallback: string;
+  accent: string;
+  bgToken: 'soft' | 'amberSoft' | 'roadSoft';
+};
+
+const STEPS: readonly Step[] = [
+  {
+    icon: 'navigate-circle-outline',
+    titleKey: 'onboarding.step_track_title',
+    titleFallback: 'Track',
+    bodyKey: 'onboarding.step_track_body',
+    bodyFallback: 'Open the map to see buses moving in real time.',
+    accent: palette.emerald,
+    bgToken: 'soft',
+  },
+  {
+    icon: 'radio-outline',
+    titleKey: 'onboarding.step_report_title',
+    titleFallback: 'Report',
+    bodyKey: 'onboarding.step_report_body',
+    bodyFallback: 'Ride with the app open to anonymously share GPS for others.',
+    accent: palette.amber,
+    bgToken: 'amberSoft',
+  },
+  {
+    icon: 'trophy-outline',
+    titleKey: 'onboarding.step_earn_title',
+    titleFallback: 'Earn',
+    bodyKey: 'onboarding.step_earn_body',
+    bodyFallback: 'Climb the leaderboard as you help keep routes honest.',
+    accent: '#378ADD',
+    bgToken: 'roadSoft',
+  },
+];
+
+/**
+ * Onboarding — How it works (screen 04).
+ *
+ * Title + three stacked cards: Track / Report / Earn. Each is a soft
+ * tinted icon circle with a title and 2-line body. Privacy reassurance at
+ * the bottom.
+ */
 export default function OnboardingHowItWorks() {
   const {t} = useTranslation();
+  const {surface} = useTheme();
+
+  const bgFor = (token: Step['bgToken']) => {
+    if (token === 'soft') return palette.greenSoft;
+    if (token === 'amberSoft') return palette.amberSoft;
+    return '#E6F1FB';
+  };
 
   return (
-    <View style={styles.container}>
-      {/* Three-step visual */}
-      <View style={styles.stepsRow}>
-        <View style={styles.step}>
-          <View style={[styles.stepIcon, {backgroundColor: colors.greenLight}]}>
-            <Text style={styles.emoji}>🚌</Text>
-          </View>
-          <Text style={styles.stepLabel}>
-            {t('onboarding.step_ride', 'Ride a bus')}
-          </Text>
-        </View>
-
-        <Text style={styles.arrow}>→</Text>
-
-        <View style={styles.step}>
-          <View style={[styles.stepIcon, {backgroundColor: colors.blueLight}]}>
-            <Text style={styles.emoji}>📡</Text>
-          </View>
-          <Text style={styles.stepLabel}>
-            {t('onboarding.step_gps', 'GPS shares')}
-          </Text>
-        </View>
-
-        <Text style={styles.arrow}>→</Text>
-
-        <View style={styles.step}>
-          <View style={[styles.stepIcon, {backgroundColor: colors.amberLight}]}>
-            <Text style={styles.emoji}>👥</Text>
-          </View>
-          <Text style={styles.stepLabel}>
-            {t('onboarding.step_others', 'Others see it')}
-          </Text>
-        </View>
-      </View>
-
-      <Text style={styles.title}>
-        {t('onboarding.how_title', 'Tracked by everyone')}
+    <View style={[styles.container, {backgroundColor: surface.bg}]}>
+      <Text style={[styles.title, {color: surface.text}]}>
+        {t('onboarding.how_title', 'How it works')}
       </Text>
-      <Text style={styles.body}>
+      <Text style={[styles.subtitle, {color: surface.textDim}]}>
         {t(
-          'onboarding.how_body',
-          'When you ride with the app open, your anonymous GPS helps everyone see where buses are. The more people use it, the better it gets.',
+          'onboarding.how_subtitle',
+          'Three ways your phone and the network help each other stay on time.',
         )}
       </Text>
 
-      {/* Privacy reassurance */}
-      <View style={styles.privacyCard}>
-        <Text style={styles.privacyIcon}>🔒</Text>
-        <Text style={styles.privacyText}>
+      <View style={styles.cards}>
+        {STEPS.map((step) => (
+          <View
+            key={step.titleKey}
+            style={[
+              styles.card,
+              {
+                backgroundColor: surface.card,
+                borderColor: surface.hairline,
+              },
+            ]}>
+            <View
+              style={[
+                styles.iconCircle,
+                {backgroundColor: bgFor(step.bgToken)},
+              ]}>
+              <Ionicons name={step.icon} size={22} color={step.accent} />
+            </View>
+            <View style={styles.cardText}>
+              <Text style={[styles.cardTitle, {color: surface.text}]}>
+                {t(step.titleKey, step.titleFallback)}
+              </Text>
+              <Text style={[styles.cardBody, {color: surface.textDim}]}>
+                {t(step.bodyKey, step.bodyFallback)}
+              </Text>
+            </View>
+          </View>
+        ))}
+      </View>
+
+      <View
+        style={[
+          styles.privacy,
+          {backgroundColor: surface.bgAlt, borderColor: surface.hairline},
+        ]}>
+        <Ionicons name="lock-closed" size={16} color={surface.textDim} />
+        <Text style={[styles.privacyText, {color: surface.textDim}]}>
           {t(
             'onboarding.privacy',
-            'Your location is anonymous and never stored',
+            'Your device is anonymous. No accounts, no tracking between routes.',
           )}
         </Text>
       </View>
@@ -69,70 +125,57 @@ export default function OnboardingHowItWorks() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 32,
-  },
-  stepsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 32,
-    gap: 8,
-  },
-  step: {
-    alignItems: 'center',
-  },
-  stepIcon: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  emoji: {
-    fontSize: 28,
-  },
-  stepLabel: {
-    fontSize: 12,
-    fontWeight: '500',
-    color: colors.neutral500,
-  },
-  arrow: {
-    fontSize: 20,
-    color: colors.green,
-    fontWeight: '700',
-    marginBottom: 20,
+    paddingHorizontal: spacing.xxl,
+    paddingTop: 80,
   },
   title: {
-    ...typography.h1,
-    color: colors.neutral900,
-    textAlign: 'center',
-    marginBottom: 12,
-    fontWeight: '700',
+    ...typography.largeTitle,
   },
-  body: {
+  subtitle: {
     ...typography.body,
-    color: colors.neutral500,
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 24,
+    marginTop: spacing.xs,
+    marginBottom: spacing.xxl,
   },
-  privacyCard: {
+  cards: {
+    gap: spacing.md,
+  },
+  card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 10,
+    padding: spacing.lg,
+    borderRadius: radii.xl,
+    borderWidth: StyleSheet.hairlineWidth,
+    gap: spacing.lg,
   },
-  privacyIcon: {
-    fontSize: 18,
+  iconCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardText: {flex: 1},
+  cardTitle: {
+    ...typography.title2,
+    fontSize: 16,
+  },
+  cardBody: {
+    fontSize: 13,
+    marginTop: 2,
+    lineHeight: 18,
+  },
+  privacy: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: spacing.xxl,
+    padding: spacing.md,
+    borderRadius: radii.md,
+    borderWidth: StyleSheet.hairlineWidth,
+    gap: spacing.sm,
   },
   privacyText: {
     flex: 1,
-    fontSize: 13,
-    color: colors.neutral500,
+    fontSize: 12,
+    lineHeight: 16,
   },
 });
