@@ -1,211 +1,381 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {
-  View,
-  TextInput,
-  FlatList,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
   ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 import type {RootStackParamList} from '../navigation/types';
-import {colors, spacing, typography, radii} from '../constants/theme';
-import {useRouteSearch} from '../hooks/useRouteSearch';
-import {Route} from '../services/api';
-import RouteCard from '../components/route/RouteCard';
+import {palette, radii, spacing, typography} from '../constants/theme';
 import {useTheme} from '../hooks/useTheme';
+import {useRouteSearch} from '../hooks/useRouteSearch';
+import Glass from '../components/common/Glass';
+import {RouteBadge} from '../components/common/RouteBadge';
 
 const FILTERS = ['All', 'SLTB', 'NTC', 'Private'] as const;
 
+/**
+ * Search — design handoff screen 14 (tab variant).
+ *
+ * Large title header, glass search input, eyebrow sections for "Matching
+ * routes" (RouteBadge rows with from→to, type, live count) and "Matching
+ * stops" (blue pin tile, name, distance · routes). Empty state surfaces
+ * the journey planner as a call to action.
+ */
 export default function SearchScreen() {
   const {t} = useTranslation();
   const insets = useSafeAreaInsets();
-  const {colors: tc} = useTheme();
+  const {isDark, surface} = useTheme();
   const {results, loading, search} = useRouteSearch();
-  const [query, setQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState<string>('All');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const [query, setQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState<(typeof FILTERS)[number]>('All');
 
   const handleSearch = (text: string) => {
     setQuery(text);
     search(text);
   };
 
-  const filteredResults = activeFilter === 'All'
-    ? results
-    : results.filter((r) => r.operator === activeFilter);
+  const filtered = useMemo(
+    () =>
+      activeFilter === 'All'
+        ? results
+        : results.filter((r) => r.operator === activeFilter),
+    [activeFilter, results],
+  );
+
+  const showResults = query.length > 0;
 
   return (
-    <View style={[styles.container, {paddingTop: insets.top, backgroundColor: tc.background}]}>
-      {/* Journey planner button */}
-      <TouchableOpacity
-        style={styles.journeyButton}
-        onPress={() => navigation.navigate('JourneySearch' as any)}
-        activeOpacity={0.7}>
-        <Text style={styles.journeyIcon}>🗺️</Text>
-        <View style={styles.journeyTextContainer}>
-          <Text style={styles.journeyTitle}>Plan your journey</Text>
-          <Text style={styles.journeySubtitle}>From → To with route suggestions</Text>
-        </View>
-        <Text style={styles.journeyArrow}>›</Text>
-      </TouchableOpacity>
-
-      {/* Search bar */}
-      <View style={styles.searchBarContainer}>
-        <View style={[styles.searchBar, {backgroundColor: tc.inputBg, borderColor: tc.border}]}>
-          <Text style={styles.searchIcon}>🔍</Text>
-          <TextInput
-            style={[styles.searchInput, {color: tc.text}]}
-            placeholder={t('search.placeholder')}
-            placeholderTextColor={tc.textTertiary}
-            value={query}
-            onChangeText={handleSearch}
-            returnKeyType="search"
-          />
-          {query.length > 0 && (
-            <TouchableOpacity onPress={() => handleSearch('')}>
-              <Text style={[styles.clearIcon, {color: tc.textSecondary}]}>✕</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-
-      {/* Filter chips */}
+    <View style={[styles.root, {backgroundColor: surface.bg}]}>
       <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.filtersContainer}
-        contentContainerStyle={styles.filtersContent}>
-        {FILTERS.map((filter) => (
-          <TouchableOpacity
-            key={filter}
-            style={[
-              styles.chip,
-              {borderColor: tc.border, backgroundColor: tc.surface},
-              activeFilter === filter && styles.chipActive,
-            ]}
-            onPress={() => setActiveFilter(filter)}>
-            <Text
-              style={[
-                styles.chipText,
-                {color: tc.textSecondary},
-                activeFilter === filter && styles.chipTextActive,
-              ]}>
-              {filter}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+        contentContainerStyle={{
+          paddingTop: insets.top + spacing.sm,
+          paddingBottom: insets.bottom + 96,
+        }}
+        keyboardShouldPersistTaps="handled">
+        {/* Large title header */}
+        <View style={styles.header}>
+          <Text style={[styles.title, {color: surface.text}]}>
+            {t('search.title', 'Search')}
+          </Text>
+        </View>
 
-      {/* Loading */}
-      {loading && <ActivityIndicator style={styles.loader} color={colors.green} />}
-
-      {/* Results */}
-      <FlatList
-        data={filteredResults}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => (
-          <RouteCard
-            routeNumber={item.id}
-            destination={item.name_en}
-            operator={item.operator}
-            serviceType={item.service_type as any}
-            isLive={false}
-            onPress={() =>
-              navigation.navigate('RouteDetail', {routeId: item.id})
-            }
-          />
-        )}
-        contentContainerStyle={styles.resultsList}
-        ListEmptyComponent={
-          query.length > 0 && !loading ? (
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyIcon}>🔍</Text>
-              <Text style={[styles.emptyText, {color: tc.textSecondary}]}>{t('search.no_results')}</Text>
+        {/* Glass search input */}
+        <View style={styles.searchWrap}>
+          <Glass radius={radii.lg} intensity={50}>
+            <View style={styles.searchInner}>
+              <Ionicons
+                name="search"
+                size={18}
+                color={surface.textDim}
+                style={{marginRight: 10}}
+              />
+              <TextInput
+                value={query}
+                onChangeText={handleSearch}
+                placeholder={t('search.placeholder', 'Search routes or stops…')}
+                placeholderTextColor={surface.textDim}
+                style={[styles.searchInput, {color: surface.text}]}
+                returnKeyType="search"
+                autoCorrect={false}
+              />
+              {query ? (
+                <Pressable
+                  hitSlop={8}
+                  onPress={() => handleSearch('')}
+                  style={({pressed}) => ({opacity: pressed ? 0.6 : 1})}>
+                  <Ionicons name="close" size={18} color={surface.textDim} />
+                </Pressable>
+              ) : null}
             </View>
-          ) : null
-        }
-      />
+          </Glass>
+        </View>
+
+        {/* Filter chips */}
+        <View style={styles.chipsRow}>
+          {FILTERS.map((f, i) => {
+            const active = activeFilter === f;
+            const chipStyle = {
+              paddingHorizontal: 14,
+              paddingVertical: 8,
+              borderRadius: 999,
+              marginRight: i < FILTERS.length - 1 ? 8 : 0,
+              alignItems: 'center' as const,
+              justifyContent: 'center' as const,
+              backgroundColor: active
+                ? isDark
+                  ? 'rgba(29,158,117,0.18)'
+                  : 'rgba(29,158,117,0.10)'
+                : surface.card,
+              borderColor: active ? palette.green : surface.hairline,
+              borderWidth: active ? 1.5 : StyleSheet.hairlineWidth,
+            };
+            return (
+              <Pressable
+                key={f}
+                onPress={() => setActiveFilter(f)}
+                style={chipStyle}>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    fontWeight: active ? '700' : '500',
+                    color: active ? palette.emerald : surface.textDim,
+                  }}>
+                  {f}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        {/* Journey planner call-out */}
+        {!showResults ? (
+          <Pressable
+            onPress={() => navigation.navigate('JourneySearch')}
+            style={{
+              marginHorizontal: spacing.lg,
+              marginTop: spacing.sm,
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: spacing.lg,
+              borderRadius: radii.xl,
+              borderWidth: StyleSheet.hairlineWidth,
+              gap: spacing.md,
+              backgroundColor: surface.card,
+              borderColor: surface.hairline,
+              shadowColor: '#000',
+              shadowOffset: {width: 0, height: 6},
+              shadowOpacity: 0.08,
+              shadowRadius: 16,
+              elevation: 3,
+            }}>
+            <View
+              style={[
+                styles.journeyIcon,
+                {backgroundColor: palette.greenSoft},
+              ]}>
+              <Ionicons name="navigate" size={20} color={palette.emerald} />
+            </View>
+            <View style={{flex: 1}}>
+              <Text style={[styles.journeyTitle, {color: surface.text}]}>
+                {t('search.journey_title', 'Plan a journey')}
+              </Text>
+              <Text style={[styles.journeySub, {color: surface.textDim}]}>
+                {t(
+                  'search.journey_sub',
+                  'From → To with timings and routes.',
+                )}
+              </Text>
+            </View>
+            <Ionicons
+              name="chevron-forward"
+              size={18}
+              color={surface.textSoft}
+            />
+          </Pressable>
+        ) : null}
+
+        {loading ? (
+          <ActivityIndicator color={palette.emerald} style={{marginTop: 24}} />
+        ) : null}
+
+        {/* Results */}
+        {showResults ? (
+          <>
+            <Text style={[styles.eyebrow, {color: surface.textDim}]}>
+              {t('search.matching_routes', 'Matching routes')}
+            </Text>
+
+            {filtered.length === 0 && !loading ? (
+              <View style={styles.emptyRow}>
+                <Ionicons
+                  name="search-outline"
+                  size={18}
+                  color={surface.textDim}
+                />
+                <Text style={[styles.emptyText, {color: surface.textDim}]}>
+                  {t('search.no_results', 'No routes match')}
+                </Text>
+              </View>
+            ) : (
+              filtered.map((r, i) => (
+                <Pressable
+                  key={r.id}
+                  onPress={() =>
+                    navigation.navigate('RouteDetail', {routeId: r.id})
+                  }
+                  style={({pressed}) => [
+                    styles.row,
+                    {
+                      borderTopColor: surface.hairline,
+                      borderTopWidth:
+                        i > 0 ? StyleSheet.hairlineWidth : 0,
+                      opacity: pressed ? 0.7 : 1,
+                    },
+                  ]}>
+                  <RouteBadge
+                    num={r.id}
+                    service={
+                      (r.service_type as any) in serviceColorMap
+                        ? (r.service_type as keyof typeof serviceColorMap)
+                        : 'Normal'
+                    }
+                    color={
+                      serviceColorMap[
+                        (r.service_type as keyof typeof serviceColorMap) ??
+                          'Normal'
+                      ] ?? palette.emerald
+                    }
+                    size="md"
+                  />
+                  <View style={{flex: 1, minWidth: 0}}>
+                    <Text
+                      numberOfLines={1}
+                      style={[styles.rowTitle, {color: surface.text}]}>
+                      {r.name_en}
+                    </Text>
+                    <Text
+                      style={[styles.rowSub, {color: surface.textDim}]}
+                      numberOfLines={1}>
+                      {r.service_type ?? 'Normal'}
+                      {r.operator ? ` · ${r.operator}` : ''}
+                    </Text>
+                  </View>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={16}
+                    color={surface.textSoft}
+                  />
+                </Pressable>
+              ))
+            )}
+          </>
+        ) : null}
+      </ScrollView>
     </View>
   );
 }
 
+const serviceColorMap = {
+  Normal: palette.emerald,
+  'Semi Luxury': '#BA7517',
+  'AC Luxury': '#185FA5',
+} as const;
+
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: colors.background},
-  journeyButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: spacing.lg,
-    marginTop: spacing.md,
-    padding: spacing.lg,
-    backgroundColor: colors.greenLight,
-    borderRadius: radii.lg,
-    borderWidth: 1,
-    borderColor: colors.green + '30',
+  root: {flex: 1},
+  header: {
+    paddingHorizontal: spacing.xxl,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.md,
   },
-  journeyIcon: {fontSize: 24, marginRight: spacing.md},
-  journeyTextContainer: {flex: 1},
-  journeyTitle: {fontSize: 15, fontWeight: '600', color: colors.greenDark},
-  journeySubtitle: {fontSize: 12, color: colors.neutral500, marginTop: 2},
-  journeyArrow: {fontSize: 24, color: colors.green, fontWeight: '300'},
-  searchBarContainer: {
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.sm,
+  title: {
+    ...typography.display,
+    fontSize: 34,
   },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surface,
-    borderRadius: radii.lg,
+  searchWrap: {
     paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
+  },
+  searchInner: {
     height: 48,
-    borderWidth: 1,
-    borderColor: colors.neutral200,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 14,
   },
-  searchIcon: {fontSize: 16, marginRight: spacing.sm},
   searchInput: {
     flex: 1,
-    fontSize: 15,
-    color: colors.neutral900,
-    paddingVertical: 0,
+    fontSize: 16,
+    padding: 0,
   },
-  clearIcon: {fontSize: 16, color: colors.neutral500, padding: spacing.xs},
-  filtersContainer: {
-    maxHeight: 44,
-    paddingLeft: spacing.lg,
-  },
-  filtersContent: {
-    gap: spacing.sm,
-    paddingRight: spacing.lg,
-    alignItems: 'center',
+  chipsRow: {
+    flexDirection: 'row',
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.md,
   },
   chip: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderRadius: radii.full,
-    backgroundColor: colors.neutral100,
-    borderWidth: 1,
-    borderColor: colors.neutral200,
-  },
-  chipActive: {
-    backgroundColor: colors.greenLight,
-    borderColor: colors.green,
-  },
-  chipText: {fontSize: 13, fontWeight: '500', color: colors.neutral500},
-  chipTextActive: {color: colors.greenDark},
-  loader: {padding: spacing.xl},
-  resultsList: {paddingHorizontal: spacing.lg},
-  emptyState: {
-    paddingVertical: 60,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: radii.pill,
+    alignSelf: 'flex-start',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  emptyIcon: {fontSize: 40, marginBottom: spacing.lg},
-  emptyText: {...typography.body, color: colors.neutral500},
+  journey: {
+    marginHorizontal: spacing.lg,
+    marginTop: spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: spacing.lg,
+    borderRadius: radii.xl,
+    borderWidth: StyleSheet.hairlineWidth,
+    gap: spacing.md,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  journeyIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  journeyTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  journeySub: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  eyebrow: {
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+    marginHorizontal: spacing.xl,
+    marginTop: spacing.lg,
+    marginBottom: spacing.sm,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: spacing.xl,
+    gap: 14,
+  },
+  rowTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  rowSub: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  emptyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    gap: spacing.sm,
+  },
+  emptyText: {
+    fontSize: 13,
+  },
 });
