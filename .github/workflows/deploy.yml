@@ -24,9 +24,12 @@ jobs:
 
             cd /opt/mansariya
 
-            # Pull latest code
+            # Pull latest code and discard any local working-tree drift
+            # (e.g. hand-edited infra/nginx.conf) so the repo is always the
+            # source of truth for deploy artefacts.
+            git fetch origin main
             git checkout main
-            git pull origin main
+            git reset --hard origin/main
 
             # Ensure dependencies are up first
             cd infra
@@ -55,8 +58,11 @@ jobs:
               echo "⚠️  ADMIN_PASSWORD not set — skipping bootstrap. Run manually: make bootstrap-admin"
             fi
 
-            # Start application services and wait for health
-            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d backend nginx
+            # Start application services and wait for health.
+            # Force-recreate nginx so any change to the mounted nginx.conf
+            # is actually picked up (compose is a no-op otherwise).
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d backend
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --force-recreate nginx
             docker compose -f docker-compose.prod.yml --env-file .env.prod ps
 
             if ! curl --fail --silent --show-error --retry 20 --retry-all-errors --retry-delay 2 http://127.0.0.1:9900/health; then
