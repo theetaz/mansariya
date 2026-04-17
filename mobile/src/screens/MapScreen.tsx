@@ -273,50 +273,45 @@ export default function MapScreen() {
         )}
       </View>
 
-      {/* "I'm on a bus" glass chip — right side, just above the sheet */}
+      {/* Bottom stack — chip sits directly above the sheet with 8pt gap */}
       <View
         pointerEvents="box-none"
-        style={[
-          styles.busChipWrap,
-          {bottom: TAB_BAR_HEIGHT + SHEET_MIN_HEIGHT + 22},
-        ]}>
-        <Pressable
-          onPress={handleTrackingToggle}
-          style={({pressed}) => [{transform: [{scale: pressed ? 0.96 : 1}]}]}>
-          <Glass radius={radii.pill} intensity={60}>
-            <View style={styles.busChipInner}>
-              <LinearGradient
-                colors={
-                  isTracking
-                    ? [palette.coral, '#B8453A']
-                    : [palette.green, palette.emerald]
-                }
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 1}}
-                style={styles.busChipIconCircle}>
-                <Ionicons
-                  name={isTracking ? 'stop' : 'bus'}
-                  size={18}
-                  color="#FFFFFF"
-                />
-              </LinearGradient>
-              <Text style={[styles.busChipLabel, {color: surface.text}]}>
-                {isTracking
-                  ? t('map.stop_tracking', 'Stop sharing')
-                  : t('map.im_on_a_bus', "I'm on a bus")}
-              </Text>
-            </View>
-          </Glass>
-        </Pressable>
-      </View>
+        style={[styles.bottomStack, {bottom: TAB_BAR_HEIGHT + 10}]}>
+        {/* "I'm on a bus" glass chip — right-aligned above the sheet */}
+        <View style={styles.busChipRow} pointerEvents="box-none">
+          <Pressable
+            onPress={handleTrackingToggle}
+            style={({pressed}) => [
+              {transform: [{scale: pressed ? 0.96 : 1}]},
+            ]}>
+            <Glass radius={radii.pill} intensity={60}>
+              <View style={styles.busChipInner}>
+                <LinearGradient
+                  colors={
+                    isTracking
+                      ? [palette.coral, '#B8453A']
+                      : [palette.green, palette.emerald]
+                  }
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 1}}
+                  style={styles.busChipIconCircle}>
+                  <Ionicons
+                    name={isTracking ? 'stop' : 'bus'}
+                    size={18}
+                    color="#FFFFFF"
+                  />
+                </LinearGradient>
+                <Text style={[styles.busChipLabel, {color: surface.text}]}>
+                  {isTracking
+                    ? t('map.stop_tracking', 'Stop sharing')
+                    : t('map.im_on_a_bus', "I'm on a bus")}
+                </Text>
+              </View>
+            </Glass>
+          </Pressable>
+        </View>
 
-      {/* Glass bottom sheet — Nearby routes */}
-      <View
-        pointerEvents="box-none"
-        style={[
-          styles.sheetWrap,
-          {bottom: TAB_BAR_HEIGHT + 10},
-        ]}>
+        {/* Glass bottom sheet — Nearby routes */}
         <Glass radius={radii.xxl} intensity={80}>
           <View style={styles.sheetInner}>
             <View
@@ -499,9 +494,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  busChipWrap: {
+  bottomStack: {
     position: 'absolute',
-    right: spacing.lg,
+    left: 10,
+    right: 10,
+  },
+  busChipRow: {
+    alignItems: 'flex-end',
+    paddingRight: spacing.sm,
+    paddingBottom: 8,
   },
   busChipInner: {
     flexDirection: 'row',
@@ -526,12 +527,6 @@ const styles = StyleSheet.create({
   busChipLabel: {
     fontSize: 14,
     fontWeight: '600',
-  },
-
-  sheetWrap: {
-    position: 'absolute',
-    left: 10,
-    right: 10,
   },
   sheetInner: {
     paddingHorizontal: 18,
