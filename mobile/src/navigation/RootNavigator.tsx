@@ -2,14 +2,18 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useTranslation} from 'react-i18next';
-import {Text, StyleSheet} from 'react-native';
 
 import MapScreen from '../screens/MapScreen';
 import SearchScreen from '../screens/SearchScreen';
-import SavedScreen from '../screens/SavedScreen';
+import ContributeScreen from '../screens/ContributeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import RouteDetailScreen from '../screens/RouteDetailScreen';
 import JourneySearchScreen from '../screens/JourneySearchScreen';
+import ContributorProfileScreen from '../screens/ContributorProfileScreen';
+import ContributorClaimScreen from '../screens/ContributorClaimScreen';
+import ContributorLoginScreen from '../screens/ContributorLoginScreen';
+import LeaderboardScreen from '../screens/LeaderboardScreen';
+import GlassTabBar from '../components/GlassTabBar';
 import {colors} from '../constants/theme';
 import {useTheme} from '../hooks/useTheme';
 
@@ -18,33 +22,19 @@ import type {RootStackParamList, TabParamList} from './types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
-const TAB_ICONS: Record<string, {active: string; inactive: string}> = {
-  Map: {active: '🗺️', inactive: '🗺️'},
-  Search: {active: '🔍', inactive: '🔍'},
-  Saved: {active: '⭐', inactive: '⭐'},
-  Settings: {active: '⚙️', inactive: '⚙️'},
-};
-
 function MainTabs() {
   const {t} = useTranslation();
+
   const {colors: tc} = useTheme();
 
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused}) => (
-          <Text style={[styles.tabIcon, {opacity: focused ? 1 : 0.7}]}>
-            {focused
-              ? TAB_ICONS[route.name]?.active
-              : TAB_ICONS[route.name]?.inactive}
-          </Text>
-        ),
-        tabBarActiveTintColor: colors.green,
-        tabBarInactiveTintColor: tc.textSecondary,
-        tabBarStyle: [styles.tabBar, {backgroundColor: tc.tabBar, borderTopColor: tc.tabBarBorder}],
-        tabBarLabelStyle: styles.tabLabel,
+      tabBar={(props) => <GlassTabBar {...props} />}
+      screenOptions={{
         headerShown: false,
-      })}>
+        // Scenes fill full screen — tab bar overlays as absolute positioned glass
+        sceneStyle: {backgroundColor: tc.background, paddingBottom: 0},
+      }}>
       <Tab.Screen
         name="Map"
         component={MapScreen}
@@ -56,9 +46,9 @@ function MainTabs() {
         options={{tabBarLabel: t('tabs.search')}}
       />
       <Tab.Screen
-        name="Saved"
-        component={SavedScreen}
-        options={{tabBarLabel: t('tabs.saved')}}
+        name="Contribute"
+        component={ContributeScreen}
+        options={{tabBarLabel: t('tabs.contribute')}}
       />
       <Tab.Screen
         name="Settings"
@@ -70,6 +60,7 @@ function MainTabs() {
 }
 
 export default function RootNavigator() {
+  const {t} = useTranslation();
   const {colors: tc} = useTheme();
 
   return (
@@ -97,22 +88,26 @@ export default function RootNavigator() {
         component={JourneySearchScreen}
         options={{title: 'Plan Journey'}}
       />
+      <Stack.Screen
+        name="ContributorProfile"
+        component={ContributorProfileScreen}
+        options={{title: t('contributor.profile_title')}}
+      />
+      <Stack.Screen
+        name="ContributorClaim"
+        component={ContributorClaimScreen}
+        options={{title: t('contributor.claim_title')}}
+      />
+      <Stack.Screen
+        name="ContributorLogin"
+        component={ContributorLoginScreen}
+        options={{title: t('contributor.login_title')}}
+      />
+      <Stack.Screen
+        name="Leaderboard"
+        component={LeaderboardScreen}
+        options={{title: t('contributor.leaderboard_title')}}
+      />
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: colors.background,
-    borderTopColor: colors.neutral200,
-    height: 56,
-    paddingBottom: 4,
-  },
-  tabLabel: {
-    fontSize: 11,
-    fontWeight: '500',
-  },
-  tabIcon: {
-    fontSize: 20,
-  },
-});

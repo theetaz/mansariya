@@ -83,6 +83,7 @@ export interface JourneyResult {
 export async function sendGPSBatch(
   deviceHash: string,
   sessionId: string,
+  contributorId: string,
   pings: GPSPing[],
   meta?: { route_id?: string; bus_number?: string; crowd_level?: number },
   lifecycle?: {
@@ -95,6 +96,7 @@ export async function sendGPSBatch(
   return api.post(ENDPOINTS.GPS_BATCH, {
     device_hash: deviceHash,
     session_id: sessionId,
+    ...(contributorId && { contributor_id: contributorId }),
     pings,
     ...(meta?.route_id && { route_id: meta.route_id }),
     ...(meta?.bus_number && { bus_number: meta.bus_number }),

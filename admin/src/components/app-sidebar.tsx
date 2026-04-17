@@ -32,6 +32,7 @@ const navPermissions: Record<string, string> = {
   "Route Builder": "map.edit_polyline",
   "Simulations": "simulations.view",
   "Import/Export": "data.export",
+  "Contributors": "contributors.view",
   "Users": "users.view",
   "Roles": "users.manage",
   "Audit Logs": "users.manage",

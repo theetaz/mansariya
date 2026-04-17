@@ -1,19 +1,23 @@
 import {useState, useEffect} from 'react';
 import {API_BASE_URL} from '../constants/api';
+import {DEFAULT_CENTER} from '../constants/map';
 
 /**
  * Fetch active routes from the backend that have live bus data.
+ * Uses the user's actual location (or falls back to default).
  * Polls every 30 seconds to discover new routes being tracked.
  */
-export function useActiveRoutes() {
+export function useActiveRoutes(lat?: number, lng?: number) {
   const [routeIds, setRouteIds] = useState<string[]>([]);
+
+  const queryLat = lat ?? DEFAULT_CENTER[1];
+  const queryLng = lng ?? DEFAULT_CENTER[0];
 
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        // Try to get routes near Colombo (default location)
         const resp = await fetch(
-          `${API_BASE_URL}/api/v1/routes?lat=6.9271&lng=79.8612&radius_km=50`,
+          `${API_BASE_URL}/api/v1/routes?lat=${queryLat}&lng=${queryLng}&radius_km=50`,
         );
         if (resp.ok) {
           const routes = await resp.json();
@@ -23,15 +27,14 @@ export function useActiveRoutes() {
           }
         }
       } catch {
-        // Use known routes as fallback
-        setRouteIds(['1', '2', '4', '100', '103', '120', '138']);
+        setRouteIds([]);
       }
     };
 
     fetchRoutes();
     const interval = setInterval(fetchRoutes, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [queryLat, queryLng]);
 
   return routeIds;
 }

@@ -8,12 +8,15 @@ import RootNavigator from './navigation/RootNavigator';
 import SplashScreen from './screens/SplashScreen';
 import OnboardingScreen from './screens/onboarding/OnboardingScreen';
 import {useSettingsStore} from './stores/useSettingsStore';
+import {useTheme} from './hooks/useTheme';
 import {useTrackingStore} from './stores/useTrackingStore';
 import {syncRoutesIfNeeded} from './services/routeSync';
 import {recoverTracking, forceFlush, setOnPingCountUpdate} from './services/locationTracker';
+import api from './services/api';
+import {setupAuthInterceptor, restoreSession} from './services/contributorAuth';
 import './i18n';
 
-type AppPhase = 'splash' | 'onboarding' | 'main';
+type AppPhase = 'hydrating' | 'splash' | 'onboarding' | 'main';
 
 export default function App() {
   const hasCompletedOnboarding = useSettingsStore(
@@ -21,13 +24,32 @@ export default function App() {
   );
   const completeOnboarding = useSettingsStore((s) => s.completeOnboarding);
 
-  const [phase, setPhase] = useState<AppPhase>(
-    hasCompletedOnboarding ? 'splash' : 'onboarding',
-  );
+  const [phase, setPhase] = useState<AppPhase>('hydrating');
+
+  // Wait for store hydration, then decide initial phase
+  useEffect(() => {
+    const unsub = useSettingsStore.persist.onFinishHydration(() => {
+      const onboarded = useSettingsStore.getState().hasCompletedOnboarding;
+      setPhase(onboarded ? 'splash' : 'onboarding');
+    });
+
+    // If already hydrated (e.g. sync storage), check immediately
+    if (useSettingsStore.persist.hasHydrated()) {
+      setPhase(hasCompletedOnboarding ? 'splash' : 'onboarding');
+    }
+
+    return unsub;
+  }, [hasCompletedOnboarding]);
 
   // Sync route data on app launch (non-blocking)
   useEffect(() => {
     syncRoutesIfNeeded().catch(() => {});
+  }, []);
+
+  // Initialize contributor auth interceptor and restore session
+  useEffect(() => {
+    setupAuthInterceptor(api);
+    restoreSession().catch(() => {});
   }, []);
 
   // Recover background tracking on app launch if it was active
@@ -88,15 +110,36 @@ export default function App() {
     setPhase('main');
   }, [completeOnboarding]);
 
+  const {colors: themeColors} = useTheme();
+
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
+    <GestureHandlerRootView style={{flex: 1, backgroundColor: themeColors.background}}>
       <SafeAreaProvider>
+        {/* Show splash while hydrating store from AsyncStorage */}
+        {phase === 'hydrating' && <SplashScreen onReady={() => {}} />}
         {phase === 'splash' && <SplashScreen onReady={handleSplashReady} />}
         {phase === 'onboarding' && (
           <OnboardingScreen onComplete={handleOnboardingComplete} />
         )}
         {phase === 'main' && (
-          <NavigationContainer>
+          <NavigationContainer
+            theme={{
+              dark: themeColors.background === '#0F0F0F',
+              colors: {
+                primary: '#1D9E75',
+                background: themeColors.background,
+                card: themeColors.background,
+                text: themeColors.text,
+                border: themeColors.border,
+                notification: '#1D9E75',
+              },
+              fonts: {
+                regular: {fontFamily: 'System', fontWeight: '400' as const},
+                medium: {fontFamily: 'System', fontWeight: '500' as const},
+                bold: {fontFamily: 'System', fontWeight: '700' as const},
+                heavy: {fontFamily: 'System', fontWeight: '800' as const},
+              },
+            }}>
             <RootNavigator />
           </NavigationContainer>
         )}

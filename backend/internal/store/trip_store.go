@@ -23,16 +23,17 @@ func (s *TripStore) UpsertSession(ctx context.Context, batch model.GPSBatch) err
 	hasMeta := batch.RouteID != "" || batch.BusNumber != "" || batch.CrowdLevel > 0
 
 	_, err := s.pool.Exec(ctx,
-		`INSERT INTO trip_sessions (device_hash, session_id, route_id, bus_number, crowd_level, ping_count, has_metadata)
-		 VALUES ($1, $2, $3, $4, $5, $6, $7)
+		`INSERT INTO trip_sessions (device_hash, session_id, route_id, bus_number, crowd_level, ping_count, has_metadata, contributor_id)
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		 ON CONFLICT (session_id) DO UPDATE SET
 		   ping_count = trip_sessions.ping_count + $6,
 		   route_id = COALESCE(NULLIF($3, ''), trip_sessions.route_id),
 		   bus_number = COALESCE(NULLIF($4, ''), trip_sessions.bus_number),
 		   crowd_level = CASE WHEN $5 > 0 THEN $5 ELSE trip_sessions.crowd_level END,
-		   has_metadata = trip_sessions.has_metadata OR $7`,
+		   has_metadata = trip_sessions.has_metadata OR $7,
+		   contributor_id = COALESCE(NULLIF($8, ''), trip_sessions.contributor_id)`,
 		batch.DeviceHash, batch.SessionID, batch.RouteID, batch.BusNumber,
-		batch.CrowdLevel, len(batch.Pings), hasMeta,
+		batch.CrowdLevel, len(batch.Pings), hasMeta, batch.ContributorID,
 	)
 	if err != nil {
 		return fmt.Errorf("upsert trip session: %w", err)

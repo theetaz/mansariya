@@ -51,7 +51,8 @@
       [
         "@maplibre/maplibre-react-native",
         {}
-      ]
+      ],
+      "expo-secure-store"
     ],
     "extra": {
       "API_URL_IOS": "http://192.168.2.169:9900",

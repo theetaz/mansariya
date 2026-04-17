@@ -4,12 +4,14 @@ import { bytesToHex, utf8ToBytes } from '@noble/hashes/utils.js';
 
 const INSTALL_SECRET_KEY = 'mansariya:tracking:install-secret:v1';
 const ACTIVE_SESSION_KEY = 'mansariya:tracking:active-session:v1';
+const CONTRIBUTOR_ID_KEY = 'mansariya:tracking:contributor-id:v1';
 
 export const TRACKING_IDENTITY_VERSION = 1;
 
 export type TrackingSession = {
   identityVersion: number;
   deviceHash: string;
+  contributorId: string;
   sessionId: string;
   sessionStartedAt: number;
   nextBatchSeq: number;
@@ -38,6 +40,24 @@ async function getOrCreateInstallSecret(): Promise<string> {
   return secret;
 }
 
+/**
+ * Returns a stable contributor ID derived from the install secret.
+ * Persists across sessions, device_hash rotations, and app restarts.
+ * Only changes on app reinstall (new install secret).
+ */
+export async function getOrCreateContributorId(): Promise<string> {
+  const existing = await AsyncStorage.getItem(CONTRIBUTOR_ID_KEY);
+  if (existing) {
+    return existing;
+  }
+
+  const secret = await getOrCreateInstallSecret();
+  const payload = `mansariya:contributor:v1:${secret}`;
+  const id = bytesToHex(sha256(utf8ToBytes(payload))).slice(0, 32);
+  await AsyncStorage.setItem(CONTRIBUTOR_ID_KEY, id);
+  return id;
+}
+
 async function deriveDailyDeviceHash(date: Date): Promise<string> {
   const secret = await getOrCreateInstallSecret();
   const payload = `mansariya:${TRACKING_IDENTITY_VERSION}:${dayBucket(date)}:${secret}`;
@@ -48,6 +68,7 @@ export async function createTrackingSession(now = new Date()): Promise<TrackingS
   const session: TrackingSession = {
     identityVersion: TRACKING_IDENTITY_VERSION,
     deviceHash: await deriveDailyDeviceHash(now),
+    contributorId: await getOrCreateContributorId(),
     sessionId: buildSessionID(),
     sessionStartedAt: now.getTime(),
     nextBatchSeq: 1,
@@ -71,6 +92,7 @@ export async function getPersistedTrackingSession(): Promise<TrackingSession | n
     return {
       identityVersion: parsed.identityVersion || TRACKING_IDENTITY_VERSION,
       deviceHash: parsed.deviceHash,
+      contributorId: parsed.contributorId || '',
       sessionId: parsed.sessionId,
       sessionStartedAt: parsed.sessionStartedAt,
       nextBatchSeq: parsed.nextBatchSeq || 1,
