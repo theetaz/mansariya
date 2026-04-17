@@ -21,4 +21,13 @@ export const ENDPOINTS = {
   NEARBY_STOPS: '/api/v1/stops/nearby',
   ROUTES_SYNC: '/api/v1/routes/sync',
   WS_TRACK: (routeId: string) => `/ws/track/${routeId}`,
+
+  // Contributor
+  CONTRIBUTOR_LEADERBOARD: '/api/v1/contributor/leaderboard',
+  CONTRIBUTOR_LOGIN: '/api/v1/contributor/auth/login',
+  CONTRIBUTOR_REFRESH: '/api/v1/contributor/auth/refresh',
+  CONTRIBUTOR_LOGOUT: '/api/v1/contributor/auth/logout',
+  CONTRIBUTOR_ME: '/api/v1/contributor/me',
+  CONTRIBUTOR_STATS: '/api/v1/contributor/stats',
+  CONTRIBUTOR_CLAIM: '/api/v1/contributor/claim',
 };

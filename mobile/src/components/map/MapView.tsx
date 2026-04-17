@@ -18,11 +18,13 @@ console.error = (...args: any[]) => {
 interface MapViewWrapperProps {
   children?: React.ReactNode;
   onPress?: (event: any) => void;
+  centerCoordinate?: [number, number]; // [lng, lat]
 }
 
-export default function MapViewWrapper({children, onPress}: MapViewWrapperProps) {
+export default function MapViewWrapper({children, onPress, centerCoordinate}: MapViewWrapperProps) {
   const {isDark} = useTheme();
   const mapStyle = isDark ? MAP_STYLES.dark : MAP_STYLES.light;
+  const center = centerCoordinate ?? DEFAULT_CENTER;
 
   return (
     <MapLibreGL.MapView
@@ -33,12 +35,12 @@ export default function MapViewWrapper({children, onPress}: MapViewWrapperProps)
       onPress={onPress}>
       <MapLibreGL.Camera
         defaultSettings={{
-          centerCoordinate: DEFAULT_CENTER,
+          centerCoordinate: center,
           zoomLevel: DEFAULT_ZOOM,
         }}
       />
 
-      <MapLibreGL.UserLocation visible animated={false} />
+      <MapLibreGL.UserLocation visible animated />
 
       {children}
     </MapLibreGL.MapView>

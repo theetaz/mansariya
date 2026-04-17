@@ -3,7 +3,7 @@
   "tabs": {
     "map": "සිතියම",
     "search": "සෙවීම",
-    "saved": "සුරැකි",
+    "contribute": "දායකත්වය",
     "settings": "සැකසුම්"
   },
   "map": {
@@ -70,6 +70,39 @@
     "location_body": "ආසන්න බස් රථ පෙන්වීමට සහ ඔබේ ගමන ට්‍රැක් කිරීමට ස්ථාන ප්‍රවේශය ලබා දෙන්න.",
     "allow_location": "ස්ථානය අවසර දෙන්න",
     "not_now": "දැන් නොවේ"
+  },
+  "contributor": {
+    "profile_title": "මාගේ දායකත්වය",
+    "claim_title": "ප්‍රොෆයිල් ලියාපදිංචි කරන්න",
+    "login_title": "පිවිසෙන්න",
+    "leaderboard_title": "ලීඩර්බෝඩ්",
+    "anonymous": "නිර්නාමික දායකයා",
+    "claim_cta": "ඔබේ ප්‍රොෆයිලය ලියාපදිංචි කරන්න",
+    "claim_description": "උපාංග හරහා ඔබේ දායකත්වය ට්‍රැක් කිරීමට නමක් සහ මුරපදයක් සකසන්න",
+    "login_cta": "පිවිසෙන්න",
+    "logout": "ඉවත් වන්න",
+    "display_name": "ප්‍රදර්ශන නම",
+    "password": "මුරපදය",
+    "confirm_password": "මුරපදය තහවුරු කරන්න",
+    "claim_button": "ලියාපදිංචි කරන්න",
+    "login_button": "පිවිසෙන්න",
+    "total_trips": "ගමන්",
+    "total_pings": "පිං",
+    "total_distance": "දුර",
+    "quality_score": "ගුණාත්මකභාවය",
+    "active_days": "සක්‍රීය දින",
+    "routes_contributed": "මාර්ග",
+    "sort_trips": "ගමන්",
+    "sort_distance": "දුර",
+    "sort_score": "ලකුණු",
+    "track_contributions": "ඔබේ දායකත්වය ට්‍රැක් කරන්න",
+    "track_contributions_desc": "ලීඩර්බෝඩ් එකේ ඔබේ සංඛ්‍යාලේඛන බැලීමට ප්‍රොෆයිලයක් ලියාපදිංචි කරන්න හෝ පිවිසෙන්න",
+    "error_login_failed": "වැරදි නම හෝ මුරපදයක්",
+    "error_claim_failed": "ප්‍රොෆයිලය ලියාපදිංචි කළ නොහැක",
+    "error_name_taken": "නම දැනටමත් භාවිතා වේ",
+    "error_password_mismatch": "මුරපද නොගැලපේ",
+    "error_name_too_short": "නම අවම වශයෙන් අක්ෂර 3 ක් විය යුතුය",
+    "error_password_too_short": "��ුරපදය අවම වශයෙන් අක්ෂර 8 ක් විය යුතුය"
   },
   "common": {
     "loading": "පූරණය වෙමින්...",

@@ -21,7 +21,7 @@ import {colors} from '../constants/theme';
 const TAB_ICONS: Record<string, {focused: string; unfocused: string}> = {
   Map: {focused: 'map', unfocused: 'map-outline'},
   Search: {focused: 'search', unfocused: 'search-outline'},
-  Saved: {focused: 'bookmark', unfocused: 'bookmark-outline'},
+  Contribute: {focused: 'trophy', unfocused: 'trophy-outline'},
   Settings: {focused: 'settings', unfocused: 'settings-outline'},
 };
 
