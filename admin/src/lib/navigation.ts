@@ -13,6 +13,7 @@ import {
   UsersIcon,
   ShieldCheckIcon,
   ScrollTextIcon,
+  TrophyIcon,
 } from "lucide-react"
 
 export type NavItem = {
@@ -34,6 +35,7 @@ export const workspace = {
 
 export const primaryNavItems: NavItem[] = [
   { title: "Dashboard", icon: LayoutDashboardIcon, url: "/" },
+  { title: "Contributors", icon: TrophyIcon, url: "/contributors" },
   { title: "Live Map", icon: MapIcon, url: "/live-map" },
 ]
 

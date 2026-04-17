@@ -25,6 +25,7 @@ import { UsersPage } from "@/pages/users"
 import { UserDetailPage } from "@/pages/user-detail"
 import { RolesPage } from "@/pages/roles"
 import { AuditLogsPage } from "@/pages/audit-logs"
+import { ContributorsPage } from "@/pages/contributors"
 
 const layoutStyle = {
   "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -100,6 +101,7 @@ export function App() {
           <Route path="timetables" element={<TimetablesPage />} />
           <Route path="simulations" element={<SimulationsPage />} />
           <Route path="data" element={<DataPage />} />
+          <Route path="contributors" element={<ContributorsPage />} />
           <Route path="users" element={<UsersPage />} />
           <Route path="users/:userId" element={<UserDetailPage />} />
           <Route path="roles" element={<RolesPage />} />

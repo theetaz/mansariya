@@ -636,6 +636,69 @@ export type AuditLogsResponse = {
   has_more: boolean
 }
 
+// ── Contributors ─────────────────────────────────────────────────────────
+
+export type AdminContributor = {
+  id: string
+  contributor_id: string
+  display_name: string | null
+  status: "anonymous" | "claimed" | "disabled"
+  claimed_at: string | null
+  last_seen_at: string | null
+  created_at: string
+  total_trips: number
+  total_pings: number
+  quality_score: number
+  active_days: number
+}
+
+export type ContributorsParams = {
+  search?: string
+  status?: string
+  sort_by?: string
+  sort_dir?: string
+  limit?: number
+  offset?: number
+}
+
+export type LeaderboardEntry = {
+  rank: number
+  contributor_id: string
+  display_name: string | null
+  total_trips: number
+  total_pings: number
+  total_distance_km: number
+  quality_score: number
+  active_days: number
+}
+
+export function fetchAdminContributors(params?: ContributorsParams) {
+  const q = new URLSearchParams()
+  if (params?.search) q.set("search", params.search)
+  if (params?.status) q.set("status", params.status)
+  if (params?.sort_by) q.set("sort_by", params.sort_by)
+  if (params?.sort_dir) q.set("sort_dir", params.sort_dir)
+  if (params?.limit) q.set("limit", String(params.limit))
+  if (params?.offset) q.set("offset", String(params.offset))
+  const qs = q.toString()
+  return apiGet<{ contributors: AdminContributor[]; total: number }>(
+    `/api/v1/admin/contributors${qs ? `?${qs}` : ""}`, true
+  )
+}
+
+export function fetchLeaderboard(sort?: string, limit?: number, offset?: number) {
+  const q = new URLSearchParams()
+  if (sort) q.set("sort", sort)
+  if (limit) q.set("limit", String(limit))
+  if (offset) q.set("offset", String(offset))
+  const qs = q.toString()
+  return apiGet<{ leaderboard: LeaderboardEntry[]; total: number }>(
+    `/api/v1/contributor/leaderboard${qs ? `?${qs}` : ""}`
+  )
+}
+
+// ── Audit logs ──────────────────────────────────────────────────────────
+
 export function fetchAuditLogs(params?: AuditLogsParams) {
   const q = new URLSearchParams()
   if (params?.action) q.set("action", params.action)

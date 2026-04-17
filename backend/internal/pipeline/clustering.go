@@ -20,6 +20,7 @@ const (
 type DeviceState struct {
 	SessionID            string
 	DeviceHash           string
+	ContributorID        string
 	AdminID              string
 	RouteID              string
 	Lat                  float64

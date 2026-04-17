@@ -55,14 +55,15 @@ async function sendBatch(eventType: GPSEventType, pings: GPSPing[]) {
     return;
   }
 
-  const contributorId = useContributorStore.getState().contributorId ?? undefined;
+  const authContributorId = useContributorStore.getState().contributorId;
+  const contributorId = authContributorId ?? session.contributorId;
 
-  await sendGPSBatch(session.deviceHash, session.sessionId, pings, tripMeta, {
+  await sendGPSBatch(session.deviceHash, session.sessionId, contributorId, pings, tripMeta, {
     event_type: eventType,
     identity_version: session.identityVersion,
     session_started_at: session.sessionStartedAt,
     batch_seq: session.nextBatchSeq,
-  }, contributorId);
+  });
 
   session.nextBatchSeq += 1;
   currentSession = session;
