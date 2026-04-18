@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import {BlurView} from 'expo-blur';
@@ -19,7 +20,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
+import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
+import type {RootStackParamList} from '../navigation/types';
 import {palette, radii, spacing} from '../constants/theme';
 import {useTheme} from '../hooks/useTheme';
 import {RouteBadge} from './common/RouteBadge';
@@ -74,6 +78,8 @@ export default function TripStartModal({
   const {t} = useTranslation();
   const {isDark, surface} = useTheme();
   const insets = useSafeAreaInsets();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   // Detected route from the map store (inferred from the nearest bus or the
   // spatial index). Falls back to manual entry if nothing detected.
@@ -90,6 +96,7 @@ export default function TripStartModal({
   );
   const [crowdLevel, setCrowdLevel] = useState<CrowdLevel | null>(null);
   const [busNumber, setBusNumber] = useState<string>('');
+  const [isPlateExpanded, setIsPlateExpanded] = useState(false);
 
   // Resolve the display name for the detected / selected route.
   useEffect(() => {
@@ -123,8 +130,16 @@ export default function TripStartModal({
       setSelectedRouteId(detectedRouteId);
       setCrowdLevel(null);
       setBusNumber('');
+      setIsPlateExpanded(false);
     }
   }, [visible, detectedRouteId]);
+
+  const handlePickRoute = useCallback(() => {
+    // Close this sheet, then open the search screen. The user picks a
+    // route there and is bounced back to the map with tracking intent.
+    onCancel();
+    navigation.navigate('JourneySearch');
+  }, [navigation, onCancel]);
 
   const handleStart = useCallback(() => {
     onStart({
@@ -262,25 +277,30 @@ export default function TripStartModal({
                 <Text style={[styles.eyebrow, {color: surface.textDim}]}>
                   {t('trip_start.your_route', 'YOUR ROUTE')}
                 </Text>
-                <Pressable hitSlop={6}>
+                <Pressable hitSlop={6} onPress={handlePickRoute}>
                   <Text style={styles.eyebrowAction}>
                     {t('trip_start.change', 'Change')}
                   </Text>
                 </Pressable>
               </View>
 
-              <View
-                style={[
-                  styles.routeCard,
-                  {
-                    backgroundColor: isDark
-                      ? 'rgba(29,158,117,0.12)'
-                      : 'rgba(29,158,117,0.08)',
-                    borderColor: isDark
-                      ? 'rgba(29,158,117,0.35)'
-                      : 'rgba(29,158,117,0.28)',
-                  },
-                ]}>
+              <Pressable
+                onPress={handlePickRoute}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 12,
+                  paddingHorizontal: 14,
+                  paddingVertical: 12,
+                  borderRadius: 16,
+                  borderWidth: StyleSheet.hairlineWidth,
+                  backgroundColor: isDark
+                    ? 'rgba(29,158,117,0.12)'
+                    : 'rgba(29,158,117,0.08)',
+                  borderColor: isDark
+                    ? 'rgba(29,158,117,0.35)'
+                    : 'rgba(29,158,117,0.28)',
+                }}>
                 {selectedRouteId ? (
                   <RouteBadge
                     num={selectedRouteId}
@@ -326,7 +346,7 @@ export default function TripStartModal({
                   size={16}
                   color={surface.textDim}
                 />
-              </View>
+              </Pressable>
 
               {/* HOW CROWDED */}
               <View style={[styles.sectionRow, {marginTop: 18}]}>
@@ -415,49 +435,120 @@ export default function TripStartModal({
                 })}
               </View>
 
-              {/* Add bus plate — collapsed row */}
-              <Pressable
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingHorizontal: 14,
-                  paddingVertical: 11,
-                  borderRadius: 14,
-                  marginTop: 18,
-                  marginBottom: 18,
-                  backgroundColor: isDark
-                    ? 'rgba(255,255,255,0.04)'
-                    : 'rgba(0,0,0,0.03)',
-                }}>
-                <Ionicons name="add" size={14} color={surface.textDim} />
-                <Text
+              {/* Add bus plate — collapsed row, expands to TextInput */}
+              {isPlateExpanded ? (
+                <View
                   style={{
-                    flex: 1,
-                    fontSize: 13,
-                    fontWeight: '500',
-                    color: surface.textDim,
-                    marginLeft: 10,
-                  }}
-                  numberOfLines={1}>
-                  {t('trip_start.add_plate', 'Add bus plate')}{' '}
-                  <Text style={{color: surface.textSoft}}>
-                    · {t('trip_start.plate_example', 'NB-1234')}
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingHorizontal: 14,
+                    paddingVertical: 6,
+                    borderRadius: 14,
+                    marginTop: 18,
+                    marginBottom: 18,
+                    backgroundColor: isDark
+                      ? 'rgba(255,255,255,0.06)'
+                      : '#FFFFFF',
+                    borderWidth: 1,
+                    borderColor: palette.green,
+                  }}>
+                  <Ionicons
+                    name="card-outline"
+                    size={14}
+                    color={palette.emerald}
+                  />
+                  <TextInput
+                    value={busNumber}
+                    onChangeText={setBusNumber}
+                    placeholder={t(
+                      'trip_start.plate_placeholder',
+                      'NB-1234',
+                    )}
+                    placeholderTextColor={surface.textSoft}
+                    autoCapitalize="characters"
+                    autoCorrect={false}
+                    autoFocus
+                    style={{
+                      flex: 1,
+                      marginLeft: 10,
+                      fontSize: 14,
+                      fontWeight: '600',
+                      color: surface.text,
+                      padding: 0,
+                      height: 34,
+                    }}
+                  />
+                  <Pressable
+                    hitSlop={8}
+                    onPress={() => {
+                      setBusNumber('');
+                      setIsPlateExpanded(false);
+                    }}>
+                    <Ionicons
+                      name="close"
+                      size={14}
+                      color={surface.textDim}
+                    />
+                  </Pressable>
+                </View>
+              ) : (
+                <Pressable
+                  onPress={() => setIsPlateExpanded(true)}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingHorizontal: 14,
+                    paddingVertical: 11,
+                    borderRadius: 14,
+                    marginTop: 18,
+                    marginBottom: 18,
+                    backgroundColor: isDark
+                      ? 'rgba(255,255,255,0.04)'
+                      : 'rgba(0,0,0,0.03)',
+                  }}>
+                  <Ionicons name="add" size={14} color={surface.textDim} />
+                  <Text
+                    style={{
+                      flex: 1,
+                      fontSize: 13,
+                      fontWeight: '500',
+                      color: busNumber ? surface.text : surface.textDim,
+                      marginLeft: 10,
+                    }}
+                    numberOfLines={1}>
+                    {busNumber
+                      ? busNumber
+                      : t('trip_start.add_plate', 'Add bus plate')}{' '}
+                    {!busNumber ? (
+                      <Text style={{color: surface.textSoft}}>
+                        · {t('trip_start.plate_example', 'NB-1234')}
+                      </Text>
+                    ) : null}
                   </Text>
-                </Text>
-                <Ionicons
-                  name="chevron-forward"
-                  size={14}
-                  color={surface.textSoft}
-                />
-              </Pressable>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={14}
+                    color={surface.textSoft}
+                  />
+                </Pressable>
+              )}
 
               {/* Primary CTA — emerald gradient with pulsing dot */}
               <Pressable
                 onPress={handleStart}
-                style={({pressed}) => [
-                  styles.primaryBtn,
-                  {transform: [{scale: pressed ? 0.98 : 1}]},
-                ]}>
+                style={{
+                  height: 54,
+                  borderRadius: 18,
+                  overflow: 'hidden',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: palette.emerald,
+                  shadowOffset: {width: 0, height: 10},
+                  shadowOpacity: 0.33,
+                  shadowRadius: 24,
+                  elevation: 8,
+                }}>
                 <LinearGradient
                   colors={[palette.green, palette.emerald]}
                   start={{x: 0, y: 0}}
@@ -467,15 +558,14 @@ export default function TripStartModal({
                 {/* Inner top highlight */}
                 <View
                   pointerEvents="none"
-                  style={[
-                    StyleSheet.absoluteFill,
-                    {
-                      borderTopLeftRadius: 18,
-                      borderTopRightRadius: 18,
-                      borderTopWidth: 1,
-                      borderTopColor: 'rgba(255,255,255,0.25)',
-                    },
-                  ]}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 1,
+                    backgroundColor: 'rgba(255,255,255,0.25)',
+                  }}
                 />
                 <View style={styles.liveDotWrap}>
                   <Animated.View
@@ -483,7 +573,7 @@ export default function TripStartModal({
                   />
                   <View style={styles.liveDotCore} />
                 </View>
-                <Text style={styles.primaryLabel}>
+                <Text style={[styles.primaryLabel, {marginLeft: 10}]}>
                   {t('trip_start.start_sharing', 'Start sharing')}
                 </Text>
               </Pressable>
