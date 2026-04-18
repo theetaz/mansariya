@@ -20,10 +20,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
-import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import type {RootStackParamList} from '../navigation/types';
 import {palette, radii, spacing} from '../constants/theme';
 import {useTheme} from '../hooks/useTheme';
 import {RouteBadge} from './common/RouteBadge';
@@ -78,8 +75,6 @@ export default function TripStartModal({
   const {t} = useTranslation();
   const {isDark, surface} = useTheme();
   const insets = useSafeAreaInsets();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   // Detected route from the map store (inferred from the nearest bus or the
   // spatial index). Falls back to manual entry if nothing detected.
@@ -97,6 +92,13 @@ export default function TripStartModal({
   const [crowdLevel, setCrowdLevel] = useState<CrowdLevel | null>(null);
   const [busNumber, setBusNumber] = useState<string>('');
   const [isPlateExpanded, setIsPlateExpanded] = useState(false);
+
+  // Inline route search.
+  const [isRouteSearching, setIsRouteSearching] = useState(false);
+  const [routeQuery, setRouteQuery] = useState('');
+  const [routeResults, setRouteResults] = useState<
+    Array<{id: string; name_en: string}>
+  >([]);
 
   // Resolve the display name for the detected / selected route.
   useEffect(() => {
@@ -131,15 +133,49 @@ export default function TripStartModal({
       setCrowdLevel(null);
       setBusNumber('');
       setIsPlateExpanded(false);
+      setIsRouteSearching(false);
+      setRouteQuery('');
+      setRouteResults([]);
     }
   }, [visible, detectedRouteId]);
 
   const handlePickRoute = useCallback(() => {
-    // Close this sheet, then open the search screen. The user picks a
-    // route there and is bounced back to the map with tracking intent.
-    onCancel();
-    navigation.navigate('JourneySearch');
-  }, [navigation, onCancel]);
+    setIsRouteSearching(true);
+    setRouteQuery('');
+    setRouteResults([]);
+  }, []);
+
+  // Debounced route autocomplete.
+  useEffect(() => {
+    if (!isRouteSearching) return;
+    if (routeQuery.trim().length === 0) {
+      setRouteResults([]);
+      return;
+    }
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      const results = (await searchRoutesOffline(
+        routeQuery.trim(),
+        8,
+      )) as Array<{id: string; name_en: string}>;
+      if (!cancelled) setRouteResults(results);
+    }, 120);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [routeQuery, isRouteSearching]);
+
+  const pickRouteResult = useCallback(
+    (result: {id: string; name_en: string}) => {
+      setSelectedRouteId(result.id);
+      setSelectedRouteName(result.name_en);
+      setIsRouteSearching(false);
+      setRouteQuery('');
+      setRouteResults([]);
+    },
+    [],
+  );
 
   const handleStart = useCallback(() => {
     onStart({
@@ -188,18 +224,6 @@ export default function TripStartModal({
             locations={[0, 0.55, 1]}
             style={StyleSheet.absoluteFill}
           />
-          <View style={[styles.dismissHint, {top: insets.top + 24}]}>
-            <Text
-              style={[
-                styles.dismissHintText,
-                {color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.9)'},
-              ]}>
-              {t(
-                'trip_start.tap_outside',
-                'Tap anywhere outside to cancel',
-              )}
-            </Text>
-          </View>
         </Pressable>
 
         {/* Sheet */}
@@ -277,76 +301,209 @@ export default function TripStartModal({
                 <Text style={[styles.eyebrow, {color: surface.textDim}]}>
                   {t('trip_start.your_route', 'YOUR ROUTE')}
                 </Text>
-                <Pressable hitSlop={6} onPress={handlePickRoute}>
-                  <Text style={styles.eyebrowAction}>
-                    {t('trip_start.change', 'Change')}
-                  </Text>
-                </Pressable>
+                {isRouteSearching ? (
+                  <Pressable
+                    hitSlop={6}
+                    onPress={() => {
+                      setIsRouteSearching(false);
+                      setRouteQuery('');
+                      setRouteResults([]);
+                    }}>
+                    <Text style={[styles.eyebrowAction, {color: surface.textDim}]}>
+                      {t('trip_start.cancel', 'Cancel')}
+                    </Text>
+                  </Pressable>
+                ) : (
+                  <Pressable hitSlop={6} onPress={handlePickRoute}>
+                    <Text style={styles.eyebrowAction}>
+                      {t('trip_start.change', 'Change')}
+                    </Text>
+                  </Pressable>
+                )}
               </View>
 
-              <Pressable
-                onPress={handlePickRoute}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 12,
-                  paddingHorizontal: 14,
-                  paddingVertical: 12,
-                  borderRadius: 16,
-                  borderWidth: StyleSheet.hairlineWidth,
-                  backgroundColor: isDark
-                    ? 'rgba(29,158,117,0.12)'
-                    : 'rgba(29,158,117,0.08)',
-                  borderColor: isDark
-                    ? 'rgba(29,158,117,0.35)'
-                    : 'rgba(29,158,117,0.28)',
-                }}>
-                {selectedRouteId ? (
-                  <RouteBadge
-                    num={selectedRouteId}
-                    color={palette.emerald}
-                    size="md"
-                  />
-                ) : (
+              {isRouteSearching ? (
+                /* Inline search field + autosuggest list */
+                <View>
                   <View
-                    style={[
-                      styles.routeBadgePlaceholder,
-                      {backgroundColor: surface.bgAlt},
-                    ]}>
-                    <Text style={{color: surface.textDim, fontSize: 12}}>
-                      ?
-                    </Text>
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingHorizontal: 14,
+                      paddingVertical: 6,
+                      borderRadius: 16,
+                      borderWidth: 1,
+                      borderColor: palette.green,
+                      backgroundColor: isDark
+                        ? 'rgba(255,255,255,0.06)'
+                        : '#FFFFFF',
+                    }}>
+                    <Ionicons
+                      name="search"
+                      size={16}
+                      color={surface.textDim}
+                    />
+                    <TextInput
+                      value={routeQuery}
+                      onChangeText={setRouteQuery}
+                      placeholder={t(
+                        'trip_start.search_placeholder',
+                        'Route # or destination',
+                      )}
+                      placeholderTextColor={surface.textSoft}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      autoFocus
+                      returnKeyType="search"
+                      style={{
+                        flex: 1,
+                        marginLeft: 10,
+                        fontSize: 15,
+                        fontWeight: '600',
+                        color: surface.text,
+                        padding: 0,
+                        height: 36,
+                      }}
+                    />
+                    {routeQuery.length > 0 ? (
+                      <Pressable
+                        hitSlop={8}
+                        onPress={() => setRouteQuery('')}>
+                        <Ionicons
+                          name="close-circle"
+                          size={16}
+                          color={surface.textDim}
+                        />
+                      </Pressable>
+                    ) : null}
                   </View>
-                )}
-                <View style={{flex: 1}}>
-                  <Text
-                    style={[styles.routeName, {color: surface.text}]}
-                    numberOfLines={1}>
-                    {routeName ??
-                      t('trip_start.pick_route', 'Tap to pick a route')}
-                  </Text>
-                  {selectedRouteId === detectedRouteId && detectedRouteId ? (
-                    <View style={styles.detectedRow}>
-                      <Ionicons
-                        name="sparkles"
-                        size={11}
-                        color={palette.green}
-                      />
-                      <Text style={styles.detectedText}>
-                        {t(
-                          'trip_start.detected',
-                          'Detected near your location',
-                        )}
-                      </Text>
+
+                  {routeResults.length > 0 ? (
+                    <View
+                      style={{
+                        marginTop: 8,
+                        borderRadius: 14,
+                        backgroundColor: isDark
+                          ? 'rgba(255,255,255,0.04)'
+                          : 'rgba(0,0,0,0.02)',
+                        borderWidth: StyleSheet.hairlineWidth,
+                        borderColor: surface.hairline,
+                        overflow: 'hidden',
+                      }}>
+                      {routeResults.map((r, i) => (
+                        <Pressable
+                          key={r.id}
+                          onPress={() => pickRouteResult(r)}
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 12,
+                            paddingHorizontal: 14,
+                            paddingVertical: 10,
+                            borderTopWidth:
+                              i > 0 ? StyleSheet.hairlineWidth : 0,
+                            borderTopColor: surface.hairline,
+                          }}>
+                          <RouteBadge
+                            num={r.id}
+                            color={palette.emerald}
+                            size="sm"
+                          />
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontSize: 14,
+                              fontWeight: '600',
+                              color: surface.text,
+                            }}
+                            numberOfLines={1}>
+                            {r.name_en}
+                          </Text>
+                          <Ionicons
+                            name="chevron-forward"
+                            size={14}
+                            color={surface.textSoft}
+                          />
+                        </Pressable>
+                      ))}
                     </View>
+                  ) : routeQuery.length > 0 ? (
+                    <Text
+                      style={{
+                        marginTop: 10,
+                        marginLeft: 4,
+                        fontSize: 12,
+                        color: surface.textSoft,
+                      }}>
+                      {t('trip_start.no_matches', 'No matching routes')}
+                    </Text>
                   ) : null}
                 </View>
-                <Ionicons
-                  name="chevron-forward"
-                  size={16}
-                  color={surface.textDim}
-                />
-              </Pressable>
+              ) : (
+                <Pressable
+                  onPress={handlePickRoute}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 12,
+                    paddingHorizontal: 14,
+                    paddingVertical: 12,
+                    borderRadius: 16,
+                    borderWidth: StyleSheet.hairlineWidth,
+                    backgroundColor: isDark
+                      ? 'rgba(29,158,117,0.12)'
+                      : 'rgba(29,158,117,0.08)',
+                    borderColor: isDark
+                      ? 'rgba(29,158,117,0.35)'
+                      : 'rgba(29,158,117,0.28)',
+                  }}>
+                  {selectedRouteId ? (
+                    <RouteBadge
+                      num={selectedRouteId}
+                      color={palette.emerald}
+                      size="md"
+                    />
+                  ) : (
+                    <View
+                      style={[
+                        styles.routeBadgePlaceholder,
+                        {backgroundColor: surface.bgAlt},
+                      ]}>
+                      <Text style={{color: surface.textDim, fontSize: 12}}>
+                        ?
+                      </Text>
+                    </View>
+                  )}
+                  <View style={{flex: 1}}>
+                    <Text
+                      style={[styles.routeName, {color: surface.text}]}
+                      numberOfLines={1}>
+                      {routeName ??
+                        t('trip_start.pick_route', 'Tap to pick a route')}
+                    </Text>
+                    {selectedRouteId === detectedRouteId && detectedRouteId ? (
+                      <View style={styles.detectedRow}>
+                        <Ionicons
+                          name="sparkles"
+                          size={11}
+                          color={palette.green}
+                        />
+                        <Text style={styles.detectedText}>
+                          {t(
+                            'trip_start.detected',
+                            'Detected near your location',
+                          )}
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={16}
+                    color={surface.textDim}
+                  />
+                </Pressable>
+              )}
 
               {/* HOW CROWDED */}
               <View style={[styles.sectionRow, {marginTop: 18}]}>
@@ -579,26 +736,19 @@ export default function TripStartModal({
               </Pressable>
 
               {/* Share without details */}
-              <Pressable
-                onPress={handleSkip}
-                hitSlop={8}
-                style={({pressed}) => ({
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  padding: 6,
-                  opacity: pressed ? 0.6 : 1,
-                })}>
-                <Text
-                  style={[
-                    styles.skipLabel,
-                    {color: surface.textDim},
-                  ]}>
-                  {t(
-                    'trip_start.share_without_details',
-                    'Share without details',
-                  )}
-                </Text>
-              </Pressable>
+              <View style={{alignItems: 'center', marginTop: 18}}>
+                <Pressable
+                  onPress={handleSkip}
+                  hitSlop={8}
+                  style={{paddingVertical: 6, paddingHorizontal: 12}}>
+                  <Text style={[styles.skipLabel, {color: surface.textDim}]}>
+                    {t(
+                      'trip_start.share_without_details',
+                      'Share without details',
+                    )}
+                  </Text>
+                </Pressable>
+              </View>
             </View>
           </View>
         </View>
